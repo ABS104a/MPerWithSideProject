@@ -2,7 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@string/music_player_margins"
     android:orientation="vertical" >
+
+    <!-- プレイヤー部分のMainレイアウト -->
     
+    
+    <!-- リスト部分のレイアウト -->
+	<include 
+        android:layout_width="match_parent" 
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/player_list_part" 
+        layout="@layout/player_list_part" />
+    
+	<!-- 曲情報表示部分のレイアウト -->
+    <include 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content"
+        android:id="@+id/player" 
+        layout="@layout/player_part" />
+    
+    <!-- コントローラ部分のレイアウト -->
+    <include 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content"
+        android:id="@+id/player_controll" 
+        layout="@layout/player_countroll_part" />
+    
+    <!-- 設定部分のレイアウト -->
+    <include 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content"
+        android:id="@+id/player_settings" 
+        layout="@layout/player_settings_part" />
 
 </LinearLayout>

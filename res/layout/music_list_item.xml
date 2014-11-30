@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <!-- 曲リストのカラムアイテム -->
+    
+    <!-- 曲のジャケット -->
+    <ImageView
+        android:id="@+id/imageView_item_jacket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:rowCount="2"
+        android:columnCount="3" >
+
+        <!-- 曲のタイトル -->
+        <TextView
+            android:id="@+id/textView_item_title"
+            android:layout_column="0"
+            android:layout_gravity="left|top"
+            android:layout_row="0"
+            android:layout_columnSpan="2"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!-- 曲の時間 -->
+        <TextView
+            android:id="@+id/textView_item_music_time"
+            android:layout_column="2"
+            android:layout_gravity="right|top"
+            android:layout_row="0"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <!-- 曲のアーティスト-->
+        <TextView
+            android:id="@+id/textView_item_subtitle"
+            android:layout_column="0"
+            android:layout_gravity="left|top"
+            android:layout_row="1"
+            android:layout_columnSpan="3"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </GridLayout>
+
+</LinearLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:gravity="center">
+    
+    <!-- プレイヤー部分のレイアウト -->
+
+	<!-- 現在再生している曲のジャケット -->
+    <ImageView
+        android:id="@+id/imageView_now_jacket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_launcher" />
+
+    <!-- 現在再生している曲のアーティスト名 -->
+    <TextView
+        android:id="@+id/textView_now_artist_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageView_now_jacket"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <!-- 現在再生している曲の曲名 -->
+    <TextView
+        android:id="@+id/textView_now_music_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView_now_artist_name"
+        android:layout_below="@+id/textView_now_artist_name"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <!-- 現在再生している曲用シークバー -->
+    <SeekBar
+        android:id="@+id/seekBar_now_music_seek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/imageView_now_jacket" />
+
+</RelativeLayout>

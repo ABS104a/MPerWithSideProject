@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal" >
+    
+    <!-- コントローラーのレイアウト -->
+
+	<!-- Playボタン -->
+    <ImageButton
+        android:id="@+id/button_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- 戻るボタン -->
+    <ImageButton
+        android:id="@+id/button_before_seek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- 進むボタン -->
+    <ImageButton
+        android:id="@+id/button_after_seek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- リピートボタン -->
+    <ImageButton
+        android:id="@+id/button_repeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+	<!-- シャッフルボタン -->
+    <ImageButton
+        android:id="@+id/button_shuffle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
