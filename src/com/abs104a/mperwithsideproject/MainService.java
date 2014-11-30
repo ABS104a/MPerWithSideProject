@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.view.LayoutInflater;
 import android.view.WindowManager;
 
 /**
@@ -45,6 +46,12 @@ public class MainService extends Service{
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		
+		//MainViewÇÃê∂ê¨
+		LayoutInflater inflater = LayoutInflater.from( mService );
+		inflater.inflate(R.layout.player_view, null);
+		
+		
 		
 		WindowManager mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 		

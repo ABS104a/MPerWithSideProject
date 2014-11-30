@@ -29,4 +29,12 @@
         android:layout_toLeftOf="@+id/button_action_show_list"
         android:text="Settings" />
 
+    <Button
+        android:id="@+id/button_action_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/seekBar_volume"
+        android:text="Exit" />
+
 </RelativeLayout>
