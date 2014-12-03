@@ -14,27 +14,27 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:id="@+id/player_list_part" 
-        layout="@layout/player_list_part" />
+        layout="@layout/part_of_player_list" />
     
 	<!-- 曲情報表示部分のレイアウト -->
     <include 
         android:layout_width="match_parent" 
         android:layout_height="wrap_content"
         android:id="@+id/player" 
-        layout="@layout/player_part" />
+        layout="@layout/part_of_player" />
     
     <!-- コントローラ部分のレイアウト -->
     <include 
         android:layout_width="match_parent" 
         android:layout_height="wrap_content"
         android:id="@+id/player_controll" 
-        layout="@layout/player_countroll_part" />
+        layout="@layout/part_of_player_countroll" />
     
     <!-- 設定部分のレイアウト -->
     <include 
         android:layout_width="match_parent" 
         android:layout_height="wrap_content"
         android:id="@+id/player_settings" 
-        layout="@layout/player_settings_part" />
+        layout="@layout/part_of_player_settings" />
 
 </LinearLayout>

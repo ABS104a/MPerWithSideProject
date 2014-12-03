@@ -1,11 +1,17 @@
 package com.abs104a.mperwithsideproject;
 
+import com.abs104a.mperwithsideproject.music.MusicPlayerController;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.os.IBinder;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
 
 /**
  * メイン画面を表示するService
@@ -36,7 +42,7 @@ public class MainService extends Service{
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO 自動生成されたメソッド・スタブ
+		// TODO Activityからバインドされた時
 		return null;
 	}
 
@@ -46,15 +52,34 @@ public class MainService extends Service{
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
+
 		//MainViewの生成
 		LayoutInflater inflater = LayoutInflater.from( mService );
 		inflater.inflate(R.layout.player_view, null);
-		
-		
-		
+
 		WindowManager mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-		
+
+		// 重ね合わせするViewの設定を行う
+
+		LayoutParams params = new WindowManager.LayoutParams(
+				WindowManager.LayoutParams.WRAP_CONTENT,
+				WindowManager.LayoutParams.WRAP_CONTENT,
+				WindowManager.LayoutParams.TYPE_TOAST,
+				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | 
+				WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,// | 
+				//WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL ,//| WindowManager.LayoutParams.FLAG_TOUCHABLE_WHEN_WAKING,
+				//WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+				PixelFormat.TRANSLUCENT);
+
+		params.gravity = Gravity.TOP | Gravity.RIGHT;
+		params.x = 0;
+		params.y = 0;
+
+		//重畳表示するViewを取得する．
+		ViewGroup mMusicPlayerView = MusicPlayerController.createView(mService);
+		//WindowManagerにViewとLayoutParamsを登録し，表示する
+		mWindowManager.updateViewLayout(mMusicPlayerView, params);
+
 	}
 
 	/**
