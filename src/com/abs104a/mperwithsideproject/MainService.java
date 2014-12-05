@@ -1,7 +1,6 @@
 package com.abs104a.mperwithsideproject;
 
-import com.abs104a.mperwithsideproject.music.MusicPlayerController;
-
+import com.abs104a.mperwithsideproject.main.MainViewController;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,7 @@ import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.view.View;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 
@@ -39,6 +38,10 @@ public class MainService extends Service{
 	
 	//自分のサービス（Context取得用)
 	private final Service mService = this;
+	//メインビュー生成用WindowManager
+	private WindowManager mWindowManager = null;
+	//メインビュー保持用
+	private View mMainView = null;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -57,10 +60,9 @@ public class MainService extends Service{
 		LayoutInflater inflater = LayoutInflater.from( mService );
 		inflater.inflate(R.layout.player_view, null);
 
-		WindowManager mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+		mWindowManager  = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
 		// 重ね合わせするViewの設定を行う
-
 		LayoutParams params = new WindowManager.LayoutParams(
 				WindowManager.LayoutParams.WRAP_CONTENT,
 				WindowManager.LayoutParams.WRAP_CONTENT,
@@ -76,9 +78,10 @@ public class MainService extends Service{
 		params.y = 0;
 
 		//重畳表示するViewを取得する．
-		ViewGroup mMusicPlayerView = MusicPlayerController.createView(mService);
+		mMainView = MainViewController.createView(mService);
+		
 		//WindowManagerにViewとLayoutParamsを登録し，表示する
-		mWindowManager.updateViewLayout(mMusicPlayerView, params);
+		mWindowManager.updateViewLayout(mMainView, params);
 
 	}
 
@@ -88,6 +91,11 @@ public class MainService extends Service{
 	@Override
 	public void onDestroy() {
 		// TODO 自動生成されたメソッド・スタブ
+		try{
+			mWindowManager.removeView(mMainView);
+		}catch(NullPointerException mNullPointerException){
+			mNullPointerException.printStackTrace();
+		}
 		super.onDestroy();
 	}
 

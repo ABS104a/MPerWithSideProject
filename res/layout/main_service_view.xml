@@ -7,13 +7,12 @@
     android:orientation="horizontal" >
 
     <ImageButton
-        android:id="@+id/imageButton1"
+        android:id="@+id/imageButton_handle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:src="@android:drawable/ic_input_add" />
     
     <!-- ここにMusicViewを突っ込む -->
-    
 
 </LinearLayout>

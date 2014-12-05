@@ -1,25 +1,22 @@
-package com.abs104a.mperwithsideproject.music;
-
-
-import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.music.listener.ExitActionOnClickListenerImpl;
+package com.abs104a.mperwithsideproject.main;
 
 import android.app.Service;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
+import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.main.listener.MainHandleActionOnClickListenerImpl;
+
 /**
- * プレイヤーメインViewの生成と設定を行うクラス
- * 
- * 
+ * メインビューの生成と設定を行うクラス
  * @author Kouki
  *
  */
-public class MusicPlayerController {
+public class MainViewController {
 
 	/**
-	 * PlayerのViewを生成するメソッド
+	 * MainのViewを生成するメソッド
 	 * サービスのコンテキストを受けとりViewを生成する．
 	 * @param mService
 	 * @return　生成したViewGroup
@@ -29,8 +26,7 @@ public class MusicPlayerController {
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する
-		View mView = layoutInflater.inflate(com.abs104a.mperwithsideproject.R.layout.main_service_view, null);
-		//Action Settings 
+		View mView = layoutInflater.inflate(com.abs104a.mperwithsideproject.R.layout.player_view, null);
 		initButtonOfView(mService,mView);
 		return mView;
 	}
@@ -42,8 +38,8 @@ public class MusicPlayerController {
 	 */
 	public static void initButtonOfView(Service mService,View mView){
 		//TODO Viewのボタンに動作をつける
-		Button exitButton = (Button)mView.findViewById(R.id.button_action_exit);
-		exitButton.setOnClickListener(new ExitActionOnClickListenerImpl(mService));
+		Button handleButton = (Button)mView.findViewById(R.id.imageButton_handle);
+		handleButton.setOnClickListener(new MainHandleActionOnClickListenerImpl(mService));
 	}
 	
 }
