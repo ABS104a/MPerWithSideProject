@@ -1,6 +1,6 @@
-package com.abs104a.mperwithsideproject.main.listener;
+package com.abs104a.mperwithsideproject.viewcontroller.listener;
 
-import com.abs104a.mperwithsideproject.music.MusicPlayerController;
+import com.abs104a.mperwithsideproject.viewcontroller.MusicPlayerViewController;
 
 import android.app.Service;
 import android.view.View;
@@ -23,7 +23,7 @@ public final class MainHandleActionOnClickListenerImpl implements OnClickListene
 	@Override
 	public void onClick(View v) {
 		//MusicPlayerView�̍쐬
-		View mPlayerView = MusicPlayerController.createView(mService);
+		View mPlayerView = MusicPlayerViewController.createView(mService);
 		((LinearLayout)v.getParent()).addView(mPlayerView);
 	}
 

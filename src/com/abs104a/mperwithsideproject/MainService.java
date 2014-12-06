@@ -1,6 +1,7 @@
 package com.abs104a.mperwithsideproject;
 
-import com.abs104a.mperwithsideproject.main.MainViewController;
+import com.abs104a.mperwithsideproject.viewcontroller.MainViewController;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;

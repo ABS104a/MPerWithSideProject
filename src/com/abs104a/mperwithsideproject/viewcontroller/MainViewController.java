@@ -1,4 +1,4 @@
-package com.abs104a.mperwithsideproject.main;
+package com.abs104a.mperwithsideproject.viewcontroller;
 
 import android.app.Service;
 import android.view.LayoutInflater;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.main.listener.MainHandleActionOnClickListenerImpl;
+import com.abs104a.mperwithsideproject.viewcontroller.listener.MainHandleActionOnClickListenerImpl;
 
 /**
  * メインビューの生成と設定を行うクラス

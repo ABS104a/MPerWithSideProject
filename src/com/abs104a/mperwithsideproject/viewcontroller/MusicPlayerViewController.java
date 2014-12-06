@@ -1,7 +1,11 @@
-package com.abs104a.mperwithsideproject.music;
+package com.abs104a.mperwithsideproject.viewcontroller;
 
+
+import java.io.IOException;
 
 import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.music.MusicPlayer.OnPlayCompletedListener;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
 import com.abs104a.mperwithsideproject.music.listener.ExitActionOnClickListenerImpl;
 
 import android.app.Service;
@@ -16,7 +20,7 @@ import android.widget.Button;
  * @author Kouki
  *
  */
-public class MusicPlayerController {
+public class MusicPlayerViewController {
 
 	/**
 	 * PlayerのViewを生成するメソッド
@@ -51,10 +55,10 @@ public class MusicPlayerController {
 		//ex.. playButton.setOnClickListener(hoge));
 		
 		//次へのボタンの設定
-		Button afterButton = (Button)mView.findViewById(R.id.button_after_seek);
+		Button afterButton = (Button)mView.findViewById(R.id.button_next_seek);
 		//TODO 次へボタンの動作を登録する．
 		
-		Button beforeButton = (Button)mView.findViewById(R.id.button_before_seek);
+		Button beforeButton = (Button)mView.findViewById(R.id.button_back_seek);
 		//TODO 前へボタンの動作を登録する．
 		
 		Button repeatButton = (Button)mView.findViewById(R.id.button_repeat);
@@ -68,6 +72,40 @@ public class MusicPlayerController {
 		
 		Button showSettigsButton = (Button)mView.findViewById(R.id.button_action_show_settings);
 		//TODO 設定表示ボタンの設定を登録する．
+		
+	}
+	
+	public static void initAction(Service mService,View mView){
+		//プレーヤーコントロールクラスのインスタンスを取得
+		final MusicPlayerWithPlayLists mpwpl = new MusicPlayerWithPlayLists();
+		//再生が終了した時に呼ばれるリスナを実装する．
+		OnPlayCompletedListener mOnPlayCompletedListener = new OnPlayCompletedListener(){
+
+			@Override
+			public void onPlayCompleted() {
+				//再生が終了したとき 次の曲をセットする．
+				try {
+					//次の曲を再生
+					mpwpl.playNext();
+				} catch (IllegalArgumentException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				} catch (IllegalStateException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+			}
+			
+		};
+		//再生が完了したときのリスナをセット．
+		mpwpl.setOnPlayCompletedListener(mOnPlayCompletedListener);
+		//TODO プレイリストを設定
 		
 	}
 	
