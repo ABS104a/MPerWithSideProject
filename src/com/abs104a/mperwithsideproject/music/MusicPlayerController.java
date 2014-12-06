@@ -44,6 +44,31 @@ public class MusicPlayerController {
 		//TODO Viewのボタンに動作をつける
 		Button exitButton = (Button)mView.findViewById(R.id.button_action_exit);
 		exitButton.setOnClickListener(new ExitActionOnClickListenerImpl(mService));
+		
+		//再生ボタンの設定
+		Button playButton = (Button)mView.findViewById(R.id.button_play);
+		//TODO　再生ボタンの動作を登録する．
+		//ex.. playButton.setOnClickListener(hoge));
+		
+		//次へのボタンの設定
+		Button afterButton = (Button)mView.findViewById(R.id.button_after_seek);
+		//TODO 次へボタンの動作を登録する．
+		
+		Button beforeButton = (Button)mView.findViewById(R.id.button_before_seek);
+		//TODO 前へボタンの動作を登録する．
+		
+		Button repeatButton = (Button)mView.findViewById(R.id.button_repeat);
+		//TODO リピートボタンの動作を登録する．
+		
+		Button shuffleButton = (Button)mView.findViewById(R.id.button_shuffle);
+		//TODO シャッフルボタンの動作を登録する．
+		
+		Button showListButton = (Button)mView.findViewById(R.id.button_action_show_list);
+		//TODO リスト表示ボタンの設定を登録する
+		
+		Button showSettigsButton = (Button)mView.findViewById(R.id.button_action_show_settings);
+		//TODO 設定表示ボタンの設定を登録する．
+		
 	}
 	
 }

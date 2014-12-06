@@ -81,7 +81,11 @@ public class MainService extends Service{
 		mMainView = MainViewController.createView(mService);
 		
 		//WindowManagerÇ…ViewÇ∆LayoutParamsÇìoò^ÇµÅCï\é¶Ç∑ÇÈ
-		mWindowManager.updateViewLayout(mMainView, params);
+		try{
+			mWindowManager.updateViewLayout(mMainView, params);
+		}catch(NullPointerException mNullPointerException){
+			mNullPointerException.printStackTrace();
+		}
 
 	}
 
