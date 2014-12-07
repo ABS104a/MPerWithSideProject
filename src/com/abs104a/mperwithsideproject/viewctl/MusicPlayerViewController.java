@@ -1,12 +1,15 @@
-package com.abs104a.mperwithsideproject.viewcontroller;
+package com.abs104a.mperwithsideproject.viewctl;
 
-
-import java.io.IOException;
 
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.music.MusicPlayer.OnPlayCompletedListener;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
 import com.abs104a.mperwithsideproject.music.listener.ExitActionOnClickListenerImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.BackButtonOnClickImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.NextButtonOnClickImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.OnPlayCompletedImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.PlayButtonOnClickImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.RepeatButtonOnClickImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.ShuffleButtonOnClickImpl;
 
 import android.app.Service;
 import android.view.LayoutInflater;
@@ -22,6 +25,9 @@ import android.widget.Button;
  */
 public class MusicPlayerViewController {
 
+	//音楽リソースのコントロールクラスのインスタンス
+	private final static MusicPlayerWithPlayLists _mpwpl = new MusicPlayerWithPlayLists();
+	
 	/**
 	 * PlayerのViewを生成するメソッド
 	 * サービスのコンテキストを受けとりViewを生成する．
@@ -51,21 +57,25 @@ public class MusicPlayerViewController {
 		
 		//再生ボタンの設定
 		Button playButton = (Button)mView.findViewById(R.id.button_play);
-		//TODO　再生ボタンの動作を登録する．
-		//ex.. playButton.setOnClickListener(hoge));
+		//再生ボタンの動作を登録する．
+		playButton.setOnClickListener(new PlayButtonOnClickImpl(_mpwpl));
 		
 		//次へのボタンの設定
-		Button afterButton = (Button)mView.findViewById(R.id.button_next_seek);
-		//TODO 次へボタンの動作を登録する．
+		Button nextButton = (Button)mView.findViewById(R.id.button_next_seek);
+		//次へボタンの動作を登録する．
+		nextButton.setOnClickListener(new NextButtonOnClickImpl(mService,_mpwpl));
 		
-		Button beforeButton = (Button)mView.findViewById(R.id.button_back_seek);
-		//TODO 前へボタンの動作を登録する．
+		Button backButton = (Button)mView.findViewById(R.id.button_back_seek);
+		//前へボタンの動作を登録する．
+		backButton.setOnClickListener(new BackButtonOnClickImpl(mService,_mpwpl));
 		
 		Button repeatButton = (Button)mView.findViewById(R.id.button_repeat);
-		//TODO リピートボタンの動作を登録する．
+		//リピートボタンの動作を登録する．
+		repeatButton.setOnClickListener(new RepeatButtonOnClickImpl(repeatButton,_mpwpl));
 		
 		Button shuffleButton = (Button)mView.findViewById(R.id.button_shuffle);
-		//TODO シャッフルボタンの動作を登録する．
+		//シャッフルボタンの動作を登録する．
+		shuffleButton.setOnClickListener(new ShuffleButtonOnClickImpl(shuffleButton,_mpwpl));
 		
 		Button showListButton = (Button)mView.findViewById(R.id.button_action_show_list);
 		//TODO リスト表示ボタンの設定を登録する
@@ -76,35 +86,9 @@ public class MusicPlayerViewController {
 	}
 	
 	public static void initAction(Service mService,View mView){
-		//プレーヤーコントロールクラスのインスタンスを取得
-		final MusicPlayerWithPlayLists mpwpl = new MusicPlayerWithPlayLists();
 		//再生が終了した時に呼ばれるリスナを実装する．
-		OnPlayCompletedListener mOnPlayCompletedListener = new OnPlayCompletedListener(){
-
-			@Override
-			public void onPlayCompleted() {
-				//再生が終了したとき 次の曲をセットする．
-				try {
-					//次の曲を再生
-					mpwpl.playNext();
-				} catch (IllegalArgumentException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				} catch (SecurityException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				} catch (IllegalStateException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				}
-			}
-			
-		};
 		//再生が完了したときのリスナをセット．
-		mpwpl.setOnPlayCompletedListener(mOnPlayCompletedListener);
+		_mpwpl.setOnPlayCompletedListener(new OnPlayCompletedImpl(_mpwpl));
 		//TODO プレイリストを設定
 		
 	}

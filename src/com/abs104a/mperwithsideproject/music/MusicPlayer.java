@@ -2,6 +2,8 @@ package com.abs104a.mperwithsideproject.music;
 
 import java.io.IOException;
 
+import com.abs104a.mperwithsideproject.viewctl.listener.OnPlayCompletedImpl;
+
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 
@@ -59,22 +61,22 @@ public class MusicPlayer implements OnCompletionListener {
 	/**
 	 * 再生が完了した時に呼ばれるリスナ
 	 */
-	private OnPlayCompletedListener mOnPlayCompletedListener = null;
+	private OnPlayCompletedImpl mOnPlayCompletedListener = null;
 	
 	/**
 	 * 再生完了時に呼ばれるリスナを取得するメソッド
 	 * @return
 	 */
-	public OnPlayCompletedListener getOnPlayCompletedListener() {
+	public OnPlayCompletedImpl getOnPlayCompletedListener() {
 		return mOnPlayCompletedListener;
 	}
 
 	/**
 	 * 再生完了時に呼ばれるリスナを設定するメソッド
-	 * @param mOnPlayCompletedListener
+	 * @param onPlayCompletedImpl
 	 */
-	public void setOnPlayCompletedListener(OnPlayCompletedListener mOnPlayCompletedListener) {
-		this.mOnPlayCompletedListener = mOnPlayCompletedListener;
+	public void setOnPlayCompletedListener(OnPlayCompletedImpl onPlayCompletedImpl) {
+		this.mOnPlayCompletedListener = onPlayCompletedImpl;
 	}
 	
 	

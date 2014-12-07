@@ -1,6 +1,6 @@
-package com.abs104a.mperwithsideproject.viewcontroller.listener;
+package com.abs104a.mperwithsideproject.viewctl.listener;
 
-import com.abs104a.mperwithsideproject.viewcontroller.MusicPlayerViewController;
+import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
 
 import android.app.Service;
 import android.view.View;

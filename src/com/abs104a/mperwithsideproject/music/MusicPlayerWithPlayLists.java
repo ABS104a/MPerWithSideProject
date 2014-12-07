@@ -18,7 +18,7 @@ import java.util.Random;
  * @author Kouki
  *
  */
-public class MusicPlayerWithPlayLists extends MusicPlayer {
+public final class MusicPlayerWithPlayLists extends MusicPlayer {
 
 	/**===================================
 	 * 定数
@@ -106,7 +106,7 @@ public class MusicPlayerWithPlayLists extends MusicPlayer {
 	 * プレイリストをセットする
 	 * @param playList　セットするプレイリスト
 	 */
-	public void setPlayList(ArrayList<?> playList){
+	public final void setPlayList(ArrayList<?> playList){
 		this.mPlayList = playList;
 	}
 	
@@ -118,7 +118,12 @@ public class MusicPlayerWithPlayLists extends MusicPlayer {
 	 * @throws SecurityException 
 	 * @throws IllegalArgumentException 
 	 */
-	public int playNext() throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
+	public final int playNext() 
+			throws IllegalArgumentException, 
+			SecurityException, 
+			IllegalStateException, 
+			IOException
+			{
 		//TODO List形式を実装する
 		//シャッフル機能が有効の時
 		if(isShuffle()){
@@ -166,14 +171,18 @@ public class MusicPlayerWithPlayLists extends MusicPlayer {
 	 * 
 	 * 再生秒数が1s未満であれば前の曲
 	 * 再生秒数が1s以上であれば曲の先頭へシークする
-	 * @return
+	 * @return 再生を行うカーソル
 	 * @throws IOException 
 	 * @throws IllegalStateException 
 	 * @throws SecurityException 
 	 * @throws IllegalArgumentException 
 	 */
-	public int playBack() throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
-		//TODO 実装予定
+	public final int playBack() 
+			throws IllegalArgumentException, 
+			SecurityException, 
+			IllegalStateException, 
+			IOException
+			{
 		//次の曲情報を取得
 		if(--mCursor < 0){
 			mCursor = 0;
@@ -183,14 +192,6 @@ public class MusicPlayerWithPlayLists extends MusicPlayer {
 		setSource(nextMusic);
 		//再生を開始
 		playStartAndPause();
-		return mCursor;
-		
-	}
-
-
-
-
-	
+		return mCursor;	
+	}	
 }
-
-
