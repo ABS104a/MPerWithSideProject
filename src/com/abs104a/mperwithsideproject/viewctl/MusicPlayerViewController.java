@@ -15,6 +15,7 @@ import android.app.Service;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 /**
  * プレイヤーメインViewの生成と設定を行うクラス
@@ -38,7 +39,7 @@ public final class MusicPlayerViewController {
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する
-		View mView = layoutInflater.inflate(com.abs104a.mperwithsideproject.R.layout.main_service_view, null);
+		View mView = layoutInflater.inflate(com.abs104a.mperwithsideproject.R.layout.player_view, null);
 		//Action Settings 
 		initButtonOfView(mService,mView);
 		initAction(mService,mView);
@@ -57,24 +58,24 @@ public final class MusicPlayerViewController {
 		exitButton.setOnClickListener(new ExitActionOnClickListenerImpl(mService));
 		
 		//再生ボタンの設定
-		Button playButton = (Button)mView.findViewById(R.id.button_play);
+		ImageButton playButton = (ImageButton)mView.findViewById(R.id.button_play);
 		//再生ボタンの動作を登録する．
 		playButton.setOnClickListener(new PlayButtonOnClickImpl(_mpwpl));
 		
 		//次へのボタンの設定
-		Button nextButton = (Button)mView.findViewById(R.id.button_next_seek);
+		ImageButton nextButton = (ImageButton)mView.findViewById(R.id.button_next_seek);
 		//次へボタンの動作を登録する．
 		nextButton.setOnClickListener(new NextButtonOnClickImpl(mService,_mpwpl));
 		
-		Button backButton = (Button)mView.findViewById(R.id.button_back_seek);
+		ImageButton backButton = (ImageButton)mView.findViewById(R.id.button_back_seek);
 		//前へボタンの動作を登録する．
 		backButton.setOnClickListener(new BackButtonOnClickImpl(mService,_mpwpl));
 		
-		Button repeatButton = (Button)mView.findViewById(R.id.button_repeat);
+		ImageButton repeatButton = (ImageButton)mView.findViewById(R.id.button_repeat);
 		//リピートボタンの動作を登録する．
 		repeatButton.setOnClickListener(new RepeatButtonOnClickImpl(repeatButton,_mpwpl));
 		
-		Button shuffleButton = (Button)mView.findViewById(R.id.button_shuffle);
+		ImageButton shuffleButton = (ImageButton)mView.findViewById(R.id.button_shuffle);
 		//シャッフルボタンの動作を登録する．
 		shuffleButton.setOnClickListener(new ShuffleButtonOnClickImpl(shuffleButton,_mpwpl));
 		
