@@ -23,7 +23,7 @@ import android.widget.Button;
  * @author Kouki
  *
  */
-public class MusicPlayerViewController {
+public final class MusicPlayerViewController {
 
 	//音楽リソースのコントロールクラスのインスタンス
 	private final static MusicPlayerWithPlayLists _mpwpl = new MusicPlayerWithPlayLists();
@@ -35,7 +35,6 @@ public class MusicPlayerViewController {
 	 * @return　生成したViewGroup
 	 */
 	public static View createView(Service mService){
-		//TODO Viewの生成
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する

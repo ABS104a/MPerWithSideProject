@@ -1,7 +1,6 @@
 package com.abs104a.mperwithsideproject;
 
 import com.abs104a.mperwithsideproject.viewctl.MainViewController;
-
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -9,11 +8,12 @@ import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 
 /**
  * メイン画面を表示するService
@@ -44,7 +44,7 @@ public class MainService extends Service{
 	//メインビュー生成用WindowManager
 	private WindowManager mWindowManager = null;
 	//メインビュー保持用
-	private View mMainView = null;
+	private ViewGroup mMainView = null;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -81,13 +81,19 @@ public class MainService extends Service{
 		params.y = 0;
 
 		//重畳表示するViewを取得する．
-		mMainView = MainViewController.createView(mService);
+		mMainView = (LinearLayout)MainViewController.createView(mService);
+		
+		//プレイヤーのViewはハンドル部をタップした時に生成する．
+		//ハンドル部が引き出される動作と同時に大きさを変更させ，
+		//完全にハンドルが収納されたらViewを破棄する．
 		
 		//WindowManagerにViewとLayoutParamsを登録し，表示する
 		try{
 			mWindowManager.updateViewLayout(mMainView, params);
 		}catch(NullPointerException mNullPointerException){
 			mNullPointerException.printStackTrace();
+			//自分のサービスを終了させる．
+			this.stopSelf();
 		}
 		
 		//表示するためのアニメーションを作成
@@ -103,13 +109,12 @@ public class MainService extends Service{
 	 */
 	@Override
 	public void onDestroy() {
-		// TODO 自動生成されたメソッド・スタブ
 		try{
+			//MainViewを消去する．
 			mWindowManager.removeView(mMainView);
 		}catch(NullPointerException mNullPointerException){
 			mNullPointerException.printStackTrace();
 		}
 		super.onDestroy();
 	}
-
 }

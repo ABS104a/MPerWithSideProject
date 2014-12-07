@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.viewctl.listener.MainHandleActionOnClickListenerImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.MainHandleActionOnTouchImpl;
 
 /**
  * メインビューの生成と設定を行うクラス
@@ -40,7 +40,7 @@ public final class MainViewController {
 	public final static void initButtonOfView(Service mService,View mView){
 		//TODO Viewのボタンに動作をつける
 		Button handleButton = (Button)mView.findViewById(R.id.imageButton_handle);
-		handleButton.setOnClickListener(new MainHandleActionOnClickListenerImpl(mService));
+		handleButton.setOnTouchListener(new MainHandleActionOnTouchImpl(mService));
 	}
 	
 	/**

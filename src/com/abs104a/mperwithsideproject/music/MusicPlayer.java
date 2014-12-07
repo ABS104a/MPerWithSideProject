@@ -103,6 +103,7 @@ public class MusicPlayer implements OnCompletionListener {
 		return this._status;
 	}
 	
+
 	/**
 	 * 再生状況を取得する
 	 * @return
@@ -205,6 +206,22 @@ public class MusicPlayer implements OnCompletionListener {
 		if(mOnPlayCompletedListener != null)
 			mOnPlayCompletedListener.onPlayCompleted();
 		
+	}
+	
+	/**
+	 * デストラクタ
+	 * インスタンスが破棄される際にプレイヤーのリソースを開放する．
+	 */
+	@Override
+	protected void finalize() throws Throwable {
+		//再生している場合は停止する．
+		if(getStatus() == PLAYING)
+			mMediaPlayer.stop();
+		setStatus(NOSOURCE);
+		//リソースを開放する．
+		mMediaPlayer.release();
+		mMediaPlayer = null;
+		super.finalize();
 	}
 
 
