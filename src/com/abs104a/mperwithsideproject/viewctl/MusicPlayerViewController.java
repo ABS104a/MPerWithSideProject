@@ -42,6 +42,7 @@ public class MusicPlayerViewController {
 		View mView = layoutInflater.inflate(com.abs104a.mperwithsideproject.R.layout.main_service_view, null);
 		//Action Settings 
 		initButtonOfView(mService,mView);
+		initAction(mService,mView);
 		return mView;
 	}
 	

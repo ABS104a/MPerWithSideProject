@@ -13,7 +13,7 @@ import com.abs104a.mperwithsideproject.viewctl.listener.MainHandleActionOnClickL
  * @author Kouki
  *
  */
-public class MainViewController {
+public final class MainViewController {
 
 	/**
 	 * MainのViewを生成するメソッド
@@ -21,13 +21,14 @@ public class MainViewController {
 	 * @param mService
 	 * @return　生成したViewGroup
 	 */
-	public static View createView(Service mService){
+	public final static View createView(Service mService){
 		//TODO Viewの生成
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する
 		View mView = layoutInflater.inflate(com.abs104a.mperwithsideproject.R.layout.player_view, null);
 		initButtonOfView(mService,mView);
+		initActionOfView(mService,mView);
 		return mView;
 	}
 	
@@ -36,10 +37,19 @@ public class MainViewController {
 	 * @param mService
 	 * @param mView
 	 */
-	public static void initButtonOfView(Service mService,View mView){
+	public final static void initButtonOfView(Service mService,View mView){
 		//TODO Viewのボタンに動作をつける
 		Button handleButton = (Button)mView.findViewById(R.id.imageButton_handle);
 		handleButton.setOnClickListener(new MainHandleActionOnClickListenerImpl(mService));
+	}
+	
+	/**
+	 * メインViewの動作を設定する．
+	 * @param mService
+	 * @param mView
+	 */
+	public final static void initActionOfView(Service mService,View mView){
+		
 	}
 	
 }
