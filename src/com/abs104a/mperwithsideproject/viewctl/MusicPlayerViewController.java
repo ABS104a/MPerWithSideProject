@@ -52,7 +52,8 @@ public class MusicPlayerViewController {
 	 * @param mView
 	 */
 	public static void initButtonOfView(Service mService,View mView){
-		//TODO Viewのボタンに動作をつける
+		//Viewのボタンに動作をつける
+		//終了ボタンの設定
 		Button exitButton = (Button)mView.findViewById(R.id.button_action_exit);
 		exitButton.setOnClickListener(new ExitActionOnClickListenerImpl(mService));
 		

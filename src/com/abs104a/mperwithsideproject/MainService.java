@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 /**
  * メイン画面を表示するService
@@ -74,7 +76,7 @@ public class MainService extends Service{
 				//WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
 				PixelFormat.TRANSLUCENT);
 
-		params.gravity = Gravity.TOP | Gravity.RIGHT;
+		params.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
 		params.x = 0;
 		params.y = 0;
 
@@ -87,6 +89,12 @@ public class MainService extends Service{
 		}catch(NullPointerException mNullPointerException){
 			mNullPointerException.printStackTrace();
 		}
+		
+		//表示するためのアニメーションを作成
+		Animation showAnimation = 
+				AnimationUtils.loadAnimation(mService, android.R.anim.fade_in);
+		//Animationの設定
+		mMainView.startAnimation(showAnimation);
 
 	}
 
