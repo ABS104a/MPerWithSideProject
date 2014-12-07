@@ -167,10 +167,23 @@ public class MusicPlayerWithPlayLists extends MusicPlayer {
 	 * 再生秒数が1s未満であれば前の曲
 	 * 再生秒数が1s以上であれば曲の先頭へシークする
 	 * @return
+	 * @throws IOException 
+	 * @throws IllegalStateException 
+	 * @throws SecurityException 
+	 * @throws IllegalArgumentException 
 	 */
-	public int playBack(){
+	public int playBack() throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
 		//TODO 実装予定
-		return 0;
+		//次の曲情報を取得
+		if(--mCursor < 0){
+			mCursor = 0;
+		}
+		String nextMusic = (String) mPlayList.get(mCursor);
+		//データをセットする
+		setSource(nextMusic);
+		//再生を開始
+		playStartAndPause();
+		return mCursor;
 		
 	}
 
