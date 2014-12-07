@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 /**
- * ƒŠƒs[ƒgƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚ÉŒÄ‚Î‚ê‚éƒŠƒXƒiImpl
+ * ãƒªãƒ”ãƒ¼ãƒˆãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸæ™‚ã«å‘¼ã°ã‚Œã‚‹ãƒªã‚¹ãƒŠImpl
  * @author Kouki-Mobile
  *
  */
@@ -16,9 +16,9 @@ public final class RepeatButtonOnClickImpl implements OnClickListener {
 	private final MusicPlayerWithPlayLists _mpwpl;
 
 	/**
-	 * ƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶¬
-	 * @param mView Œ‹‰Ê”½‰f—pView
-	 * @param mpwpl ‰¹ŠyƒRƒ“ƒgƒ[ƒ‹ƒNƒ‰ƒX
+	 * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ç”Ÿæˆ
+	 * @param mView çµæœåæ˜ ç”¨View
+	 * @param mpwpl éŸ³æ¥½ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã‚¯ãƒ©ã‚¹
 	 */
 	public RepeatButtonOnClickImpl(Button button, MusicPlayerWithPlayLists mpwpl) {
 		this._button = button;
@@ -26,29 +26,29 @@ public final class RepeatButtonOnClickImpl implements OnClickListener {
 	}
 
 	/**
-	 * ƒ^ƒbƒv‚³‚ê‚½
-	 * i1‹Èƒ‹[ƒvj¨ƒ‹[ƒv‚È‚µ¨‘S‹Èƒ‹[ƒv¨1‹Èƒ‹[ƒv
+	 * ã‚¿ãƒƒãƒ—ã•ã‚ŒãŸæ™‚
+	 * ï¼ˆ1æ›²ãƒ«ãƒ¼ãƒ—ï¼‰â†’ãƒ«ãƒ¼ãƒ—ãªã—â†’å…¨æ›²ãƒ«ãƒ¼ãƒ—â†’1æ›²ãƒ«ãƒ¼ãƒ—
 	 */
 	@Override
 	public void onClick(View v) {
-		//Œ»İ‚Ìó‘Ô‚ğæ“¾‚·‚é
+		//ç¾åœ¨ã®çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
 		int loopState = _mpwpl.getLoopState();
-		//LOOP‚µ‚Ä‚È‚¢
+		//LOOPã—ã¦ãªã„æ™‚
 		if(loopState == MusicPlayerWithPlayLists.NOT_LOOP){
 			loopState = MusicPlayerWithPlayLists.ALL_LOOP;
 		}
-		//‘S‹ÈLOOP‚Ì
+		//å…¨æ›²LOOPã®æ™‚
 		else if(loopState == MusicPlayerWithPlayLists.ALL_LOOP){
 			loopState = MusicPlayerWithPlayLists.ONE_LOOP;
 		}
-		//1‹Èƒ‹[ƒv‚Ì
+		//1æ›²ãƒ«ãƒ¼ãƒ—ã®æ™‚
 		else if(loopState == MusicPlayerWithPlayLists.ONE_LOOP){
 			loopState = MusicPlayerWithPlayLists.NOT_LOOP;
 		}
-		//LOOPó‘Ô‚Ìæ“¾
+		//LOOPçŠ¶æ…‹ã®å–å¾—
 		loopState = _mpwpl.setLoopState(loopState);
 
-		//TODO View‚Ö‚Ì”½‰f
+		//TODO Viewã¸ã®åæ˜ 
 		
 		//_button.setBackground(hoge);
 		

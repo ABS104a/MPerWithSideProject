@@ -3,7 +3,7 @@ package com.abs104a.mperwithsideproject.music;
 import java.io.Serializable;
 
 /**
- * ‹È‚Ìî•ñ‚ğ•Û‚·‚éƒNƒ‰ƒX
+ * æ›²ã®æƒ…å ±ã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹
  * @author Kouki
  *
  */
@@ -16,26 +16,26 @@ public class Item implements Serializable,Comparable<Item>{
 	
 	//MediaID
 	private long id;
-	//ƒA[ƒeƒBƒXƒgî•ñ
+	//ã‚¢ãƒ¼ãƒ†ã‚£ã‚¹ãƒˆæƒ…å ±
 	private String artist;
-	//ƒ^ƒCƒgƒ‹
+	//ã‚¿ã‚¤ãƒˆãƒ«
 	private String title;
-	//ƒAƒ‹ƒoƒ€
+	//ã‚¢ãƒ«ãƒãƒ 
 	private String album;
-	//ƒgƒ‰ƒbƒN”Ô†
+	//ãƒˆãƒ©ãƒƒã‚¯ç•ªå·
 	private int truck;
-	//’·‚³
+	//é•·ã•
 	private long duration;
 	
 	
 	/**
-	 * ‰Šú’l‘ã“ü‚Ì‚½‚ß‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
-	 * @param id		ƒƒfƒBƒAID
-	 * @param artist	ƒA[ƒeƒBƒXƒg
-	 * @param title		ƒ^ƒCƒgƒ‹
-	 * @param album		ƒAƒ‹ƒoƒ€
-	 * @param truck		ƒgƒ‰ƒbƒN”Ô†
-	 * @param duration	’·‚³
+	 * åˆæœŸå€¤ä»£å…¥ã®ãŸã‚ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param id		ãƒ¡ãƒ‡ã‚£ã‚¢ID
+	 * @param artist	ã‚¢ãƒ¼ãƒ†ã‚£ã‚¹ãƒˆ
+	 * @param title		ã‚¿ã‚¤ãƒˆãƒ«
+	 * @param album		ã‚¢ãƒ«ãƒãƒ 
+	 * @param truck		ãƒˆãƒ©ãƒƒã‚¯ç•ªå·
+	 * @param duration	é•·ã•
 	 */
 	public Item(long id, String artist, String title, String album,
 			int truck, long duration) {

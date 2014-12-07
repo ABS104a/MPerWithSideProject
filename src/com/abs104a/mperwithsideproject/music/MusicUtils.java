@@ -11,17 +11,17 @@ import android.provider.MediaStore;
 public class MusicUtils {
 
 	/**
-	 * ŠO•”ƒXƒgƒŒ[ƒW‚©‚ç‰¹Šyƒf[ƒ^‚ğƒXƒLƒƒƒ“‚·‚é
+	 * å¤–éƒ¨ã‚¹ãƒˆãƒ¬ãƒ¼ã‚¸ã‹ã‚‰éŸ³æ¥½ãƒ‡ãƒ¼ã‚¿ã‚’ã‚¹ã‚­ãƒ£ãƒ³ã™ã‚‹
 	 * @param context
 	 * @return
 	 */
 	public static ArrayList<Item> getMusicList(final Context context){
 	    ArrayList<Item> items = new ArrayList<Item>();
 	    
-		// ContentResolver ‚ğæ“¾
+		// ContentResolver ã‚’å–å¾—
 		ContentResolver cr = context.getContentResolver();
 		 
-		// ŠO•”ƒXƒgƒŒ[ƒW‚©‚ç‰¹Šy‚ğŒŸõ
+		// å¤–éƒ¨ã‚¹ãƒˆãƒ¬ãƒ¼ã‚¸ã‹ã‚‰éŸ³æ¥½ã‚’æ¤œç´¢
 		Cursor cur = cr.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
 		    null,
 		    MediaStore.Audio.Media.IS_MUSIC + " = 1",
@@ -30,7 +30,7 @@ public class MusicUtils {
 		 
 		if (cur != null) {
 		    do{
-		    	// ‹Èî•ñ‚ÌƒJƒ‰ƒ€‚ğæ“¾
+		    	// æ›²æƒ…å ±ã®ã‚«ãƒ©ãƒ ã‚’å–å¾—
 		    	int artistColumn = cur.getColumnIndex(MediaStore.Audio.Media.ARTIST);
 		    	int titleColumn = cur.getColumnIndex(MediaStore.Audio.Media.TITLE);
 		    	int albumColumn = cur.getColumnIndex(MediaStore.Audio.Media.ALBUM);
@@ -38,7 +38,7 @@ public class MusicUtils {
 		    	int idColumn = cur.getColumnIndex(MediaStore.Audio.Media._ID);
 		    	int idTruck = cur.getColumnIndex(MediaStore.Audio.Media.TRACK);
 		    	 
-		    	// ƒŠƒXƒg‚É’Ç‰Á
+		    	// ãƒªã‚¹ãƒˆã«è¿½åŠ 
 		    	do {
 					items.add(new Item(cur.getLong(idColumn),
 		    	            cur.getString(artistColumn),
@@ -48,9 +48,9 @@ public class MusicUtils {
 		    	            cur.getLong(durationColumn)));
 		    	} while (cur.moveToNext());
 		    }while(cur.moveToNext());
-		    // ƒJ[ƒ\ƒ‹‚ğ•Â‚¶‚é
+		    // ã‚«ãƒ¼ã‚½ãƒ«ã‚’é–‰ã˜ã‚‹
 		    cur.close();
-		    //Œ‹‰Ê‚ğƒAƒ‹ƒoƒ€‡‚Åƒ\[ƒg
+		    //çµæœã‚’ã‚¢ãƒ«ãƒãƒ é †ã§ã‚½ãƒ¼ãƒˆ
 		    Collections.sort(items);
 		}
 		return items;

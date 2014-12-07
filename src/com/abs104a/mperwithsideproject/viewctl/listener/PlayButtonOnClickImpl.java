@@ -6,13 +6,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 /**
- * 再生ボタンを押した時に呼ばれるリスナImpl
+ * 蜀咲函繝懊ち繝ｳ繧呈款縺励◆譎ゅ↓蜻ｼ縺ｰ繧後ｋ繝ｪ繧ｹ繝蟹mpl
  * @author Kouki-Mobile
  *
  */
 public final class PlayButtonOnClickImpl implements OnClickListener {
 
-	//プレイヤーコントロールインスタンス
+	//繝励Ξ繧､繝､繝ｼ繧ｳ繝ｳ繝医Ο繝ｼ繝ｫ繧､繝ｳ繧ｹ繧ｿ繝ｳ繧ｹ
 	private final MusicPlayerWithPlayLists _mpwpl;
 
 	public PlayButtonOnClickImpl(MusicPlayerWithPlayLists mpwpl) {
@@ -21,7 +21,7 @@ public final class PlayButtonOnClickImpl implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		//再生動作を行う
+		//蜀咲函蜍穂ｽ懊ｒ陦後≧
 		_mpwpl.playStartAndPause();
 	}
 

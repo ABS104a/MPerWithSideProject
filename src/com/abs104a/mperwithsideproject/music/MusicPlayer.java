@@ -8,38 +8,38 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 
 /**
- * Ä¶‚ğs‚¤‰¹ŠyƒŠƒ\[ƒX‚ğˆµ‚¤ƒNƒ‰ƒXD
- * MediaPlayerƒNƒ‰ƒX‚Ìƒ‰ƒbƒp
+ * å†ç”Ÿã‚’è¡Œã†éŸ³æ¥½ãƒªã‚½ãƒ¼ã‚¹ã‚’æ‰±ã†ã‚¯ãƒ©ã‚¹ï¼
+ * MediaPlayerã‚¯ãƒ©ã‚¹ã®ãƒ©ãƒƒãƒ‘
  * @author Kouki-Mobile
  *
  */
 public class MusicPlayer implements OnCompletionListener {
 	
 	/**===================================
-	 * ’è”
+	 * å®šæ•°
 	 ===================================*/
 	
-	//ƒf[ƒ^ƒ\[ƒX‚ª‘¶İ‚µ‚È‚¢‚Æ‚«
+	//ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ãŒå­˜åœ¨ã—ãªã„ã¨ã
 	public final static int NOSOURCE = -1;
 	
-	//Ä¶’†
+	//å†ç”Ÿä¸­
 	public final static int PLAYING = 2;
 	
-	//Ä¶‚µ‚Ä‚¢‚È‚¢iƒ\[ƒX“Ç‚İ‚İŠ®—¹j
+	//å†ç”Ÿã—ã¦ã„ãªã„ï¼ˆã‚½ãƒ¼ã‚¹èª­ã¿è¾¼ã¿å®Œäº†æ™‚ï¼‰
 	public final static int NOTPLAYING = 5;
-	//ƒ|[ƒY’†
+	//ãƒãƒ¼ã‚ºä¸­
 	public final static int PAUSEING = 6;
-	//’â~’†
+	//åœæ­¢ä¸­
 	public final static int STOPPING = 7;
 	
 	
 	/**===================================
-	 * “à•”•Ï”
+	 * å†…éƒ¨å¤‰æ•°
 	 ===================================*/
 	
-	//Ä¶‚ğs‚¤MediaPlayerƒNƒ‰ƒX
+	//å†ç”Ÿã‚’è¡Œã†MediaPlayerã‚¯ãƒ©ã‚¹
 	protected MediaPlayer mMediaPlayer = null;
-	//Œ»İÄ¶‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
+	//ç¾åœ¨å†ç”Ÿã—ã¦ã„ã‚‹ã‹ã©ã†ã‹
 	private int _status = NOSOURCE;
 	
 	/**===================================
@@ -47,24 +47,24 @@ public class MusicPlayer implements OnCompletionListener {
 	 ===================================*/
 	
 	/**
-	 * Ä¶‚ªŠ®—¹‚µ‚½‚ÉŒÄ‚Î‚ê‚éƒŠƒXƒiImpl
+	 * å†ç”ŸãŒå®Œäº†ã—ãŸæ™‚ã«å‘¼ã°ã‚Œã‚‹ãƒªã‚¹ãƒŠImpl
 	 * @author Kouki
 	 *
 	 */
 	public interface OnPlayCompletedListener{
 		/**
-		 * Ä¶‚ªŠ®—¹‚µ‚½
+		 * å†ç”ŸãŒå®Œäº†ã—ãŸæ™‚
 		 */
 		public void onPlayCompleted();
 	}
 	
 	/**
-	 * Ä¶‚ªŠ®—¹‚µ‚½‚ÉŒÄ‚Î‚ê‚éƒŠƒXƒi
+	 * å†ç”ŸãŒå®Œäº†ã—ãŸæ™‚ã«å‘¼ã°ã‚Œã‚‹ãƒªã‚¹ãƒŠ
 	 */
 	private OnPlayCompletedImpl mOnPlayCompletedListener = null;
 	
 	/**
-	 * Ä¶Š®—¹‚ÉŒÄ‚Î‚ê‚éƒŠƒXƒi‚ğæ“¾‚·‚éƒƒ\ƒbƒh
+	 * å†ç”Ÿå®Œäº†æ™‚ã«å‘¼ã°ã‚Œã‚‹ãƒªã‚¹ãƒŠã‚’å–å¾—ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
 	 * @return
 	 */
 	public OnPlayCompletedImpl getOnPlayCompletedListener() {
@@ -72,7 +72,7 @@ public class MusicPlayer implements OnCompletionListener {
 	}
 
 	/**
-	 * Ä¶Š®—¹‚ÉŒÄ‚Î‚ê‚éƒŠƒXƒi‚ğİ’è‚·‚éƒƒ\ƒbƒh
+	 * å†ç”Ÿå®Œäº†æ™‚ã«å‘¼ã°ã‚Œã‚‹ãƒªã‚¹ãƒŠã‚’è¨­å®šã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
 	 * @param onPlayCompletedImpl
 	 */
 	public void setOnPlayCompletedListener(OnPlayCompletedImpl onPlayCompletedImpl) {
@@ -81,12 +81,12 @@ public class MusicPlayer implements OnCompletionListener {
 	
 	
 	/**===================================
-	 * ƒRƒ“ƒgƒ[ƒ‹ƒƒ\ƒbƒh
+	 * ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ãƒ¡ã‚½ãƒƒãƒ‰
 	 ===================================*/
 	
 	
 	/**
-	 * Ä¶ó‹µ‚ğİ’è‚·‚éD
+	 * å†ç”ŸçŠ¶æ³ã‚’è¨­å®šã™ã‚‹ï¼
 	 * @param status
 	 * @return
 	 */
@@ -104,7 +104,7 @@ public class MusicPlayer implements OnCompletionListener {
 	}
 	
 	/**
-	 * Ä¶ó‹µ‚ğæ“¾‚·‚é
+	 * å†ç”ŸçŠ¶æ³ã‚’å–å¾—ã™ã‚‹
 	 * @return
 	 */
 	public int getStatus(){
@@ -112,9 +112,9 @@ public class MusicPlayer implements OnCompletionListener {
 	}
 	
 	/**
-	 * ƒ‹[ƒvó‘Ô‚ğİ’è‚·‚éD
-	 * @param isLoop ƒ‹[ƒv‚·‚é‚©‚Ç‚¤‚©
-	 * @return ƒ‹[ƒv‚³‚ê‚Ä‚¢‚é‚©DMediaPlayer‚ªNull‚Ìê‡‚Ínull‚ğ•Ô‚·D
+	 * ãƒ«ãƒ¼ãƒ—çŠ¶æ…‹ã‚’è¨­å®šã™ã‚‹ï¼
+	 * @param isLoop ãƒ«ãƒ¼ãƒ—ã™ã‚‹ã‹ã©ã†ã‹
+	 * @return ãƒ«ãƒ¼ãƒ—ã•ã‚Œã¦ã„ã‚‹ã‹ï¼MediaPlayerãŒNullã®å ´åˆã¯nullã‚’è¿”ã™ï¼
 	 */
 	public Boolean setLoop(boolean isLoop){
 		if(mMediaPlayer != null){
@@ -125,8 +125,8 @@ public class MusicPlayer implements OnCompletionListener {
 	}
 	
 	/**
-	 * ƒ‹[ƒvó‹µ‚ğŠm”F‚·‚éD
-	 * @return@ƒ‹[ƒv‚³‚ê‚Ä‚¢‚é‚©DMediaPlayer‚ªNull‚Ìê‡‚Ínull‚ğ•Ô‚·D
+	 * ãƒ«ãƒ¼ãƒ—çŠ¶æ³ã‚’ç¢ºèªã™ã‚‹ï¼
+	 * @returnã€€ãƒ«ãƒ¼ãƒ—ã•ã‚Œã¦ã„ã‚‹ã‹ï¼MediaPlayerãŒNullã®å ´åˆã¯nullã‚’è¿”ã™ï¼
 	 */
 	public Boolean isLoop(){
 		if(mMediaPlayer != null)
@@ -136,44 +136,44 @@ public class MusicPlayer implements OnCompletionListener {
 	}
 	
 	/**
-	 * ƒf[ƒ^ƒ\[ƒX‚ğİ’è‚·‚é
+	 * ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ã‚’è¨­å®šã™ã‚‹
 	 * 
-	 * @param pass@‰¹Šyƒtƒ@ƒCƒ‹‚ÌURI@String
+	 * @param passã€€éŸ³æ¥½ãƒ•ã‚¡ã‚¤ãƒ«ã®URIã€€String
 	 * @throws IllegalArgumentException
 	 * @throws SecurityException
 	 * @throws IllegalStateException
 	 * @throws IOException
-	 * @return Ä¶ó‘Ôi³ío‚ ‚ê‚ÎSTOPPING‚ª•Ô‚éj
+	 * @return å†ç”ŸçŠ¶æ…‹ï¼ˆæ­£å¸¸å‡ºã‚ã‚Œã°STOPPINGãŒè¿”ã‚‹ï¼‰
 	 */
 	public final int setSource(String pass) throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
-		//MediaPlayer‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾
+		//MediaPlayerã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—
 		if(mMediaPlayer == null)
 			mMediaPlayer =  new MediaPlayer();
-		//ƒf[ƒ^ƒ\[ƒX‚Ìİ’è
+		//ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ã®è¨­å®š
 		mMediaPlayer.setDataSource(pass);
-		//ƒf[ƒ^“Ç‚İ‚İ
+		//ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 		mMediaPlayer.prepare();
-		//ó‹µ‚Ì”½‰f
+		//çŠ¶æ³ã®åæ˜ 
 		setStatus(STOPPING);
 		return getStatus();
 	}
 	
 	/**
-	 * Ä¶‚·‚é‚Ì“®ì
-	 * @return@Œ»İ‚Ìó‹µ
+	 * å†ç”Ÿã™ã‚‹æ™‚ã®å‹•ä½œ
+	 * @returnã€€ç¾åœ¨ã®çŠ¶æ³
 	 */
 	public final int playStartAndPause(){
 		if(mMediaPlayer != null){
-			//Ä¶‚µ‚Ä‚¢‚È‚¢ê‡@iNOTPLAYING or PAUSEING or STOPPINGj
+			//å†ç”Ÿã—ã¦ã„ãªã„å ´åˆã€€ï¼ˆNOTPLAYING or PAUSEING or STOPPINGï¼‰
 			if(getStatus() >= NOTPLAYING){
-				//Ä¶‚·‚é
+				//å†ç”Ÿã™ã‚‹
 				mMediaPlayer.start();
 				mMediaPlayer.setOnCompletionListener(this);
 				setStatus(PLAYING);
 			}
-			//Ä¶’†‚Ìê‡@PLAYING
+			//å†ç”Ÿä¸­ã®å ´åˆã€€PLAYING
 			else if(getStatus() == PLAYING){
-				//ƒ|[ƒYó‘Ô‚É‚·‚é
+				//ãƒãƒ¼ã‚ºçŠ¶æ…‹ã«ã™ã‚‹
 				mMediaPlayer.pause();
 				setStatus(PAUSEING);
 			}
@@ -182,14 +182,14 @@ public class MusicPlayer implements OnCompletionListener {
 	}
 	
 	/**
-	 * ƒXƒgƒbƒv‚·‚é‚Ì“®ì
-	 * @return@Œ»İ‚Ìó‹µ
+	 * ã‚¹ãƒˆãƒƒãƒ—ã™ã‚‹æ™‚ã®å‹•ä½œ
+	 * @returnã€€ç¾åœ¨ã®çŠ¶æ³
 	 */
 	public final int playStop(){
-		//Ä¶’†@or@ƒ|[ƒY’†‚Ì@iPLAYING or PAUSEINGj
+		//å†ç”Ÿä¸­ã€€orã€€ãƒãƒ¼ã‚ºä¸­ã®æ™‚ã€€ï¼ˆPLAYING or PAUSEINGï¼‰
 		if(mMediaPlayer != null && 
 				(getStatus() == PLAYING || getStatus() == PAUSEING)){
-			//Ä¶‚ğ’â~‚·‚éD
+			//å†ç”Ÿã‚’åœæ­¢ã™ã‚‹ï¼
 			mMediaPlayer.stop();
 			setStatus(STOPPING);
 		}
@@ -197,7 +197,7 @@ public class MusicPlayer implements OnCompletionListener {
 	}
 
 	/**
-	 * Ä¶‚ªŠ®—¹‚µ‚½
+	 * å†ç”ŸãŒå®Œäº†ã—ãŸæ™‚
 	 */
 	@Override
 	public void onCompletion(MediaPlayer mp) {

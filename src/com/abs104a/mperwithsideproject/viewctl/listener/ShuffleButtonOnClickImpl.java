@@ -7,21 +7,21 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 /**
- * ƒVƒƒƒbƒtƒ‹ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚ÉŒÄ‚Î‚ê‚éƒŠƒXƒiImpl
+ * ã‚·ãƒ£ãƒƒãƒ•ãƒ«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸæ™‚ã«å‘¼ã°ã‚Œã‚‹ãƒªã‚¹ãƒŠImpl
  * @author Kouki-Mobile
  *
  */
 public final class ShuffleButtonOnClickImpl implements OnClickListener {
 
-	//ƒVƒƒƒbƒtƒ‹ƒ{ƒ^ƒ“‚ÌView
+	//ã‚·ãƒ£ãƒƒãƒ•ãƒ«ãƒœã‚¿ãƒ³ã®View
 	private final Button _button;
-	//ƒ~ƒ…[ƒWƒbƒNƒRƒ“ƒgƒ[ƒ‹ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+	//ãƒŸãƒ¥ãƒ¼ã‚¸ãƒƒã‚¯ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	private final MusicPlayerWithPlayLists _mpwpl;
 
 	/**
-	 * ƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶¬
-	 * @param shuffleButton@ƒVƒƒƒbƒtƒ‹ƒ{ƒ^ƒ“‚ÌView
-	 * @param mpwpl@ƒ~ƒ…[ƒWƒbƒNƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+	 * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ç”Ÿæˆ
+	 * @param shuffleButtonã€€ã‚·ãƒ£ãƒƒãƒ•ãƒ«ãƒœã‚¿ãƒ³ã®View
+	 * @param mpwplã€€ãƒŸãƒ¥ãƒ¼ã‚¸ãƒƒã‚¯ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	 */
 	public ShuffleButtonOnClickImpl(Button shuffleButton,
 			MusicPlayerWithPlayLists mpwpl) {
@@ -30,16 +30,16 @@ public final class ShuffleButtonOnClickImpl implements OnClickListener {
 	}
 
 	/**
-	 * ƒNƒŠƒbƒN‚³‚ê‚½
+	 * ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸæ™‚
 	 */
 	@Override
 	public void onClick(View v) {
 		boolean isShuffle = _mpwpl.setShuffle(!_mpwpl.isShuffle());
 		if(isShuffle){
-			//ƒVƒƒƒbƒtƒ‹‚ªON‚Ì
-			//View‚Ö‚Ì”½‰f
+			//ã‚·ãƒ£ãƒƒãƒ•ãƒ«ãŒONã®æ™‚
+			//Viewã¸ã®åæ˜ 
 		}else{
-			//ƒVƒƒƒbƒtƒ‹‚ªOFF‚Ì
+			//ã‚·ãƒ£ãƒƒãƒ•ãƒ«ãŒOFFã®æ™‚
 		}
 	}
 

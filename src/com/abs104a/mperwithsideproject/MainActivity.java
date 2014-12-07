@@ -9,15 +9,15 @@ public class MainActivity extends Activity{
 
 	public final static String TAG = "MainActivity";
 	
-	//©•ª©g‚ÌActivity
+	//è‡ªåˆ†è‡ªèº«ã®Activity
 	private final Activity mActivity = this;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO MainService‚ğ‹N“®‚·‚é
+		// TODO MainServiceã‚’èµ·å‹•ã™ã‚‹
 		super.onCreate(savedInstanceState);
 		
-		//MainService‚ğ‹N“®‚·‚é
+		//MainServiceã‚’èµ·å‹•ã™ã‚‹
 		Intent mainIntent = new Intent(mActivity,MainService.class);
 		mActivity.startService(mainIntent);
 		
@@ -26,7 +26,7 @@ public class MainActivity extends Activity{
 
 	@Override
 	protected void onStart() {
-		// TODO Activity‚ğI—¹‚³‚¹‚é
+		// TODO Activityã‚’çµ‚äº†ã•ã›ã‚‹
 		super.onStart();
 		finish();
 	}

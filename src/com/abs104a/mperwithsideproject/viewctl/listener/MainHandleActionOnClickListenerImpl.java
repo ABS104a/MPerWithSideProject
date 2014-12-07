@@ -8,7 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 
 /**
- * ƒƒCƒ“ƒrƒ…[‚Ìƒnƒ“ƒhƒ‹iæ‚Áèj‚ªƒNƒŠƒbƒN‚³‚ê‚½‚ÉŒÄ‚Î‚ê‚éƒŠƒXƒi
+ * ãƒ¡ã‚¤ãƒ³ãƒ“ãƒ¥ãƒ¼ã®ãƒãƒ³ãƒ‰ãƒ«ï¼ˆå–ã£æ‰‹ï¼‰ãŒã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸæ™‚ã«å‘¼ã°ã‚Œã‚‹ãƒªã‚¹ãƒŠ
  * @author Kouki
  *
  */
@@ -22,7 +22,7 @@ public final class MainHandleActionOnClickListenerImpl implements OnClickListene
 
 	@Override
 	public void onClick(View v) {
-		//MusicPlayerView‚Ìì¬
+		//MusicPlayerViewã®ä½œæˆ
 		View mPlayerView = MusicPlayerViewController.createView(mService);
 		((LinearLayout)v.getParent()).addView(mPlayerView);
 	}

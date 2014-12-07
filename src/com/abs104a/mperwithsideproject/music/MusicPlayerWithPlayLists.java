@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * ‰¹ŠyƒvƒŒ[ƒ„[‚É‚­‚í‚¦‚ÄƒvƒŒƒCƒŠƒXƒgÄ¶‚ğÀŒ»‚·‚é
- * ArrayListŒ^‚ÌƒvƒŒƒCƒŠƒXƒg‚ğ“Ç‚İ‚Ş‚±‚Æ‚Å
+ * éŸ³æ¥½ãƒ—ãƒ¬ãƒ¼ãƒ¤ãƒ¼ã«ãã‚ãˆã¦ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆå†ç”Ÿã‚’å®Ÿç¾ã™ã‚‹
+ * ArrayListå‹ã®ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆã‚’èª­ã¿è¾¼ã‚€ã“ã¨ã§
  * 
- * EƒŠƒs[ƒgÄ¶@1‹ÈorƒŠƒXƒg“à
- * EƒVƒƒƒbƒtƒ‹Ä¶@ƒŠƒXƒg“à
- * E‘O‚Ì‹È‚Ö‚ÌˆÚ“®
- * EŒã‚Ì‹È‚Ö‚ÌˆÚ“®
+ * ãƒ»ãƒªãƒ”ãƒ¼ãƒˆå†ç”Ÿã€€1æ›²orãƒªã‚¹ãƒˆå†…
+ * ãƒ»ã‚·ãƒ£ãƒƒãƒ•ãƒ«å†ç”Ÿã€€ãƒªã‚¹ãƒˆå†…
+ * ãƒ»å‰ã®æ›²ã¸ã®ç§»å‹•
+ * ãƒ»å¾Œã®æ›²ã¸ã®ç§»å‹•
  * 
- * ‚ğ’ñ‹Ÿ‚·‚éD
+ * ã‚’æä¾›ã™ã‚‹ï¼
  * 
  * @author Kouki
  *
@@ -21,72 +21,72 @@ import java.util.Random;
 public final class MusicPlayerWithPlayLists extends MusicPlayer {
 
 	/**===================================
-	 * ’è”
+	 * å®šæ•°
 	 ===================================*/
 	
-	//ƒ‹[ƒv‚ª—LŒø‚Å‚Í‚È‚¢
+	//ãƒ«ãƒ¼ãƒ—ãŒæœ‰åŠ¹ã§ã¯ãªã„
 	public final static int NOT_LOOP = 0;
-	//1‹Èƒ‹[ƒv
+	//1æ›²ãƒ«ãƒ¼ãƒ—
 	public final static int ONE_LOOP = 1;
-	//‘S‹Èƒ‹[ƒv
+	//å…¨æ›²ãƒ«ãƒ¼ãƒ—
 	public final static int ALL_LOOP = 2;
 	
 	/**===================================
-	 * “à•”•Ï”
+	 * å†…éƒ¨å¤‰æ•°
 	 ===================================*/
 	
-	//Ä¶‹È‚ÌƒvƒŒƒCƒŠƒXƒg
+	//å†ç”Ÿæ›²ã®ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆ
 	private ArrayList<?> mPlayList = null;
-	//ƒvƒŒƒCƒŠƒXƒg‚ÌÄ¶”Ô†‚ğŠÇ—‚·‚éƒJ[ƒ\ƒ‹
+	//ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆã®å†ç”Ÿç•ªå·ã‚’ç®¡ç†ã™ã‚‹ã‚«ãƒ¼ã‚½ãƒ«
 	private int mCursor = 0;
 	
-	//ƒ‹[ƒvó‘Ô‚ğ‹L‰¯‚·‚é•Ï”
+	//ãƒ«ãƒ¼ãƒ—çŠ¶æ…‹ã‚’è¨˜æ†¶ã™ã‚‹å¤‰æ•°
 	private int loopState = NOT_LOOP;
 	
-	//ƒVƒƒƒbƒtƒ‹‹@”\‚ª—LŒø‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+	//ã‚·ãƒ£ãƒƒãƒ•ãƒ«æ©Ÿèƒ½ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°
 	private boolean isShuffle = false;
 	
 	
 	/**===================================
-	 * ƒƒ\ƒbƒh
+	 * ãƒ¡ã‚½ãƒƒãƒ‰
 	 ===================================*/
 
 	//===================================
-	// E ƒVƒƒƒbƒtƒ‹‹@”\‚É‚Â‚¢‚Ä
+	// ãƒ» ã‚·ãƒ£ãƒƒãƒ•ãƒ«æ©Ÿèƒ½ã«ã¤ã„ã¦
 	// ==================================
 	
 	/**
-	 * ƒVƒƒƒbƒtƒ‹‹@”\—LŒøƒtƒ‰ƒO‚Ìó‘Ô‚ğæ“¾‚·‚é
-	 * @return@ƒVƒƒƒbƒtƒ‹‹@”\‚ª—LŒø‚©‚Ç‚¤‚©
+	 * ã‚·ãƒ£ãƒƒãƒ•ãƒ«æ©Ÿèƒ½æœ‰åŠ¹ãƒ•ãƒ©ã‚°ã®çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
+	 * @returnã€€ã‚·ãƒ£ãƒƒãƒ•ãƒ«æ©Ÿèƒ½ãŒæœ‰åŠ¹ã‹ã©ã†ã‹
 	 */
 	public final boolean isShuffle() {
 		return isShuffle;
 	}
 
 	/**
-	 * ƒVƒƒƒbƒtƒ‹‹@”\‚ğİ’è‚·‚éD
-	 * @param isShuffle@ƒVƒƒƒbƒtƒ‹‚ª—LŒø‚©‚Ç‚¤‚©
+	 * ã‚·ãƒ£ãƒƒãƒ•ãƒ«æ©Ÿèƒ½ã‚’è¨­å®šã™ã‚‹ï¼
+	 * @param isShuffleã€€ã‚·ãƒ£ãƒƒãƒ•ãƒ«ãŒæœ‰åŠ¹ã‹ã©ã†ã‹
 	 */
 	public final boolean setShuffle(boolean isShuffle) {
 		return this.isShuffle = isShuffle;
 	}
 	
 	//===================================
-	// E ƒVƒƒƒbƒtƒ‹‹@”\‚É‚Â‚¢‚Ä
+	// ãƒ» ã‚·ãƒ£ãƒƒãƒ•ãƒ«æ©Ÿèƒ½ã«ã¤ã„ã¦
 	// ==================================
 	
 	/**
-	 * ƒ‹[ƒv‚Ìó‘Ô‚ğæ“¾‚·‚é
-	 * @return ƒ‹[ƒvó‘Ô
+	 * ãƒ«ãƒ¼ãƒ—ã®çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
+	 * @return ãƒ«ãƒ¼ãƒ—çŠ¶æ…‹
 	 */
 	public final int getLoopState() {
 		return loopState;
 	}
 
 	/**
-	 * ƒ‹[ƒv‚Ìó‘Ô‚ğİ’è‚·‚é
-	 * İ’èŠO‚Ì’l‚Íİ’è‚³‚ê‚È‚¢
-	 * @param loopState ƒ‹[ƒvó‘Ô
+	 * ãƒ«ãƒ¼ãƒ—ã®çŠ¶æ…‹ã‚’è¨­å®šã™ã‚‹
+	 * è¨­å®šå¤–ã®å€¤ã¯è¨­å®šã•ã‚Œãªã„
+	 * @param loopState ãƒ«ãƒ¼ãƒ—çŠ¶æ…‹
 	 */
 	public final int setLoopState(int loopState) {
 		if(loopState == NOT_LOOP || 
@@ -99,20 +99,20 @@ public final class MusicPlayerWithPlayLists extends MusicPlayer {
 	
 	
 	//===================================
-	// EÄ¶ƒRƒ“ƒgƒ[ƒ‹‹@”\
+	// ãƒ»å†ç”Ÿã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«æ©Ÿèƒ½
 	// ==================================
 	
 	/**
-	 * ƒvƒŒƒCƒŠƒXƒg‚ğƒZƒbƒg‚·‚é
-	 * @param playList@ƒZƒbƒg‚·‚éƒvƒŒƒCƒŠƒXƒg
+	 * ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param playListã€€ã‚»ãƒƒãƒˆã™ã‚‹ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆ
 	 */
 	public final void setPlayList(ArrayList<?> playList){
 		this.mPlayList = playList;
 	}
 	
 	/**
-	 * Ÿ‚Ì‹È‚ÖˆÚ“®‚·‚é
-	 * @return Ÿ‚Ì‹È‚ÌƒJ[ƒ\ƒ‹
+	 * æ¬¡ã®æ›²ã¸ç§»å‹•ã™ã‚‹
+	 * @return æ¬¡ã®æ›²ã®ã‚«ãƒ¼ã‚½ãƒ«
 	 * @throws IOException 
 	 * @throws IllegalStateException 
 	 * @throws SecurityException 
@@ -124,54 +124,54 @@ public final class MusicPlayerWithPlayLists extends MusicPlayer {
 			IllegalStateException, 
 			IOException
 			{
-		//TODO ListŒ`®‚ğÀ‘•‚·‚é
-		//ƒVƒƒƒbƒtƒ‹‹@”\‚ª—LŒø‚Ì
+		//TODO Listå½¢å¼ã‚’å®Ÿè£…ã™ã‚‹
+		//ã‚·ãƒ£ãƒƒãƒ•ãƒ«æ©Ÿèƒ½ãŒæœ‰åŠ¹ã®æ™‚
 		if(isShuffle()){
-			//ƒ‰ƒ“ƒ_ƒ€‚ÉƒJ[ƒ\ƒ‹’l‚ğİ’è‚·‚éD
+			//ãƒ©ãƒ³ãƒ€ãƒ ã«ã‚«ãƒ¼ã‚½ãƒ«å€¤ã‚’è¨­å®šã™ã‚‹ï¼
 			Random random = new Random();
 			int oldCursor = mCursor;
 			mCursor = random.nextInt(mPlayList.size()-1);
-			//‘O‚Ì‹È‚Æ“¯‚¶’l‚É‚È‚Á‚½ê‡‚Í‚»‚ÌŸ‚Ì‹Èor‘O‚Ì‹È‚É‚·‚éD
+			//å‰ã®æ›²ã¨åŒã˜å€¤ã«ãªã£ãŸå ´åˆã¯ãã®æ¬¡ã®æ›²orå‰ã®æ›²ã«ã™ã‚‹ï¼
 			if(oldCursor == mCursor)
 				mCursor = mCursor == (mPlayList.size()-1) ? Math.max(0, --mCursor) : ++mCursor;
 		}
-		//ƒVƒƒƒbƒtƒ‹‹@”\‚ª–³Œø‚Ì
+		//ã‚·ãƒ£ãƒƒãƒ•ãƒ«æ©Ÿèƒ½ãŒç„¡åŠ¹ã®æ™‚
 		else{
-			//Ä¶‚ğI—¹‚·‚é‚©‚Ç‚¤‚©İ’è‚·‚éƒtƒ‰ƒO
+			//å†ç”Ÿã‚’çµ‚äº†ã™ã‚‹ã‹ã©ã†ã‹è¨­å®šã™ã‚‹ãƒ•ãƒ©ã‚°
 			boolean flag = false;
-			//ƒ‹[ƒv‚Ìó‘Ô
+			//ãƒ«ãƒ¼ãƒ—ã®çŠ¶æ…‹
 			switch(loopState){
-			case NOT_LOOP: 	//ƒ‹[ƒv–³‚µ‚Ì
-				//I—¹ƒtƒ‰ƒO‚ğ—§‚Ä‚éD
+			case NOT_LOOP: 	//ãƒ«ãƒ¼ãƒ—ç„¡ã—ã®æ™‚
+				//çµ‚äº†ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹ï¼
 				flag = true;
-			case ALL_LOOP: 	//‘S‹Èƒ‹[ƒv‚Ì
-				++mCursor;	//ƒJ[ƒ\ƒ‹‚ği‚ß‚é
+			case ALL_LOOP: 	//å…¨æ›²ãƒ«ãƒ¼ãƒ—ã®æ™‚
+				++mCursor;	//ã‚«ãƒ¼ã‚½ãƒ«ã‚’é€²ã‚ã‚‹
 				if(mPlayList.size() == mCursor){
-					//ƒvƒŒƒCƒŠƒXƒg‚ÌÅŒã‚Ü‚Å—ˆ‚½‚Æ‚«
-					//ƒJ[ƒ\ƒ‹‚ğ0‚É–ß‚·
+					//ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆã®æœ€å¾Œã¾ã§æ¥ãŸã¨ã
+					//ã‚«ãƒ¼ã‚½ãƒ«ã‚’0ã«æˆ»ã™
 					mCursor = 0;
-					//‘S‹Èƒ‹[ƒv‚Å‚È‚¢‚Æ‚«‚ÍÄ¶‚ğI—¹‚·‚éD
+					//å…¨æ›²ãƒ«ãƒ¼ãƒ—ã§ãªã„ã¨ãã¯å†ç”Ÿã‚’çµ‚äº†ã™ã‚‹ï¼
 					if(flag)return mCursor;
 				}
-			case ONE_LOOP:	//1‹Èƒ‹[ƒv‚Ì
+			case ONE_LOOP:	//1æ›²ãƒ«ãƒ¼ãƒ—ã®æ™‚
 			}
 		}
-		//Ÿ‚Ì‹Èî•ñ‚ğæ“¾
+		//æ¬¡ã®æ›²æƒ…å ±ã‚’å–å¾—
 		String nextMusic = (String) mPlayList.get(mCursor);
-		//ƒf[ƒ^‚ğƒZƒbƒg‚·‚é
+		//ãƒ‡ãƒ¼ã‚¿ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 		setSource(nextMusic);
-		//Ä¶‚ğŠJn
+		//å†ç”Ÿã‚’é–‹å§‹
 		playStartAndPause();
 		return mCursor;
 		
 	}
 	
 	/**
-	 * ‘O‚Ì‹È‚ÖˆÚ“®‚·‚éD
+	 * å‰ã®æ›²ã¸ç§»å‹•ã™ã‚‹ï¼
 	 * 
-	 * Ä¶•b”‚ª1s–¢–‚Å‚ ‚ê‚Î‘O‚Ì‹È
-	 * Ä¶•b”‚ª1sˆÈã‚Å‚ ‚ê‚Î‹È‚Ìæ“ª‚ÖƒV[ƒN‚·‚é
-	 * @return Ä¶‚ğs‚¤ƒJ[ƒ\ƒ‹
+	 * å†ç”Ÿç§’æ•°ãŒ1sæœªæº€ã§ã‚ã‚Œã°å‰ã®æ›²
+	 * å†ç”Ÿç§’æ•°ãŒ1sä»¥ä¸Šã§ã‚ã‚Œã°æ›²ã®å…ˆé ­ã¸ã‚·ãƒ¼ã‚¯ã™ã‚‹
+	 * @return å†ç”Ÿã‚’è¡Œã†ã‚«ãƒ¼ã‚½ãƒ«
 	 * @throws IOException 
 	 * @throws IllegalStateException 
 	 * @throws SecurityException 
@@ -183,14 +183,14 @@ public final class MusicPlayerWithPlayLists extends MusicPlayer {
 			IllegalStateException, 
 			IOException
 			{
-		//Ÿ‚Ì‹Èî•ñ‚ğæ“¾
+		//æ¬¡ã®æ›²æƒ…å ±ã‚’å–å¾—
 		if(--mCursor < 0){
 			mCursor = 0;
 		}
 		String nextMusic = (String) mPlayList.get(mCursor);
-		//ƒf[ƒ^‚ğƒZƒbƒg‚·‚é
+		//ãƒ‡ãƒ¼ã‚¿ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 		setSource(nextMusic);
-		//Ä¶‚ğŠJn
+		//å†ç”Ÿã‚’é–‹å§‹
 		playStartAndPause();
 		return mCursor;	
 	}	

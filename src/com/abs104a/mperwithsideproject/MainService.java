@@ -14,56 +14,56 @@ import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 
 /**
- * ƒƒCƒ“‰æ–Ê‚ğ•\¦‚·‚éService
+ * ãƒ¡ã‚¤ãƒ³ç”»é¢ã‚’è¡¨ç¤ºã™ã‚‹Service
  * 
- * WindowManager‚©‚ç‚ÉView‚ğ“o˜^‚µ‚Ä
- * ‰æ–Êã‚Édô•\¦‚·‚éD
+ * WindowManagerã‹ã‚‰ã«Viewã‚’ç™»éŒ²ã—ã¦
+ * ç”»é¢ä¸Šã«é‡ç•³è¡¨ç¤ºã™ã‚‹ï¼
  * 
- * ‹@”\‚Æ‚µ‚Ä
- * EƒvƒŒƒCƒŠƒXƒgƒŠƒXƒg•\¦		iƒ^ƒu
- * EŠÈˆÕƒAƒ‹ƒoƒ€ƒŠƒXƒg•\¦@	iƒ^ƒu
- * E‰¹Šy‚ÌÚ×•\¦
- * EÄ¶Eˆê’â~‚È‚Ç‚Ì‘€ì
- * E‰¹—Ê‘€ì
- * EƒV[ƒN
- * Eƒ‰ƒ“ƒ_ƒ€&ƒŠƒs[ƒg
- * EƒŠƒXƒg•\¦‰æ–Ê‚Ì‘JˆÚƒ{ƒ^ƒ“
- * Eİ’è‰æ–Ê‚Ö‚Ì‘JˆÚƒ{ƒ^ƒ“
+ * æ©Ÿèƒ½ã¨ã—ã¦
+ * ãƒ»ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆãƒªã‚¹ãƒˆè¡¨ç¤º		ï¼ˆã‚¿ãƒ–
+ * ãƒ»ç°¡æ˜“ã‚¢ãƒ«ãƒãƒ ãƒªã‚¹ãƒˆè¡¨ç¤ºã€€	ï¼ˆã‚¿ãƒ–
+ * ãƒ»éŸ³æ¥½ã®è©³ç´°è¡¨ç¤º
+ * ãƒ»å†ç”Ÿãƒ»ä¸€æ™‚åœæ­¢ãªã©ã®æ“ä½œ
+ * ãƒ»éŸ³é‡æ“ä½œ
+ * ãƒ»ã‚·ãƒ¼ã‚¯
+ * ãƒ»ãƒ©ãƒ³ãƒ€ãƒ &ãƒªãƒ”ãƒ¼ãƒˆ
+ * ãƒ»ãƒªã‚¹ãƒˆè¡¨ç¤ºç”»é¢ã®é·ç§»ãƒœã‚¿ãƒ³
+ * ãƒ»è¨­å®šç”»é¢ã¸ã®é·ç§»ãƒœã‚¿ãƒ³
  * 
- * Šî–{“I‚È‘€ì‚Í‚±‚¿‚ç‚ÅƒJƒo[‚³‚¹‚éD
+ * åŸºæœ¬çš„ãªæ“ä½œã¯ã“ã¡ã‚‰ã§ã‚«ãƒãƒ¼ã•ã›ã‚‹ï¼
  * 
  * @author Kouki
  *
  */
 public class MainService extends Service{
 	
-	//©•ª‚ÌƒT[ƒrƒXiContextæ“¾—p)
+	//è‡ªåˆ†ã®ã‚µãƒ¼ãƒ“ã‚¹ï¼ˆContextå–å¾—ç”¨)
 	private final Service mService = this;
-	//ƒƒCƒ“ƒrƒ…[¶¬—pWindowManager
+	//ãƒ¡ã‚¤ãƒ³ãƒ“ãƒ¥ãƒ¼ç”Ÿæˆç”¨WindowManager
 	private WindowManager mWindowManager = null;
-	//ƒƒCƒ“ƒrƒ…[•Û—p
+	//ãƒ¡ã‚¤ãƒ³ãƒ“ãƒ¥ãƒ¼ä¿æŒç”¨
 	private View mMainView = null;
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Activity‚©‚çƒoƒCƒ“ƒh‚³‚ê‚½
+		// TODO Activityã‹ã‚‰ãƒã‚¤ãƒ³ãƒ‰ã•ã‚ŒãŸæ™‚
 		return null;
 	}
 
 	/**
-	 * Service‚ªŠJn‚³‚ê‚½
+	 * ServiceãŒé–‹å§‹ã•ã‚ŒãŸæ™‚
 	 */
 	@Override
 	public void onCreate() {
 		super.onCreate();
 
-		//MainView‚Ì¶¬
+		//MainViewã®ç”Ÿæˆ
 		LayoutInflater inflater = LayoutInflater.from( mService );
 		inflater.inflate(R.layout.player_view, null);
 
 		mWindowManager  = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
-		// d‚Ë‡‚í‚¹‚·‚éView‚Ìİ’è‚ğs‚¤
+		// é‡ã­åˆã‚ã›ã™ã‚‹Viewã®è¨­å®šã‚’è¡Œã†
 		LayoutParams params = new WindowManager.LayoutParams(
 				WindowManager.LayoutParams.WRAP_CONTENT,
 				WindowManager.LayoutParams.WRAP_CONTENT,
@@ -78,10 +78,10 @@ public class MainService extends Service{
 		params.x = 0;
 		params.y = 0;
 
-		//dô•\¦‚·‚éView‚ğæ“¾‚·‚éD
+		//é‡ç•³è¡¨ç¤ºã™ã‚‹Viewã‚’å–å¾—ã™ã‚‹ï¼
 		mMainView = MainViewController.createView(mService);
 		
-		//WindowManager‚ÉView‚ÆLayoutParams‚ğ“o˜^‚µC•\¦‚·‚é
+		//WindowManagerã«Viewã¨LayoutParamsã‚’ç™»éŒ²ã—ï¼Œè¡¨ç¤ºã™ã‚‹
 		try{
 			mWindowManager.updateViewLayout(mMainView, params);
 		}catch(NullPointerException mNullPointerException){
@@ -91,11 +91,11 @@ public class MainService extends Service{
 	}
 
 	/**
-	 * Service‚ªI—¹‚µ‚½
+	 * ServiceãŒçµ‚äº†ã—ãŸæ™‚
 	 */
 	@Override
 	public void onDestroy() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+		// TODO è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰ãƒ»ã‚¹ã‚¿ãƒ–
 		try{
 			mWindowManager.removeView(mMainView);
 		}catch(NullPointerException mNullPointerException){

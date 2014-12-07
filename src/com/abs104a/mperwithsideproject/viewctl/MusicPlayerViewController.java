@@ -17,7 +17,7 @@ import android.view.View;
 import android.widget.Button;
 
 /**
- * ƒvƒŒƒCƒ„[ƒƒCƒ“View‚Ì¶¬‚Æİ’è‚ğs‚¤ƒNƒ‰ƒX
+ * ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒ¡ã‚¤ãƒ³Viewã®ç”Ÿæˆã¨è¨­å®šã‚’è¡Œã†ã‚¯ãƒ©ã‚¹
  * 
  * 
  * @author Kouki
@@ -25,20 +25,20 @@ import android.widget.Button;
  */
 public class MusicPlayerViewController {
 
-	//‰¹ŠyƒŠƒ\[ƒX‚ÌƒRƒ“ƒgƒ[ƒ‹ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+	//éŸ³æ¥½ãƒªã‚½ãƒ¼ã‚¹ã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	private final static MusicPlayerWithPlayLists _mpwpl = new MusicPlayerWithPlayLists();
 	
 	/**
-	 * Player‚ÌView‚ğ¶¬‚·‚éƒƒ\ƒbƒh
-	 * ƒT[ƒrƒX‚ÌƒRƒ“ƒeƒLƒXƒg‚ğó‚¯‚Æ‚èView‚ğ¶¬‚·‚éD
+	 * Playerã®Viewã‚’ç”Ÿæˆã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
+	 * ã‚µãƒ¼ãƒ“ã‚¹ã®ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’å—ã‘ã¨ã‚ŠViewã‚’ç”Ÿæˆã™ã‚‹ï¼
 	 * @param mService
-	 * @return@¶¬‚µ‚½ViewGroup
+	 * @returnã€€ç”Ÿæˆã—ãŸViewGroup
 	 */
 	public static View createView(Service mService){
-		//TODO View‚Ì¶¬
-		// View‚©‚çƒCƒ“ƒtƒŒ[ƒ^‚ğì¬‚·‚é
+		//TODO Viewã®ç”Ÿæˆ
+		// Viewã‹ã‚‰ã‚¤ãƒ³ãƒ•ãƒ¬ãƒ¼ã‚¿ã‚’ä½œæˆã™ã‚‹
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
-		// ƒŒƒCƒAƒEƒgƒtƒ@ƒCƒ‹‚©‚çd‚Ë‡‚í‚¹‚·‚éView‚ğì¬‚·‚é
+		// ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰é‡ã­åˆã‚ã›ã™ã‚‹Viewã‚’ä½œæˆã™ã‚‹
 		View mView = layoutInflater.inflate(com.abs104a.mperwithsideproject.R.layout.main_service_view, null);
 		//Action Settings 
 		initButtonOfView(mService,mView);
@@ -46,50 +46,50 @@ public class MusicPlayerViewController {
 	}
 	
 	/**
-	 * ¶¬‚µ‚½ƒƒCƒ“View
+	 * ç”Ÿæˆã—ãŸãƒ¡ã‚¤ãƒ³View
 	 * @param mService
 	 * @param mView
 	 */
 	public static void initButtonOfView(Service mService,View mView){
-		//TODO View‚Ìƒ{ƒ^ƒ“‚É“®ì‚ğ‚Â‚¯‚é
+		//TODO Viewã®ãƒœã‚¿ãƒ³ã«å‹•ä½œã‚’ã¤ã‘ã‚‹
 		Button exitButton = (Button)mView.findViewById(R.id.button_action_exit);
 		exitButton.setOnClickListener(new ExitActionOnClickListenerImpl(mService));
 		
-		//Ä¶ƒ{ƒ^ƒ“‚Ìİ’è
+		//å†ç”Ÿãƒœã‚¿ãƒ³ã®è¨­å®š
 		Button playButton = (Button)mView.findViewById(R.id.button_play);
-		//Ä¶ƒ{ƒ^ƒ“‚Ì“®ì‚ğ“o˜^‚·‚éD
+		//å†ç”Ÿãƒœã‚¿ãƒ³ã®å‹•ä½œã‚’ç™»éŒ²ã™ã‚‹ï¼
 		playButton.setOnClickListener(new PlayButtonOnClickImpl(_mpwpl));
 		
-		//Ÿ‚Ö‚Ìƒ{ƒ^ƒ“‚Ìİ’è
+		//æ¬¡ã¸ã®ãƒœã‚¿ãƒ³ã®è¨­å®š
 		Button nextButton = (Button)mView.findViewById(R.id.button_next_seek);
-		//Ÿ‚Öƒ{ƒ^ƒ“‚Ì“®ì‚ğ“o˜^‚·‚éD
+		//æ¬¡ã¸ãƒœã‚¿ãƒ³ã®å‹•ä½œã‚’ç™»éŒ²ã™ã‚‹ï¼
 		nextButton.setOnClickListener(new NextButtonOnClickImpl(mService,_mpwpl));
 		
 		Button backButton = (Button)mView.findViewById(R.id.button_back_seek);
-		//‘O‚Öƒ{ƒ^ƒ“‚Ì“®ì‚ğ“o˜^‚·‚éD
+		//å‰ã¸ãƒœã‚¿ãƒ³ã®å‹•ä½œã‚’ç™»éŒ²ã™ã‚‹ï¼
 		backButton.setOnClickListener(new BackButtonOnClickImpl(mService,_mpwpl));
 		
 		Button repeatButton = (Button)mView.findViewById(R.id.button_repeat);
-		//ƒŠƒs[ƒgƒ{ƒ^ƒ“‚Ì“®ì‚ğ“o˜^‚·‚éD
+		//ãƒªãƒ”ãƒ¼ãƒˆãƒœã‚¿ãƒ³ã®å‹•ä½œã‚’ç™»éŒ²ã™ã‚‹ï¼
 		repeatButton.setOnClickListener(new RepeatButtonOnClickImpl(repeatButton,_mpwpl));
 		
 		Button shuffleButton = (Button)mView.findViewById(R.id.button_shuffle);
-		//ƒVƒƒƒbƒtƒ‹ƒ{ƒ^ƒ“‚Ì“®ì‚ğ“o˜^‚·‚éD
+		//ã‚·ãƒ£ãƒƒãƒ•ãƒ«ãƒœã‚¿ãƒ³ã®å‹•ä½œã‚’ç™»éŒ²ã™ã‚‹ï¼
 		shuffleButton.setOnClickListener(new ShuffleButtonOnClickImpl(shuffleButton,_mpwpl));
 		
 		Button showListButton = (Button)mView.findViewById(R.id.button_action_show_list);
-		//TODO ƒŠƒXƒg•\¦ƒ{ƒ^ƒ“‚Ìİ’è‚ğ“o˜^‚·‚é
+		//TODO ãƒªã‚¹ãƒˆè¡¨ç¤ºãƒœã‚¿ãƒ³ã®è¨­å®šã‚’ç™»éŒ²ã™ã‚‹
 		
 		Button showSettigsButton = (Button)mView.findViewById(R.id.button_action_show_settings);
-		//TODO İ’è•\¦ƒ{ƒ^ƒ“‚Ìİ’è‚ğ“o˜^‚·‚éD
+		//TODO è¨­å®šè¡¨ç¤ºãƒœã‚¿ãƒ³ã®è¨­å®šã‚’ç™»éŒ²ã™ã‚‹ï¼
 		
 	}
 	
 	public static void initAction(Service mService,View mView){
-		//Ä¶‚ªI—¹‚µ‚½‚ÉŒÄ‚Î‚ê‚éƒŠƒXƒi‚ğÀ‘•‚·‚éD
-		//Ä¶‚ªŠ®—¹‚µ‚½‚Æ‚«‚ÌƒŠƒXƒi‚ğƒZƒbƒgD
+		//å†ç”ŸãŒçµ‚äº†ã—ãŸæ™‚ã«å‘¼ã°ã‚Œã‚‹ãƒªã‚¹ãƒŠã‚’å®Ÿè£…ã™ã‚‹ï¼
+		//å†ç”ŸãŒå®Œäº†ã—ãŸã¨ãã®ãƒªã‚¹ãƒŠã‚’ã‚»ãƒƒãƒˆï¼
 		_mpwpl.setOnPlayCompletedListener(new OnPlayCompletedImpl(_mpwpl));
-		//TODO ƒvƒŒƒCƒŠƒXƒg‚ğİ’è
+		//TODO ãƒ—ãƒ¬ã‚¤ãƒªã‚¹ãƒˆã‚’è¨­å®š
 		
 	}
 	

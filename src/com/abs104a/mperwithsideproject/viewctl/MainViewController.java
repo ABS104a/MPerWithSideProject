@@ -9,35 +9,35 @@ import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.viewctl.listener.MainHandleActionOnClickListenerImpl;
 
 /**
- * ƒƒCƒ“ƒrƒ…[‚Ì¶¬‚Æİ’è‚ğs‚¤ƒNƒ‰ƒX
+ * ãƒ¡ã‚¤ãƒ³ãƒ“ãƒ¥ãƒ¼ã®ç”Ÿæˆã¨è¨­å®šã‚’è¡Œã†ã‚¯ãƒ©ã‚¹
  * @author Kouki
  *
  */
 public class MainViewController {
 
 	/**
-	 * Main‚ÌView‚ğ¶¬‚·‚éƒƒ\ƒbƒh
-	 * ƒT[ƒrƒX‚ÌƒRƒ“ƒeƒLƒXƒg‚ğó‚¯‚Æ‚èView‚ğ¶¬‚·‚éD
+	 * Mainã®Viewã‚’ç”Ÿæˆã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
+	 * ã‚µãƒ¼ãƒ“ã‚¹ã®ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’å—ã‘ã¨ã‚ŠViewã‚’ç”Ÿæˆã™ã‚‹ï¼
 	 * @param mService
-	 * @return@¶¬‚µ‚½ViewGroup
+	 * @returnã€€ç”Ÿæˆã—ãŸViewGroup
 	 */
 	public static View createView(Service mService){
-		//TODO View‚Ì¶¬
-		// View‚©‚çƒCƒ“ƒtƒŒ[ƒ^‚ğì¬‚·‚é
+		//TODO Viewã®ç”Ÿæˆ
+		// Viewã‹ã‚‰ã‚¤ãƒ³ãƒ•ãƒ¬ãƒ¼ã‚¿ã‚’ä½œæˆã™ã‚‹
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
-		// ƒŒƒCƒAƒEƒgƒtƒ@ƒCƒ‹‚©‚çd‚Ë‡‚í‚¹‚·‚éView‚ğì¬‚·‚é
+		// ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰é‡ã­åˆã‚ã›ã™ã‚‹Viewã‚’ä½œæˆã™ã‚‹
 		View mView = layoutInflater.inflate(com.abs104a.mperwithsideproject.R.layout.player_view, null);
 		initButtonOfView(mService,mView);
 		return mView;
 	}
 	
 	/**
-	 * ¶¬‚µ‚½ƒƒCƒ“View
+	 * ç”Ÿæˆã—ãŸãƒ¡ã‚¤ãƒ³View
 	 * @param mService
 	 * @param mView
 	 */
 	public static void initButtonOfView(Service mService,View mView){
-		//TODO View‚Ìƒ{ƒ^ƒ“‚É“®ì‚ğ‚Â‚¯‚é
+		//TODO Viewã®ãƒœã‚¿ãƒ³ã«å‹•ä½œã‚’ã¤ã‘ã‚‹
 		Button handleButton = (Button)mView.findViewById(R.id.imageButton_handle);
 		handleButton.setOnClickListener(new MainHandleActionOnClickListenerImpl(mService));
 	}

@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 /**
- * ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğI—¹‚³‚¹‚éƒŠƒXƒi
+ * ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚’çµ‚äº†ã•ã›ã‚‹ãƒªã‚¹ãƒŠ
  * @author Kouki
  *
  */
@@ -18,7 +18,7 @@ public final class ExitActionOnClickListenerImpl implements OnClickListener {
 	}
 
 	/**
-	 * ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğI—¹‚·‚é
+	 * ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚’çµ‚äº†ã™ã‚‹
 	 */
 	@Override
 	public void onClick(View v) { 

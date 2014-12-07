@@ -9,21 +9,21 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 /**
- * Ÿ‚Öƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚ÉŒÄ‚Î‚ê‚éƒŠƒXƒiImpl
+ * æ¬¡ã¸ãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸæ™‚ã«å‘¼ã°ã‚Œã‚‹ãƒªã‚¹ãƒŠImpl
  * @author Kouki-Mobile
  *
  */
 public final class NextButtonOnClickImpl implements OnClickListener {
 
-	//ƒ~ƒ…[ƒWƒbƒNƒRƒ“ƒgƒ[ƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX
+	//ãƒŸãƒ¥ãƒ¼ã‚¸ãƒƒã‚¯ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	private final MusicPlayerWithPlayLists _mpwpl;
-	//ƒT[ƒrƒX‚ÌƒRƒ“ƒeƒLƒXƒgi—áŠO‚ÌƒƒbƒZ[ƒWˆ—‚È‚Ç
+	//ã‚µãƒ¼ãƒ“ã‚¹ã®ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆï¼ˆä¾‹å¤–æ™‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†ãªã©
 	private final Service _service;
 
 	/**
-	 * ƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶¬
-	 * @param _service@ƒT[ƒrƒX‚ÌƒRƒ“ƒeƒLƒXƒg
-	 * @param mpwpl@ƒ~ƒ…[ƒWƒbƒNƒRƒ“ƒgƒ[ƒ‹ƒNƒ‰ƒX
+	 * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ç”Ÿæˆ
+	 * @param _serviceã€€ã‚µãƒ¼ãƒ“ã‚¹ã®ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
+	 * @param mpwplã€€ãƒŸãƒ¥ãƒ¼ã‚¸ãƒƒã‚¯ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã‚¯ãƒ©ã‚¹
 	 */
 	public NextButtonOnClickImpl(Service _service,MusicPlayerWithPlayLists mpwpl) {
 		this._mpwpl = mpwpl;
@@ -33,19 +33,19 @@ public final class NextButtonOnClickImpl implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		try {
-			//Ÿ‚Ö‚ÌÄ¶‚ğs‚¤s
+			//æ¬¡ã¸ã®å†ç”Ÿã‚’è¡Œã†s
 			_mpwpl.playNext();
 		} catch (IllegalArgumentException e) {
-			// TODO ©“®¶¬‚³‚ê‚½ catch ƒuƒƒbƒN
+			// TODO è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸ catch ãƒ–ãƒ­ãƒƒã‚¯
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO ©“®¶¬‚³‚ê‚½ catch ƒuƒƒbƒN
+			// TODO è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸ catch ãƒ–ãƒ­ãƒƒã‚¯
 			e.printStackTrace();
 		} catch (IllegalStateException e) {
-			// TODO ©“®¶¬‚³‚ê‚½ catch ƒuƒƒbƒN
+			// TODO è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸ catch ãƒ–ãƒ­ãƒƒã‚¯
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO ©“®¶¬‚³‚ê‚½ catch ƒuƒƒbƒN
+			// TODO è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸ catch ãƒ–ãƒ­ãƒƒã‚¯
 			e.printStackTrace();
 		}
 	}

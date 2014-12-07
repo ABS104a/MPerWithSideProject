@@ -6,43 +6,43 @@ import com.abs104a.mperwithsideproject.music.MusicPlayer.OnPlayCompletedListener
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
 
 /**
- * Ä¶‚ªŠ®—¹‚µ‚½‚ÉŒÄ‚Î‚ê‚éƒŠƒXƒiImpl
+ * å†ç”ŸãŒå®Œäº†ã—ãŸæ™‚ã«å‘¼ã°ã‚Œã‚‹ãƒªã‚¹ãƒŠImpl
  * @author Kouki-Mobile
  *
  */
 public final class OnPlayCompletedImpl implements OnPlayCompletedListener{
 
-	//ƒ~ƒ…[ƒWƒbƒNƒRƒ“ƒgƒ[ƒ‹ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+	//ãƒŸãƒ¥ãƒ¼ã‚¸ãƒƒã‚¯ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	private final MusicPlayerWithPlayLists _mpwpl;
 
 	/**
-	 * ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìì¬
-	 * @param mpwpl@ƒ~ƒ…[ƒWƒbƒNƒRƒ“ƒgƒ[ƒ‹ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒXD
+	 * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ä½œæˆ
+	 * @param mpwplã€€ãƒŸãƒ¥ãƒ¼ã‚¸ãƒƒã‚¯ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ï¼
 	 */
 	public OnPlayCompletedImpl(MusicPlayerWithPlayLists mpwpl) {
 		this._mpwpl = mpwpl;
 	}
 
 	/**
-	 * Ä¶‚ªŠ®—¹‚µ‚½
+	 * å†ç”ŸãŒå®Œäº†ã—ãŸæ™‚
 	 */
 	@Override
 	public void onPlayCompleted() {
-		//Ä¶‚ªI—¹‚µ‚½‚Æ‚« Ÿ‚Ì‹È‚ğƒZƒbƒg‚·‚éD
+		//å†ç”ŸãŒçµ‚äº†ã—ãŸã¨ã æ¬¡ã®æ›²ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ï¼
 		try {
-			//Ÿ‚Ì‹È‚ğÄ¶
+			//æ¬¡ã®æ›²ã‚’å†ç”Ÿ
 			_mpwpl.playNext();
 		} catch (IllegalArgumentException e) {
-			// TODO ©“®¶¬‚³‚ê‚½ catch ƒuƒƒbƒN
+			// TODO è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸ catch ãƒ–ãƒ­ãƒƒã‚¯
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO ©“®¶¬‚³‚ê‚½ catch ƒuƒƒbƒN
+			// TODO è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸ catch ãƒ–ãƒ­ãƒƒã‚¯
 			e.printStackTrace();
 		} catch (IllegalStateException e) {
-			// TODO ©“®¶¬‚³‚ê‚½ catch ƒuƒƒbƒN
+			// TODO è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸ catch ãƒ–ãƒ­ãƒƒã‚¯
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO ©“®¶¬‚³‚ê‚½ catch ƒuƒƒbƒN
+			// TODO è‡ªå‹•ç”Ÿæˆã•ã‚ŒãŸ catch ãƒ–ãƒ­ãƒƒã‚¯
 			e.printStackTrace();
 		}
 	}
