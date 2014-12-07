@@ -37,6 +37,7 @@ public class MusicUtils {
 		    	int durationColumn = cur.getColumnIndex(MediaStore.Audio.Media.DURATION);
 		    	int idColumn = cur.getColumnIndex(MediaStore.Audio.Media._ID);
 		    	int idTruck = cur.getColumnIndex(MediaStore.Audio.Media.TRACK);
+		    	String pass = cur.getString(0);
 		    	 
 		    	// リストに追加
 		    	do {
@@ -45,7 +46,8 @@ public class MusicUtils {
 		    	            cur.getString(titleColumn),
 		    	            cur.getString(albumColumn),
 		    	            cur.getInt(idTruck),
-		    	            cur.getLong(durationColumn)));
+		    	            cur.getLong(durationColumn),
+		    	            pass));
 		    	} while (cur.moveToNext());
 		    }while(cur.moveToNext());
 		    // カーソルを閉じる
