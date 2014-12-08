@@ -12,7 +12,7 @@ import android.widget.ExpandableListView;
  * @author Kouki-Mobile
  *
  */
-public final class PlayListViewController {
+public final class ViewPagerForPlayListViewCtl {
 	
 	/**
 	 * プレイリストViewを生成する
@@ -23,6 +23,7 @@ public final class PlayListViewController {
 		//TODO　ルーチンの実装
 		ExpandableListView mListView = new ExpandableListView(mService);
 		mListView.setOnChildClickListener(new PlayListOnChildClickImpl(mService,mpwpl));
+		
 		return mListView;
 	}
 	

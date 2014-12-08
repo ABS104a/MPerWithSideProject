@@ -2,4 +2,6 @@
 <resources>
     <!-- 透明色 -->
     <color name="transparent">#00FFFFFF</color>
+    <!-- ミュージックプレーヤーのViewPagerの背景色 -->
+    <color name="musicplayer_Viewpager_bg">#29292929</color>
 </resources>

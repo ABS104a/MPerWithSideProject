@@ -10,7 +10,7 @@ import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
  * @author Kouki-Mobile
  *
  */
-public class EqualizerViewController {
+public class ViewPagerForEqualizerViewCtl {
 
 	/**
 	 * Viewの生成

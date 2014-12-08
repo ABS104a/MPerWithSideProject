@@ -90,7 +90,6 @@ public class MainService extends Service{
 		
 		//WindowManagerにViewとLayoutParamsを登録し，表示する
 		try{
-			mWindowManager.updateViewLayout(mMainView, params);
 			mWindowManager.addView(mMainView, params);
 			//こっちは↓更新用
 			//mWindowManager.updateViewLayout(mMainView, params);

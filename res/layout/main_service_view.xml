@@ -5,11 +5,15 @@
     android:layout_gravity="center_vertical|right"
     android:gravity="center_vertical|right"
     android:orientation="horizontal" >
+    
+    <View 
+        android:layout_width="1dp"
+    	android:layout_height="@dimen/player_view_height"/>
 
     <ImageButton
         android:id="@+id/imageButton_handle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/main_view_handle_size"
+        android:layout_height="@dimen/main_view_handle_size"
         android:gravity="center_vertical"
         android:background="@color/transparent"
         android:src="@android:drawable/ic_input_add" />

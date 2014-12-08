@@ -1,9 +1,9 @@
-package com.abs104a.mperwithsideproject.music.list;
+package com.abs104a.mperwithsideproject.adapter;
 
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
-import com.abs104a.mperwithsideproject.viewctl.AlbumViewController;
-import com.abs104a.mperwithsideproject.viewctl.EqualizerViewController;
-import com.abs104a.mperwithsideproject.viewctl.PlayListViewController;
+import com.abs104a.mperwithsideproject.viewctl.ViewPagerForAlbumViewCtl;
+import com.abs104a.mperwithsideproject.viewctl.ViewPagerForEqualizerViewCtl;
+import com.abs104a.mperwithsideproject.viewctl.ViewPagerForPlayListViewCtl;
 
 import android.app.Service;
 import android.support.v4.view.PagerAdapter;
@@ -72,11 +72,11 @@ public class MusicViewPagerAdapter extends PagerAdapter {
 		//ページごとのViewを生成する
 		switch(position){
 		case 0:	//Page1
-			return PlayListViewController.createView(mService, mpwpl);
+			return ViewPagerForPlayListViewCtl.createView(mService, mpwpl);
 		case 1:	//Page2
-			return AlbumViewController.createView(mService, mpwpl);
+			return ViewPagerForAlbumViewCtl.createView(mService, mpwpl);
 		case 2:	//Page3
-			return EqualizerViewController.createView(mService, mpwpl);
+			return ViewPagerForEqualizerViewCtl.createView(mService, mpwpl);
 		}
 		return super.instantiateItem(container, position);
 	}

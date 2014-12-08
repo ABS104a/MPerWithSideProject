@@ -1,7 +1,9 @@
-package com.abs104a.mperwithsideproject.music;
+package com.abs104a.mperwithsideproject.utl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import com.abs104a.mperwithsideproject.music.Item;
 
 import android.content.ContentResolver;
 import android.content.Context;

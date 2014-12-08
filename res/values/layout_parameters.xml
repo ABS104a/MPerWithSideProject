@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- メイン画面プレイヤーのマージン -->
-    <string name="music_player_margins">8dp</string>
-</resources>

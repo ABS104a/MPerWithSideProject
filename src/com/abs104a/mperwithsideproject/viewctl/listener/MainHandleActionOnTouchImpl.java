@@ -1,5 +1,6 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
+import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
 
@@ -48,19 +49,20 @@ public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 		switch(event.getAction()){
 		case MotionEvent.ACTION_DOWN:	//画面を押した時
 		case MotionEvent.ACTION_MOVE:	//画面上を動いている時
-			if(((LinearLayout)v.getParent()).getChildCount() == 1){
+			if(((LinearLayout)v.getParent()).getChildCount() == 2){
 				//MusicPlayerViewの作成
 				mPlayerView = MusicPlayerViewController
 						.createView(mService);
 				mPlayerView.setId(PLAYER_VIEW_ID);
 				((LinearLayout)v.getParent()).addView(mPlayerView);
 
+				/*
 				//表示するためのアニメーションを作成
 				Animation showAnimation = 
 						AnimationUtils
 						.loadAnimation(mService, android.R.anim.fade_in);
 				//Animationの設定
-				mPlayerView.startAnimation(showAnimation);
+				mPlayerView.startAnimation(showAnimation);*/
 			}else{
 				mPlayerView = 
 						((LinearLayout)v.getParent())
@@ -75,9 +77,14 @@ public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 				//Viewの消去を行う
 				((LinearLayout)v.getParent()).removeView(mPlayerView);
 			}else{
+				final int musicPlayerWidth = 
+						mService
+						.getResources()
+						.getDimensionPixelSize(R.dimen.player_view_width);
+				
 				//Layout設定
-				LayoutParams params = (LayoutParams) mPlayerView.getLayoutParams();
-				params.width = screenWidth - rawX;
+				final LayoutParams params = (LayoutParams) mPlayerView.getLayoutParams();
+				params.width = Math.min(musicPlayerWidth, screenWidth - rawX);
 				//Layoutの変更
 				mPlayerView.setLayoutParams(params);
 			}
