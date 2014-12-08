@@ -4,7 +4,7 @@ import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
 
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 /**
  * シャッフルボタンが押された時に呼ばれるリスナImpl
@@ -14,7 +14,7 @@ import android.widget.Button;
 public final class ShuffleButtonOnClickImpl implements OnClickListener {
 
 	//シャッフルボタンのView
-	private final Button _button;
+	private final ImageButton _button;
 	//ミュージックコントロールクラスのインスタンス
 	private final MusicPlayerWithPlayLists _mpwpl;
 
@@ -23,7 +23,7 @@ public final class ShuffleButtonOnClickImpl implements OnClickListener {
 	 * @param shuffleButton　シャッフルボタンのView
 	 * @param mpwpl　ミュージッククラスのインスタンス
 	 */
-	public ShuffleButtonOnClickImpl(Button shuffleButton,
+	public ShuffleButtonOnClickImpl(ImageButton shuffleButton,
 			MusicPlayerWithPlayLists mpwpl) {
 		_button = shuffleButton;
 		_mpwpl = mpwpl;

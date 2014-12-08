@@ -4,7 +4,7 @@ import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
 
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.ImageButton;
 /**
  * リピートボタンを押した時に呼ばれるリスナImpl
  * @author Kouki-Mobile
@@ -12,7 +12,7 @@ import android.widget.Button;
  */
 public final class RepeatButtonOnClickImpl implements OnClickListener {
 
-	private final Button _button;
+	private final ImageButton _button;
 	private final MusicPlayerWithPlayLists _mpwpl;
 
 	/**
@@ -20,8 +20,8 @@ public final class RepeatButtonOnClickImpl implements OnClickListener {
 	 * @param mView 結果反映用View
 	 * @param mpwpl 音楽コントロールクラス
 	 */
-	public RepeatButtonOnClickImpl(Button button, MusicPlayerWithPlayLists mpwpl) {
-		this._button = button;
+	public RepeatButtonOnClickImpl(ImageButton repeatButton, MusicPlayerWithPlayLists mpwpl) {
+		this._button = repeatButton;
 		this._mpwpl = mpwpl;
 	}
 

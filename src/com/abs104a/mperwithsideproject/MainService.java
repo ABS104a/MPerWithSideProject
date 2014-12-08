@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -90,6 +91,9 @@ public class MainService extends Service{
 		//WindowManagerにViewとLayoutParamsを登録し，表示する
 		try{
 			mWindowManager.updateViewLayout(mMainView, params);
+			mWindowManager.addView(mMainView, params);
+			//こっちは↓更新用
+			//mWindowManager.updateViewLayout(mMainView, params);
 		}catch(NullPointerException mNullPointerException){
 			mNullPointerException.printStackTrace();
 			//自分のサービスを終了させる．
@@ -101,6 +105,8 @@ public class MainService extends Service{
 				AnimationUtils.loadAnimation(mService, android.R.anim.fade_in);
 		//Animationの設定
 		mMainView.startAnimation(showAnimation);
+		//開始ログ
+		Log.v("MainService","Service is Start!");
 
 	}
 
@@ -115,6 +121,8 @@ public class MainService extends Service{
 		}catch(NullPointerException mNullPointerException){
 			mNullPointerException.printStackTrace();
 		}
+		//終了
+		Log.v("MainService","Service is Finished!");
 		super.onDestroy();
 	}
 }

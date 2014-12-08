@@ -1,5 +1,6 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
+import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
 
 import android.app.Service;
@@ -23,6 +24,8 @@ public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 	
 	//サービスのコンテキスト
 	private final Service mService;
+	//画面幅
+	private int screenWidth;
 
 	/**
 	 * インスタンスの生成
@@ -30,6 +33,7 @@ public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 	 */
 	public MainHandleActionOnTouchImpl(Service mService) {
 		this.mService = mService;
+		screenWidth = (int) DisplayUtils.getDisplayWidth(mService);
 	}
 
 	/**
@@ -67,13 +71,13 @@ public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 		//Playerが取得出来た時
 		if(mPlayerView != null){
 			//Viewが端っこまで移動した時
-			if(rawX == 0){
+			if(rawX >= screenWidth - v.getWidth()){
 				//Viewの消去を行う
 				((LinearLayout)v.getParent()).removeView(mPlayerView);
 			}else{
 				//Layout設定
 				LayoutParams params = (LayoutParams) mPlayerView.getLayoutParams();
-				params.width = rawX;
+				params.width = screenWidth - rawX;
 				//Layoutの変更
 				mPlayerView.setLayoutParams(params);
 			}

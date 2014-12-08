@@ -27,6 +27,8 @@ public class Item implements Serializable,Comparable<Item>{
 	//長さ
 	private long duration;
 	
+	private String pass = null;
+	
 	
 	/**
 	 * 初期値代入のためのコンストラクタ
@@ -36,15 +38,17 @@ public class Item implements Serializable,Comparable<Item>{
 	 * @param album		アルバム
 	 * @param truck		トラック番号
 	 * @param duration	長さ
+	 * @param pass 		データパス
 	 */
 	public Item(long id, String artist, String title, String album,
-			int truck, long duration) {
+			int truck, long duration, String pass) {
 		this.id = id;
 		this.artist = artist;
 		this.title = title;
 		this.album = album;
 		this.truck = truck;
 		this.duration = duration;
+		this.setPass(pass);
 	}
 	
 	public final long getId() {
@@ -82,6 +86,12 @@ public class Item implements Serializable,Comparable<Item>{
 	}
 	public final void setDuration(long duration) {
 		this.duration = duration;
+	}
+	public String getPass() {
+		return pass;
+	}
+	public void setPass(String pass) {
+		this.pass = pass;
 	}
 
 	@Override

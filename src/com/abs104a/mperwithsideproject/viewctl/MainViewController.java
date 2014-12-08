@@ -3,7 +3,7 @@ package com.abs104a.mperwithsideproject.viewctl;
 import android.app.Service;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.viewctl.listener.MainHandleActionOnTouchImpl;
@@ -26,7 +26,7 @@ public final class MainViewController {
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する
-		View mView = layoutInflater.inflate(com.abs104a.mperwithsideproject.R.layout.player_view, null);
+		View mView = layoutInflater.inflate(R.layout.main_service_view, null);
 		initButtonOfView(mService,mView);
 		initActionOfView(mService,mView);
 		return mView;
@@ -39,7 +39,7 @@ public final class MainViewController {
 	 */
 	public final static void initButtonOfView(Service mService,View mView){
 		//TODO Viewのボタンに動作をつける
-		Button handleButton = (Button)mView.findViewById(R.id.imageButton_handle);
+		ImageButton handleButton = (ImageButton)mView.findViewById(R.id.imageButton_handle);
 		handleButton.setOnTouchListener(new MainHandleActionOnTouchImpl(mService));
 	}
 	
