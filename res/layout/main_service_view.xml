@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:background="@color/transparent"
         android:src="@android:drawable/ic_input_add" />
     
     <!-- ここにMusicViewを突っ込む -->

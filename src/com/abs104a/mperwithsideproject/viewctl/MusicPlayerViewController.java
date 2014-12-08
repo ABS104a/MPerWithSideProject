@@ -16,8 +16,6 @@ import android.app.Service;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-
 import android.widget.ImageButton;
 
 /**
@@ -57,7 +55,7 @@ public final class MusicPlayerViewController {
 	public static void initButtonOfView(Service mService,View mView){
 		//Viewのボタンに動作をつける
 		//終了ボタンの設定
-		Button exitButton = (Button)mView.findViewById(R.id.button_action_exit);
+		ImageButton exitButton = (ImageButton)mView.findViewById(R.id.button_action_exit);
 		exitButton.setOnClickListener(new ExitActionOnClickListenerImpl(mService));
 		
 		//再生ボタンの設定
@@ -82,10 +80,10 @@ public final class MusicPlayerViewController {
 		//シャッフルボタンの動作を登録する．
 		shuffleButton.setOnClickListener(new ShuffleButtonOnClickImpl(shuffleButton,_mpwpl));
 		
-		Button showListButton = (Button)mView.findViewById(R.id.button_action_show_list);
+		ImageButton showListButton = (ImageButton)mView.findViewById(R.id.button_action_show_list);
 		//TODO リスト表示ボタンの設定を登録する
 		
-		Button showSettigsButton = (Button)mView.findViewById(R.id.button_action_show_settings);
+		ImageButton showSettigsButton = (ImageButton)mView.findViewById(R.id.button_action_show_settings);
 		//TODO 設定表示ボタンの設定を登録する．
 		
 	}

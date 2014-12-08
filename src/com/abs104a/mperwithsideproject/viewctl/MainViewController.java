@@ -22,7 +22,6 @@ public final class MainViewController {
 	 * @return　生成したViewGroup
 	 */
 	public final static View createView(Service mService){
-		//TODO Viewの生成
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する
@@ -38,7 +37,7 @@ public final class MainViewController {
 	 * @param mView
 	 */
 	public final static void initButtonOfView(Service mService,View mView){
-		//TODO Viewのボタンに動作をつける
+		//Viewのボタンに動作をつける
 		ImageButton handleButton = (ImageButton)mView.findViewById(R.id.imageButton_handle);
 		handleButton.setOnTouchListener(new MainHandleActionOnTouchImpl(mService));
 	}
@@ -49,7 +48,7 @@ public final class MainViewController {
 	 * @param mView
 	 */
 	public final static void initActionOfView(Service mService,View mView){
-		
+		//MainViewのアクションを設定する
 	}
 	
 }

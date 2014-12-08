@@ -105,6 +105,7 @@ public class MainService extends Service{
 				AnimationUtils.loadAnimation(mService, android.R.anim.fade_in);
 		//Animationの設定
 		mMainView.startAnimation(showAnimation);
+		
 		//開始ログ
 		Log.v("MainService","Service is Start!");
 

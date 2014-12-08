@@ -1,10 +1,12 @@
 package com.abs104a.mperwithsideproject.music.list;
 
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
+import com.abs104a.mperwithsideproject.viewctl.AlbumViewController;
+import com.abs104a.mperwithsideproject.viewctl.EqualizerViewController;
+import com.abs104a.mperwithsideproject.viewctl.PlayListViewController;
 
 import android.app.Service;
 import android.support.v4.view.PagerAdapter;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 /**
@@ -67,16 +69,14 @@ public class MusicViewPagerAdapter extends PagerAdapter {
 	 */
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
-		// TODO ページごとのViewを生成する
-		LayoutInflater inflater = LayoutInflater.from(mService);
-		
+		//ページごとのViewを生成する
 		switch(position){
 		case 0:	//Page1
-			break;
+			return PlayListViewController.createView(mService, mpwpl);
 		case 1:	//Page2
-			break;
+			return AlbumViewController.createView(mService, mpwpl);
 		case 2:	//Page3
-			break;
+			return EqualizerViewController.createView(mService, mpwpl);
 		}
 		return super.instantiateItem(container, position);
 	}
@@ -86,7 +86,7 @@ public class MusicViewPagerAdapter extends PagerAdapter {
 	 */
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
-		// TODO ページの消去を行う際に呼ばれるメソッド
+		// ページの消去を行う際に呼ばれるメソッド
 		super.destroyItem(container, position, object);
 	}
 

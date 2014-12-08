@@ -11,30 +11,35 @@
     <ImageButton
         android:id="@+id/button_play"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_media_play" />
 
     <!-- 戻るボタン -->
     <ImageButton
         android:id="@+id/button_back_seek"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_media_previous" />
 
     <!-- 進むボタン -->
     <ImageButton
         android:id="@+id/button_next_seek"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_media_next" />
 
     <!-- リピートボタン -->
     <ImageButton
         android:id="@+id/button_repeat"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_revert"  />
     
 	<!-- シャッフルボタン -->
     <ImageButton
         android:id="@+id/button_shuffle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_send" />
 
 </LinearLayout>
