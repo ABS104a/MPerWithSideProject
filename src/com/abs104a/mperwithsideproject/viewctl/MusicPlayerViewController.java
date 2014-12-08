@@ -3,6 +3,7 @@ package com.abs104a.mperwithsideproject.viewctl;
 
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
+import com.abs104a.mperwithsideproject.music.list.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.listener.ExitActionOnClickListenerImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.BackButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.NextButtonOnClickImpl;
@@ -12,6 +13,7 @@ import com.abs104a.mperwithsideproject.viewctl.listener.RepeatButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ShuffleButtonOnClickImpl;
 
 import android.app.Service;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -90,6 +92,10 @@ public final class MusicPlayerViewController {
 		//再生が終了した時に呼ばれるリスナを実装する．
 		//再生が完了したときのリスナをセット．
 		_mpwpl.setOnPlayCompletedListener(new OnPlayCompletedImpl(_mpwpl));
+		
+		//TODO ViewPager の設定
+		ViewPager mViewPager = (ViewPager)mView.findViewById(R.id.music_pager);
+		mViewPager.setAdapter(new MusicViewPagerAdapter(mService,_mpwpl));
 		//TODO プレイリストを設定
 		
 	}

@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="vertical" >"
+    android:orientation="vertical" >
     
-    <ListView
-        android:id="@+id/listView_music_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
-    </ListView>
+    <android.support.v4.view.ViewPager
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/music_pager"
+    android:layout_width="wrap_content"
+    android:layout_height="300dp"
+    tools:context="com.abs104a.mperwithsideproject.MainService" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
