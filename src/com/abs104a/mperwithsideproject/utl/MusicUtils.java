@@ -54,6 +54,9 @@ public class MusicUtils {
 		    }while(cur.moveToNext());
 		    // カーソルを閉じる
 		    cur.close();
+		    
+		    //ジャケット画像の取得
+		    
 		    //結果をアルバム順でソート
 		    Collections.sort(items);
 		}
