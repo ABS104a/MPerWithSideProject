@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author Kouki
  *
  */
-public class Item implements Serializable,Comparable<Item>{
+public class Music implements Serializable,Comparable<Music>{
 
 	/**
 	 * 
@@ -26,8 +26,10 @@ public class Item implements Serializable,Comparable<Item>{
 	private int truck;
 	//長さ
 	private long duration;
-	
+	//ファイルのURI
 	private String pass = null;
+	//アルバムId（ジャケット画像取得用）
+	private int albumId;
 	
 	
 	/**
@@ -36,16 +38,18 @@ public class Item implements Serializable,Comparable<Item>{
 	 * @param artist	アーティスト
 	 * @param title		タイトル
 	 * @param album		アルバム
+	 * @param albumId   アルバムID
 	 * @param truck		トラック番号
 	 * @param duration	長さ
 	 * @param pass 		データパス
 	 */
-	public Item(long id, String artist, String title, String album,
-			int truck, long duration, String pass) {
+	public Music(long id, String artist, String title, String album,
+			int albumId, int truck, long duration, String pass) {
 		this.id = id;
 		this.artist = artist;
 		this.title = title;
 		this.album = album;
+		this.albumId = albumId;
 		this.truck = truck;
 		this.duration = duration;
 		this.setPass(pass);
@@ -95,9 +99,9 @@ public class Item implements Serializable,Comparable<Item>{
 	}
 
 	@Override
-	public int compareTo(Item another) {
+	public int compareTo(Music another) {
 		if(another == null)return 1;
-		Item item = (Item)another;
+		Music item = (Music)another;
 		int result = album.compareTo(item.album);
 		if (result != 0) {
 	        return result;

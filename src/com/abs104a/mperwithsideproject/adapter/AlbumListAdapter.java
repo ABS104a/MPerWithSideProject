@@ -3,7 +3,7 @@ package com.abs104a.mperwithsideproject.adapter;
 import java.util.List;
 
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.music.Item;
+import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
 import com.abs104a.mperwithsideproject.music.listener.PlayListAddOnClickImpl;
 
@@ -21,7 +21,7 @@ import android.widget.TextView;
  * @author Kouki
  *
  */
-public final class AlbumListAdapter extends ArrayAdapter<Item> {
+public final class AlbumListAdapter extends ArrayAdapter<Music> {
 
 	//このリストのカスタムレイアウト
 	private final static int LAYOUT = R.layout.album_item_row;
@@ -30,7 +30,7 @@ public final class AlbumListAdapter extends ArrayAdapter<Item> {
 
 	public AlbumListAdapter(
 			Context context,
-			List<Item> items,
+			List<Music> items,
 			MusicPlayerWithPlayLists mpwpl) 
 	{
 		super(context, LAYOUT, items);
@@ -39,7 +39,7 @@ public final class AlbumListAdapter extends ArrayAdapter<Item> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		final Item item = getItem(position);
+		final Music item = getItem(position);
 		ViewHolder holder;
 		if(convertView == null){
 			//取得したViewがNullの時

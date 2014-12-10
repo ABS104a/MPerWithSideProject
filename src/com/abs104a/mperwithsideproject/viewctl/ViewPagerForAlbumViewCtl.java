@@ -3,7 +3,7 @@ package com.abs104a.mperwithsideproject.viewctl;
 import java.util.ArrayList;
 
 import com.abs104a.mperwithsideproject.adapter.AlbumListAdapter;
-import com.abs104a.mperwithsideproject.music.Item;
+import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 
@@ -30,7 +30,7 @@ public final class ViewPagerForAlbumViewCtl {
 	{
 		//TODO Viewの生成
 		ListView mListView = new ListView(mService);
-		ArrayList<Item> items = MusicUtils.getMusicList(mService);
+		ArrayList<Music> items = MusicUtils.getMusicList(mService);
 		mListView.setAdapter(new AlbumListAdapter(mService,items, mpwpl));
 		return mListView;
 	}
