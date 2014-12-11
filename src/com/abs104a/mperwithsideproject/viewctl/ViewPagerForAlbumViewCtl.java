@@ -2,7 +2,8 @@ package com.abs104a.mperwithsideproject.viewctl;
 
 import java.util.ArrayList;
 
-import com.abs104a.mperwithsideproject.adapter.AlbumListAdapter;
+import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
+import com.abs104a.mperwithsideproject.music.Album;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
@@ -29,9 +30,14 @@ public final class ViewPagerForAlbumViewCtl {
 			final MusicPlayerWithPlayLists mpwpl)
 	{
 		//TODO Viewの生成
-		ListView mListView = new ListView(mService);
+		final ListView mListView = new ListView(mService);
 		ArrayList<Music> items = MusicUtils.getMusicList(mService);
-		mListView.setAdapter(new AlbumListAdapter(mService,items, mpwpl));
+		mListView.setAdapter(new MusicListAdapter(mService,items, mpwpl));
+		
+		android.util.Log.v("count", mListView.getAdapter().getCount()+"");
+		//MusicUtilsからアルバム情報を取得
+		//ArrayList<Album> list = MusicUtils.getMusicList(mService);
+		
 		return mListView;
 	}
 }

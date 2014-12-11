@@ -2,6 +2,8 @@ package com.abs104a.mperwithsideproject.music;
 
 import java.io.Serializable;
 
+import android.net.Uri;
+
 /**
  * 曲の情報を保持するクラス
  * @author Kouki
@@ -29,7 +31,9 @@ public class Music implements Serializable,Comparable<Music>{
 	//ファイルのURI
 	private String pass = null;
 	//アルバムId（ジャケット画像取得用）
-	private int albumId;
+	private long albumId;
+	
+	private Uri albumUri;
 	
 	
 	/**
@@ -41,15 +45,17 @@ public class Music implements Serializable,Comparable<Music>{
 	 * @param albumId   アルバムID
 	 * @param truck		トラック番号
 	 * @param duration	長さ
+	 * @param album1Uri 
 	 * @param pass 		データパス
 	 */
 	public Music(long id, String artist, String title, String album,
-			int albumId, int truck, long duration, String pass) {
+			long albumId, int truck, long duration, Uri album1Uri, String pass) {
 		this.id = id;
 		this.artist = artist;
 		this.title = title;
 		this.album = album;
 		this.albumId = albumId;
+		this.albumUri = album1Uri;
 		this.truck = truck;
 		this.duration = duration;
 		this.setPass(pass);
@@ -107,6 +113,34 @@ public class Music implements Serializable,Comparable<Music>{
 	        return result;
 	    }
 	    return truck - item.truck;
+	}
+
+	/**
+	 * @return albumId
+	 */
+	public final long getAlbumId() {
+		return albumId;
+	}
+
+	/**
+	 * @param albumId セットする albumId
+	 */
+	public final void setAlbumId(long albumId) {
+		this.albumId = albumId;
+	}
+
+	/**
+	 * @return albumUri
+	 */
+	public final Uri getAlbumUri() {
+		return albumUri;
+	}
+
+	/**
+	 * @param albumUri セットする albumUri
+	 */
+	public final void setAlbumUri(Uri albumUri) {
+		this.albumUri = albumUri;
 	}
 	
 }

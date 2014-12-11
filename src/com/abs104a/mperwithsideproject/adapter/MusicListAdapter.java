@@ -21,14 +21,14 @@ import android.widget.TextView;
  * @author Kouki
  *
  */
-public final class AlbumListAdapter extends ArrayAdapter<Music> {
+public final class MusicListAdapter extends ArrayAdapter<Music> {
 
 	//このリストのカスタムレイアウト
 	private final static int LAYOUT = R.layout.album_item_row;
 	//ミュージックプレイヤーコントロールインスタンス
 	private final MusicPlayerWithPlayLists mpwpl;
 
-	public AlbumListAdapter(
+	public MusicListAdapter(
 			Context context,
 			List<Music> items,
 			MusicPlayerWithPlayLists mpwpl) 

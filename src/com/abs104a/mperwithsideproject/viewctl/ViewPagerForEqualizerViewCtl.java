@@ -23,7 +23,7 @@ public class ViewPagerForEqualizerViewCtl {
 			MusicPlayerWithPlayLists mpwpl) 
 	{
 		// TODO Viewの生成
-		return null;
+		return new View(mService);
 	}
 
 }

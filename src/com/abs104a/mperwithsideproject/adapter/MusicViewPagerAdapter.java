@@ -70,15 +70,17 @@ public class MusicViewPagerAdapter extends PagerAdapter {
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
 		//ページごとのViewを生成する
+		View view = null;
 		switch(position){
 		case 0:	//Page1
-			return ViewPagerForPlayListViewCtl.createView(mService, mpwpl);
+			view = ViewPagerForPlayListViewCtl.createView(mService, mpwpl);
 		case 1:	//Page2
-			return ViewPagerForAlbumViewCtl.createView(mService, mpwpl);
+			view = ViewPagerForAlbumViewCtl.createView(mService, mpwpl);
 		case 2:	//Page3
-			return ViewPagerForEqualizerViewCtl.createView(mService, mpwpl);
+			view = ViewPagerForEqualizerViewCtl.createView(mService, mpwpl);
 		}
-		return super.instantiateItem(container, position);
+		container.addView(view);
+		return view;
 	}
 	
 	/**
@@ -92,8 +94,7 @@ public class MusicViewPagerAdapter extends PagerAdapter {
 
 	@Override
 	public boolean isViewFromObject(View view, Object org) {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return view == org;
 	}
 
 }
