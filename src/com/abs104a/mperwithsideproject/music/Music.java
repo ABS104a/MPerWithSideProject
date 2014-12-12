@@ -142,5 +142,13 @@ public class Music implements Serializable,Comparable<Music>{
 	public final void setAlbumUri(Uri albumUri) {
 		this.albumUri = albumUri;
 	}
+
+	/* (非 Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return getPass();
+	}
 	
 }

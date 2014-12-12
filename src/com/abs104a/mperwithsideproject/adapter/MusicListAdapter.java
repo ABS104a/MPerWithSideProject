@@ -6,6 +6,8 @@ import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
 import com.abs104a.mperwithsideproject.music.listener.PlayListAddOnClickImpl;
+import com.abs104a.mperwithsideproject.utl.DisplayUtils;
+import com.abs104a.mperwithsideproject.viewctl.listener.MusicOnClickListener;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -29,14 +31,17 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 	private final static int LAYOUT = R.layout.album_item_row;
 	//ミュージックプレイヤーコントロールインスタンス
 	private final MusicPlayerWithPlayLists mpwpl;
+	//RootView
+	private final View rootView;
 
 	public MusicListAdapter(
 			Context context,
-			List<Music> items,
+			View rootView, List<Music> items,
 			MusicPlayerWithPlayLists mpwpl) 
 	{
 		super(context, LAYOUT, items);
 		this.mpwpl = mpwpl;
+		this.rootView = rootView;
 		
 		
 	}
@@ -74,7 +79,8 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			//テキスト情報の入力
 			holder.albumText.setText(item.getAlbum());
 			holder.artistText.setText(item.getArtist());
-			holder.timeText.setText(item.getDuration() + "");
+			holder.timeText.setText(
+					DisplayUtils.long2TimeString(item.getDuration()));
 			holder.titleText.setText(item.getTitle());
 			
 			//TODO ジャケット画像
@@ -84,6 +90,7 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			}
 			
 			holder.addButton.setOnClickListener(new PlayListAddOnClickImpl(getContext()));
+			convertView.setOnClickListener(new MusicOnClickListener(getContext(), rootView, item, mpwpl));
 		}
 		
 		

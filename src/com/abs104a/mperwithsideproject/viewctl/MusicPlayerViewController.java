@@ -5,6 +5,7 @@ import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
 import com.abs104a.mperwithsideproject.music.listener.ExitActionOnClickListenerImpl;
+import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.BackButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.NextButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.OnPlayCompletedImpl;
@@ -98,7 +99,10 @@ public final class MusicPlayerViewController {
 		//ViewPager の設定
 		ViewPager mViewPager = (ViewPager)mView.findViewById(R.id.player_list_part);
 		mViewPager.setAdapter(new MusicViewPagerAdapter(mService,mView,_mpwpl));
+		
 		//TODO プレイリストを設定
+		if(_mpwpl.getNowPlayingMusic() != null)
+			MusicUtils.setPartOfPlayerView(mService, mView, _mpwpl.getNowPlayingMusic());
 		
 	}
 	

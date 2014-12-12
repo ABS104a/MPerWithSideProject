@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/player_view_height"
-    android:layout_margin="@dimen/music_player_margins"
     android:padding="@dimen/player_view_padding"
     android:orientation="vertical" >
 
@@ -13,6 +12,7 @@
 	<include 
         android:layout_width="@dimen/player_view_width"
         android:layout_height="300dp"
+        android:layout_margin="@dimen/music_player_margins"
         android:id="@+id/player_list_part" 
         layout="@layout/part_of_player_list" />
     
@@ -20,6 +20,7 @@
     <include 
         android:layout_width="@dimen/player_view_width" 
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/music_player_margins"
         android:id="@+id/player" 
         layout="@layout/part_of_player" />
     
@@ -27,6 +28,7 @@
     <include 
         android:layout_width="@dimen/player_view_width" 
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/music_player_margins"
         android:id="@+id/player_controll" 
         layout="@layout/part_of_player_countroll" />
     
@@ -34,6 +36,7 @@
     <include 
         android:layout_width="@dimen/player_view_width" 
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/music_player_margins"
         android:id="@+id/player_settings" 
         layout="@layout/part_of_player_settings" />
 

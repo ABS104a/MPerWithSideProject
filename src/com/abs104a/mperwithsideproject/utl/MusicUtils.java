@@ -53,7 +53,7 @@ public class MusicUtils {
 			int durationColumn = cur.getColumnIndex(MediaStore.Audio.Media.DURATION);
 			int idColumn = cur.getColumnIndex(MediaStore.Audio.Media._ID);
 			int idTruck = cur.getColumnIndex(MediaStore.Audio.Media.TRACK);
-			String pass = cur.toString();
+			int pass = cur.getColumnIndex(MediaStore.Audio.Media.DATA);
 
 			// リストに追加
 			do {
@@ -67,7 +67,7 @@ public class MusicUtils {
 						cur.getInt(idTruck),
 						cur.getLong(durationColumn),
 						album1Uri,
-						pass);
+						cur.getString(pass));
 
 				items.add(music);
 
@@ -123,11 +123,11 @@ public class MusicUtils {
 	
 	/**
 	 * MusicPlayerView中の再生曲情報を表示するViewへのデータセットを行う
-	 * @param mService
+	 * @param context
 	 * @param mView
 	 * @param music
 	 */
-	public static void setPartOfPlayerView(Service mService,View mView,Music music){
+	public static void setPartOfPlayerView(Context context,View mView,Music music){
 		
 		//タイトルView
 		TextView title = (TextView)mView.findViewById(R.id.textView_now_music_name);
@@ -140,7 +140,7 @@ public class MusicUtils {
 		album.setText(music.getAlbum());
 		//曲時間
 		TextView maxTime = (TextView)mView.findViewById(R.id.textView_now_max_time);
-		maxTime.setText(music.getDuration()+"");
+		maxTime.setText(DisplayUtils.long2TimeString(music.getDuration()));
 		//現在の再生時間
 		TextView currentTime = (TextView)mView.findViewById(R.id.TextView_now_current_time);
 		currentTime.setText("0:00");

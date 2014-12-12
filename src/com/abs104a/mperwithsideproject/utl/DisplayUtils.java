@@ -1,5 +1,8 @@
 package com.abs104a.mperwithsideproject.utl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.content.Context;
 import android.graphics.Point;
 import android.view.Display;
@@ -33,5 +36,16 @@ public class DisplayUtils {
             width = size.x;
         }
         return width;
+	}
+	
+	/**
+	 * Longでの時間を，分:秒に変換する
+	 * @param time
+	 * @return 変換されたString
+	 */
+	public static String long2TimeString(long time){
+		SimpleDateFormat DFYS = new SimpleDateFormat("mm:ss");
+		Date date = new Date(time);
+		return DFYS.format(date);
 	}
 }

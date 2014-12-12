@@ -3,7 +3,7 @@
     android:id="@+id/music_pager"
     android:layout_width="match_parent"
     android:layout_height="300dp"
-    android:background="@color/musicplayer_Viewpager_bg" >
+    android:background="@color/musicplayer_viewpager_bg" >
 
     <android.support.v4.view.PagerTabStrip
         android:id="@+id/pager_tab_strip"

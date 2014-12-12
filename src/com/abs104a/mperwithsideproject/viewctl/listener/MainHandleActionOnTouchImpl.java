@@ -73,14 +73,18 @@ public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 		//Playerが取得出来た時
 		if(mPlayerView != null){
 			//Viewが端っこまで移動した時
-			if(rawX >= screenWidth - v.getWidth()){
+			if(rawX >= screenWidth - v.getWidth())
+			{
 				//Viewの消去を行う
 				((LinearLayout)v.getParent()).removeView(mPlayerView);
 			}else{
 				final int musicPlayerWidth = 
 						mService
 						.getResources()
-						.getDimensionPixelSize(R.dimen.player_view_width);
+						.getDimensionPixelSize(R.dimen.player_view_width) 
+						+ 
+						2 * mService.getResources()
+						.getDimensionPixelSize(R.dimen.activity_vertical_margin);
 				
 				//Layout設定
 				final LayoutParams params = (LayoutParams) mPlayerView.getLayoutParams();

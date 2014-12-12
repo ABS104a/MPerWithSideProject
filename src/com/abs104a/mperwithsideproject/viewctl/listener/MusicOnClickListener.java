@@ -6,49 +6,44 @@ import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 
-import android.app.Service;
+import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.view.View.OnClickListener;
 
 /**
  * ListView上のMusicItemが選択されたときの動作
  * @author Kouki
  *
  */
-public final class MusicItemOnClickListener implements OnItemClickListener {
+public final class MusicOnClickListener implements OnClickListener {
 
 	//ミュージックコントロールクラス
 	private final MusicPlayerWithPlayLists mpwpl;
 	//サービスのコンテキスト
-	private final Service mService;
+	private final Context context;
 	//音楽リスト
-	private final ArrayList<Music> items;
+	private final Music music;
 	private final View rootView;
 
-	public MusicItemOnClickListener(Service mService, View rootView, ArrayList<Music> items,
+	public MusicOnClickListener(Context context, View rootView, Music item,
 			MusicPlayerWithPlayLists mpwpl) {
-		this.mService = mService;
-		this.items = items;
+		this.context = context;
+		this.music = item;
 		this.mpwpl = mpwpl;
 		this.rootView = rootView;
 	}
 
-	/**
-	 * 
-	 * 選択された時
-	 */
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
+	public void onClick(View view) {
 		view.setSelected(true);
-		Music music = items.get(position);
 		if(music != null){
 			//TODO
 			try {
-				mpwpl.setSource(music.getPass());
+				ArrayList<Music> musicList = new ArrayList<Music>(1);
+				musicList.add(music);
+				mpwpl.setPlayList(musicList);
 				mpwpl.playStartAndPause();
-				MusicUtils.setPartOfPlayerView(mService, rootView, music);
+				MusicUtils.setPartOfPlayerView(context, rootView, music);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

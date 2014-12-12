@@ -36,7 +36,7 @@ public final class MusicPlayerWithPlayLists extends MusicPlayer {
 	 ===================================*/
 	
 	//再生曲のプレイリスト
-	private ArrayList<?> mPlayList = null;
+	private ArrayList<Music> mPlayList = null;
 	//プレイリストの再生番号を管理するカーソル
 	private int mCursor = 0;
 	
@@ -105,9 +105,39 @@ public final class MusicPlayerWithPlayLists extends MusicPlayer {
 	/**
 	 * プレイリストをセットする
 	 * @param playList　セットするプレイリスト
+	 * @throws IOException 
+	 * @throws IllegalStateException 
+	 * @throws SecurityException 
+	 * @throws IllegalArgumentException 
 	 */
-	public final void setPlayList(ArrayList<?> playList){
+	public final void setPlayList(ArrayList<Music> playList) throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
 		this.mPlayList = playList;
+		setSource(playList.get(0).getPass());
+	}
+	
+	/**
+	 * プレイリストをセットする
+	 * @param playList　セットするプレイリスト
+	 * @throws IOException 
+	 * @throws IllegalStateException 
+	 * @throws SecurityException 
+	 * @throws IllegalArgumentException 
+	 * @throws IndexOutOfBoundsException
+	 */
+	public final void setPlayList(ArrayList<Music> playList,int index) throws IndexOutOfBoundsException ,IllegalArgumentException, SecurityException, IllegalStateException, IOException{
+		this.mPlayList = playList;
+		setSource(playList.get(index).getPass());
+	}
+	
+	/**
+	 * 現在再生しているMusic
+	 * @return
+	 */
+	public final Music getNowPlayingMusic(){
+		if(mPlayList != null && mPlayList.size() > 0)
+			return mPlayList.get(mCursor);
+		else
+			return null;
 	}
 	
 	/**
@@ -157,7 +187,7 @@ public final class MusicPlayerWithPlayLists extends MusicPlayer {
 			}
 		}
 		//次の曲情報を取得
-		String nextMusic = (String) mPlayList.get(mCursor);
+		String nextMusic = mPlayList.get(mCursor).getPass();
 		//データをセットする
 		setSource(nextMusic);
 		//再生を開始
@@ -187,7 +217,7 @@ public final class MusicPlayerWithPlayLists extends MusicPlayer {
 		if(--mCursor < 0){
 			mCursor = 0;
 		}
-		String nextMusic = (String) mPlayList.get(mCursor);
+		String nextMusic = mPlayList.get(mCursor).getPass();
 		//データをセットする
 		setSource(nextMusic);
 		//再生を開始

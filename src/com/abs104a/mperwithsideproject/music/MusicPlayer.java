@@ -146,10 +146,19 @@ public class MusicPlayer implements OnCompletionListener {
 	 * @throws IOException
 	 * @return 再生状態（正常出あればSTOPPINGが返る）
 	 */
-	public final int setSource(String pass) throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
+	protected final int setSource(String pass) throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
 		//MediaPlayerのインスタンスを取得
 		if(mMediaPlayer == null)
 			mMediaPlayer =  new MediaPlayer();
+		else{
+			//再生の停止
+			playStop();
+			setStatus(NOSOURCE);
+			//リソースを開放する．
+			mMediaPlayer.release();
+			mMediaPlayer = new MediaPlayer();
+		}
+		
 		//データソースの設定
 		mMediaPlayer.setDataSource(pass);
 		//データ読み込み
