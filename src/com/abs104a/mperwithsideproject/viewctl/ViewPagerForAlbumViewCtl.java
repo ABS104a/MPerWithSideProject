@@ -29,7 +29,7 @@ public final class ViewPagerForAlbumViewCtl {
 			final Service mService,
 			final MusicPlayerWithPlayLists mpwpl)
 	{
-		//TODO Viewの生成
+		//TODO Viewの生成 ExpandableListview
 		final ListView mListView = new ListView(mService);
 		ArrayList<Music> items = MusicUtils.getMusicList(mService);
 		mListView.setAdapter(new MusicListAdapter(mService,items, mpwpl));

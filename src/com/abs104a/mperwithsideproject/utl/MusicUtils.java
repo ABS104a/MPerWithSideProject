@@ -109,7 +109,7 @@ public class MusicUtils {
 			albums.add(mAlbum);
 			tmpMusic.clear();
 		}
-		return null;
+		return albums;
 	}
 	
 }
