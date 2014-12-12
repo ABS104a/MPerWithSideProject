@@ -1,33 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/music_pager"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical" >
+    android:layout_height="300dp"
+    android:background="@color/musicplayer_Viewpager_bg" >
 
-    <android.support.v4.view.ViewPager
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/music_pager"
-        android:layout_width="wrap_content"
-        android:layout_height="300dp"
-        android:background="@color/musicplayer_Viewpager_bg"
-        tools:context="com.abs104a.mperwithsideproject.MainService" />
-
-    <LinearLayout
+    <android.support.v4.view.PagerTabStrip
+        android:id="@+id/pager_tab_strip"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="#39393939"
+        android:textColor="#FFFFFF" />
 
-        <Button
-            android:id="@+id/button_tub_playlist"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/button_tub_album"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.v4.view.ViewPager>

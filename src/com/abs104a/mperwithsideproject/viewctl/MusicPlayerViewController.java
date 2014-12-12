@@ -17,6 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 /**
  * プレイヤーメインViewの生成と設定を行うクラス
@@ -85,6 +86,7 @@ public final class MusicPlayerViewController {
 		
 		ImageButton showSettigsButton = (ImageButton)mView.findViewById(R.id.button_action_show_settings);
 		//TODO 設定表示ボタンの設定を登録する．
+		//((LinearLayout)mView).addView(ViewPagerForAlbumViewCtl.createView(mService, _mpwpl));
 		
 	}
 	
@@ -94,8 +96,8 @@ public final class MusicPlayerViewController {
 		_mpwpl.setOnPlayCompletedListener(new OnPlayCompletedImpl(_mpwpl));
 		
 		//ViewPager の設定
-		ViewPager mViewPager = (ViewPager)mView.findViewById(R.id.music_pager);
-		mViewPager.setAdapter(new MusicViewPagerAdapter(mService,_mpwpl));
+		ViewPager mViewPager = (ViewPager)mView.findViewById(R.id.player_list_part);
+		mViewPager.setAdapter(new MusicViewPagerAdapter(mService,mView,_mpwpl));
 		//TODO プレイリストを設定
 		
 	}

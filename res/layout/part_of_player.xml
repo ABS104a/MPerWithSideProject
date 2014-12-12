@@ -16,29 +16,65 @@
         android:src="@drawable/ic_launcher" />
 
     <!-- 現在再生している曲のアーティスト名 -->
-    <TextView
-        android:id="@+id/textView_now_artist_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imageView_now_jacket"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <!-- 現在再生している曲の曲名 -->
+
+    <!-- 現在再生している曲用シークバー -->
+
+    <SeekBar
+        android:id="@+id/seekBar_now_music_seek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView_now_jacket"
+        android:layout_toRightOf="@+id/TextView_now_current_time" />
+
     <TextView
         android:id="@+id/textView_now_music_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView_now_artist_name"
-        android:layout_below="@+id/textView_now_artist_name"
+        android:layout_alignParentTop="true"
+        android:text="title"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <!-- 現在再生している曲用シークバー -->
-    <SeekBar
-        android:id="@+id/seekBar_now_music_seek"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView_now_artist_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_now_music_name"
+        android:layout_toRightOf="@+id/imageView_now_jacket"
+        android:text="artist"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/textView_now_album"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_now_artist_name"
+        android:layout_toRightOf="@+id/imageView_now_jacket"
+        android:text="album"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/textView_now_max_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/seekBar_now_music_seek"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView_now_album"
+        android:text="time"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/TextView_now_current_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/seekBar_now_music_seek"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/imageView_now_jacket" />
+        android:layout_below="@+id/imageView_now_jacket"
+        android:gravity="center"
+        android:text="time"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

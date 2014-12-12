@@ -3,6 +3,7 @@ package com.abs104a.mperwithsideproject.utl;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.Album;
 import com.abs104a.mperwithsideproject.music.Music;
 
@@ -13,6 +14,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MusicUtils {
 
@@ -78,6 +82,11 @@ public class MusicUtils {
 		return items;
 	}
 
+	/**
+	 * 音楽ファイルをスキャンして，アルバムクラス配列を取得する．
+	 * @param mService
+	 * @return AlbumのArrayList
+	 */
 	public static ArrayList<Album> getMusicAlbumList(Service mService) {
 		
 		final ArrayList<Album> albums = new ArrayList<Album>();
@@ -110,6 +119,34 @@ public class MusicUtils {
 			tmpMusic.clear();
 		}
 		return albums;
+	}
+	
+	/**
+	 * MusicPlayerView中の再生曲情報を表示するViewへのデータセットを行う
+	 * @param mService
+	 * @param mView
+	 * @param music
+	 */
+	public static void setPartOfPlayerView(Service mService,View mView,Music music){
+		
+		//タイトルView
+		TextView title = (TextView)mView.findViewById(R.id.textView_now_music_name);
+		title.setText(music.getTitle());
+		//アーティスト
+		TextView artist = (TextView)mView.findViewById(R.id.textView_now_artist_name);
+		artist.setText(music.getArtist());
+		//アルバム名
+		TextView album = (TextView)mView.findViewById(R.id.textView_now_album);
+		album.setText(music.getAlbum());
+		//曲時間
+		TextView maxTime = (TextView)mView.findViewById(R.id.textView_now_max_time);
+		maxTime.setText(music.getDuration()+"");
+		//現在の再生時間
+		TextView currentTime = (TextView)mView.findViewById(R.id.TextView_now_current_time);
+		currentTime.setText("0:00");
+		//アルバムジャケット
+		ImageView jacket = (ImageView)mView.findViewById(R.id.imageView_now_jacket);
+		jacket.setImageURI(music.getAlbumUri());
 	}
 	
 }

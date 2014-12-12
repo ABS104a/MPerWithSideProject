@@ -8,12 +8,14 @@ import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
 import com.abs104a.mperwithsideproject.music.listener.PlayListAddOnClickImpl;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 /**
@@ -35,6 +37,8 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 	{
 		super(context, LAYOUT, items);
 		this.mpwpl = mpwpl;
+		
+		
 	}
 
 	@Override
@@ -44,14 +48,23 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 		if(convertView == null){
 			//取得したViewがNullの時
 			LayoutInflater inflater = LayoutInflater.from(getContext());
+			inflater = LayoutInflater.from(getContext());
 			convertView = inflater.inflate(LAYOUT, null);
 			holder = new ViewHolder();
 			holder.addButton   = (ImageButton) convertView.findViewById(R.id.imageButton_album_add);
+			
 			holder.albumText   = (TextView) convertView.findViewById(R.id.textView_album_album);
+			holder.albumText.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+			holder.albumText.setSingleLine(true);
+			holder.albumText.setMarqueeRepeatLimit(5);
+			holder.albumText.setSelected(true);
+			
 			holder.artistText  = (TextView) convertView.findViewById(R.id.textView_album_artist);
-			holder.jacketImage = (ImageView) convertView.findViewById(R.id.imageView_item_jacket);
+			holder.jacketImage = (ImageView) convertView.findViewById(R.id.imageView_album_jacket);
 			holder.timeText    = (TextView) convertView.findViewById(R.id.textView_album_time);
 			holder.titleText   = (TextView) convertView.findViewById(R.id.textView_album_title);
+			
+			convertView.setTag(holder);
 		}else{
 			//取得したViewがNullでない時
 			holder = (ViewHolder) convertView.getTag();
@@ -65,7 +78,10 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			holder.titleText.setText(item.getTitle());
 			
 			//TODO ジャケット画像
-			//holder.jacketImage.setImageURI(new Uri(item.get));
+			if(item.getAlbumUri() != null){
+				android.util.Log.v("uri",item.getAlbumUri().toString());
+				holder.jacketImage.setImageURI(item.getAlbumUri());
+			}
 			
 			holder.addButton.setOnClickListener(new PlayListAddOnClickImpl(getContext()));
 		}

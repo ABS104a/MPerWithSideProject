@@ -12,8 +12,7 @@
     <!-- リスト部分のレイアウト -->
 	<include 
         android:layout_width="@dimen/player_view_width"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="300dp"
         android:id="@+id/player_list_part" 
         layout="@layout/part_of_player_list" />
     
