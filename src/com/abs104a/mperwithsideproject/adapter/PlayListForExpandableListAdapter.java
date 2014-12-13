@@ -8,13 +8,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 
+/**
+ * PlayListを表示するためのExpandListView用Adapter
+ * @author Kouki
+ *
+ */
 public class PlayListForExpandableListAdapter extends
 	BaseExpandableListAdapter {
 	
-	private static final int LAYOUT = 1; //TODO
+	//グループのレイアウトID
+	private static final int GROUP_LAYOUT = 1; //TODO
+	//子要素のレイアウトID
+	private static final int CHILD_LAYOUT = 1; //TODO
+	
+	//アプリケーションコンテキスト
 	private Context mContext;
+	//プレイリスト
 	private ArrayList<PlayList> playLists;
 	
+	/**
+	 * インスタンスの生成
+	 * @param mContext　アプリケーションのコンテキスト
+	 * @param playLists	プレイリスト
+	 */
 	public PlayListForExpandableListAdapter(Context mContext,ArrayList<PlayList> playLists){
 		this.mContext = mContext;
 		this.playLists = playLists;

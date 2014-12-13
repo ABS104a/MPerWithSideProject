@@ -10,5 +10,7 @@
     <string name="viewpager_page_playlist">PlayLists</string>
     <string name="viewpager_page_album">Musics</string>
     <string name="viewpager_page_equalizer">Equalizer</string>
+    
+    <string name="playlist_serializable">playlist_serializable_data.dat</string>
 
 </resources>
