@@ -22,6 +22,7 @@ public final class ViewPagerForPlayListViewCtl {
 	public final static View createView(Service mService,MusicPlayerWithPlayLists mpwpl){
 		//TODO　ルーチンの実装
 		ExpandableListView mListView = new ExpandableListView(mService);
+		mListView.setAdapter(new PlayListForExpandableListAdapte());
 		mListView.setOnChildClickListener(new PlayListOnChildClickImpl(mService,mpwpl));
 		
 		return mListView;

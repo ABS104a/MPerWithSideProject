@@ -9,7 +9,7 @@ import android.net.Uri;
  * @author Kouki
  *
  */
-public final class Album  implements Serializable,Comparable<Album>{
+public class Album  implements Serializable,Comparable<Album>{
 
 	/**
 	 * 
