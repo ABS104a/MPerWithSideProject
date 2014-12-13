@@ -1,4 +1,4 @@
-package com.abs104a.mperwithsideproject.viewctl;
+package com.abs104a.mperwithsideproject.adapter;
 
 import java.util.ArrayList;
 import com.abs104a.mperwithsideproject.music.PlayList;
@@ -15,7 +15,7 @@ public class PlayListForExpandableListAdapter extends
 	private Context mContext;
 	private ArrayList<PlayList> playLists;
 	
-	public PlayListForExpandableListAdapte(Context mContext,ArrayList<PlayList> playLists){
+	public PlayListForExpandableListAdapter(Context mContext,ArrayList<PlayList> playLists){
 		this.mContext = mContext;
 		this.playLists = playLists;
 	}
