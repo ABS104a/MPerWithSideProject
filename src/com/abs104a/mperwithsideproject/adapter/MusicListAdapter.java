@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.Music;
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
-import com.abs104a.mperwithsideproject.music.listener.PlayListAddOnClickImpl;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.MusicOnClickListener;
+import com.abs104a.mperwithsideproject.viewctl.listener.PlayListAddOnClickImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.PlayListDeleteOnClickImpl;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -17,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 /**
@@ -30,20 +30,40 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 	//このリストのカスタムレイアウト
 	private final static int LAYOUT = R.layout.album_item_row;
 	//ミュージックプレイヤーコントロールインスタンス
-	private final MusicPlayerWithPlayLists mpwpl;
+	private final MusicPlayerWithQueue mpwpl;
 	//RootView
 	private final View rootView;
+	
+	//プレイリスト追加ボタンを消去ボタンにするかどうか
+	private boolean isDelete = false;
 
 	public MusicListAdapter(
 			Context context,
 			View rootView, List<Music> items,
-			MusicPlayerWithPlayLists mpwpl) 
+			MusicPlayerWithQueue mpwpl) 
 	{
 		super(context, LAYOUT, items);
 		this.mpwpl = mpwpl;
-		this.rootView = rootView;
-		
-		
+		this.rootView = rootView;	
+	}
+	
+	/**
+	 * Viewのカラムにプレイリスト用のボタンを追加するかどうかの設定
+	 * true = 消去
+	 * false = Queueに追加
+	 * default = false;
+	 * @param isShow 
+	 */
+	public void setButtonForDelete(boolean isdelete) {
+		this.isDelete = isdelete;
+	}
+	
+	/**
+	 * Viewのカラムにプレイリスト用のボタンを追加するかどうかの設定を取得
+	 * @return
+	 */
+	public boolean isButtonForDelete(){
+		return isDelete;
 	}
 
 	@Override
@@ -63,6 +83,12 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			holder.albumText.setSingleLine(true);
 			holder.albumText.setMarqueeRepeatLimit(5);
 			holder.albumText.setSelected(true);
+			
+			if(isDelete){
+				holder.addButton.setBackgroundResource(android.R.drawable.ic_input_delete);
+			}else{
+				holder.addButton.setBackgroundResource(android.R.drawable.ic_input_add);
+			}
 			
 			holder.artistText  = (TextView) convertView.findViewById(R.id.textView_album_artist);
 			holder.jacketImage = (ImageView) convertView.findViewById(R.id.imageView_album_jacket);
@@ -88,9 +114,18 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 				android.util.Log.v("uri",item.getAlbumUri().toString());
 				holder.jacketImage.setImageURI(item.getAlbumUri());
 			}
-			
-			holder.addButton.setOnClickListener(new PlayListAddOnClickImpl(getContext()));
-			convertView.setOnClickListener(new MusicOnClickListener(getContext(), rootView, item, mpwpl));
+			//ボタンを表示するかどうかの設定
+			if(isDelete){
+				PlayListDeleteOnClickImpl plimpl = new PlayListDeleteOnClickImpl(getContext(),rootView, item, mpwpl);
+				holder.addButton.setOnClickListener(plimpl);
+				holder.addButton.setOnLongClickListener(plimpl);
+			}
+			else{
+				PlayListAddOnClickImpl plimpl = new PlayListAddOnClickImpl(getContext(),rootView, item, mpwpl);
+				holder.addButton.setOnClickListener(plimpl);
+				holder.addButton.setOnLongClickListener(plimpl);
+			}
+			convertView.setOnClickListener(new MusicOnClickListener(getContext(), rootView, item, mpwpl,!isDelete));
 		}
 		
 		
@@ -116,8 +151,5 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 		//プレイリスト追加用View
 		public ImageButton addButton = null;
 	}
-	
-	
-
 
 }

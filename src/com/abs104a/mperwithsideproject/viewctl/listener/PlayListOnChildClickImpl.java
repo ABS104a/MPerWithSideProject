@@ -1,6 +1,6 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 
 import android.app.Service;
 import android.view.View;
@@ -18,7 +18,7 @@ public final class PlayListOnChildClickImpl implements OnChildClickListener {
 	//親サービスのコンテキスト
 	private final Service mService;
 	//音楽プレーヤーのコントロールインスタンス
-	private final MusicPlayerWithPlayLists mpwpl;
+	private final MusicPlayerWithQueue mpwpl;
 
 	/**
 	 * インスタンス生成
@@ -26,7 +26,7 @@ public final class PlayListOnChildClickImpl implements OnChildClickListener {
 	 * @param mpwpl		音楽プレーヤーのコントロールインスタンス
 	 */
 	public PlayListOnChildClickImpl(Service mService,
-			MusicPlayerWithPlayLists mpwpl) {
+			MusicPlayerWithQueue mpwpl) {
 		this.mService = mService;
 		this.mpwpl = mpwpl;
 	}

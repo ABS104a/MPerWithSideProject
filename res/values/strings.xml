@@ -7,6 +7,7 @@
     <string name="title_section3">Section 3</string>
     <string name="action_settings">Settings</string>
     
+    <string name="viewpager_page_playing_queue">Queue</string>
     <string name="viewpager_page_playlist">PlayLists</string>
     <string name="viewpager_page_album">Musics</string>
     <string name="viewpager_page_equalizer">Equalizer</string>

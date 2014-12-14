@@ -171,8 +171,12 @@ public class MusicPlayer implements OnCompletionListener {
 	/**
 	 * 再生する時の動作
 	 * @return　現在の状況
+	 * @throws IOException 
+	 * @throws IllegalStateException 
+	 * @throws SecurityException 
+	 * @throws IllegalArgumentException 
 	 */
-	public final int playStartAndPause(){
+	public int playStartAndPause() throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
 		if(mMediaPlayer != null){
 			//再生していない場合　（NOTPLAYING or PAUSEING or STOPPING）
 			if(getStatus() >= NOTPLAYING){

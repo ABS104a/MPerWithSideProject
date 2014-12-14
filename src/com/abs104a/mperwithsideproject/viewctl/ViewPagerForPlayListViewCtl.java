@@ -1,7 +1,7 @@
 package com.abs104a.mperwithsideproject.viewctl;
 
 import com.abs104a.mperwithsideproject.adapter.PlayListForExpandableListAdapter;
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayListOnChildClickImpl;
 
 import android.app.Service;
@@ -20,7 +20,7 @@ public final class ViewPagerForPlayListViewCtl {
 	 * @param mServie	親となるサービスのコンテキスト
 	 * @return	生成したView
 	 */
-	public final static View createView(Service mService,MusicPlayerWithPlayLists mpwpl){
+	public final static View createView(Service mService,MusicPlayerWithQueue mpwpl){
 		//TODO　ルーチンの実装
 		ExpandableListView mListView = new ExpandableListView(mService);
 		//TODO ここでPlayListを読み込む

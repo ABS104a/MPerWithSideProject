@@ -2,7 +2,7 @@ package com.abs104a.mperwithsideproject.viewctl.listener;
 
 import java.io.IOException;
 
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 
 import android.app.Service;
 import android.view.View;
@@ -16,7 +16,7 @@ import android.view.View.OnClickListener;
 public final class NextButtonOnClickImpl implements OnClickListener {
 
 	//ミュージックコントロールインスタンス
-	private final MusicPlayerWithPlayLists _mpwpl;
+	private final MusicPlayerWithQueue _mpwpl;
 	//サービスのコンテキスト（例外時のメッセージ処理など
 	private final Service _service;
 
@@ -25,7 +25,7 @@ public final class NextButtonOnClickImpl implements OnClickListener {
 	 * @param _service　サービスのコンテキスト
 	 * @param mpwpl　ミュージックコントロールクラス
 	 */
-	public NextButtonOnClickImpl(Service _service,MusicPlayerWithPlayLists mpwpl) {
+	public NextButtonOnClickImpl(Service _service,MusicPlayerWithQueue mpwpl) {
 		this._mpwpl = mpwpl;
 		this._service = _service;
 	}

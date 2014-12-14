@@ -1,10 +1,8 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
-import java.util.ArrayList;
-
 import com.abs104a.mperwithsideproject.music.Music;
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
-import com.abs104a.mperwithsideproject.utl.MusicUtils;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 
 import android.content.Context;
 import android.view.View;
@@ -18,18 +16,30 @@ import android.view.View.OnClickListener;
 public final class MusicOnClickListener implements OnClickListener {
 
 	//ミュージックコントロールクラス
-	private final MusicPlayerWithPlayLists mpwpl;
+	private final MusicPlayerWithQueue mpwpl;
 	//サービスのコンテキスト
 	private final Context context;
 	//音楽リスト
 	private final Music music;
+	//RootView
 	private final View rootView;
+	//タップした時にキューに追加するかどうか
+	private final boolean isAddQueue;
 
+	/**
+	 * インスタンスの生成
+	 * @param context	アプリケーションのコンテキスト
+	 * @param rootView	ルートのView
+	 * @param item		対象となるMusicインスタンス
+	 * @param mpwpl		ミュージックコントロールインスタンス
+	 * @param isAddQueue	タップされたときにキューに登録するかどうか
+	 */
 	public MusicOnClickListener(Context context, View rootView, Music item,
-			MusicPlayerWithPlayLists mpwpl) {
+			MusicPlayerWithQueue mpwpl, boolean isAddQueue) {
 		this.context = context;
 		this.music = item;
 		this.mpwpl = mpwpl;
+		this.isAddQueue = isAddQueue;
 		this.rootView = rootView;
 	}
 
@@ -39,11 +49,20 @@ public final class MusicOnClickListener implements OnClickListener {
 		if(music != null){
 			//TODO
 			try {
-				ArrayList<Music> musicList = new ArrayList<Music>(1);
-				musicList.add(music);
-				mpwpl.setPlayList(musicList);
+				int index = 0;
+				if(isAddQueue){
+					//キューに追加する時
+					mpwpl.addMusic(music, index);
+				}else{
+					index = mpwpl.getQueue().indexOf(music);
+					//曲がQueueにないときだけ追加する．
+					if(index == -1){
+						mpwpl.addMusic(music, index);
+					}
+				}
+				mpwpl.seekQueue(index);
 				mpwpl.playStartAndPause();
-				MusicUtils.setPartOfPlayerView(context, rootView, music);
+				DisplayUtils.setPartOfPlayerView(context, rootView, music);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

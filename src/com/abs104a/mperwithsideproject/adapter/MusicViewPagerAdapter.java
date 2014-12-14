@@ -1,8 +1,10 @@
 package com.abs104a.mperwithsideproject.adapter;
 
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForAlbumViewCtl;
+import com.abs104a.mperwithsideproject.viewctl.ViewPagerForPlayingQueueViewCtl;
+
 import android.app.Service;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -21,15 +23,30 @@ import android.widget.ListView;
  */
 public final class MusicViewPagerAdapter extends PagerAdapter {
 
-	//ViewPagerのページ数
-	public final static int PAGE_SIZE = 3;
+	public static final int QUEUE = 0;
+	public static final int PLAYLIST = 1;
+	public static final int ALBUM = 2;
+	public static final int EQUALIZER = 3;
 	
+	//ViewPagerのページ数
+	public final static int PAGE_SIZE = 4;
 	//自身のサービスコンテキスト
 	private final Service mService;
 	//playerのコントロールクラス
-	private final MusicPlayerWithPlayLists mpwpl;
+	private final MusicPlayerWithQueue mpwpl;
 	//rootView
 	private final View mView;
+	
+	//Queue用のListView;
+	private ListView mQueueListView = null;
+	
+	/**
+	 * ListViewの要素を更新する．
+	 */
+	public void notifitionDataSetChagedForQueueView(){
+		if(mQueueListView != null)
+			((MusicListAdapter)mQueueListView.getAdapter()).notifyDataSetChanged();
+	}
 	
 	/**
 	 * 自身のインスタンス生成
@@ -38,7 +55,7 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	 * @param mpwpl
 	 */
 	public MusicViewPagerAdapter(Service mService,
-			View mView, MusicPlayerWithPlayLists mpwpl) {
+			View mView, MusicPlayerWithQueue mpwpl) {
 		this.mService = mService;
 		this.mpwpl = mpwpl;
 		this.mView = mView;
@@ -50,11 +67,13 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	@Override
 	public CharSequence getPageTitle(int position) {
 		switch(position){
-		case 0:
+		case QUEUE:
+			return mService.getText(R.string.viewpager_page_playing_queue); //プレイリスト
+		case PLAYLIST:
 			return mService.getText(R.string.viewpager_page_playlist); //プレイリスト
-		case 1:
+		case ALBUM:
 			return mService.getText(R.string.viewpager_page_album); //アルバム
-		case 2:
+		case EQUALIZER:
 			return mService.getText(R.string.viewpager_page_equalizer); //イコライザ・ビジュアライザ-
 		}
 		return super.getPageTitle(position);
@@ -76,13 +95,19 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 		//ページごとのViewを生成する
 		ListView view = null;
 		switch(position){
-		case 0:	//Page1
+		case QUEUE:	//Page1
+			view = (ListView) ViewPagerForPlayingQueueViewCtl
+			.createView(mService, mView, mpwpl);
+			mQueueListView = view;
+			break;
+		case PLAYLIST:	//Page2
 			view = new ListView(mService);//(ListView) ViewPagerForPlayListViewCtl.createView(mService, mpwpl);
 			break;
-		case 1:	//Page2
-			view = (ListView) ViewPagerForAlbumViewCtl.createView(mService,mView, mpwpl);
+		case ALBUM:	//Page3
+			view = (ListView) ViewPagerForAlbumViewCtl
+			.createView(mService,mView, mpwpl);
 			break;
-		case 2:	//Page3
+		case EQUALIZER:	//Page4
 			view = new ListView(mService);//(ListView) ViewPagerForEqualizerViewCtl.createView(mService, mpwpl);
 			break;
 		}
@@ -96,6 +121,8 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
 		// ページの消去を行う際に呼ばれるメソッド
+		if(position != QUEUE)
+			mQueueListView = null;
 		((ViewPager) container).removeView((View) object);
 	}
 

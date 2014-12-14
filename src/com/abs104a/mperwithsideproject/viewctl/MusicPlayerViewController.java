@@ -3,10 +3,10 @@ package com.abs104a.mperwithsideproject.viewctl;
 
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
-import com.abs104a.mperwithsideproject.music.listener.ExitActionOnClickListenerImpl;
-import com.abs104a.mperwithsideproject.utl.MusicUtils;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.BackButtonOnClickImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.ExitActionOnClickListenerImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.NextButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.OnPlayCompletedImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayButtonOnClickImpl;
@@ -18,7 +18,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 /**
  * プレイヤーメインViewの生成と設定を行うクラス
@@ -30,7 +29,7 @@ import android.widget.LinearLayout;
 public final class MusicPlayerViewController {
 
 	//音楽リソースのコントロールクラスのインスタンス
-	private final static MusicPlayerWithPlayLists _mpwpl = new MusicPlayerWithPlayLists();
+	private final static MusicPlayerWithQueue _mpwpl = new MusicPlayerWithQueue();
 	
 	/**
 	 * PlayerのViewを生成するメソッド
@@ -44,9 +43,18 @@ public final class MusicPlayerViewController {
 		// レイアウトファイルから重ね合わせするViewを作成する
 		View mView = layoutInflater.inflate(com.abs104a.mperwithsideproject.R.layout.player_view, null);
 		//Action Settings 
-		initButtonOfView(mService,mView);
-		initAction(mService,mView);
+		init(mService, mView);
 		return mView;
+	}
+	
+	/**
+	 * 初期化を行う
+	 * @param mService
+	 * @param mView
+	 */
+	private final static void init(Service mService,View mView){
+		initAction(mService,mView);
+		initButtonOfView(mService,mView);
 	}
 	
 	/**
@@ -54,7 +62,7 @@ public final class MusicPlayerViewController {
 	 * @param mService
 	 * @param mView
 	 */
-	public static void initButtonOfView(Service mService,View mView){
+	private static void initButtonOfView(Service mService,View mView){
 		//Viewのボタンに動作をつける
 		//終了ボタンの設定
 		ImageButton exitButton = (ImageButton)mView.findViewById(R.id.button_action_exit);
@@ -91,18 +99,19 @@ public final class MusicPlayerViewController {
 		
 	}
 	
-	public static void initAction(Service mService,View mView){
+	private static void initAction(Service mService,View mView){
 		//再生が終了した時に呼ばれるリスナを実装する．
 		//再生が完了したときのリスナをセット．
-		_mpwpl.setOnPlayCompletedListener(new OnPlayCompletedImpl(_mpwpl));
+		_mpwpl.setOnPlayCompletedListener(new OnPlayCompletedImpl(_mpwpl, mView));
 		
 		//ViewPager の設定
 		ViewPager mViewPager = (ViewPager)mView.findViewById(R.id.player_list_part);
 		mViewPager.setAdapter(new MusicViewPagerAdapter(mService,mView,_mpwpl));
+		mViewPager.setOnPageChangeListener(new ViewPagerOnPagerChangeImpl(mViewPager));
 		
 		//TODO プレイリストを設定
 		if(_mpwpl.getNowPlayingMusic() != null)
-			MusicUtils.setPartOfPlayerView(mService, mView, _mpwpl.getNowPlayingMusic());
+			DisplayUtils.setPartOfPlayerView(mService, mView, _mpwpl.getNowPlayingMusic());
 		
 	}
 	

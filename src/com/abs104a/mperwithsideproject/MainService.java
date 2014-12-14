@@ -1,5 +1,6 @@
 package com.abs104a.mperwithsideproject;
 
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.viewctl.MainViewController;
 import android.app.Service;
 import android.content.Context;
@@ -63,6 +64,7 @@ public class MainService extends Service{
 		//MainViewの生成
 		LayoutInflater inflater = LayoutInflater.from( mService );
 		inflater.inflate(R.layout.player_view, null);
+		
 
 		mWindowManager  = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 

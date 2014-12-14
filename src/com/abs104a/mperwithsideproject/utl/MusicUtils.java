@@ -121,32 +121,6 @@ public class MusicUtils {
 		return albums;
 	}
 	
-	/**
-	 * MusicPlayerView中の再生曲情報を表示するViewへのデータセットを行う
-	 * @param context
-	 * @param mView
-	 * @param music
-	 */
-	public static void setPartOfPlayerView(Context context,View mView,Music music){
-		
-		//タイトルView
-		TextView title = (TextView)mView.findViewById(R.id.textView_now_music_name);
-		title.setText(music.getTitle());
-		//アーティスト
-		TextView artist = (TextView)mView.findViewById(R.id.textView_now_artist_name);
-		artist.setText(music.getArtist());
-		//アルバム名
-		TextView album = (TextView)mView.findViewById(R.id.textView_now_album);
-		album.setText(music.getAlbum());
-		//曲時間
-		TextView maxTime = (TextView)mView.findViewById(R.id.textView_now_max_time);
-		maxTime.setText(DisplayUtils.long2TimeString(music.getDuration()));
-		//現在の再生時間
-		TextView currentTime = (TextView)mView.findViewById(R.id.TextView_now_current_time);
-		currentTime.setText("0:00");
-		//アルバムジャケット
-		ImageView jacket = (ImageView)mView.findViewById(R.id.imageView_now_jacket);
-		jacket.setImageURI(music.getAlbumUri());
-	}
+
 	
 }

@@ -1,6 +1,6 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,14 +13,14 @@ import android.widget.ImageButton;
 public final class RepeatButtonOnClickImpl implements OnClickListener {
 
 	private final ImageButton _button;
-	private final MusicPlayerWithPlayLists _mpwpl;
+	private final MusicPlayerWithQueue _mpwpl;
 
 	/**
 	 * インスタンスの生成
 	 * @param mView 結果反映用View
 	 * @param mpwpl 音楽コントロールクラス
 	 */
-	public RepeatButtonOnClickImpl(ImageButton repeatButton, MusicPlayerWithPlayLists mpwpl) {
+	public RepeatButtonOnClickImpl(ImageButton repeatButton, MusicPlayerWithQueue mpwpl) {
 		this._button = repeatButton;
 		this._mpwpl = mpwpl;
 	}
@@ -34,16 +34,16 @@ public final class RepeatButtonOnClickImpl implements OnClickListener {
 		//現在の状態を取得する
 		int loopState = _mpwpl.getLoopState();
 		//LOOPしてない時
-		if(loopState == MusicPlayerWithPlayLists.NOT_LOOP){
-			loopState = MusicPlayerWithPlayLists.ALL_LOOP;
+		if(loopState == MusicPlayerWithQueue.NOT_LOOP){
+			loopState = MusicPlayerWithQueue.ALL_LOOP;
 		}
 		//全曲LOOPの時
-		else if(loopState == MusicPlayerWithPlayLists.ALL_LOOP){
-			loopState = MusicPlayerWithPlayLists.ONE_LOOP;
+		else if(loopState == MusicPlayerWithQueue.ALL_LOOP){
+			loopState = MusicPlayerWithQueue.ONE_LOOP;
 		}
 		//1曲ループの時
-		else if(loopState == MusicPlayerWithPlayLists.ONE_LOOP){
-			loopState = MusicPlayerWithPlayLists.NOT_LOOP;
+		else if(loopState == MusicPlayerWithQueue.ONE_LOOP){
+			loopState = MusicPlayerWithQueue.NOT_LOOP;
 		}
 		//LOOP状態の取得
 		loopState = _mpwpl.setLoopState(loopState);

@@ -1,9 +1,10 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
-import java.io.IOException;
+import android.view.View;
 
 import com.abs104a.mperwithsideproject.music.MusicPlayer.OnPlayCompletedListener;
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 
 /**
  * 再生が完了した時に呼ばれるリスナImpl
@@ -13,14 +14,16 @@ import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
 public final class OnPlayCompletedImpl implements OnPlayCompletedListener{
 
 	//ミュージックコントロールクラスのインスタンス
-	private final MusicPlayerWithPlayLists _mpwpl;
+	private final MusicPlayerWithQueue _mpwpl;
+	private final View rootView;
 
 	/**
 	 * インスタンスの作成
 	 * @param mpwpl　ミュージックコントロールクラスのインスタンス．
 	 */
-	public OnPlayCompletedImpl(MusicPlayerWithPlayLists mpwpl) {
+	public OnPlayCompletedImpl(MusicPlayerWithQueue mpwpl,View rootView) {
 		this._mpwpl = mpwpl;
+		this.rootView = rootView;
 	}
 
 	/**
@@ -32,16 +35,12 @@ public final class OnPlayCompletedImpl implements OnPlayCompletedListener{
 		try {
 			//次の曲を再生
 			_mpwpl.playNext();
-		} catch (IllegalArgumentException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		} catch (IOException e) {
+			DisplayUtils.setPartOfPlayerView(
+					rootView.getContext(), 
+					rootView,
+					_mpwpl.getNowPlayingMusic());
+			
+		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}

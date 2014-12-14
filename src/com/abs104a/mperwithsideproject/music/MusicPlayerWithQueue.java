@@ -18,7 +18,7 @@ import java.util.Random;
  * @author Kouki
  *
  */
-public final class MusicPlayerWithPlayLists extends MusicPlayer {
+public final class MusicPlayerWithQueue extends MusicPlayer {
 
 	/**===================================
 	 * 定数
@@ -36,7 +36,7 @@ public final class MusicPlayerWithPlayLists extends MusicPlayer {
 	 ===================================*/
 	
 	//再生曲のプレイリスト
-	private ArrayList<Music> mPlayList = null;
+	private final ArrayList<Music> mPlayList = new ArrayList<Music>();
 	//プレイリストの再生番号を管理するカーソル
 	private int mCursor = 0;
 	
@@ -102,18 +102,22 @@ public final class MusicPlayerWithPlayLists extends MusicPlayer {
 	// ・再生コントロール機能
 	// ==================================
 	
-	/**
-	 * プレイリストをセットする
-	 * @param playList　セットするプレイリスト
-	 * @throws IOException 
-	 * @throws IllegalStateException 
-	 * @throws SecurityException 
-	 * @throws IllegalArgumentException 
+	/* (非 Javadoc)
+	 * @see com.abs104a.mperwithsideproject.music.MusicPlayer#playStartAndPause()
 	 */
-	public final void setPlayList(ArrayList<Music> playList) throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
-		this.mPlayList = playList;
-		setSource(playList.get(0).getPass());
-	}
+	@Override
+	public int playStartAndPause()
+			throws IndexOutOfBoundsException, 
+			IllegalArgumentException, 
+			SecurityException, 
+			IllegalStateException, 
+			IOException 
+			{
+		if(getStatus() == NOSOURCE){
+			setSource(mPlayList.get(mCursor).getPass());
+		}
+		return super.playStartAndPause();
+	}	
 	
 	/**
 	 * プレイリストをセットする
@@ -122,11 +126,97 @@ public final class MusicPlayerWithPlayLists extends MusicPlayer {
 	 * @throws IllegalStateException 
 	 * @throws SecurityException 
 	 * @throws IllegalArgumentException 
+	 */
+	public final void setPlayList(ArrayList<Music> playList) 
+			throws IllegalArgumentException, 
+			SecurityException, 
+			IllegalStateException, 
+			IOException
+			{
+		this.mPlayList.clear();
+		this.mPlayList.addAll(playList);
+		setSource(playList.get(0).getPass());
+	}
+	
+	/**
+	 * プレイリストをセットする (indexの曲目から再生する)
+	 * @param playList　セットするプレイリスト
+	 * @throws IOException 
+	 * @throws IllegalStateException 
+	 * @throws SecurityException 
+	 * @throws IllegalArgumentException 
 	 * @throws IndexOutOfBoundsException
 	 */
 	public final void setPlayList(ArrayList<Music> playList,int index) throws IndexOutOfBoundsException ,IllegalArgumentException, SecurityException, IllegalStateException, IOException{
-		this.mPlayList = playList;
+		this.mPlayList.clear();
+		this.mPlayList.addAll(playList);
+		mCursor = index;
 		setSource(playList.get(index).getPass());
+	}
+	
+	/**
+	 * 曲をセットする（新たなプレイリストを作成して曲をセットする．）
+	 * @param music
+	 * @throws IllegalArgumentException
+	 * @throws SecurityException
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
+	public final void setMusic(final Music music) throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
+		mPlayList.clear();
+		mPlayList.add(music);
+		mCursor = 0;
+		setSource(music.getPass());
+	}
+	
+	/**
+	 * 曲を現在のプレイリストに追加する．
+	 * 
+	 * プレイリストがない場合は新規に作成をして追加します．
+	 * @param music　追加する音楽要素
+	 */
+	public final void addMusic(final Music music){
+		mPlayList.add(music);
+	}
+	
+	
+	
+	/**
+	 * 曲を現在のプレイリストの任意の場所に挿入します．
+	 * 
+	 * プレイリストがない場合は作成します．
+	 * 
+	 * @param music　挿入する音楽
+	 * @param index	挿入箇所
+	 * @throws IndexOutOfBoundsException　プレイリスト外のIndex指定があった場合
+	 */
+	public final void addMusic(final Music music ,final int index) throws IndexOutOfBoundsException{
+		mPlayList.add(index, music);
+	}
+	
+	/**
+	 * 再生Queueのなかから指定した音楽を消去します．
+	 * @param music
+	 */
+	public final void removeMusic(final Music music){
+		int index = mPlayList.indexOf(music);
+		if(index != -1){
+			if(index <= mCursor)
+				mCursor = Math.max(0, mCursor - 1);
+			mPlayList.remove(music);
+		}
+	}
+	
+	/**
+	 * 再生Queueのなかから指定した音楽を消去します．
+	 * @param music
+	 */
+	public final void removeMusic(final int index){
+		if(index >= 0 && index < mPlayList.size()){
+			if(index <= mCursor)
+				mCursor = Math.max(0, mCursor - 1);
+			mPlayList.remove(index);
+		}
 	}
 	
 	/**
@@ -138,6 +228,35 @@ public final class MusicPlayerWithPlayLists extends MusicPlayer {
 			return mPlayList.get(mCursor);
 		else
 			return null;
+	}
+	
+	/**
+	 * 再生Queueを取得します．
+	 * @return　再生Queue
+	 */
+	public final ArrayList<Music> getQueue(){
+		return mPlayList;
+	}
+	
+	/**
+	 * Queueの任意のインデックスにシークする．
+	 * @param index
+	 * @return
+	 * @throws IndexOutOfBoundsException
+	 * @throws IllegalArgumentException
+	 * @throws SecurityException
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
+	public final int seekQueue(final int index) 
+			throws IndexOutOfBoundsException, 
+			IllegalArgumentException,
+			SecurityException, 
+			IllegalStateException, 
+			IOException
+	{
+		mCursor = index;
+		return setSource(mPlayList.get(index).getPass());
 	}
 	
 	/**
@@ -223,5 +342,7 @@ public final class MusicPlayerWithPlayLists extends MusicPlayer {
 		//再生を開始
 		playStartAndPause();
 		return mCursor;	
-	}	
+	}
+
+
 }

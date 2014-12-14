@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import android.app.Service;
 import android.view.View;
@@ -26,7 +26,7 @@ public final class ViewPagerForAlbumViewCtl {
 	 */
 	public final static View createView(
 			final Service mService,
-			View rootView, final MusicPlayerWithPlayLists mpwpl)
+			View rootView, final MusicPlayerWithQueue mpwpl)
 	{
 		//TODO Viewの生成 ExpandableListview
 		final ListView mListView = new ListView(mService);

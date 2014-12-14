@@ -3,7 +3,7 @@ package com.abs104a.mperwithsideproject.viewctl;
 import android.app.Service;
 import android.view.View;
 
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 
 /**
  * EqualizerViewの生成とコントロールを行うクラス
@@ -20,7 +20,7 @@ public class ViewPagerForEqualizerViewCtl {
 	 */
 	public static View createView(
 			Service mService,
-			MusicPlayerWithPlayLists mpwpl) 
+			MusicPlayerWithQueue mpwpl) 
 	{
 		// TODO Viewの生成
 		return new View(mService);

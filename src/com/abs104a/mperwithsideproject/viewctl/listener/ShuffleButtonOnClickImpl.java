@@ -1,6 +1,6 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithPlayLists;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,7 +16,7 @@ public final class ShuffleButtonOnClickImpl implements OnClickListener {
 	//シャッフルボタンのView
 	private final ImageButton _button;
 	//ミュージックコントロールクラスのインスタンス
-	private final MusicPlayerWithPlayLists _mpwpl;
+	private final MusicPlayerWithQueue _mpwpl;
 
 	/**
 	 * インスタンスの生成
@@ -24,7 +24,7 @@ public final class ShuffleButtonOnClickImpl implements OnClickListener {
 	 * @param mpwpl　ミュージッククラスのインスタンス
 	 */
 	public ShuffleButtonOnClickImpl(ImageButton shuffleButton,
-			MusicPlayerWithPlayLists mpwpl) {
+			MusicPlayerWithQueue mpwpl) {
 		_button = shuffleButton;
 		_mpwpl = mpwpl;
 	}
