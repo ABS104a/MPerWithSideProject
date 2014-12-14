@@ -11,6 +11,8 @@
     
     <dimen name="player_view_padding">3dp</dimen>
     
+    <dimen name="play_button_size">50dp</dimen>
+    
     <dimen name="main_view_handle_size">40dp</dimen>
     
     <!-- メイン画面プレイヤーのマージン -->
