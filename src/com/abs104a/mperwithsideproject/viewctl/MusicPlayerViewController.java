@@ -14,10 +14,14 @@ import com.abs104a.mperwithsideproject.viewctl.listener.RepeatButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ShuffleButtonOnClickImpl;
 
 import android.app.Service;
+import android.content.Context;
+import android.media.AudioManager;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 /**
  * プレイヤーメインViewの生成と設定を行うクラス
@@ -113,6 +117,40 @@ public final class MusicPlayerViewController {
 		//TODO プレイリストを設定
 		if(_mpwpl.getNowPlayingMusic() != null)
 			DisplayUtils.setPartOfPlayerView(mService, mView, _mpwpl.getNowPlayingMusic(),_mpwpl);
+		
+		//音量の設定
+		// AudioManagerを取得する
+        final AudioManager am = (AudioManager)mService.getSystemService(Context.AUDIO_SERVICE);
+ 
+        // 現在の音量を取得する
+        int musicVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+ 
+        // ストリームごとの最大音量を取得する
+        int musicMaxVolume = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        //音量を調節するシークバー
+        final SeekBar volumeBar = (SeekBar)mView.findViewById(R.id.seekBar_volume);
+        volumeBar.setMax(musicMaxVolume);
+        volumeBar.setProgress(musicVolume);
+        //音量のシークバーが変更された時のリスナ
+        volumeBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				// シークバーが変更された時
+				if(fromUser){//音量を変更する
+					am.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+				}
+				
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {}
+        	
+        });
 		
 	}
 	
