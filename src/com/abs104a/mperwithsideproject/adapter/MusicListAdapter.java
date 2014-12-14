@@ -1,5 +1,6 @@
 package com.abs104a.mperwithsideproject.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.abs104a.mperwithsideproject.R;
@@ -33,18 +34,17 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 	private final MusicPlayerWithQueue mpwpl;
 	//RootView
 	private final View rootView;
-	
 	//プレイリスト追加ボタンを消去ボタンにするかどうか
 	private boolean isDelete = false;
 
 	public MusicListAdapter(
 			Context context,
-			View rootView, List<Music> items,
+			View rootView, ArrayList<Music> items,
 			MusicPlayerWithQueue mpwpl) 
 	{
 		super(context, LAYOUT, items);
 		this.mpwpl = mpwpl;
-		this.rootView = rootView;	
+		this.rootView = rootView;
 	}
 	
 	/**
@@ -126,6 +126,16 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 				holder.addButton.setOnLongClickListener(plimpl);
 			}
 			convertView.setOnClickListener(new MusicOnClickListener(getContext(), rootView, item, mpwpl,!isDelete));
+			
+			Music currentMusic = mpwpl.getNowPlayingMusic();
+			if(currentMusic != null && item.equals(currentMusic)){
+				//再生中の曲がカラムと同じ場合
+				convertView.setBackgroundResource(R.color.listview_current_row);
+			}else{
+				//再生中の曲がカラムと違う場合
+				convertView.setBackgroundResource(R.color.transparent);
+			}
+			
 		}
 		
 		

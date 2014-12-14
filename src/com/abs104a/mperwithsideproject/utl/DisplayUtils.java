@@ -2,16 +2,18 @@ package com.abs104a.mperwithsideproject.utl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.Music;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.viewctl.MusicSeekBarHandler;
+import com.abs104a.mperwithsideproject.viewctl.listener.MusicSeekBarOnChangeImpl;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.os.Handler;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -22,10 +24,9 @@ import android.widget.TextView;
  *
  */
 public class DisplayUtils {
+	
+	private static MusicSeekBarHandler mHandler = null;
 
-	
-	private static Handler mHandler = new Handler();
-	
 	/**
 	 * 画面の幅を取得するクラス
 	 * @param mContext アプリケーションのコンテキスト
@@ -66,28 +67,50 @@ public class DisplayUtils {
 	 * @param mView
 	 * @param music
 	 */
-	public static void setPartOfPlayerView(Context context,View mView,Music music){
+	public static void setPartOfPlayerView(final Context context,final View mView,final Music music,final MusicPlayerWithQueue mpwpl){
+		//一定時間おきの動作設定
+		if(mHandler != null)
+			mHandler.stopHandler();
+		mHandler = null;
 		
 		//タイトルView
-		TextView title = (TextView)mView.findViewById(R.id.textView_now_music_name);
+		final TextView title = (TextView)mView.findViewById(R.id.textView_now_music_name);
 		title.setText(music.getTitle());
 		//アーティスト
-		TextView artist = (TextView)mView.findViewById(R.id.textView_now_artist_name);
+		final TextView artist = (TextView)mView.findViewById(R.id.textView_now_artist_name);
 		artist.setText(music.getArtist());
 		//アルバム名
-		TextView album = (TextView)mView.findViewById(R.id.textView_now_album);
+		final TextView album = (TextView)mView.findViewById(R.id.textView_now_album);
 		album.setText(music.getAlbum());
 		//曲時間
-		TextView maxTime = (TextView)mView.findViewById(R.id.textView_now_max_time);
+		final TextView maxTime = (TextView)mView.findViewById(R.id.textView_now_max_time);
 		maxTime.setText(DisplayUtils.long2TimeString(music.getDuration()));
 		//現在の再生時間
-		TextView currentTime = (TextView)mView.findViewById(R.id.TextView_now_current_time);
+		final TextView currentTime = (TextView)mView.findViewById(R.id.TextView_now_current_time);
 		currentTime.setText("0:00");
 		//アルバムジャケット
-		ImageView jacket = (ImageView)mView.findViewById(R.id.imageView_now_jacket);
+		final ImageView jacket = (ImageView)mView.findViewById(R.id.imageView_now_jacket);
 		jacket.setImageURI(music.getAlbumUri());
 		
-		SeekBar seekbar = (SeekBar)mView.findViewById(R.id.seekBar_now_music_seek);
-		seekbar.setMax((int)music.getDuration());
+		//曲のシークバー
+		final SeekBar seekbar = (SeekBar)mView.findViewById(R.id.seekBar_now_music_seek);
+		seekbar.setMax((int)(music.getDuration()));
+		seekbar.setProgress(0);
+		
+		seekbar.setOnSeekBarChangeListener(new MusicSeekBarOnChangeImpl(currentTime,mpwpl));
+		
+		final ImageButton playButton = (ImageButton)mView.findViewById(R.id.button_play);
+		
+		if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
+			//Viewを一時停止ボタンに
+			playButton.setBackgroundResource(android.R.drawable.ic_media_pause);
+		}else{
+			playButton.setBackgroundResource(android.R.drawable.ic_media_play);
+		}
+		
+		
+		mHandler = new MusicSeekBarHandler(currentTime,seekbar,mpwpl);
+		mHandler.sleep(0);
+		
 	}
 }

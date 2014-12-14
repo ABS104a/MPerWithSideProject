@@ -1,13 +1,8 @@
 package com.abs104a.mperwithsideproject.viewctl;
 
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
-import com.abs104a.mperwithsideproject.music.Music;
-
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 /**
  * ViewPagerのページが切り替わったときに呼び出されるリスナ．

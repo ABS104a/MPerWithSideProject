@@ -332,10 +332,17 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 			IllegalStateException, 
 			IOException
 			{
+		//秒数が1秒以上なら前に戻らない
+		if(getCurrentTime() > 1000){
+			++mCursor;
+		}
+		android.util.Log.v("playback", getCurrentTime() + "");
+		
 		//次の曲情報を取得
 		if(--mCursor < 0){
 			mCursor = 0;
 		}
+		
 		String nextMusic = mPlayList.get(mCursor).getPass();
 		//データをセットする
 		setSource(nextMusic);

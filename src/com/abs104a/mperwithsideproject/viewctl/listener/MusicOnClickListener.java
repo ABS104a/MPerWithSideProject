@@ -1,10 +1,13 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
+import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 
 import android.content.Context;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -62,7 +65,11 @@ public final class MusicOnClickListener implements OnClickListener {
 				}
 				mpwpl.seekQueue(index);
 				mpwpl.playStartAndPause();
-				DisplayUtils.setPartOfPlayerView(context, rootView, music);
+				DisplayUtils.setPartOfPlayerView(context, rootView, music, mpwpl);
+				//ViewPager の設定
+				ViewPager mViewPager = (ViewPager)rootView.findViewById(R.id.player_list_part);
+				//Viewへの反映
+				((MusicViewPagerAdapter)mViewPager.getAdapter()).notifitionDataSetChagedForQueueView();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

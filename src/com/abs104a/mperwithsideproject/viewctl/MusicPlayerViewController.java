@@ -31,6 +31,7 @@ public final class MusicPlayerViewController {
 	//音楽リソースのコントロールクラスのインスタンス
 	private final static MusicPlayerWithQueue _mpwpl = new MusicPlayerWithQueue();
 	
+	
 	/**
 	 * PlayerのViewを生成するメソッド
 	 * サービスのコンテキストを受けとりViewを生成する．
@@ -76,11 +77,11 @@ public final class MusicPlayerViewController {
 		//次へのボタンの設定
 		ImageButton nextButton = (ImageButton)mView.findViewById(R.id.button_next_seek);
 		//次へボタンの動作を登録する．
-		nextButton.setOnClickListener(new NextButtonOnClickImpl(mService,_mpwpl));
+		nextButton.setOnClickListener(new NextButtonOnClickImpl(mService,_mpwpl,mView));
 		
 		ImageButton backButton = (ImageButton)mView.findViewById(R.id.button_back_seek);
 		//前へボタンの動作を登録する．
-		backButton.setOnClickListener(new BackButtonOnClickImpl(mService,_mpwpl));
+		backButton.setOnClickListener(new BackButtonOnClickImpl(mService,_mpwpl,mView));
 		
 		ImageButton repeatButton = (ImageButton)mView.findViewById(R.id.button_repeat);
 		//リピートボタンの動作を登録する．
@@ -111,7 +112,7 @@ public final class MusicPlayerViewController {
 		
 		//TODO プレイリストを設定
 		if(_mpwpl.getNowPlayingMusic() != null)
-			DisplayUtils.setPartOfPlayerView(mService, mView, _mpwpl.getNowPlayingMusic());
+			DisplayUtils.setPartOfPlayerView(mService, mView, _mpwpl.getNowPlayingMusic(),_mpwpl);
 		
 	}
 	

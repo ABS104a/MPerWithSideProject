@@ -3,6 +3,7 @@ package com.abs104a.mperwithsideproject.viewctl.listener;
 import java.io.IOException;
 
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 
 import android.app.Service;
 import android.view.View;
@@ -19,6 +20,8 @@ public final class BackButtonOnClickImpl implements OnClickListener {
 	private final MusicPlayerWithQueue _mpwpl;
 	//サービスのコンテキスト（例外時のメッセージ処理など
 	private final Service _service;
+	//rootView;
+	private final View mView;
 
 	/**
 	 * インスタンスの生成
@@ -26,9 +29,10 @@ public final class BackButtonOnClickImpl implements OnClickListener {
 	 * @param mpwpl ミュージックコントロールクラス
 	 */
 	public BackButtonOnClickImpl(Service mService,
-			MusicPlayerWithQueue mpwpl) {
+			MusicPlayerWithQueue mpwpl,View mView) {
 		this._mpwpl = mpwpl;
 		this._service = mService;
+		this.mView = mView;
 	}
 
 	/**
@@ -39,6 +43,7 @@ public final class BackButtonOnClickImpl implements OnClickListener {
 		try {
 			//戻る動作を行う
 			_mpwpl.playBack();
+			DisplayUtils.setPartOfPlayerView(_service, mView, _mpwpl.getNowPlayingMusic(), _mpwpl);
 		} catch (IllegalArgumentException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

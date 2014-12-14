@@ -169,6 +169,29 @@ public class MusicPlayer implements OnCompletionListener {
 	}
 	
 	/**
+	 * 現在の再生時間を返す
+	 * @return
+	 */
+	public final int getDuration(){
+		return mMediaPlayer != null ? mMediaPlayer.getDuration() : 0;
+	}
+	
+	public final int getCurrentTime(){
+		return getStatus() == PLAYING || getStatus() == PAUSEING ? mMediaPlayer.getCurrentPosition() : 0;
+	}
+	
+	public final int setCurrentTime(int progress){
+		if(mMediaPlayer == null)return getStatus();
+		if(getStatus() == PLAYING || getStatus() == PAUSEING){
+			//値の正当性を検証
+			if(progress > 0 && progress <= mMediaPlayer.getDuration()){
+				mMediaPlayer.seekTo(progress);//シークする
+			}
+		}
+		return getStatus();
+	}
+	
+	/**
 	 * 再生する時の動作
 	 * @return　現在の状況
 	 * @throws IOException 

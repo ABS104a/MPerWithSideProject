@@ -1,6 +1,7 @@
 package com.abs104a.mperwithsideproject.adapter;
 
 import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForAlbumViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForPlayingQueueViewCtl;
@@ -121,8 +122,8 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
 		// ページの消去を行う際に呼ばれるメソッド
-		if(position != QUEUE)
-			mQueueListView = null;
+		//if(position != QUEUE)
+			//mQueueListView = null;
 		((ViewPager) container).removeView((View) object);
 	}
 

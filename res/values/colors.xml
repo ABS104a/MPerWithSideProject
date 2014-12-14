@@ -3,5 +3,7 @@
     <!-- 透明色 -->
     <color name="transparent">#00FFFFFF</color>
     <!-- ミュージックプレーヤーのViewPagerの背景色 -->
-    <color name="musicplayer_viewpager_bg">#29292929</color>
+    <color name="musicplayer_viewpager_bg">#69696969</color>
+    
+    <color name="listview_current_row">#39393939</color>
 </resources>

@@ -38,7 +38,8 @@ public final class OnPlayCompletedImpl implements OnPlayCompletedListener{
 			DisplayUtils.setPartOfPlayerView(
 					rootView.getContext(), 
 					rootView,
-					_mpwpl.getNowPlayingMusic());
+					_mpwpl.getNowPlayingMusic(),
+					_mpwpl);
 			
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
