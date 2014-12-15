@@ -19,5 +19,8 @@
     <string name="play_loop_state_oneloop">one loop</string>
     
     <string name="add_to_queue"> add to queue</string>
+    
+    <string name="shuffle_on">shuffle on</string>
+    <string name="shuffle_off">shuffle off</string>
 
 </resources>
