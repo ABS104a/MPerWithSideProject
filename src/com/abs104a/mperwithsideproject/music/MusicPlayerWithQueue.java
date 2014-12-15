@@ -279,7 +279,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 			//ランダムにカーソル値を設定する．
 			Random random = new Random();
 			int oldCursor = mCursor;
-			mCursor = random.nextInt(mPlayList.size()-1);
+			mCursor = random.nextInt(mPlayList.size());
 			//前の曲と同じ値になった場合はその次の曲or前の曲にする．
 			if(oldCursor == mCursor)
 				mCursor = mCursor == (mPlayList.size()-1) ? Math.max(0, --mCursor) : ++mCursor;
