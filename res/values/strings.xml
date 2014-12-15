@@ -13,5 +13,9 @@
     <string name="viewpager_page_equalizer">Equalizer</string>
     
     <string name="playlist_serializable">playlist_serializable_data.dat</string>
+    
+    <string name="play_loop_state_notloop">not loop</string>
+    <string name="play_loop_state_allloop">all loop</string>
+    <string name="play_loop_state_oneloop">one loop</string>
 
 </resources>

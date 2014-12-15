@@ -1,10 +1,12 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
+import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.Toast;
 /**
  * リピートボタンを押した時に呼ばれるリスナImpl
  * @author Kouki-Mobile
@@ -47,7 +49,19 @@ public final class RepeatButtonOnClickImpl implements OnClickListener {
 		}
 		//LOOP状態の取得
 		loopState = _mpwpl.setLoopState(loopState);
-
+		final String message;
+		switch(loopState){
+			default:
+			case MusicPlayerWithQueue.NOT_LOOP:
+				message = v.getContext().getString(R.string.play_loop_state_notloop);
+				break;
+			case MusicPlayerWithQueue.ALL_LOOP:
+				message = v.getContext().getString(R.string.play_loop_state_allloop);
+				break;
+			case MusicPlayerWithQueue.ONE_LOOP:
+				message = v.getContext().getString(R.string.play_loop_state_oneloop);
+		}
+		Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
 		//TODO Viewへの反映
 		
 		//_button.setBackground(hoge);

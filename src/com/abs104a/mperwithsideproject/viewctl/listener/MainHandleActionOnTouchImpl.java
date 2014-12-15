@@ -1,6 +1,7 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
 import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
 
@@ -8,8 +9,6 @@ import android.app.Service;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -28,12 +27,16 @@ public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 	//画面幅
 	private int screenWidth;
 
+	private final MusicPlayerWithQueue mpwpl;
+
 	/**
 	 * インスタンスの生成
+	 * @param mpwpl 
 	 * @param mService　サービスのコンテキスト
 	 */
-	public MainHandleActionOnTouchImpl(Service mService) {
+	public MainHandleActionOnTouchImpl(Service mService, MusicPlayerWithQueue mpwpl) {
 		this.mService = mService;
+		this.mpwpl = mpwpl;
 		screenWidth = (int) DisplayUtils.getDisplayWidth(mService);
 	}
 
@@ -52,7 +55,7 @@ public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 			if(((LinearLayout)v.getParent()).getChildCount() == 2){
 				//MusicPlayerViewの作成
 				mPlayerView = MusicPlayerViewController
-						.createView(mService);
+						.createView(mService,mpwpl);
 				mPlayerView.setId(PLAYER_VIEW_ID);
 				((LinearLayout)v.getParent()).addView(mPlayerView);
 

@@ -34,7 +34,7 @@ public final class ViewPagerOnPagerChangeImpl implements OnPageChangeListener {
 	 */
 	@Override
 	public void onPageSelected(int index) {
-		android.util.Log.v("ViewPager Count",mViewPager.getChildCount()+"");
+		//android.util.Log.v("ViewPager Count",mViewPager.getChildCount()+"");
 		MusicViewPagerAdapter adapter = (MusicViewPagerAdapter)mViewPager.getAdapter();
 		adapter.notifitionDataSetChagedForQueueView();
 	}

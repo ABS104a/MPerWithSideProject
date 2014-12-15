@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" 
     android:background="@color/musicplayer_viewpager_bg"
+    android:padding="@dimen/player_view_padding"
     android:gravity="center">
     
     <!-- プレイヤー部分のレイアウト -->

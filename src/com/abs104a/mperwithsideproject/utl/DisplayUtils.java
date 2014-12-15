@@ -3,6 +3,7 @@ package com.abs104a.mperwithsideproject.utl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.viewctl.MusicSeekBarHandler;
@@ -10,6 +11,7 @@ import com.abs104a.mperwithsideproject.viewctl.listener.MusicSeekBarOnChangeImpl
 
 import android.content.Context;
 import android.graphics.Point;
+import android.support.v4.view.ViewPager;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -107,6 +109,11 @@ public class DisplayUtils {
 		}else{
 			playButton.setBackgroundResource(android.R.drawable.ic_media_play);
 		}
+		
+		//ListViewの変更も行う
+		ViewPager viewPager = (ViewPager)mView.findViewById(R.id.player_list_part);
+		if(viewPager != null)
+			((MusicViewPagerAdapter)viewPager.getAdapter()).notifitionDataSetChagedForQueueView();
 		
 		
 		mHandler = new MusicSeekBarHandler(currentTime,seekbar,mpwpl);

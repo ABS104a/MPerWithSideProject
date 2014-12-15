@@ -32,23 +32,21 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  */
 public final class MusicPlayerViewController {
 
-	//音楽リソースのコントロールクラスのインスタンス
-	private final static MusicPlayerWithQueue _mpwpl = new MusicPlayerWithQueue();
-	
 	
 	/**
 	 * PlayerのViewを生成するメソッド
 	 * サービスのコンテキストを受けとりViewを生成する．
 	 * @param mService
+	 * @param mpwpl 
 	 * @return　生成したViewGroup
 	 */
-	public static View createView(Service mService){
+	public static View createView(Service mService, MusicPlayerWithQueue mpwpl){
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する
 		View mView = layoutInflater.inflate(com.abs104a.mperwithsideproject.R.layout.player_view, null);
 		//Action Settings 
-		init(mService, mView);
+		init(mService, mView, mpwpl);
 		return mView;
 	}
 	
@@ -56,18 +54,20 @@ public final class MusicPlayerViewController {
 	 * 初期化を行う
 	 * @param mService
 	 * @param mView
+	 * @param mpwpl 
 	 */
-	private final static void init(Service mService,View mView){
-		initAction(mService,mView);
-		initButtonOfView(mService,mView);
+	private final static void init(Service mService,View mView, MusicPlayerWithQueue mpwpl){
+		initAction(mService,mView,mpwpl);
+		initButtonOfView(mService,mView,mpwpl);
 	}
 	
 	/**
 	 * 生成したメインView
 	 * @param mService
 	 * @param mView
+	 * @param _mpwpl 
 	 */
-	private static void initButtonOfView(Service mService,View mView){
+	private static void initButtonOfView(Service mService,View mView, MusicPlayerWithQueue _mpwpl){
 		//Viewのボタンに動作をつける
 		//終了ボタンの設定
 		ImageButton exitButton = (ImageButton)mView.findViewById(R.id.button_action_exit);
@@ -104,7 +104,7 @@ public final class MusicPlayerViewController {
 		
 	}
 	
-	private static void initAction(Service mService,View mView){
+	private static void initAction(Service mService,View mView, MusicPlayerWithQueue _mpwpl){
 		//再生が終了した時に呼ばれるリスナを実装する．
 		//再生が完了したときのリスナをセット．
 		_mpwpl.setOnPlayCompletedListener(new OnPlayCompletedImpl(_mpwpl, mView));

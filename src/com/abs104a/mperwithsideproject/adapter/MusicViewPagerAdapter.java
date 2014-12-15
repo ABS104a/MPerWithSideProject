@@ -1,7 +1,6 @@
 package com.abs104a.mperwithsideproject.adapter;
 
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForAlbumViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForPlayingQueueViewCtl;
