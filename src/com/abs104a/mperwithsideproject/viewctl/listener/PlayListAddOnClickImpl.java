@@ -1,12 +1,16 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
+import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 
 import android.content.Context;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.widget.Toast;
 
 /**
  * プレイリストに追加するボタンが押された時の動作．
@@ -50,6 +54,15 @@ public final class PlayListAddOnClickImpl implements OnClickListener, OnLongClic
 	public void onClick(View v) {
 		//Queueへの追加を行う
 		mpwpl.addMusic(item);
+		Toast.makeText(
+				mContext, 
+				item.getTitle() + " " + mContext.getString(R.string.add_to_queue),
+				Toast.LENGTH_SHORT)
+				.show();
+		//ListViewの変更も行う
+		ViewPager viewPager = (ViewPager)rootView.findViewById(R.id.player_list_part);
+		if(viewPager != null)
+			((MusicViewPagerAdapter)viewPager.getAdapter()).notifitionDataSetChagedForQueueView();
 	}
 
 	/**

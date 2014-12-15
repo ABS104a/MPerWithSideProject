@@ -109,11 +109,11 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 					DisplayUtils.long2TimeString(item.getDuration()));
 			holder.titleText.setText(item.getTitle());
 			
-			//TODO ジャケット画像
-			if(item.getAlbumUri() != null){
-				android.util.Log.v("uri",item.getAlbumUri().toString());
+			//TODO ジャケット画像 バックグラウンドに
+			if(item.getAlbumUri() != null)
 				holder.jacketImage.setImageURI(item.getAlbumUri());
-			}
+			else
+				holder.jacketImage.setImageResource(android.R.drawable.ic_lock_silent_mode);
 			//ボタンを表示するかどうかの設定
 			if(isDelete){
 				PlayListDeleteOnClickImpl plimpl = new PlayListDeleteOnClickImpl(getContext(),rootView, item, mpwpl);

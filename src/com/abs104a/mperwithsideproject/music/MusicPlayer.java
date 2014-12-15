@@ -204,6 +204,8 @@ public class MusicPlayer implements OnCompletionListener {
 			//再生していない場合　（NOTPLAYING or PAUSEING or STOPPING）
 			if(getStatus() >= NOTPLAYING){
 				//再生する
+				//サービスの優先度を設定
+				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_FOREGROUND);
 				mMediaPlayer.start();
 				mMediaPlayer.setOnCompletionListener(this);
 				setStatus(PLAYING);
@@ -212,6 +214,8 @@ public class MusicPlayer implements OnCompletionListener {
 			else if(getStatus() == PLAYING){
 				//ポーズ状態にする
 				mMediaPlayer.pause();
+				//サービスの優先度を設定
+				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_DEFAULT);
 				setStatus(PAUSEING);
 			}
 		}
@@ -229,6 +233,8 @@ public class MusicPlayer implements OnCompletionListener {
 			//再生を停止する．
 			mMediaPlayer.stop();
 			setStatus(STOPPING);
+			//サービスの優先度を設定
+			android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_DEFAULT);
 		}
 		return getStatus();
 	}
@@ -239,6 +245,8 @@ public class MusicPlayer implements OnCompletionListener {
 	@Override
 	public void onCompletion(MediaPlayer mp) {
 		setStatus(STOPPING);
+		//サービスの優先度を設定
+		android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_DEFAULT);
 		if(mOnPlayCompletedListener != null)
 			mOnPlayCompletedListener.onPlayCompleted();
 		
@@ -253,6 +261,8 @@ public class MusicPlayer implements OnCompletionListener {
 		//再生している場合は停止する．
 		if(getStatus() == PLAYING)
 			mMediaPlayer.stop();
+		//サービスの優先度を設定
+		android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_DEFAULT);
 		setStatus(NOSOURCE);
 		//リソースを開放する．
 		mMediaPlayer.release();

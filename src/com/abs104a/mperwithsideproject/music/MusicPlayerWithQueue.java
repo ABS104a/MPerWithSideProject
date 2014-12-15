@@ -36,7 +36,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 ===================================*/
 	
 	//再生曲のプレイリスト
-	private final ArrayList<Music> mPlayList = new ArrayList<Music>();
+	private final static ArrayList<Music> mPlayList = new ArrayList<Music>();
 	//プレイリストの再生番号を管理するカーソル
 	private int mCursor = 0;
 	

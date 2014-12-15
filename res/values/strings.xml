@@ -17,5 +17,7 @@
     <string name="play_loop_state_notloop">not loop</string>
     <string name="play_loop_state_allloop">all loop</string>
     <string name="play_loop_state_oneloop">one loop</string>
+    
+    <string name="add_to_queue"> add to queue</string>
 
 </resources>
