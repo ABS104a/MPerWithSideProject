@@ -1,9 +1,13 @@
 package com.abs104a.mperwithsideproject.adapter;
 
 import java.util.ArrayList;
+
+import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.PlayList;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -15,11 +19,6 @@ import android.widget.BaseExpandableListAdapter;
  */
 public class PlayListForExpandableListAdapter extends
 	BaseExpandableListAdapter {
-	
-	//グループのレイアウトID
-	private static final int GROUP_LAYOUT = 1; //TODO
-	//子要素のレイアウトID
-	private static final int CHILD_LAYOUT = 1; //TODO
 	
 	//アプリケーションコンテキスト
 	private Context mContext;
@@ -36,54 +35,93 @@ public class PlayListForExpandableListAdapter extends
 		this.playLists = playLists;
 	}
 
+	/**
+	 * 子要素を取得
+	 */
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return playLists.get(groupPosition).getMusics()[childPosition];
 	}
 
 	@Override
 	public long getChildId(int groupPosition, int childPosition) {
-		// TODO 自動生成されたメソッド・スタブ
-		return 0;
+		return 1000 * groupPosition + childPosition;
 	}
 
+	/**
+	 * 子要素のViewを生成する
+	 */
 	@Override
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		Music child = playLists.get(groupPosition).getMusics()[childPosition];
+		
+		//ViewがNullの時は新しく生成する
+		if(convertView == null){
+			LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+			convertView = layoutInflater.inflate(R.layout.item_row_child, null);
+		}else{
+			
+		}
+		
+		if(child != null){
+			
+		}
+		return convertView;
 	}
 
+	/**
+	 * 指定したグループの子要素を取得
+	 */
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		// TODO 自動生成されたメソッド・スタブ
-		return 0;
+		return playLists.get(groupPosition).getMusics().length;
 	}
 
+	/**
+	 * Groupのオブジェクトを取得
+	 */
 	@Override
 	public Object getGroup(int groupPosition) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return playLists.get(groupPosition);
 	}
 
+	/**
+	 * グループの数を取得する
+	 */
 	@Override
 	public int getGroupCount() {
-		// TODO 自動生成されたメソッド・スタブ
-		return 0;
+		return playLists.size();
 	}
 
+	/**
+	 * GroupIdを取得
+	 */
 	@Override
 	public long getGroupId(int groupPosition) {
-		// TODO 自動生成されたメソッド・スタブ
-		return 0;
+		return groupPosition;
 	}
 
+	/**
+	 * GroupViewの取得
+	 */
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup parent) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		PlayList group = playLists.get(groupPosition);
+		
+		//ViewがNullの時は新しく生成する
+		if(convertView == null){
+			LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+			convertView = layoutInflater.inflate(R.layout.item_row_child, null);
+		}else{
+			
+		}
+		
+		if(group != null){
+			
+		}
+		return convertView;
 	}
 
 	@Override
@@ -94,10 +132,26 @@ public class PlayListForExpandableListAdapter extends
 
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
+	/**
+	 * ChildViewのタグを保存するホルダー
+	 * @author Kouki
+	 *
+	 */
+	public static class ChildHolder{
+		
+	}
+	
+	/**
+	 * GroupViewのタグを保持するホルダー
+	 * @author Kouki
+	 *
+	 */
+	public static class GroupHolder{
+		
+	}
 	
 
 	

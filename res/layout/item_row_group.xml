@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/album_item_row_margins"
+    android:orientation="vertical" >
+
+    
+    <!-- ExpandableListViewのグループ要素 -->
+    <ImageView
+        android:id="@+id/imageView_album_jacket"
+        android:layout_width="@dimen/album_item_row_jacket"
+        android:layout_height="@dimen/album_item_row_jacket"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/album_item_row_margins"
+        android:layout_marginRight="@dimen/album_item_row_margins"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/textView_album"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView_album_artist"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/imageButton_album_add"
+        android:layout_toRightOf="@+id/imageView_album_jacket"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:text="Album"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageButton
+        android:id="@+id/imageButton_album_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView_album_jacket"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:drawable/ic_input_add" />
+
+    <TextView
+        android:id="@+id/textView_album_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView_album_jacket"
+        android:layout_alignLeft="@+id/textView_album"
+        android:layout_toLeftOf="@+id/imageButton_album_add"
+        android:text="artist"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>
