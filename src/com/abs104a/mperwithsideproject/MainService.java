@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -105,6 +106,9 @@ public class MainService extends Service{
 		//Animationの設定
 		mMainView.startAnimation(showAnimation);
 		
+		//通知の生成
+		putNotification(mService);
+		
 		//開始ログ
 		Log.v("MainService","Service is Start!");
 
@@ -123,6 +127,28 @@ public class MainService extends Service{
 		}
 		//終了
 		Log.v("MainService","Service is Finished!");
+		removeNotification();
 		super.onDestroy();
 	}
+	
+	private void putNotification(Context context) {
+	    
+	    NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+	    
+	    builder.setContentTitle(context.getString(R.string.app_name));
+	    builder.setContentText("hogehoge");//
+	    builder.setSmallIcon(android.R.drawable.ic_media_play);
+	    
+	    builder.setWhen(0);
+	    builder.setOngoing(true);
+	    builder.setAutoCancel(false);
+	    
+	    // ちなみにServiceを継承したクラス内
+	    startForeground(R.drawable.ic_launcher, builder.build());
+	}
+	
+	private void removeNotification(){
+		stopForeground(true);
+	}
+	
 }

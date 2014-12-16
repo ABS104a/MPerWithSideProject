@@ -93,7 +93,7 @@ public final class FileUtils {
 	public final static boolean writeSerializableQueue(Context mContext,MusicQueue data){
 		return writeDataObject(
 				mContext, 
-				mContext.getString(R.string.playlist_serializable), 
+				mContext.getString(R.string.queue_serializable), 
 				data
 				);
 	}
