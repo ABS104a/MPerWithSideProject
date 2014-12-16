@@ -3,7 +3,7 @@ package com.abs104a.mperwithsideproject.viewctl.listener;
 import java.io.IOException;
 
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
-import com.abs104a.mperwithsideproject.utl.DisplayUtils;
+import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
 
 import android.app.Service;
 import android.view.View;
@@ -39,7 +39,7 @@ public final class NextButtonOnClickImpl implements OnClickListener {
 		try {
 			//次への再生を行うs
 			_mpwpl.playNext();
-			DisplayUtils.setPartOfPlayerView(_service, mView, _mpwpl.getNowPlayingMusic(), _mpwpl);
+			MusicPlayerViewController.setPartOfPlayerView(_service, mView, _mpwpl.getNowPlayingMusic(), _mpwpl);
 		} catch (IllegalArgumentException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

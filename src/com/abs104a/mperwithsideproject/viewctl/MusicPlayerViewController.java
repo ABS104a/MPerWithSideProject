@@ -1,13 +1,18 @@
 package com.abs104a.mperwithsideproject.viewctl;
 
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
+import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.BackButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ExitButtonOnClickListenerImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.MusicSeekBarOnChangeImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.NextButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.OnPlayCompletedImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayButtonOnClickImpl;
@@ -15,13 +20,25 @@ import com.abs104a.mperwithsideproject.viewctl.listener.RepeatButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ShuffleButtonOnClickImpl;
 
 import android.app.Service;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
+import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 /**
@@ -33,6 +50,13 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  */
 public final class MusicPlayerViewController {
 
+	//PlayerViewのID
+	public final static int PLAYER_VIEW_ID = 12;
+	//AnimateOpen時のDelayTime
+	public final static int DELAY_TIME = 20;
+	
+	//UIスレッドのHandler
+	private static MusicSeekBarHandler mHandler = null;
 	
 	/**
 	 * PlayerのViewを生成するメソッド
@@ -105,6 +129,12 @@ public final class MusicPlayerViewController {
 		
 	}
 	
+	/**
+	 * MainPlayerViewの動作を設定する
+	 * @param mService
+	 * @param mView
+	 * @param _mpwpl
+	 */
 	private static void initAction(Service mService,View mView, MusicPlayerWithQueue _mpwpl){
 		//再生が終了した時に呼ばれるリスナを実装する．
 		//再生が完了したときのリスナをセット．
@@ -117,7 +147,7 @@ public final class MusicPlayerViewController {
 		
 		//TODO プレイリストを設定
 		if(_mpwpl.getNowPlayingMusic() != null)
-			DisplayUtils.setPartOfPlayerView(mService, mView, _mpwpl.getNowPlayingMusic(),_mpwpl);
+			setPartOfPlayerView(mService, mView, _mpwpl.getNowPlayingMusic(),_mpwpl);
 		
 		//音量の設定
 		// AudioManagerを取得する
@@ -152,6 +182,141 @@ public final class MusicPlayerViewController {
 			public void onStopTrackingTouch(SeekBar seekBar) {}
         	
         });
+		
+	}
+	
+	/**
+	 * アニメーション的にViewをオープンするやつ
+	 * @param mService
+	 * @param rootView
+	 */
+	public final static void animateOpen(final Service mService,View rootView){
+		final View mPlayerView;
+		final Handler mHandler = new Handler();
+		if(((LinearLayout)rootView).getChildCount() == 2){
+			//MusicPlayerViewの作成
+			mPlayerView = createView(mService);
+			mPlayerView.setId(PLAYER_VIEW_ID);
+			((LinearLayout)rootView).addView(mPlayerView);
+		}else{
+			mPlayerView = 
+					((LinearLayout)rootView)
+					.findViewById(MusicPlayerViewController.PLAYER_VIEW_ID);
+		}
+		//Layout設定
+		final LayoutParams params = (LayoutParams) mPlayerView.getLayoutParams();
+		params.width = 0;
+		//Layoutの変更
+		mPlayerView.setLayoutParams(params);
+		mPlayerView.setVisibility(View.INVISIBLE);
+		
+		final Runnable mRunnable = new Runnable(){
+			
+			private int width = 0;
+
+			@Override
+			public void run() {
+				final int musicPlayerWidth = 
+						mService
+						.getResources()
+						.getDimensionPixelSize(R.dimen.player_view_width) 
+						+ 
+						2 * mService.getResources()
+						.getDimensionPixelSize(R.dimen.activity_vertical_margin);
+				
+				//Layout設定
+				final LayoutParams params = (LayoutParams) mPlayerView.getLayoutParams();
+				//android.util.Log.v("hogebefore", width + " / " + musicPlayerWidth);
+				width += 50;
+				if(musicPlayerWidth > width){
+					android.util.Log.v("hoge", width + "");
+					params.width = Math.min(musicPlayerWidth, width);
+					//Layoutの変更
+					mPlayerView.setLayoutParams(params);
+					mHandler.postDelayed(this, DELAY_TIME);
+				}else{
+					mPlayerView.setVisibility(View.VISIBLE);
+					Animation showAnimation = 
+							AnimationUtils
+							.loadAnimation(mService, android.R.anim.fade_in);
+					//Animationの設定
+					mPlayerView.startAnimation(showAnimation);
+				}
+			}
+			
+		};
+		mHandler.postDelayed(mRunnable, DELAY_TIME);
+	}
+	
+	/**
+	 * MusicPlayerView中の再生曲情報を表示するViewへのデータセットを行う
+	 * @param context
+	 * @param mView
+	 * @param music
+	 */
+	public static final void setPartOfPlayerView(final Context context,final View mView,final Music music,final MusicPlayerWithQueue mpwpl){
+		//一定時間おきの動作設定
+		if(mHandler != null)
+			mHandler.stopHandler();
+		mHandler = null;
+		
+		//タイトルView
+		final TextView title = (TextView)mView.findViewById(R.id.textView_now_music_name);
+		title.setText(music.getTitle());
+		//アーティスト
+		final TextView artist = (TextView)mView.findViewById(R.id.textView_now_artist_name);
+		artist.setText(music.getArtist());
+		//アルバム名
+		final TextView album = (TextView)mView.findViewById(R.id.textView_now_album);
+		album.setText(music.getAlbum());
+		//曲時間
+		final TextView maxTime = (TextView)mView.findViewById(R.id.textView_now_max_time);
+		maxTime.setText(DisplayUtils.long2TimeString(music.getDuration()));
+		//現在の再生時間
+		final TextView currentTime = (TextView)mView.findViewById(R.id.TextView_now_current_time);
+		currentTime.setText("0:00");
+		//アルバムジャケット
+		final ImageView jacket = (ImageView)mView.findViewById(R.id.imageView_now_jacket);
+		//ジャケットの取得
+		Uri albumArtUri = Uri.parse(
+		        "content://media/external/audio/albumart");
+		Uri album1Uri = ContentUris.withAppendedId(albumArtUri, music.getAlbumId());
+		try{
+		    ContentResolver cr = context.getContentResolver();
+		    InputStream is = cr.openInputStream(album1Uri);
+		    Bitmap bm = BitmapFactory.decodeStream(is);
+		    if(bm != null)
+		    	jacket.setImageBitmap(DisplayUtils.RadiusImage(bm));
+		    else
+		    	jacket.setImageResource(android.R.drawable.ic_menu_search);
+		}catch(FileNotFoundException err){
+			jacket.setImageResource(android.R.drawable.ic_menu_search);
+		}
+		
+		//曲のシークバー
+		final SeekBar seekbar = (SeekBar)mView.findViewById(R.id.seekBar_now_music_seek);
+		seekbar.setMax((int)(music.getDuration()));
+		seekbar.setProgress(0);
+		
+		seekbar.setOnSeekBarChangeListener(new MusicSeekBarOnChangeImpl(currentTime,mpwpl));
+		
+		final ImageButton playButton = (ImageButton)mView.findViewById(R.id.button_play);
+		
+		if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
+			//Viewを一時停止ボタンに
+			playButton.setBackgroundResource(android.R.drawable.ic_media_pause);
+		}else{
+			playButton.setBackgroundResource(android.R.drawable.ic_media_play);
+		}
+		
+		//ListViewの変更も行う
+		ViewPager viewPager = (ViewPager)mView.findViewById(R.id.player_list_part);
+		if(viewPager != null)
+			((MusicViewPagerAdapter)viewPager.getAdapter()).notifitionDataSetChagedForQueueView();
+		
+		
+		mHandler = new MusicSeekBarHandler(currentTime,seekbar,mpwpl);
+		mHandler.sleep(0);
 		
 	}
 	

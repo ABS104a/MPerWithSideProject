@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.viewctl.listener.MainHandleActionOnTouchImpl;
 
 /**
@@ -52,6 +51,8 @@ public final class MainViewController {
 	 */
 	private final static void initActionOfView(Service mService,View mView){
 		//MainViewのアクションを設定する
+		//自動的に引っ張り出るようにする．
+		MusicPlayerViewController.animateOpen(mService, mView);
 	}
 	
 }

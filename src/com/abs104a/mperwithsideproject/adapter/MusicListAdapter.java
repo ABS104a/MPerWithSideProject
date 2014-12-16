@@ -1,15 +1,13 @@
 package com.abs104a.mperwithsideproject.adapter;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.GetJacketImageTask;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
-import com.abs104a.mperwithsideproject.viewctl.listener.MusicOnClickListener;
+import com.abs104a.mperwithsideproject.viewctl.listener.MusicOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayListAddOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayListDeleteOnClickImpl;
 
@@ -135,7 +133,7 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 				holder.addButton.setOnClickListener(plimpl);
 				holder.addButton.setOnLongClickListener(plimpl);
 			}
-			convertView.setOnClickListener(new MusicOnClickListener(getContext(), rootView, item, mpwpl,!isDelete));
+			convertView.setOnClickListener(new MusicOnClickImpl(getContext(), rootView, item, mpwpl,!isDelete));
 			
 			Music currentMusic = mpwpl.getNowPlayingMusic();
 			if(currentMusic != null && item.equals(currentMusic)){

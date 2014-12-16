@@ -18,8 +18,7 @@ import android.widget.LinearLayout.LayoutParams;
  */
 public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 
-	//PlayerViewのID
-	public final static int PLAYER_VIEW_ID = 12;
+	
 	
 	//サービスのコンテキスト
 	private final Service mService;
@@ -51,7 +50,7 @@ public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 				//MusicPlayerViewの作成
 				mPlayerView = MusicPlayerViewController
 						.createView(mService);
-				mPlayerView.setId(PLAYER_VIEW_ID);
+				mPlayerView.setId(MusicPlayerViewController.PLAYER_VIEW_ID);
 				((LinearLayout)v.getParent()).addView(mPlayerView);
 
 				/*
@@ -64,7 +63,7 @@ public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 			}else{
 				mPlayerView = 
 						((LinearLayout)v.getParent())
-						.findViewById(PLAYER_VIEW_ID);
+						.findViewById(MusicPlayerViewController.PLAYER_VIEW_ID);
 			}
 		}
 		

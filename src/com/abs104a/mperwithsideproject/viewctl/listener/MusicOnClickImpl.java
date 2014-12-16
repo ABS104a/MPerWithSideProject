@@ -4,7 +4,7 @@ import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
-import com.abs104a.mperwithsideproject.utl.DisplayUtils;
+import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
@@ -16,7 +16,7 @@ import android.view.View.OnClickListener;
  * @author Kouki
  *
  */
-public final class MusicOnClickListener implements OnClickListener {
+public final class MusicOnClickImpl implements OnClickListener {
 
 	//ミュージックコントロールクラス
 	private final MusicPlayerWithQueue mpwpl;
@@ -37,7 +37,7 @@ public final class MusicOnClickListener implements OnClickListener {
 	 * @param mpwpl		ミュージックコントロールインスタンス
 	 * @param isAddQueue	タップされたときにキューに登録するかどうか
 	 */
-	public MusicOnClickListener(Context context, View rootView, Music item,
+	public MusicOnClickImpl(Context context, View rootView, Music item,
 			MusicPlayerWithQueue mpwpl, boolean isAddQueue) {
 		this.context = context;
 		this.music = item;
@@ -65,7 +65,7 @@ public final class MusicOnClickListener implements OnClickListener {
 				}
 				mpwpl.seekQueue(index);
 				mpwpl.playStartAndPause();
-				DisplayUtils.setPartOfPlayerView(context, rootView, music, mpwpl);
+				MusicPlayerViewController.setPartOfPlayerView(context, rootView, music, mpwpl);
 				//ViewPager の設定
 				ViewPager mViewPager = (ViewPager)rootView.findViewById(R.id.player_list_part);
 				//Viewへの反映

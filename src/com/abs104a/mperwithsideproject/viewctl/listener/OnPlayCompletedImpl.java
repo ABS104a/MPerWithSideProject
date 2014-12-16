@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.abs104a.mperwithsideproject.music.MusicPlayer.OnPlayCompletedListener;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
-import com.abs104a.mperwithsideproject.utl.DisplayUtils;
+import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
 
 /**
  * 再生が完了した時に呼ばれるリスナImpl
@@ -35,7 +35,7 @@ public final class OnPlayCompletedImpl implements OnPlayCompletedListener{
 		try {
 			//次の曲を再生
 			_mpwpl.playNext();
-			DisplayUtils.setPartOfPlayerView(
+			MusicPlayerViewController.setPartOfPlayerView(
 					rootView.getContext(), 
 					rootView,
 					_mpwpl.getNowPlayingMusic(),
