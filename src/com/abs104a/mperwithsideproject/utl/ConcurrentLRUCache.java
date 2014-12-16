@@ -39,27 +39,7 @@ public class ConcurrentLRUCache<A, B> extends LinkedHashMap<A, B> {
 	@Override
 	public B remove(Object key) {
 		try{
-			B removeObject = super.remove(key);
-			
-			/*
-			if(removeObject instanceof Bitmap){
-				Bitmap bitmap = ((Bitmap) removeObject);
-				if (bitmap != null && !bitmap.isRecycled()) 
-                {
-					bitmap.recycle();
-					bitmap = null;
-                    System.gc(); 
-                }
-			}else if(removeObject instanceof ImageData){
-				Bitmap bitmap = ((ImageData) removeObject).bitmap;
-				if (bitmap != null && !bitmap.isRecycled()) 
-                {
-					bitmap.recycle();
-					bitmap = null;
-                    System.gc(); 
-                }
-			}*/
-			
+			B removeObject = super.remove(key);	
 			return removeObject;
 		}catch(Exception e){
 			e.printStackTrace();

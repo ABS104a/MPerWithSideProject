@@ -229,7 +229,7 @@ public final class MusicPlayerViewController {
 				//android.util.Log.v("hogebefore", width + " / " + musicPlayerWidth);
 				width += 50;
 				if(musicPlayerWidth > width){
-					android.util.Log.v("hoge", width + "");
+					//android.util.Log.v("hoge", width + "");
 					params.width = Math.min(musicPlayerWidth, width);
 					//Layoutの変更
 					mPlayerView.setLayoutParams(params);
@@ -247,6 +247,59 @@ public final class MusicPlayerViewController {
 		};
 		mHandler.postDelayed(mRunnable, DELAY_TIME);
 	}
+	
+	/**
+	 * アニメーション的にViewをクローズするやつ
+	 * @param mService
+	 * @param rootView
+	 */
+	public final static void animateClose(final Service mService,final View rootView){
+		final View mPlayerView;
+		final Handler mHandler = new Handler();
+		if(((LinearLayout)rootView).getChildCount() == 2){
+			//MusicPlayerViewの作成
+			mPlayerView = createView(mService);
+			mPlayerView.setId(PLAYER_VIEW_ID);
+			((LinearLayout)rootView).addView(mPlayerView);
+		}else{
+			mPlayerView = 
+					((LinearLayout)rootView)
+					.findViewById(MusicPlayerViewController.PLAYER_VIEW_ID);
+		}
+		
+		Animation closeAnimation = 
+				AnimationUtils
+				.loadAnimation(mService, android.R.anim.fade_out);
+		//Animationの設定
+		mPlayerView.startAnimation(closeAnimation);
+		
+		final Runnable mRunnable = new Runnable(){
+			
+			private int width = mPlayerView.getWidth();
+
+			@Override
+			public void run() {
+				
+				//Layout設定
+				final LayoutParams params = (LayoutParams) mPlayerView.getLayoutParams();
+				//android.util.Log.v("hogebefore", width + " / " + musicPlayerWidth);
+				width -= 50;
+				if(width > 0){
+					//android.util.Log.v("hoge", width + "");
+					params.width = Math.max(0, width);
+					//Layoutの変更
+					mPlayerView.setLayoutParams(params);
+					mHandler.postDelayed(this, DELAY_TIME);
+				}else{
+					//Viewの消去を行う
+					((LinearLayout)rootView).removeView(mPlayerView);
+				}
+			}
+			
+		};
+		mHandler.postDelayed(mRunnable, DELAY_TIME);
+	}
+	
 	
 	/**
 	 * MusicPlayerView中の再生曲情報を表示するViewへのデータセットを行う

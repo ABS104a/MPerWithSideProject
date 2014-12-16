@@ -6,7 +6,9 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.viewctl.listener.MainHandleActionOnTouchImpl;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.utl.MusicUtils;
+import com.abs104a.mperwithsideproject.viewctl.listener.MainHandleOnTouchImpl;
 
 /**
  * メインビューの生成と設定を行うクラス
@@ -26,8 +28,10 @@ public final class MainViewController {
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する
 		View mView = layoutInflater.inflate(R.layout.main_service_view, null);
-		initButtonOfView(mService,mView);
-		initActionOfView(mService,mView);
+		//ミュージックcontrollerインスタンス
+		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mService);
+		initButtonOfView(mService,mView,mpwpl);
+		initActionOfView(mService,mView,mpwpl);
 		return mView;
 	}
 	
@@ -36,11 +40,13 @@ public final class MainViewController {
 	 * @param mService
 	 * @param mView
 	 * @param mpwpl 
+	 * @param mpwpl 
 	 */
-	private final static void initButtonOfView(Service mService,View mView){
+	private final static void initButtonOfView(Service mService,View mView, MusicPlayerWithQueue mpwpl){
 		//Viewのボタンに動作をつける
 		ImageButton handleButton = (ImageButton)mView.findViewById(R.id.imageButton_handle);
-		handleButton.setOnTouchListener(new MainHandleActionOnTouchImpl(mService));
+		handleButton.setClickable(true);
+		handleButton.setOnTouchListener(new MainHandleOnTouchImpl(mService));
 	}
 	
 	/**
@@ -48,8 +54,9 @@ public final class MainViewController {
 	 * @param mService
 	 * @param mView
 	 * @param mpwpl 
+	 * @param mpwpl 
 	 */
-	private final static void initActionOfView(Service mService,View mView){
+	private final static void initActionOfView(Service mService,View mView, MusicPlayerWithQueue mpwpl){
 		//MainViewのアクションを設定する
 		//自動的に引っ張り出るようにする．
 		MusicPlayerViewController.animateOpen(mService, mView);

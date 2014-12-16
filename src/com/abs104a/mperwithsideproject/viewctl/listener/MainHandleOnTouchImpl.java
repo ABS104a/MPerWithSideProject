@@ -16,20 +16,20 @@ import android.widget.LinearLayout.LayoutParams;
  * @author Kouki
  *
  */
-public final class MainHandleActionOnTouchImpl implements OnTouchListener {
+public final class MainHandleOnTouchImpl implements OnTouchListener {
 
 	
 	
 	//サービスのコンテキスト
 	private final Service mService;
 	//画面幅
-	private int screenWidth;
+	private final int screenWidth;
 
 	/**
 	 * インスタンスの生成
 	 * @param mService　サービスのコンテキスト
 	 */
-	public MainHandleActionOnTouchImpl(Service mService) {
+	public MainHandleOnTouchImpl(Service mService) {
 		this.mService = mService;
 		screenWidth = (int) DisplayUtils.getDisplayWidth(mService);
 	}
@@ -41,28 +41,37 @@ public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 	public boolean onTouch(View v, MotionEvent event) {
 		//タップ座標
 		final int rawX = (int) event.getRawX();
+		final View rootView = (View) v.getParent();
+		//ViewSize
+		final int musicPlayerWidth = 
+				mService
+				.getResources()
+				.getDimensionPixelSize(R.dimen.player_view_width) 
+				+ 
+				2 * mService.getResources()
+				.getDimensionPixelSize(R.dimen.activity_vertical_margin);
+		
 		View mPlayerView = null;
 		//タップ動作によって動作を設定する．
 		switch(event.getAction()){
+		case MotionEvent.ACTION_UP:
+			if(rootView.getWidth() < musicPlayerWidth / 3){
+				MusicPlayerViewController.animateOpen(mService, rootView);
+			}else if(rootView.getWidth() > (musicPlayerWidth / 3) * 2){
+				MusicPlayerViewController.animateClose(mService, rootView);
+			}
+			break;
 		case MotionEvent.ACTION_DOWN:	//画面を押した時
 		case MotionEvent.ACTION_MOVE:	//画面上を動いている時
-			if(((LinearLayout)v.getParent()).getChildCount() == 2){
+			if(((LinearLayout)rootView).getChildCount() == 2){
 				//MusicPlayerViewの作成
 				mPlayerView = MusicPlayerViewController
 						.createView(mService);
 				mPlayerView.setId(MusicPlayerViewController.PLAYER_VIEW_ID);
-				((LinearLayout)v.getParent()).addView(mPlayerView);
-
-				/*
-				//表示するためのアニメーションを作成
-				Animation showAnimation = 
-						AnimationUtils
-						.loadAnimation(mService, android.R.anim.fade_in);
-				//Animationの設定
-				mPlayerView.startAnimation(showAnimation);*/
+				((LinearLayout)rootView).addView(mPlayerView);
 			}else{
 				mPlayerView = 
-						((LinearLayout)v.getParent())
+						((LinearLayout)rootView)
 						.findViewById(MusicPlayerViewController.PLAYER_VIEW_ID);
 			}
 		}
@@ -73,16 +82,8 @@ public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 			if(rawX >= screenWidth - v.getWidth())
 			{
 				//Viewの消去を行う
-				((LinearLayout)v.getParent()).removeView(mPlayerView);
+				((LinearLayout)rootView).removeView(mPlayerView);
 			}else{
-				final int musicPlayerWidth = 
-						mService
-						.getResources()
-						.getDimensionPixelSize(R.dimen.player_view_width) 
-						+ 
-						2 * mService.getResources()
-						.getDimensionPixelSize(R.dimen.activity_vertical_margin);
-				
 				//Layout設定
 				final LayoutParams params = (LayoutParams) mPlayerView.getLayoutParams();
 				params.width = Math.min(musicPlayerWidth, screenWidth - rawX);

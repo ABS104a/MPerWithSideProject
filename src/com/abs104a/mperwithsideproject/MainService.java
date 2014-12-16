@@ -73,7 +73,8 @@ public class MainService extends Service{
 				WindowManager.LayoutParams.WRAP_CONTENT,
 				WindowManager.LayoutParams.TYPE_TOAST,
 				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | 
-				WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,// | 
+				//WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | 
+				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED ,// | 
 				//WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL ,//| WindowManager.LayoutParams.FLAG_TOUCHABLE_WHEN_WAKING,
 				//WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
 				PixelFormat.TRANSLUCENT);
