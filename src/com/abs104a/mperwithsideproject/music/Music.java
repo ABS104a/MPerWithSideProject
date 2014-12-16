@@ -33,7 +33,7 @@ public class Music implements Serializable,Comparable<Music>{
 	//アルバムId（ジャケット画像取得用）
 	private long albumId;
 	
-	private Uri albumUri;
+	private String albumUri;
 	
 	
 	/**
@@ -55,7 +55,7 @@ public class Music implements Serializable,Comparable<Music>{
 		this.title = title;
 		this.album = album;
 		this.albumId = albumId;
-		this.albumUri = album1Uri;
+		this.albumUri = album1Uri.toString();
 		this.truck = truck;
 		this.duration = duration;
 		this.setPass(pass);
@@ -133,14 +133,14 @@ public class Music implements Serializable,Comparable<Music>{
 	 * @return albumUri
 	 */
 	public final Uri getAlbumUri() {
-		return albumUri;
+		return Uri.parse(albumUri);
 	}
 
 	/**
 	 * @param albumUri セットする albumUri
 	 */
 	public final void setAlbumUri(Uri albumUri) {
-		this.albumUri = albumUri;
+		this.albumUri = albumUri.toString();
 	}
 
 	/* (非 Javadoc)

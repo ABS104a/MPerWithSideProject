@@ -13,6 +13,7 @@
     <string name="viewpager_page_equalizer">Equalizer</string>
     
     <string name="playlist_serializable">playlist_serializable_data.dat</string>
+    <string name="queue_serializable">queue_serializable_data.dat</string>
     
     <string name="play_loop_state_notloop">not loop</string>
     <string name="play_loop_state_allloop">all loop</string>
@@ -22,5 +23,7 @@
     
     <string name="shuffle_on">shuffle on</string>
     <string name="shuffle_off">shuffle off</string>
+    
+    
 
 </resources>

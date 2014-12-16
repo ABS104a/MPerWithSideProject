@@ -19,17 +19,16 @@ public final class MainViewController {
 	/**
 	 * MainのViewを生成するメソッド
 	 * サービスのコンテキストを受けとりViewを生成する．
-	 * @param mpwpl 
 	 * @param mService
 	 * @return　生成したViewGroup
 	 */
-	public final static View createView(MusicPlayerWithQueue mpwpl, Service mService){
+	public final static View createView(Service mService){
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する
 		View mView = layoutInflater.inflate(R.layout.main_service_view, null);
-		initButtonOfView(mService,mView,mpwpl);
-		initActionOfView(mService,mView,mpwpl);
+		initButtonOfView(mService,mView);
+		initActionOfView(mService,mView);
 		return mView;
 	}
 	
@@ -39,10 +38,10 @@ public final class MainViewController {
 	 * @param mView
 	 * @param mpwpl 
 	 */
-	private final static void initButtonOfView(Service mService,View mView, MusicPlayerWithQueue mpwpl){
+	private final static void initButtonOfView(Service mService,View mView){
 		//Viewのボタンに動作をつける
 		ImageButton handleButton = (ImageButton)mView.findViewById(R.id.imageButton_handle);
-		handleButton.setOnTouchListener(new MainHandleActionOnTouchImpl(mService,mpwpl));
+		handleButton.setOnTouchListener(new MainHandleActionOnTouchImpl(mService));
 	}
 	
 	/**
@@ -51,7 +50,7 @@ public final class MainViewController {
 	 * @param mView
 	 * @param mpwpl 
 	 */
-	private final static void initActionOfView(Service mService,View mView, MusicPlayerWithQueue mpwpl){
+	private final static void initActionOfView(Service mService,View mView){
 		//MainViewのアクションを設定する
 	}
 	

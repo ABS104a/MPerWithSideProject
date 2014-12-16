@@ -7,6 +7,9 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.music.Music;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.music.MusicQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 
 import android.app.Activity;
@@ -51,11 +54,47 @@ public final class FileUtils {
 	 * @param data	書き込むプレイリスト
 	 * @return	書き込みが成功したか？
 	 */
-	public final static boolean writeSerializablePlayList(Context mContext,ArrayList<?> data){
+	public final static boolean writeSerializablePlayList(Context mContext,ArrayList<PlayList> data){
+		return writeDataObject(
+				mContext, 
+				mContext.getString(R.string.queue_serializable), 
+				data.toArray(new PlayList[data.size()])
+				);
+	}
+	
+	/**
+	 * Queueを読み込むメソッド
+	 * @param mContext　アプリケーションのコンテキスト
+	 * @return　読み込んだプレイリスト
+	 */
+	public final static MusicQueue readSerializableQueue(Context mContext){
+		MusicQueue lists = (MusicQueue) readDataObject(
+				mContext, 
+				mContext.getString(R.string.queue_serializable)
+				);
+		
+		//読み込みができなかった場合
+		if(lists == null){
+			lists = new MusicQueue(
+					new ArrayList<Music>(), 
+					0, 
+					false, 
+					MusicPlayerWithQueue.NOT_LOOP);
+		}
+		return lists;
+	}
+	
+	/**
+	 * Queueを書き込むメソッド
+	 * @param mContext	アプリケーションのコンテキスト
+	 * @param data	書き込むプレイリスト
+	 * @return	書き込みが成功したか？
+	 */
+	public final static boolean writeSerializableQueue(Context mContext,MusicQueue data){
 		return writeDataObject(
 				mContext, 
 				mContext.getString(R.string.playlist_serializable), 
-				data.toArray(new PlayList[data.size()])
+				data
 				);
 	}
 	
@@ -75,6 +114,7 @@ public final class FileUtils {
 		    oos.close();
 		    return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 		    Log.d("FileDataObjectSave", e.getMessage()+e.toString());
 		    return false;
 		}
@@ -94,6 +134,7 @@ public final class FileUtils {
 		    ois.close();
 		    return data;
 		} catch (Exception e) {
+			e.printStackTrace();
 			Log.d("FileDataObjectRead",  e.getMessage()+e.toString());
 			return null;
 		}

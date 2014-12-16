@@ -1,6 +1,5 @@
 package com.abs104a.mperwithsideproject;
 
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.viewctl.MainViewController;
 import android.app.Service;
 import android.content.Context;
@@ -47,8 +46,6 @@ public class MainService extends Service{
 	private WindowManager mWindowManager = null;
 	//メインビュー保持用
 	private ViewGroup mMainView = null;
-	//音楽リソースのコントロールクラスのインスタンス
-	private final static MusicPlayerWithQueue _mpwpl = new MusicPlayerWithQueue();
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -67,7 +64,6 @@ public class MainService extends Service{
 		LayoutInflater inflater = LayoutInflater.from( mService );
 		inflater.inflate(R.layout.player_view, null);
 		
-
 		mWindowManager  = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
 		// 重ね合わせするViewの設定を行う
@@ -86,7 +82,7 @@ public class MainService extends Service{
 		params.y = 0;
 
 		//重畳表示するViewを取得する．
-		mMainView = (LinearLayout)MainViewController.createView(_mpwpl,mService);
+		mMainView = (LinearLayout)MainViewController.createView(mService);
 		
 		//プレイヤーのViewはハンドル部をタップした時に生成する．
 		//ハンドル部が引き出される動作と同時に大きさを変更させ，

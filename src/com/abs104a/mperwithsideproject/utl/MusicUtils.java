@@ -3,9 +3,9 @@ package com.abs104a.mperwithsideproject.utl;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.Album;
 import com.abs104a.mperwithsideproject.music.Music;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 
 import android.app.Service;
 import android.content.ContentResolver;
@@ -14,12 +14,23 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class MusicUtils {
 
+	private static MusicPlayerWithQueue musicController = null;
+	
+	/**
+	 * ミュージックコントロールクラスを返す.
+	 * 
+	 * @param mContext
+	 * @return
+	 */
+	public final static MusicPlayerWithQueue getMusicController(Context mContext){
+		if(musicController == null)
+			musicController = new MusicPlayerWithQueue(mContext);
+		return musicController;
+	}
+	
 	/**
 	 * 外部ストレージから音楽データをスキャンする
 	 * @param context

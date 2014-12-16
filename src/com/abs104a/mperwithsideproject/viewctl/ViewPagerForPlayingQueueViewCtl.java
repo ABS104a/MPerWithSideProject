@@ -6,6 +6,7 @@ import android.app.Service;
 import android.view.View;
 import android.widget.ListView;
 
+import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
@@ -22,7 +23,11 @@ public class ViewPagerForPlayingQueueViewCtl {
 		MusicListAdapter adapter = new MusicListAdapter(mService,rootView,items, mpwpl);
 		adapter.setButtonForDelete(true);
 		mListView.setAdapter(adapter);
-		mListView.setDrawingCacheEnabled(false);
+		mListView.setDividerHeight(
+				mService
+				.getResources()
+				.getDimensionPixelSize(R.dimen.listview_divider));
+		mListView.setDrawingCacheEnabled(true);
 		
 		android.util.Log.v("Queue", "getQueue count : " + mListView.getAdapter().getCount()+"");
 		

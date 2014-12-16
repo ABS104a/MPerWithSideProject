@@ -27,16 +27,12 @@ public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 	//画面幅
 	private int screenWidth;
 
-	private final MusicPlayerWithQueue mpwpl;
-
 	/**
 	 * インスタンスの生成
-	 * @param mpwpl 
 	 * @param mService　サービスのコンテキスト
 	 */
-	public MainHandleActionOnTouchImpl(Service mService, MusicPlayerWithQueue mpwpl) {
+	public MainHandleActionOnTouchImpl(Service mService) {
 		this.mService = mService;
-		this.mpwpl = mpwpl;
 		screenWidth = (int) DisplayUtils.getDisplayWidth(mService);
 	}
 
@@ -55,7 +51,7 @@ public final class MainHandleActionOnTouchImpl implements OnTouchListener {
 			if(((LinearLayout)v.getParent()).getChildCount() == 2){
 				//MusicPlayerViewの作成
 				mPlayerView = MusicPlayerViewController
-						.createView(mService,mpwpl);
+						.createView(mService);
 				mPlayerView.setId(PLAYER_VIEW_ID);
 				((LinearLayout)v.getParent()).addView(mPlayerView);
 

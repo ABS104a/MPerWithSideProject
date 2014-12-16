@@ -5,8 +5,9 @@ import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
+import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.BackButtonOnClickImpl;
-import com.abs104a.mperwithsideproject.viewctl.listener.ExitActionOnClickListenerImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.ExitButtonOnClickListenerImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.NextButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.OnPlayCompletedImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayButtonOnClickImpl;
@@ -37,16 +38,15 @@ public final class MusicPlayerViewController {
 	 * PlayerのViewを生成するメソッド
 	 * サービスのコンテキストを受けとりViewを生成する．
 	 * @param mService
-	 * @param mpwpl 
 	 * @return　生成したViewGroup
 	 */
-	public static View createView(Service mService, MusicPlayerWithQueue mpwpl){
+	public static View createView(Service mService){
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する
 		View mView = layoutInflater.inflate(com.abs104a.mperwithsideproject.R.layout.player_view, null);
 		//Action Settings 
-		init(mService, mView, mpwpl);
+		init(mService, mView);
 		return mView;
 	}
 	
@@ -56,7 +56,8 @@ public final class MusicPlayerViewController {
 	 * @param mView
 	 * @param mpwpl 
 	 */
-	private final static void init(Service mService,View mView, MusicPlayerWithQueue mpwpl){
+	private final static void init(Service mService,View mView){
+		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mService);
 		initAction(mService,mView,mpwpl);
 		initButtonOfView(mService,mView,mpwpl);
 	}
@@ -71,7 +72,7 @@ public final class MusicPlayerViewController {
 		//Viewのボタンに動作をつける
 		//終了ボタンの設定
 		ImageButton exitButton = (ImageButton)mView.findViewById(R.id.button_action_exit);
-		exitButton.setOnClickListener(new ExitActionOnClickListenerImpl(mService));
+		exitButton.setOnClickListener(new ExitButtonOnClickListenerImpl(mService, _mpwpl));
 		
 		//再生ボタンの設定
 		ImageButton playButton = (ImageButton)mView.findViewById(R.id.button_play);

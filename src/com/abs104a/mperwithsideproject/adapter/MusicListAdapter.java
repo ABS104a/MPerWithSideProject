@@ -7,6 +7,8 @@ import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
+import com.abs104a.mperwithsideproject.utl.GetJacketImageTask;
+import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.viewctl.listener.MusicOnClickListener;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayListAddOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayListDeleteOnClickImpl;
@@ -110,10 +112,18 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			holder.titleText.setText(item.getTitle());
 			
 			//TODO ジャケット画像 バックグラウンドに
-			if(item.getAlbumUri() != null)
-				holder.jacketImage.setImageURI(item.getAlbumUri());
-			else
-				holder.jacketImage.setImageResource(android.R.drawable.ic_lock_silent_mode);
+			if(ImageCache.isCache(item.getAlbum())){
+				//キャッシュがヒットすればそれを使う
+				holder.jacketImage.setImageBitmap(ImageCache.getImage(item.getAlbum()));
+			}else{
+				//キャッシュにない場合は新たに取得
+				if(item.getAlbumUri() != null){
+					holder.jacketImage.setImageResource(android.R.drawable.ic_menu_search);
+					new GetJacketImageTask(getContext(), holder.titleText, holder.jacketImage, item).execute();
+					//holder.jacketImage.setImageURI(item.getAlbumUri());
+				}else
+					holder.jacketImage.setImageResource(android.R.drawable.ic_menu_search);
+			}
 			//ボタンを表示するかどうかの設定
 			if(isDelete){
 				PlayListDeleteOnClickImpl plimpl = new PlayListDeleteOnClickImpl(getContext(),rootView, item, mpwpl);

@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.abs104a.mperwithsideproject.utl.FileUtils;
+
+import android.content.Context;
+
 /**
  * 音楽プレーヤーにくわえてプレイリスト再生を実現する
  * ArrayList型のプレイリストを読み込むことで
@@ -35,21 +39,33 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * 内部変数
 	 ===================================*/
 	
-	//再生曲のプレイリスト
-	private final static ArrayList<Music> mPlayList = new ArrayList<Music>();
-	//プレイリストの再生番号を管理するカーソル
-	private int mCursor = 0;
-	
-	//ループ状態を記憶する変数
-	private int loopState = NOT_LOOP;
-	
-	//シャッフル機能が有効かどうかのフラグ
-	private boolean isShuffle = false;
+	private MusicQueue mQueue = null;
+	//アプリケーションのコンテキスト
+	private Context mContext;
 	
 	
 	/**===================================
 	 * メソッド
 	 ===================================*/
+	
+	public MusicPlayerWithQueue(Context mContext){
+		//Queueを読み込む
+		MusicQueue mQueue = FileUtils.readSerializableQueue(mContext);
+		this.mQueue = mQueue;
+		this.mContext = mContext;
+	}
+	
+	@Override
+	protected void finalize() throws Throwable {
+		//Queueの内容を書き出す．
+		FileUtils.writeSerializableQueue(mContext, mQueue);
+		super.finalize();
+	}
+	
+	public void writeQueue(){
+		FileUtils.writeSerializableQueue(mContext, mQueue);
+	}
+	
 
 	//===================================
 	// ・ シャッフル機能について
@@ -60,7 +76,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * @return　シャッフル機能が有効かどうか
 	 */
 	public final boolean isShuffle() {
-		return isShuffle;
+		return mQueue.isShuffle();
 	}
 
 	/**
@@ -68,7 +84,8 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * @param isShuffle　シャッフルが有効かどうか
 	 */
 	public final boolean setShuffle(boolean isShuffle) {
-		return this.isShuffle = isShuffle;
+		mQueue.setShuffle(isShuffle);
+		return mQueue.isShuffle();
 	}
 	
 	//===================================
@@ -80,7 +97,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * @return ループ状態
 	 */
 	public final int getLoopState() {
-		return loopState;
+		return mQueue.getRepeatState();
 	}
 
 	/**
@@ -90,10 +107,10 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 */
 	public final int setLoopState(int loopState) {
 		if(loopState == NOT_LOOP || 
-				loopState == ALL_LOOP || loopState == ONE_LOOP)
-			return this.loopState = loopState;
-		else
-			return this.loopState;
+				loopState == ALL_LOOP || loopState == ONE_LOOP){
+			mQueue.setRepeatState(loopState);
+		}
+		return mQueue.getRepeatState();
 			
 	}
 	
@@ -114,7 +131,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 			IOException 
 			{
 		if(getStatus() == NOSOURCE){
-			setSource(mPlayList.get(mCursor).getPass());
+			setSource(mQueue.getCursorMusic().getPass());
 		}
 		return super.playStartAndPause();
 	}	
@@ -133,9 +150,11 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 			IllegalStateException, 
 			IOException
 			{
-		this.mPlayList.clear();
-		this.mPlayList.addAll(playList);
+		ArrayList<Music> mPlayList = mQueue.getQueueMusics();
+		mPlayList.clear();
+		mPlayList.addAll(playList);
 		setSource(playList.get(0).getPass());
+		writeQueue();
 	}
 	
 	/**
@@ -148,10 +167,12 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * @throws IndexOutOfBoundsException
 	 */
 	public final void setPlayList(ArrayList<Music> playList,int index) throws IndexOutOfBoundsException ,IllegalArgumentException, SecurityException, IllegalStateException, IOException{
-		this.mPlayList.clear();
-		this.mPlayList.addAll(playList);
-		mCursor = index;
+		ArrayList<Music> mPlayList = mQueue.getQueueMusics();
+		mPlayList.clear();
+		mPlayList.addAll(playList);
+		mQueue.setCursor(index);
 		setSource(playList.get(index).getPass());
+		writeQueue();
 	}
 	
 	/**
@@ -163,10 +184,12 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * @throws IOException
 	 */
 	public final void setMusic(final Music music) throws IllegalArgumentException, SecurityException, IllegalStateException, IOException{
+		ArrayList<Music> mPlayList = mQueue.getQueueMusics();
 		mPlayList.clear();
 		mPlayList.add(music);
-		mCursor = 0;
+		mQueue.setCursor(0);
 		setSource(music.getPass());
+		writeQueue();
 	}
 	
 	/**
@@ -176,7 +199,8 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * @param music　追加する音楽要素
 	 */
 	public final void addMusic(final Music music){
-		mPlayList.add(music);
+		mQueue.getQueueMusics().add(music);
+		writeQueue();
 	}
 	
 	
@@ -191,7 +215,8 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * @throws IndexOutOfBoundsException　プレイリスト外のIndex指定があった場合
 	 */
 	public final void addMusic(final Music music ,final int index) throws IndexOutOfBoundsException{
-		mPlayList.add(index, music);
+		mQueue.getQueueMusics().add(index, music);
+		writeQueue();
 	}
 	
 	/**
@@ -199,11 +224,12 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * @param music
 	 */
 	public final void removeMusic(final Music music){
-		int index = mPlayList.indexOf(music);
+		int index = mQueue.getQueueMusics().indexOf(music);
 		if(index != -1){
-			if(index <= mCursor)
-				mCursor = Math.max(0, mCursor - 1);
-			mPlayList.remove(music);
+			if(index <= mQueue.getCursor())
+				mQueue.setCursor(Math.max(0, mQueue.getCursor() - 1));
+			mQueue.getQueueMusics().remove(music);
+			writeQueue();
 		}
 	}
 	
@@ -212,10 +238,11 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * @param music
 	 */
 	public final void removeMusic(final int index){
-		if(index >= 0 && index < mPlayList.size()){
-			if(index <= mCursor)
-				mCursor = Math.max(0, mCursor - 1);
-			mPlayList.remove(index);
+		if(index >= 0 && index < mQueue.getQueueMusics().size()){
+			if(index <= mQueue.getCursor())
+				mQueue.setCursor(Math.max(0, mQueue.getCursor() - 1));
+			mQueue.getQueueMusics().remove(index);
+			writeQueue();
 		}
 	}
 	
@@ -224,8 +251,8 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * @return
 	 */
 	public final Music getNowPlayingMusic(){
-		if(mPlayList != null && mPlayList.size() > 0)
-			return mPlayList.get(mCursor);
+		if(mQueue.getQueueMusics() != null && mQueue.getQueueMusics().size() > 0)
+			return mQueue.getCursorMusic();
 		else
 			return null;
 	}
@@ -235,7 +262,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * @return　再生Queue
 	 */
 	public final ArrayList<Music> getQueue(){
-		return mPlayList;
+		return mQueue.getQueueMusics();
 	}
 	
 	/**
@@ -255,8 +282,8 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 			IllegalStateException, 
 			IOException
 	{
-		mCursor = index;
-		return setSource(mPlayList.get(index).getPass());
+		mQueue.setCursor(index);
+		return setSource(mQueue.getCursorMusic().getPass());
 	}
 	
 	/**
@@ -278,40 +305,40 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		if(isShuffle()){
 			//ランダムにカーソル値を設定する．
 			Random random = new Random();
-			int oldCursor = mCursor;
-			mCursor = random.nextInt(mPlayList.size());
+			int oldCursor = mQueue.getCursor();
+			mQueue.setCursor(random.nextInt(mQueue.getQueueMusics().size()));
 			//前の曲と同じ値になった場合はその次の曲or前の曲にする．
-			if(oldCursor == mCursor)
-				mCursor = mCursor == (mPlayList.size()-1) ? Math.max(0, --mCursor) : ++mCursor;
+			if(oldCursor == mQueue.getCursor())
+				mQueue.setCursor(mQueue.getCursor() == (mQueue.getQueueMusics().size()-1) ? Math.max(0, mQueue.getCursor()-1) : mQueue.getCursor()+1);
 		}
 		//シャッフル機能が無効の時
 		else{
 			//再生を終了するかどうか設定するフラグ
 			boolean flag = false;
 			//ループの状態
-			switch(loopState){
+			switch(mQueue.getRepeatState()){
 			case NOT_LOOP: 	//ループ無しの時
 				//終了フラグを立てる．
 				flag = true;
 			case ALL_LOOP: 	//全曲ループの時
-				++mCursor;	//カーソルを進める
-				if(mPlayList.size() == mCursor){
+				mQueue.setCursor(mQueue.getCursor()+1);	//カーソルを進める
+				if(mQueue.getQueueMusics().size() == mQueue.getCursor()){
 					//プレイリストの最後まで来たとき
 					//カーソルを0に戻す
-					mCursor = 0;
+					mQueue.setCursor(0);
 					//全曲ループでないときは再生を終了する．
-					if(flag)return mCursor;
+					if(flag)return mQueue.getCursor();
 				}
 			case ONE_LOOP:	//1曲ループの時
 			}
 		}
 		//次の曲情報を取得
-		String nextMusic = mPlayList.get(mCursor).getPass();
+		String nextMusic = mQueue.getCursorMusic().getPass();
 		//データをセットする
 		setSource(nextMusic);
 		//再生を開始
 		playStartAndPause();
-		return mCursor;
+		return mQueue.getCursor();
 		
 	}
 	
@@ -334,21 +361,22 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 			{
 		//秒数が1秒以上なら前に戻らない
 		if(getCurrentTime() > 1000){
-			++mCursor;
+			mQueue.setCursor(mQueue.getCursor()+1);
 		}
 		android.util.Log.v("playback", getCurrentTime() + "");
 		
 		//次の曲情報を取得
-		if(--mCursor < 0){
-			mCursor = 0;
+		mQueue.setCursor(mQueue.getCursor()-1);
+		if(mQueue.getCursor() < 0){
+			mQueue.setCursor(0);
 		}
 		
-		String nextMusic = mPlayList.get(mCursor).getPass();
+		String nextMusic = mQueue.getCursorMusic().getPass();
 		//データをセットする
 		setSource(nextMusic);
 		//再生を開始
 		playStartAndPause();
-		return mCursor;	
+		return mQueue.getCursor();	
 	}
 
 

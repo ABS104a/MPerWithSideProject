@@ -205,7 +205,7 @@ public class MusicPlayer implements OnCompletionListener {
 			if(getStatus() >= NOTPLAYING){
 				//再生する
 				//サービスの優先度を設定
-				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_FOREGROUND);
+				android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_DISPLAY);
 				mMediaPlayer.start();
 				mMediaPlayer.setOnCompletionListener(this);
 				setStatus(PLAYING);
