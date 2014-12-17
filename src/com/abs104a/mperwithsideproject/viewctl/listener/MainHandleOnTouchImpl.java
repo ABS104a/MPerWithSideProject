@@ -24,6 +24,7 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 	private final Service mService;
 	//画面幅
 	private final int screenWidth;
+	private float downPos = 0;
 
 	/**
 	 * インスタンスの生成
@@ -56,12 +57,19 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 		switch(event.getAction()){
 		case MotionEvent.ACTION_UP:
 			if(rootView.getWidth() < musicPlayerWidth / 3){
-				MusicPlayerViewController.animateOpen(mService, rootView);
+				if(downPos < musicPlayerWidth / 3)
+					MusicPlayerViewController.animateOpen(mService, rootView);
+				else
+					MusicPlayerViewController.animateClose(mService, rootView);
 			}else if(rootView.getWidth() > (musicPlayerWidth / 3) * 2){
-				MusicPlayerViewController.animateClose(mService, rootView);
+				if(downPos > (musicPlayerWidth / 3) * 2)
+					MusicPlayerViewController.animateOpen(mService, rootView);
+				else
+					MusicPlayerViewController.animateClose(mService, rootView);
 			}
 			break;
 		case MotionEvent.ACTION_DOWN:	//画面を押した時
+			downPos  = event.getRawX();
 		case MotionEvent.ACTION_MOVE:	//画面上を動いている時
 			if(((LinearLayout)rootView).getChildCount() == 2){
 				//MusicPlayerViewの作成

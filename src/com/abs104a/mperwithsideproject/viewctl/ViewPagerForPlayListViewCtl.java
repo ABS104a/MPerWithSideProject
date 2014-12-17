@@ -20,11 +20,11 @@ public final class ViewPagerForPlayListViewCtl {
 	 * @param mServie	親となるサービスのコンテキスト
 	 * @return	生成したView
 	 */
-	public final static View createView(Service mService,MusicPlayerWithQueue mpwpl){
+	public final static View createView(Service mService,View rootView ,MusicPlayerWithQueue mpwpl){
 		//TODO　ルーチンの実装
 		ExpandableListView mListView = new ExpandableListView(mService);
 		//TODO ここでPlayListを読み込む
-		mListView.setAdapter(new PlayListForExpandableListAdapter(mService, null));
+		mListView.setAdapter(new PlayListForExpandableListAdapter(mService, null, rootView, mpwpl));
 		mListView.setOnChildClickListener(new PlayListOnChildClickImpl(mService,mpwpl));
 		
 		return mListView;

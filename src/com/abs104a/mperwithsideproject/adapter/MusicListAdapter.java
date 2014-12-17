@@ -109,7 +109,7 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 					DisplayUtils.long2TimeString(item.getDuration()));
 			holder.titleText.setText(item.getTitle());
 			
-			//TODO ジャケット画像 バックグラウンドに
+			//ジャケット画像 バックグラウンドに
 			if(ImageCache.isCache(item.getAlbum())){
 				//キャッシュがヒットすればそれを使う
 				holder.jacketImage.setImageBitmap(ImageCache.getImage(item.getAlbum()));

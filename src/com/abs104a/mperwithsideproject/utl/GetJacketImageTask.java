@@ -5,9 +5,9 @@ import java.io.InputStream;
 
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.Music;
+import com.abs104a.mperwithsideproject.music.PlayList;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,19 +32,33 @@ import android.widget.TextView;
 public final class GetJacketImageTask extends AsyncTask<Void,Void,Bitmap>{
 
 	private final Context context;
-	private final Music item;
+	private final Uri uri;
+	private final String album;
+	private final String confilmString;
 	private final ImageView jacketImage;
 	private final TextView titleText;
 
 	public GetJacketImageTask(Context context, TextView titleText,
 			ImageView jacketImage, Music item) {
 		this.context = context;
-		this.item = item;
+		this.uri = item.getAlbumUri();
+		this.confilmString = item.getTitle();
 		this.jacketImage = jacketImage;
 		this.titleText = titleText;
+		this.album = item.getAlbum();
 	}
     
-    public Bitmap resizeBitmapToDisplaySize(Bitmap src,float newSize){
+    public GetJacketImageTask(Context mContext, TextView albumText,
+			ImageView jacketImage, PlayList group) {
+    	this.context = mContext;
+		this.uri = group.getJacketUri();
+		this.confilmString = group.getAlbum();
+		this.jacketImage = jacketImage;
+		this.titleText = albumText;
+		this.album = group.getAlbum();
+	}
+
+	public Bitmap resizeBitmapToDisplaySize(Bitmap src,float newSize){
         int srcWidth = src.getWidth(); // 元画像のwidth
         int srcHeight = src.getHeight(); // 元画像のheight
 
@@ -81,12 +95,12 @@ public final class GetJacketImageTask extends AsyncTask<Void,Void,Bitmap>{
 
 	@Override
 	protected Bitmap doInBackground(Void... params) {
-		Uri albumArtUri = Uri.parse(
-		        "content://media/external/audio/albumart");
-		Uri album1Uri = ContentUris.withAppendedId(albumArtUri, item.getAlbumId());
+		//Uri albumArtUri = Uri.parse(
+		      //  "content://media/external/audio/albumart");
+		//Uri album1Uri = ContentUris.withAppendedId(albumArtUri, item.getAlbumId());
 		try{
 		    ContentResolver cr = context.getContentResolver();
-		    InputStream is = cr.openInputStream(album1Uri);
+		    InputStream is = cr.openInputStream(uri);
 		    return resizeBitmapToDisplaySize(
 		    		BitmapFactory.decodeStream(is), 
 		    		context.getResources().getDimension(R.dimen.album_item_row_jacket));
@@ -102,9 +116,9 @@ public final class GetJacketImageTask extends AsyncTask<Void,Void,Bitmap>{
 	@Override
 	protected void onPostExecute(Bitmap result) {
 		try{
-			if(result != null && titleText.getText().equals(item.getTitle())){
+			if(result != null && titleText.getText().equals(confilmString)){
 				jacketImage.setImageBitmap(result);
-				ImageCache.setImage(item.getAlbum(), result);
+				ImageCache.setImage(album, result);
 				//Animation anim = AnimationUtils.loadAnimation(context,android.R.anim.fade_in);
 				//jacketImage.startAnimation(anim);
 			}
