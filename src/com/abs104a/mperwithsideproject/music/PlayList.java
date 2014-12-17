@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import android.net.Uri;
 
-public class PlayList extends Album {
+public final class PlayList extends Album {
 
 	/**
 	 * 

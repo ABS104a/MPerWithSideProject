@@ -17,6 +17,7 @@ public class ViewPagerForPlayingQueueViewCtl {
 			final Service mService,
 			View rootView, final MusicPlayerWithQueue mpwpl)
 	{
+
 		//Viewの生成 Listview
 		final ListView mListView = new ListView(mService);
 		ArrayList<Music> items = mpwpl.getQueue();
@@ -28,9 +29,9 @@ public class ViewPagerForPlayingQueueViewCtl {
 				.getResources()
 				.getDimensionPixelSize(R.dimen.listview_divider));
 		mListView.setDrawingCacheEnabled(true);
-		
+
 		android.util.Log.v("Queue", "getQueue count : " + mListView.getAdapter().getCount()+"");
-		
+
 		return mListView;
 	}
 	

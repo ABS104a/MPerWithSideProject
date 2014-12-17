@@ -3,6 +3,7 @@ package com.abs104a.mperwithsideproject.adapter;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForAlbumViewCtl;
+import com.abs104a.mperwithsideproject.viewctl.ViewPagerForPlayListViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForPlayingQueueViewCtl;
 
 import android.app.Service;
@@ -93,15 +94,15 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
 		//ページごとのViewを生成する
-		ListView view = null;
+		View view = null;
 		switch(position){
 		case QUEUE:	//Page1
 			view = (ListView) ViewPagerForPlayingQueueViewCtl
 			.createView(mService, mView, mpwpl);
-			mQueueListView = view;
+			mQueueListView = (ListView) view;
 			break;
 		case PLAYLIST:	//Page2
-			view = new ListView(mService);//(ListView) ViewPagerForPlayListViewCtl.createView(mService, mpwpl);
+			view = (ListView) ViewPagerForPlayListViewCtl.createView(mService, mView, mpwpl);
 			break;
 		case ALBUM:	//Page3
 			view = (ListView) ViewPagerForAlbumViewCtl

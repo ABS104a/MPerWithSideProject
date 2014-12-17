@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="@dimen/album_item_row_margins"
+    android:background="@color/album_item_group_bg"
     android:orientation="vertical" >
 
     
     <!-- ExpandableListViewのグループ要素 -->
     <ImageView
         android:id="@+id/imageView_album_jacket"
-        android:layout_width="@dimen/album_item_row_jacket"
-        android:layout_height="@dimen/album_item_row_jacket"
+        android:layout_width="@dimen/album_item_row_jacket_bigger"
+        android:layout_height="@dimen/album_item_row_jacket_bigger"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_margin="@dimen/album_item_row_margins"
@@ -19,7 +20,7 @@
         android:src="@drawable/ic_launcher" />
 
     <TextView
-        android:id="@+id/textView_album"
+        android:id="@+id/textView_album_album"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/textView_album_artist"
@@ -45,9 +46,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/imageView_album_jacket"
-        android:layout_alignLeft="@+id/textView_album"
+        android:layout_alignLeft="@+id/textView_album_album"
         android:layout_toLeftOf="@+id/imageButton_album_add"
         android:text="artist"
+        android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

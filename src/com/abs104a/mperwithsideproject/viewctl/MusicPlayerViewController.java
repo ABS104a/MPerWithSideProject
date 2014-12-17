@@ -193,19 +193,22 @@ public final class MusicPlayerViewController {
 	public final static void animateOpen(final Service mService,View rootView){
 		final View mPlayerView;
 		final Handler mHandler = new Handler();
+		final int mWidth;
 		if(((LinearLayout)rootView).getChildCount() == 2){
 			//MusicPlayerViewの作成
 			mPlayerView = createView(mService);
 			mPlayerView.setId(PLAYER_VIEW_ID);
 			((LinearLayout)rootView).addView(mPlayerView);
+			mWidth = 0;
 		}else{
 			mPlayerView = 
 					((LinearLayout)rootView)
 					.findViewById(MusicPlayerViewController.PLAYER_VIEW_ID);
+			mWidth = mPlayerView.getWidth();
 		}
 		//Layout設定
 		final LayoutParams params = (LayoutParams) mPlayerView.getLayoutParams();
-		params.width = 0;
+		params.width = mWidth;
 		//Layoutの変更
 		mPlayerView.setLayoutParams(params);
 		mPlayerView.setVisibility(View.INVISIBLE);
@@ -289,7 +292,7 @@ public final class MusicPlayerViewController {
 					params.width = Math.max(0, width);
 					//Layoutの変更
 					mPlayerView.setLayoutParams(params);
-					mHandler.postDelayed(this, DELAY_TIME);
+					mHandler.postDelayed(this, DELAY_TIME >> 1);
 				}else{
 					//Viewの消去を行う
 					((LinearLayout)rootView).removeView(mPlayerView);

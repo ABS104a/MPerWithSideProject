@@ -78,7 +78,7 @@ public final class PlayListForExpandableListAdapter extends
 		//ViewがNullの時は新しく生成する
 		if(convertView == null){
 			LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-			convertView = layoutInflater.inflate(R.layout.item_row_child, null);
+			convertView = layoutInflater.inflate(R.layout.album_item_row, null);
 			holder = new ChildHolder();
 			holder.addButton   = (ImageButton) convertView.findViewById(R.id.imageButton_album_add);
 			
@@ -144,7 +144,8 @@ public final class PlayListForExpandableListAdapter extends
 	 */
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		return playLists.get(groupPosition).getMusics().length;
+		Music[] pLists = playLists.get(groupPosition).getMusics();
+		return pLists == null ? 0 : pLists.length;
 	}
 
 	/**
@@ -183,12 +184,13 @@ public final class PlayListForExpandableListAdapter extends
 		//ViewがNullの時は新しく生成する
 		if(convertView == null){
 			LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-			convertView = layoutInflater.inflate(R.layout.item_row_child, null);
+			convertView = layoutInflater.inflate(R.layout.item_row_group, null);
 			holder = new GroupHolder();
-			holder.albumText = (TextView) convertView.findViewById(R.id.textView_album);
+			holder.albumText = (TextView) convertView.findViewById(R.id.textView_album_album);
 			holder.jacketImage = (ImageView)convertView.findViewById(R.id.imageView_album_jacket);
 			holder.artistView = (TextView)convertView.findViewById(R.id.textView_album_artist);
 			holder.expandButton = (ImageButton)convertView.findViewById(R.id.imageButton_album_add);
+			holder.expandButton.setVisibility(View.GONE);
 			convertView.setTag(holder);
 		}else{
 			holder = (GroupHolder) convertView.getTag();

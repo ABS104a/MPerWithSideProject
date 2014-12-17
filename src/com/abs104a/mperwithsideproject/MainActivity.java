@@ -16,7 +16,6 @@ public class MainActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO MainServiceを起動する
 		super.onCreate(savedInstanceState);
-		
 		//MainServiceを起動する
 		Intent mainIntent = new Intent(mActivity,MainService.class);
 		mActivity.startService(mainIntent);

@@ -4,6 +4,7 @@
     <color name="transparent">#00FFFFFF</color>
     <!-- ミュージックプレーヤーのViewPagerの背景色 -->
     <color name="musicplayer_viewpager_bg">#89898989</color>
+    <color name="album_item_group_bg">#69292929</color>
     
-    <color name="listview_current_row">#69696969</color>
+    <color name="listview_current_row">#69292929</color>
 </resources>

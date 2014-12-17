@@ -10,7 +10,7 @@ import android.graphics.Bitmap;
 public class ImageCache {
 
 	//キャッシュするイメージ数
-	private static final int IMAGESIZE = 20;
+	private static final int IMAGESIZE = 30;
 	//LRUキャッシュ
 	private static ConcurrentLRUCache<String, Bitmap> cache = new ConcurrentLRUCache<String,Bitmap>(IMAGESIZE);
 	
@@ -20,7 +20,7 @@ public class ImageCache {
 	 * @return	キャッシュがあるかどうか
 	 */
 	public static final boolean isCache(String key){
-		return cache.containsKey(cache);
+		return cache.containsKey(key);
 	}
 	
 	/**
@@ -39,5 +39,12 @@ public class ImageCache {
 	 */
 	public static final void setImage(String key ,Bitmap bitmap){
 		cache.put(key, bitmap);
+	}
+	
+	/**
+	 * キャッシュをクリアする
+	 */
+	public static final void clearCache(){
+		cache.clear();
 	}
 }

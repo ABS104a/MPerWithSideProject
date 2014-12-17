@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/musicplayer_viewpager_bg"
     android:gravity="center" >
 
     <!-- 画面下部のレイアウト -->
