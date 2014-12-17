@@ -24,6 +24,7 @@
     <string name="shuffle_on">shuffle on</string>
     <string name="shuffle_off">shuffle off</string>
     <string name="row_empty">There is no playlist.</string>
+    <string name="search_box_hint">Enter a search term.</string>
     
     
 

@@ -9,8 +9,6 @@ import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.GetJacketImageTask;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
-import com.abs104a.mperwithsideproject.viewctl.listener.MusicOnClickImpl;
-import com.abs104a.mperwithsideproject.viewctl.listener.PlayListAddOnClickImpl;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -74,69 +72,7 @@ public final class PlayListForExpandableListAdapter extends
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 		Music item = playLists.get(groupPosition).getMusics()[childPosition];
-		ChildHolder holder;
-		//ViewがNullの時は新しく生成する
-		if(convertView == null){
-			LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-			convertView = layoutInflater.inflate(R.layout.album_item_row, null);
-			holder = new ChildHolder();
-			holder.addButton   = (ImageButton) convertView.findViewById(R.id.imageButton_album_add);
-			
-			holder.albumText   = (TextView) convertView.findViewById(R.id.textView_album_album);
-			holder.albumText.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-			holder.albumText.setSingleLine(true);
-			holder.albumText.setMarqueeRepeatLimit(5);
-			holder.albumText.setSelected(true);
-			
-			holder.artistText  = (TextView) convertView.findViewById(R.id.textView_album_artist);
-			holder.jacketImage = (ImageView) convertView.findViewById(R.id.imageView_album_jacket);
-			holder.timeText    = (TextView) convertView.findViewById(R.id.textView_album_time);
-			holder.titleText   = (TextView) convertView.findViewById(R.id.textView_album_title);
-			
-			convertView.setTag(holder);
-		}else{
-			//取得したViewがNullでない時
-			holder = (ChildHolder) convertView.getTag();
-		}
-		
-		if(item != null){
-			//テキスト情報の入力
-			holder.albumText.setText(item.getAlbum());
-			holder.artistText.setText(item.getArtist());
-			holder.timeText.setText(
-					DisplayUtils.long2TimeString(item.getDuration()));
-			holder.titleText.setText(item.getTitle());
-			
-			//ジャケット画像 バックグラウンドに
-			if(ImageCache.isCache(item.getAlbum())){
-				//キャッシュがヒットすればそれを使う
-				holder.jacketImage.setImageBitmap(ImageCache.getImage(item.getAlbum()));
-			}else{
-				//キャッシュにない場合は新たに取得
-				if(item.getAlbumUri() != null){
-					holder.jacketImage.setImageResource(android.R.drawable.ic_menu_search);
-					new GetJacketImageTask(mContext, holder.titleText, holder.jacketImage, item).execute();
-					//holder.jacketImage.setImageURI(item.getAlbumUri());
-				}else
-					holder.jacketImage.setImageResource(android.R.drawable.ic_menu_search);
-			}
-			//ボタンを表示するかどうかの設定
-			PlayListAddOnClickImpl plimpl = new PlayListAddOnClickImpl(mContext,rootView, item, mpwpl);
-			holder.addButton.setOnClickListener(plimpl);
-			holder.addButton.setOnLongClickListener(plimpl);
-
-			convertView.setOnClickListener(new MusicOnClickImpl(mContext, rootView, item, mpwpl,true));
-			
-			Music currentMusic = mpwpl.getNowPlayingMusic();
-			if(currentMusic != null && item.equals(currentMusic)){
-				//再生中の曲がカラムと同じ場合
-				convertView.setBackgroundResource(R.color.listview_current_row);
-			}else{
-				//再生中の曲がカラムと違う場合
-				convertView.setBackgroundResource(R.color.transparent);
-			}
-		}
-		return convertView;
+		return DisplayUtils.getChildView(convertView, item, mContext, false, rootView, mpwpl);
 	}
 
 	/**
@@ -189,6 +125,10 @@ public final class PlayListForExpandableListAdapter extends
 			holder.albumText = (TextView) convertView.findViewById(R.id.textView_album_album);
 			holder.jacketImage = (ImageView)convertView.findViewById(R.id.imageView_album_jacket);
 			holder.artistView = (TextView)convertView.findViewById(R.id.textView_album_artist);
+			holder.artistView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+			holder.artistView.setSingleLine(true);
+			holder.artistView.setMarqueeRepeatLimit(5);
+			holder.artistView.setSelected(true);
 			holder.expandButton = (ImageButton)convertView.findViewById(R.id.imageButton_album_add);
 			holder.expandButton.setVisibility(View.GONE);
 			convertView.setTag(holder);

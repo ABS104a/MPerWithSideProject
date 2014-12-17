@@ -130,7 +130,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 			IllegalStateException, 
 			IOException 
 			{
-		if(getStatus() == NOSOURCE){
+		if(getStatus() != PLAYING && getStatus() != PAUSEING){
 			setSource(mQueue.getCursorMusic().getPass());
 		}
 		return super.playStartAndPause();
@@ -301,6 +301,9 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 			IOException
 			{
 		//TODO List形式を実装する
+		//再生を終了するかどうか設定するフラグ
+		boolean flag = false;
+		
 		//シャッフル機能が有効の時
 		if(isShuffle()){
 			//ランダムにカーソル値を設定する．
@@ -313,8 +316,6 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		}
 		//シャッフル機能が無効の時
 		else{
-			//再生を終了するかどうか設定するフラグ
-			boolean flag = false;
 			//ループの状態
 			switch(mQueue.getRepeatState()){
 			case NOT_LOOP: 	//ループ無しの時
@@ -326,8 +327,6 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 					//プレイリストの最後まで来たとき
 					//カーソルを0に戻す
 					mQueue.setCursor(0);
-					//全曲ループでないときは再生を終了する．
-					if(flag)return mQueue.getCursor();
 				}
 			case ONE_LOOP:	//1曲ループの時
 			}
@@ -336,6 +335,8 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		String nextMusic = mQueue.getCursorMusic().getPass();
 		//データをセットする
 		setSource(nextMusic);
+		//全曲ループでないときは再生を終了する．
+		if(flag)return mQueue.getCursor();
 		//再生を開始
 		playStartAndPause();
 		return mQueue.getCursor();

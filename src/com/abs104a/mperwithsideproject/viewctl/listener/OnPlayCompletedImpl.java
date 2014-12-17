@@ -34,11 +34,11 @@ public final class OnPlayCompletedImpl implements OnPlayCompletedListener{
 		//再生が終了したとき 次の曲をセットする．
 		try {
 			//次の曲を再生
-			_mpwpl.playNext();
+			int nextCursor = _mpwpl.playNext();
 			MusicPlayerViewController.setPartOfPlayerView(
 					rootView.getContext(), 
 					rootView,
-					_mpwpl.getNowPlayingMusic(),
+					_mpwpl.getQueue().get(nextCursor),
 					_mpwpl);
 			
 		} catch (Exception e) {

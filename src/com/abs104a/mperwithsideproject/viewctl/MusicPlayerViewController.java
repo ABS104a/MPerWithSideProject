@@ -29,6 +29,7 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -325,6 +326,10 @@ public final class MusicPlayerViewController {
 		//アルバム名
 		final TextView album = (TextView)mView.findViewById(R.id.textView_now_album);
 		album.setText(music.getAlbum());
+		album.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+		album.setSingleLine(true);
+		album.setMarqueeRepeatLimit(5);
+		album.setSelected(true);
 		//曲時間
 		final TextView maxTime = (TextView)mView.findViewById(R.id.textView_now_max_time);
 		maxTime.setText(DisplayUtils.long2TimeString(music.getDuration()));

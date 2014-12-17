@@ -23,12 +23,11 @@
         android:id="@+id/textView_album_album"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView_album_artist"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/imageButton_album_add"
         android:layout_toRightOf="@+id/imageView_album_jacket"
-        android:singleLine="true"
         android:gravity="center_vertical"
+        android:maxLines="2"
         android:text="Album"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

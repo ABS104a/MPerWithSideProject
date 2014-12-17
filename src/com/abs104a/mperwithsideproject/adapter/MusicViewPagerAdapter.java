@@ -29,6 +29,8 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	public static final int ALBUM = 2;
 	public static final int EQUALIZER = 3;
 	
+	//TODO Viewが消されたときに復帰できるよう場所を記憶する．
+	
 	//ViewPagerのページ数
 	public final static int PAGE_SIZE = 4;
 	//自身のサービスコンテキスト
