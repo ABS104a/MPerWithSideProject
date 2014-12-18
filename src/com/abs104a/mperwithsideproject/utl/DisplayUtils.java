@@ -159,7 +159,7 @@ public class DisplayUtils {
 				holder.addButton.setOnClickListener(plimpl);
 				holder.addButton.setOnLongClickListener(plimpl);
 			}
-			convertView.setOnClickListener(new MusicOnClickImpl(context, rootView, item, mpwpl,!isDelete));
+			convertView.setOnClickListener(new MusicOnClickImpl(rootView, item,!isDelete));
 			
 			Music currentMusic = mpwpl.getNowPlayingMusic();
 			if(currentMusic != null && item.equals(currentMusic)){

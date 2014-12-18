@@ -327,6 +327,9 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 					//プレイリストの最後まで来たとき
 					//カーソルを0に戻す
 					mQueue.setCursor(0);
+					setSource(mQueue.getCursorMusic().getPass());
+				}else{
+					flag = false;
 				}
 			case ONE_LOOP:	//1曲ループの時
 			}

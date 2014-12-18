@@ -1,13 +1,8 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
-import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
-import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
-
-import android.content.Context;
-import android.support.v4.view.ViewPager;
+import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -18,10 +13,6 @@ import android.view.View.OnClickListener;
  */
 public final class MusicOnClickImpl implements OnClickListener {
 
-	//ミュージックコントロールクラス
-	private final MusicPlayerWithQueue mpwpl;
-	//サービスのコンテキスト
-	private final Context context;
 	//音楽リスト
 	private final Music music;
 	//RootView
@@ -37,20 +28,18 @@ public final class MusicOnClickImpl implements OnClickListener {
 	 * @param mpwpl		ミュージックコントロールインスタンス
 	 * @param isAddQueue	タップされたときにキューに登録するかどうか
 	 */
-	public MusicOnClickImpl(Context context, View rootView, Music item,
-			MusicPlayerWithQueue mpwpl, boolean isAddQueue) {
-		this.context = context;
+	public MusicOnClickImpl(View rootView, Music item,
+			boolean isAddQueue) {
 		this.music = item;
-		this.mpwpl = mpwpl;
 		this.isAddQueue = isAddQueue;
 		this.rootView = rootView;
 	}
 
 	@Override
 	public void onClick(View view) {
+		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(view.getContext());
 		view.setSelected(true);
 		if(music != null){
-			//TODO
 			try {
 				int index = 0;
 				if(isAddQueue){
@@ -64,12 +53,7 @@ public final class MusicOnClickImpl implements OnClickListener {
 					}
 				}
 				mpwpl.seekQueue(index);
-				mpwpl.playStartAndPause();
-				MusicPlayerViewController.setPartOfPlayerView(context, rootView, music, mpwpl);
-				//ViewPager の設定
-				ViewPager mViewPager = (ViewPager)rootView.findViewById(R.id.player_list_part);
-				//Viewへの反映
-				((MusicViewPagerAdapter)mViewPager.getAdapter()).notifitionDataSetChagedForQueueView();
+				MusicUtils.playOrPauseWithView(rootView);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

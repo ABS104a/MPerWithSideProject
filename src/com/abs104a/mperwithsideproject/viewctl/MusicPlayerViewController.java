@@ -1,18 +1,12 @@
 package com.abs104a.mperwithsideproject.viewctl;
 
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
-import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
-import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.BackButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ExitButtonOnClickListenerImpl;
-import com.abs104a.mperwithsideproject.viewctl.listener.MusicSeekBarOnChangeImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.NextButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.OnPlayCompletedImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayButtonOnClickImpl;
@@ -20,25 +14,17 @@ import com.abs104a.mperwithsideproject.viewctl.listener.RepeatButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ShuffleButtonOnClickImpl;
 
 import android.app.Service;
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
@@ -55,9 +41,6 @@ public final class MusicPlayerViewController {
 	public final static int PLAYER_VIEW_ID = 12;
 	//AnimateOpen時のDelayTime
 	public final static int DELAY_TIME = 20;
-	
-	//UIスレッドのHandler
-	private static MusicSeekBarHandler mHandler = null;
 	
 	/**
 	 * PlayerのViewを生成するメソッド
@@ -107,19 +90,19 @@ public final class MusicPlayerViewController {
 		//次へのボタンの設定
 		ImageButton nextButton = (ImageButton)mView.findViewById(R.id.button_next_seek);
 		//次へボタンの動作を登録する．
-		nextButton.setOnClickListener(new NextButtonOnClickImpl(mService,_mpwpl,mView));
+		nextButton.setOnClickListener(new NextButtonOnClickImpl(mView));
 		
 		ImageButton backButton = (ImageButton)mView.findViewById(R.id.button_back_seek);
 		//前へボタンの動作を登録する．
-		backButton.setOnClickListener(new BackButtonOnClickImpl(mService,_mpwpl,mView));
+		backButton.setOnClickListener(new BackButtonOnClickImpl(mView));
 		
 		ImageButton repeatButton = (ImageButton)mView.findViewById(R.id.button_repeat);
 		//リピートボタンの動作を登録する．
-		repeatButton.setOnClickListener(new RepeatButtonOnClickImpl(repeatButton,_mpwpl));
+		repeatButton.setOnClickListener(new RepeatButtonOnClickImpl(mView));
 		
 		ImageButton shuffleButton = (ImageButton)mView.findViewById(R.id.button_shuffle);
 		//シャッフルボタンの動作を登録する．
-		shuffleButton.setOnClickListener(new ShuffleButtonOnClickImpl(shuffleButton,_mpwpl));
+		shuffleButton.setOnClickListener(new ShuffleButtonOnClickImpl(mView));
 		
 		ImageButton showListButton = (ImageButton)mView.findViewById(R.id.button_action_show_list);
 		//TODO リスト表示ボタンの設定を登録する
@@ -139,7 +122,7 @@ public final class MusicPlayerViewController {
 	private static void initAction(Service mService,View mView, MusicPlayerWithQueue _mpwpl){
 		//再生が終了した時に呼ばれるリスナを実装する．
 		//再生が完了したときのリスナをセット．
-		_mpwpl.setOnPlayCompletedListener(new OnPlayCompletedImpl(_mpwpl, mView));
+		_mpwpl.setOnPlayCompletedListener(new OnPlayCompletedImpl( mView));
 		
 		//ViewPager の設定
 		ViewPager mViewPager = (ViewPager)mView.findViewById(R.id.player_list_part);
@@ -148,7 +131,7 @@ public final class MusicPlayerViewController {
 		
 		//TODO プレイリストを設定
 		if(_mpwpl.getNowPlayingMusic() != null)
-			setPartOfPlayerView(mService, mView, _mpwpl.getNowPlayingMusic(),_mpwpl);
+			MusicUtils.reflectOfView(mView);
 		
 		//音量の設定
 		// AudioManagerを取得する
@@ -173,9 +156,7 @@ public final class MusicPlayerViewController {
 				if(fromUser){//音量を変更する
 					am.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
 				}
-				
 			}
-
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {}
 
@@ -305,80 +286,6 @@ public final class MusicPlayerViewController {
 	}
 	
 	
-	/**
-	 * MusicPlayerView中の再生曲情報を表示するViewへのデータセットを行う
-	 * @param context
-	 * @param mView
-	 * @param music
-	 */
-	public static final void setPartOfPlayerView(final Context context,final View mView,final Music music,final MusicPlayerWithQueue mpwpl){
-		//一定時間おきの動作設定
-		if(mHandler != null)
-			mHandler.stopHandler();
-		mHandler = null;
-		
-		//タイトルView
-		final TextView title = (TextView)mView.findViewById(R.id.textView_now_music_name);
-		title.setText(music.getTitle());
-		//アーティスト
-		final TextView artist = (TextView)mView.findViewById(R.id.textView_now_artist_name);
-		artist.setText(music.getArtist());
-		//アルバム名
-		final TextView album = (TextView)mView.findViewById(R.id.textView_now_album);
-		album.setText(music.getAlbum());
-		album.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-		album.setSingleLine(true);
-		album.setMarqueeRepeatLimit(5);
-		album.setSelected(true);
-		//曲時間
-		final TextView maxTime = (TextView)mView.findViewById(R.id.textView_now_max_time);
-		maxTime.setText(DisplayUtils.long2TimeString(music.getDuration()));
-		//現在の再生時間
-		final TextView currentTime = (TextView)mView.findViewById(R.id.TextView_now_current_time);
-		currentTime.setText("0:00");
-		//アルバムジャケット
-		final ImageView jacket = (ImageView)mView.findViewById(R.id.imageView_now_jacket);
-		//ジャケットの取得
-		Uri albumArtUri = Uri.parse(
-		        "content://media/external/audio/albumart");
-		Uri album1Uri = ContentUris.withAppendedId(albumArtUri, music.getAlbumId());
-		try{
-		    ContentResolver cr = context.getContentResolver();
-		    InputStream is = cr.openInputStream(album1Uri);
-		    Bitmap bm = BitmapFactory.decodeStream(is);
-		    if(bm != null)
-		    	jacket.setImageBitmap(DisplayUtils.RadiusImage(bm));
-		    else
-		    	jacket.setImageResource(android.R.drawable.ic_menu_search);
-		}catch(FileNotFoundException err){
-			jacket.setImageResource(android.R.drawable.ic_menu_search);
-		}
-		
-		//曲のシークバー
-		final SeekBar seekbar = (SeekBar)mView.findViewById(R.id.seekBar_now_music_seek);
-		seekbar.setMax((int)(music.getDuration()));
-		seekbar.setProgress(0);
-		
-		seekbar.setOnSeekBarChangeListener(new MusicSeekBarOnChangeImpl(currentTime,mpwpl));
-		
-		final ImageButton playButton = (ImageButton)mView.findViewById(R.id.button_play);
-		
-		if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
-			//Viewを一時停止ボタンに
-			playButton.setBackgroundResource(android.R.drawable.ic_media_pause);
-		}else{
-			playButton.setBackgroundResource(android.R.drawable.ic_media_play);
-		}
-		
-		//ListViewの変更も行う
-		ViewPager viewPager = (ViewPager)mView.findViewById(R.id.player_list_part);
-		if(viewPager != null)
-			((MusicViewPagerAdapter)viewPager.getAdapter()).notifitionDataSetChagedForQueueView();
-		
-		
-		mHandler = new MusicSeekBarHandler(currentTime,seekbar,mpwpl);
-		mHandler.sleep(0);
-		
-	}
+	
 	
 }

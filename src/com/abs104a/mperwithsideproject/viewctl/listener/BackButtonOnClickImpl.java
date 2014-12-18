@@ -1,11 +1,6 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
-import java.io.IOException;
-
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
-import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
-
-import android.app.Service;
+import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -16,23 +11,16 @@ import android.view.View.OnClickListener;
  */
 public final class BackButtonOnClickImpl implements OnClickListener {
 
-	//ミュージックコントロールクラスのインスタンス
-	private final MusicPlayerWithQueue _mpwpl;
-	//サービスのコンテキスト（例外時のメッセージ処理など
-	private final Service _service;
 	//rootView;
-	private final View mView;
+	private final View rootView;
 
 	/**
 	 * インスタンスの生成
 	 * @param mService 親クラスのサービスコンテキスト
 	 * @param mpwpl ミュージックコントロールクラス
 	 */
-	public BackButtonOnClickImpl(Service mService,
-			MusicPlayerWithQueue mpwpl,View mView) {
-		this._mpwpl = mpwpl;
-		this._service = mService;
-		this.mView = mView;
+	public BackButtonOnClickImpl(View rootView) {
+		this.rootView = rootView;
 	}
 
 	/**
@@ -41,9 +29,7 @@ public final class BackButtonOnClickImpl implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		try {
-			//戻る動作を行う
-			_mpwpl.playBack();
-			MusicPlayerViewController.setPartOfPlayerView(_service, mView, _mpwpl.getNowPlayingMusic(), _mpwpl);
+			MusicUtils.playBackWithView(rootView);
 		} catch (IllegalArgumentException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
@@ -51,9 +37,6 @@ public final class BackButtonOnClickImpl implements OnClickListener {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		} catch (IllegalStateException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}

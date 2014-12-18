@@ -3,8 +3,7 @@ package com.abs104a.mperwithsideproject.viewctl.listener;
 import android.view.View;
 
 import com.abs104a.mperwithsideproject.music.MusicPlayer.OnPlayCompletedListener;
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
-import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
+import com.abs104a.mperwithsideproject.utl.MusicUtils;
 
 /**
  * 再生が完了した時に呼ばれるリスナImpl
@@ -13,16 +12,14 @@ import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
  */
 public final class OnPlayCompletedImpl implements OnPlayCompletedListener{
 
-	//ミュージックコントロールクラスのインスタンス
-	private final MusicPlayerWithQueue _mpwpl;
+	//rootView
 	private final View rootView;
 
 	/**
 	 * インスタンスの作成
 	 * @param mpwpl　ミュージックコントロールクラスのインスタンス．
 	 */
-	public OnPlayCompletedImpl(MusicPlayerWithQueue mpwpl,View rootView) {
-		this._mpwpl = mpwpl;
+	public OnPlayCompletedImpl(View rootView) {
 		this.rootView = rootView;
 	}
 
@@ -34,15 +31,8 @@ public final class OnPlayCompletedImpl implements OnPlayCompletedListener{
 		//再生が終了したとき 次の曲をセットする．
 		try {
 			//次の曲を再生
-			int nextCursor = _mpwpl.playNext();
-			MusicPlayerViewController.setPartOfPlayerView(
-					rootView.getContext(), 
-					rootView,
-					_mpwpl.getQueue().get(nextCursor),
-					_mpwpl);
-			
+			MusicUtils.playNextWithView(rootView);
 		} catch (Exception e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 	}
