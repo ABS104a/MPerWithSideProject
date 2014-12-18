@@ -20,3 +20,4 @@
 - プレイリストの作成と永続化などの動作設定
 - タップすると再生ボタン（Queueの上下移動ボタンなどを追加）
 - PlayList追加部分の実装
+- Playerの動作withViewのStaticClassの実装
