@@ -20,6 +20,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.audiofx.Visualizer;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
@@ -49,6 +50,8 @@ public class MusicUtils {
 
 	private static MusicPlayerWithQueue musicController = null;
 	
+	private static Visualizer mVisualizer = null;
+	
 	//UIスレッドのHandler
 	private static MusicSeekBarHandler mHandler = null;
 	
@@ -76,6 +79,42 @@ public class MusicUtils {
 			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
 			mpwpl.playStartAndPause();
 			reflectOfView(rootView);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 再生と停止を行う．またViewへの反映も同時に行う
+	 * @param rootView
+	 * @param mpwpl
+	 */
+	public static final void playWithView(View rootView){
+		//再生動作を行う
+		try {
+			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
+			if(mpwpl.getStatus() != MusicPlayerWithQueue.PLAYING){
+				mpwpl.playStartAndPause();
+				reflectOfView(rootView);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 再生と停止を行う．またViewへの反映も同時に行う
+	 * @param rootView
+	 * @param mpwpl
+	 */
+	public static final void pauseWithView(View rootView){
+		//再生動作を行う
+		try {
+			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
+			if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
+				mpwpl.playStartAndPause();
+				reflectOfView(rootView);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -165,6 +204,11 @@ public class MusicUtils {
 		Toast.makeText(rootView.getContext(), message, Toast.LENGTH_SHORT).show();
 	}
 	
+	/**
+	 * シャッフルの状態を変更する
+	 * Viewの変更を伴う
+	 * @param rootView
+	 */
 	public static final void changeShuffleState(View rootView){
 		MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
 		boolean isShuffle = mpwpl.setShuffle(!mpwpl.isShuffle());
@@ -176,6 +220,7 @@ public class MusicUtils {
 			//シャッフルがOFFの時
 			Toast.makeText(rootView.getContext(), R.string.shuffle_off, Toast.LENGTH_SHORT).show();
 		}
+		//TODO　動作を登録する．
 		ImageButton shuffleButton = (ImageButton)rootView.findViewById(R.id.button_shuffle);
 	}
 	
@@ -185,6 +230,7 @@ public class MusicUtils {
 	 * @param mpwpl
 	 */
 	public static final void reflectOfView(View rootView){
+		if(rootView == null)return; //ViewがNullの時は反映しない．
 		MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
 		//再生ボタンの設定
 		ImageButton playButton = (ImageButton)rootView.findViewById(R.id.button_play);
@@ -283,6 +329,52 @@ public class MusicUtils {
 		mHandler = new MusicSeekBarHandler(currentTime,seekbar,mpwpl);
 		mHandler.sleep(0);
 		
+	}
+	
+	/**
+	 * Visualizerを作成する．
+	 * @param context
+	 * @return Visualizer
+	 */
+	public static final Visualizer createMusicVisualizer(final Context context){
+		final MusicPlayerWithQueue mpwpl = getMusicController(context);
+		//再生している曲がない場合はViewを作成しない
+		if(mpwpl.getMediaPlayerSessionId() == -1)return null;
+		final Visualizer mVisualizer = new Visualizer(mpwpl.getMediaPlayerSessionId());
+		mVisualizer.setEnabled(false);
+		
+		mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
+		
+		//キャプチャしたデータを定期的に取得するリスナーを設定
+        mVisualizer.setDataCaptureListener(new Visualizer.OnDataCaptureListener() {
+            //Wave形式のキャプチャーデータ
+            public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes,
+                    int samplingRate) {
+                //mVisualizerView.updateVisualizer(bytes);
+            	android.util.Log.v("Visualizer","setVisualizer");
+            }
+ 
+            //高速フーリエ変換のキャプチャーデータ
+            public void onFftDataCapture(Visualizer visualizer, byte[] bytes,
+                    int samplingRate) {
+            }
+        },
+        Visualizer.getMaxCaptureRate() / 2, //キャプチャーデータの取得レート（ミリヘルツ）
+        true,//これがTrueだとonWaveFormDataCaptureにとんでくる
+        false);//これがTrueだとonFftDataCaptureにとんでくる
+        mVisualizer.setEnabled(true);
+        MusicUtils.mVisualizer = mVisualizer;
+		return mVisualizer;
+	}
+	
+	/**
+	 * Visualizerを解放する
+	 */
+	public static void removeMusicVisualizer(){
+		if(mVisualizer != null){
+			mVisualizer.release();
+			mVisualizer = null;
+		}
 	}
 	
 	

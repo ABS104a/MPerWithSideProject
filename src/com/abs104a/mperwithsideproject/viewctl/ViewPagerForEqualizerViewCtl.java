@@ -1,8 +1,10 @@
 package com.abs104a.mperwithsideproject.viewctl;
 
 import android.app.Service;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 
 /**
@@ -22,8 +24,11 @@ public class ViewPagerForEqualizerViewCtl {
 			Service mService,
 			MusicPlayerWithQueue mpwpl) 
 	{
-		// TODO Viewの生成
-		return new View(mService);
+		// TODO 動作の登録
+		//TODO Visualizerの設定
+		LayoutInflater layoutInflater = LayoutInflater.from(mService);
+		View mView = layoutInflater.inflate(R.layout.equalizer, null);
+		return mView;
 	}
 
 }

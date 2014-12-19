@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <include
+            android:id="@+id/equalizer_60"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/music_player_margins"
+            layout="@layout/equalizer_row" />
+        
+        <include
+            android:id="@+id/equalizer_230"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/music_player_margins"
+            layout="@layout/equalizer_row" />
+        
+        <include
+            android:id="@+id/equalizer_910"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/music_player_margins"
+            layout="@layout/equalizer_row" />
+        
+        <include
+            android:id="@+id/equalizer_3600"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/music_player_margins"
+            layout="@layout/equalizer_row" />
+        
+        <include
+            android:id="@+id/equalizer_14000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/music_player_margins"
+            layout="@layout/equalizer_row" />
+    </LinearLayout>
+
+</ScrollView>

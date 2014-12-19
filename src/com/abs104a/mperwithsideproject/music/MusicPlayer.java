@@ -38,7 +38,7 @@ public class MusicPlayer implements OnCompletionListener {
 	 ===================================*/
 	
 	//再生を行うMediaPlayerクラス
-	protected MediaPlayer mMediaPlayer = null;
+	private MediaPlayer mMediaPlayer = null;
 	//現在再生しているかどうか
 	private int _status = NOSOURCE;
 	
@@ -90,7 +90,7 @@ public class MusicPlayer implements OnCompletionListener {
 	 * @param status
 	 * @return
 	 */
-	protected int setStatus(int status){
+	protected final int setStatus(int status){
 		switch(status){
 		case NOSOURCE:
 		case PLAYING:
@@ -108,8 +108,19 @@ public class MusicPlayer implements OnCompletionListener {
 	 * 再生状況を取得する
 	 * @return
 	 */
-	public int getStatus(){
+	public final int getStatus(){
 		return _status;
+	}
+	
+	/**
+	 * AudioSessionIdを取得する
+	 * Visualizer用
+	 * @return
+	 */
+	public final int getMediaPlayerSessionId(){
+		if(mMediaPlayer != null)
+			return mMediaPlayer.getAudioSessionId();
+		else return -1;
 	}
 	
 	/**

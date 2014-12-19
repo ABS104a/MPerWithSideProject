@@ -4,6 +4,7 @@ package com.abs104a.mperwithsideproject.viewctl;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.BackButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ExitButtonOnClickListenerImpl;
@@ -42,29 +43,79 @@ public final class MusicPlayerViewController {
 	//AnimateOpen時のDelayTime
 	public final static int DELAY_TIME = 20;
 	
+	//前回終了時の状態(Viewの幅)
+	private static int openViewWidth = 0;
+	
+	//PlayerView
+	private static View playerView = null;
+	
+	
+	/**
+	 * playerViewを取得する．
+	 * @return
+	 */
+	public static View getPlayerView(){
+		return playerView;
+	}
+	
+	/**
+	 * PlayerViewを消去する．
+	 * @param rootView
+	 */
+	public static void removePlayerView(View rootView){
+		//Viewの消去を行う
+		if(playerView != null && rootView != null){
+			openViewWidth = playerView.getWidth();
+			((LinearLayout)rootView).removeView(playerView);
+			//キャッシュのClear
+			ImageCache.clearCache();
+		}
+		playerView = null;
+		
+	}
+	
+	/**
+	 * PlayerView
+	 *　を生成する（non-OpenAnimation）
+	 * @param rootView
+	 */
+	public static void createPlayerView(Service mService,View rootView){
+		View mView = createView(mService,rootView);
+		if(openViewWidth > 0)
+			mView.getLayoutParams().width = openViewWidth;
+		Animation showAnimation = 
+				AnimationUtils.loadAnimation(mService, android.R.anim.fade_in);
+		//Animationの設定
+		mView.startAnimation(showAnimation);
+		openViewWidth = 0;
+	}
+	
 	/**
 	 * PlayerのViewを生成するメソッド
 	 * サービスのコンテキストを受けとりViewを生成する．
 	 * @param mService
 	 * @return　生成したViewGroup
 	 */
-	public static View createView(Service mService){
+	private static View createView(Service mService,View rootView){
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する
-		View mView = layoutInflater.inflate(com.abs104a.mperwithsideproject.R.layout.player_view, null);
+		playerView = layoutInflater.inflate(R.layout.player_view, null);
+		playerView.setId(PLAYER_VIEW_ID);
+		((LinearLayout)rootView).addView(playerView);
 		//Action Settings 
-		init(mService, mView);
-		return mView;
+		init(mService, playerView,rootView);
+		return playerView;
 	}
 	
 	/**
 	 * 初期化を行う
 	 * @param mService
 	 * @param mView
+	 * @param rootView 
 	 * @param mpwpl 
 	 */
-	private final static void init(Service mService,View mView){
+	private final static void init(Service mService,View mView, View rootView){
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mService);
 		initAction(mService,mView,mpwpl);
 		initButtonOfView(mService,mView,mpwpl);
@@ -78,10 +129,6 @@ public final class MusicPlayerViewController {
 	 */
 	private static void initButtonOfView(Service mService,View mView, MusicPlayerWithQueue _mpwpl){
 		//Viewのボタンに動作をつける
-		//終了ボタンの設定
-		ImageButton exitButton = (ImageButton)mView.findViewById(R.id.button_action_exit);
-		exitButton.setOnClickListener(new ExitButtonOnClickListenerImpl(mService, _mpwpl));
-		
 		//再生ボタンの設定
 		ImageButton playButton = (ImageButton)mView.findViewById(R.id.button_play);
 		//再生ボタンの動作を登録する．
@@ -104,12 +151,18 @@ public final class MusicPlayerViewController {
 		//シャッフルボタンの動作を登録する．
 		shuffleButton.setOnClickListener(new ShuffleButtonOnClickImpl(mView));
 		
+		//TODO 設定表示ボタンの設定を登録する．
+		//((LinearLayout)mView).addView(ViewPagerForAlbumViewCtl.createView(mService, _mpwpl));
+		
+		//終了ボタンの設定
+		ImageButton exitButton = (ImageButton)mView
+				.findViewById(R.id.button_action_exit);
+		exitButton.setOnClickListener(new ExitButtonOnClickListenerImpl(mService, MusicUtils.getMusicController(mService)));
+		
 		ImageButton showListButton = (ImageButton)mView.findViewById(R.id.button_action_show_list);
 		//TODO リスト表示ボタンの設定を登録する
 		
 		ImageButton showSettigsButton = (ImageButton)mView.findViewById(R.id.button_action_show_settings);
-		//TODO 設定表示ボタンの設定を登録する．
-		//((LinearLayout)mView).addView(ViewPagerForAlbumViewCtl.createView(mService, _mpwpl));
 		
 	}
 	
@@ -173,27 +226,21 @@ public final class MusicPlayerViewController {
 	 * @param rootView
 	 */
 	public final static void animateOpen(final Service mService,View rootView){
-		final View mPlayerView;
 		final Handler mHandler = new Handler();
 		final int mWidth;
-		if(((LinearLayout)rootView).getChildCount() == 2){
+		if(playerView == null){
 			//MusicPlayerViewの作成
-			mPlayerView = createView(mService);
-			mPlayerView.setId(PLAYER_VIEW_ID);
-			((LinearLayout)rootView).addView(mPlayerView);
+			playerView = createView(mService,rootView);
 			mWidth = 0;
 		}else{
-			mPlayerView = 
-					((LinearLayout)rootView)
-					.findViewById(MusicPlayerViewController.PLAYER_VIEW_ID);
-			mWidth = mPlayerView.getWidth();
+			mWidth = playerView.getWidth();
 		}
 		//Layout設定
-		final LayoutParams params = (LayoutParams) mPlayerView.getLayoutParams();
+		final LayoutParams params = (LayoutParams) playerView.getLayoutParams();
 		params.width = mWidth;
 		//Layoutの変更
-		mPlayerView.setLayoutParams(params);
-		mPlayerView.setVisibility(View.INVISIBLE);
+		playerView.setLayoutParams(params);
+		playerView.setVisibility(View.INVISIBLE);
 		
 		final Runnable mRunnable = new Runnable(){
 			
@@ -210,22 +257,21 @@ public final class MusicPlayerViewController {
 						.getDimensionPixelSize(R.dimen.activity_vertical_margin);
 				
 				//Layout設定
-				final LayoutParams params = (LayoutParams) mPlayerView.getLayoutParams();
-				//android.util.Log.v("hogebefore", width + " / " + musicPlayerWidth);
+				final LayoutParams params = (LayoutParams) playerView.getLayoutParams();
+
 				width += 50;
 				if(musicPlayerWidth > width){
-					//android.util.Log.v("hoge", width + "");
 					params.width = Math.min(musicPlayerWidth, width);
 					//Layoutの変更
-					mPlayerView.setLayoutParams(params);
+					playerView.setLayoutParams(params);
 					mHandler.postDelayed(this, DELAY_TIME);
 				}else{
-					mPlayerView.setVisibility(View.VISIBLE);
+					playerView.setVisibility(View.VISIBLE);
 					Animation showAnimation = 
 							AnimationUtils
 							.loadAnimation(mService, android.R.anim.fade_in);
 					//Animationの設定
-					mPlayerView.startAnimation(showAnimation);
+					playerView.startAnimation(showAnimation);
 				}
 			}
 			
@@ -239,53 +285,42 @@ public final class MusicPlayerViewController {
 	 * @param rootView
 	 */
 	public final static void animateClose(final Service mService,final View rootView){
-		final View mPlayerView;
 		final Handler mHandler = new Handler();
-		if(((LinearLayout)rootView).getChildCount() == 2){
+		if(playerView == null){
 			//MusicPlayerViewの作成
-			mPlayerView = createView(mService);
-			mPlayerView.setId(PLAYER_VIEW_ID);
-			((LinearLayout)rootView).addView(mPlayerView);
-		}else{
-			mPlayerView = 
-					((LinearLayout)rootView)
-					.findViewById(MusicPlayerViewController.PLAYER_VIEW_ID);
+			playerView = createView(mService,rootView);
 		}
-		
 		Animation closeAnimation = 
 				AnimationUtils
 				.loadAnimation(mService, android.R.anim.fade_out);
 		//Animationの設定
-		mPlayerView.startAnimation(closeAnimation);
+		playerView.startAnimation(closeAnimation);
 		
 		final Runnable mRunnable = new Runnable(){
 			
-			private int width = mPlayerView.getWidth();
+			private int width = playerView.getWidth();
 
 			@Override
 			public void run() {
 				
 				//Layout設定
-				final LayoutParams params = (LayoutParams) mPlayerView.getLayoutParams();
+				final LayoutParams params = (LayoutParams) playerView.getLayoutParams();
 				//android.util.Log.v("hogebefore", width + " / " + musicPlayerWidth);
 				width -= 50;
 				if(width > 0){
 					//android.util.Log.v("hoge", width + "");
 					params.width = Math.max(0, width);
 					//Layoutの変更
-					mPlayerView.setLayoutParams(params);
+					playerView.setLayoutParams(params);
 					mHandler.postDelayed(this, DELAY_TIME >> 1);
 				}else{
 					//Viewの消去を行う
-					((LinearLayout)rootView).removeView(mPlayerView);
+					removePlayerView(rootView);
 				}
 			}
 			
 		};
 		mHandler.postDelayed(mRunnable, DELAY_TIME);
 	}
-	
-	
-	
 	
 }

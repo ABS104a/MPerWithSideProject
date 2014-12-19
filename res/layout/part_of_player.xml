@@ -1,36 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
+    android:layout_height="wrap_content"
     android:background="@color/musicplayer_viewpager_bg"
-    android:padding="@dimen/player_view_padding"
-    android:gravity="center">
-    
+    android:gravity="center"
+    android:padding="@dimen/player_view_padding" >
+
     <!-- プレイヤー部分のレイアウト -->
 
-	<!-- 現在再生している曲のジャケット -->
+
+    <!-- 現在再生している曲のジャケット -->
+
     <ImageView
         android:id="@+id/imageView_now_jacket"
         android:layout_width="@dimen/player_now_jacket_size"
         android:layout_height="@dimen/player_now_jacket_size"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="@dimen/player_view_inside_padding"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="@dimen/player_view_inside_padding"
         android:src="@drawable/ic_launcher" />
 
     <!-- 現在再生している曲のアーティスト名 -->
 
+
     <!-- 現在再生している曲の曲名 -->
 
-    <!-- 現在再生している曲用シークバー -->
 
-    <SeekBar
-        android:id="@+id/seekBar_now_music_seek"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView_now_jacket"
-        android:layout_toLeftOf="@+id/textView_now_max_time"
-        android:layout_toRightOf="@+id/TextView_now_current_time" />
+    <!-- 現在再生している曲用シークバー -->
 
     <TextView
         android:id="@+id/textView_now_max_time"
@@ -48,15 +44,16 @@
         android:id="@+id/TextView_now_current_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:singleLine="true"
         android:layout_alignBottom="@+id/seekBar_now_music_seek"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/imageView_now_jacket"
+        android:layout_alignTop="@+id/seekBar_now_music_seek"
         android:gravity="center"
+        android:singleLine="true"
         android:text="time"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/imageView_now_jacket"
@@ -74,7 +71,7 @@
 
         <TextView
             android:id="@+id/textView_now_artist_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="artist"
@@ -82,11 +79,21 @@
 
         <TextView
             android:id="@+id/textView_now_album"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="album"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
     </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/seekBar_now_music_seek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_toLeftOf="@+id/textView_now_max_time"
+        android:layout_toRightOf="@+id/TextView_now_current_time" />
 
 </RelativeLayout>

@@ -5,19 +5,19 @@
     android:layout_gravity="center_vertical|right"
     android:gravity="center_vertical|right"
     android:orientation="horizontal" >
-    
+
     <ImageButton
         android:id="@+id/imageButton_handle"
         android:layout_width="@dimen/main_view_handle_size"
         android:layout_height="@dimen/main_view_handle_size"
-        android:gravity="center_vertical"
         android:background="@color/transparent"
+        android:gravity="center_vertical"
         android:src="@android:drawable/ic_input_add" />
-    
+
     <View
-       android:layout_width="1dp"
-       android:layout_height="@dimen/main_view_handle_size"/>
-    
+        android:layout_width="1dp"
+        android:layout_height="@dimen/main_view_handle_size" />
+
     <!-- ここにMusicViewを突っ込む -->
 
 </LinearLayout>

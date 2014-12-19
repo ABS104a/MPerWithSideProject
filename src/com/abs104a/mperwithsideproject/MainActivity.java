@@ -14,7 +14,7 @@ public class MainActivity extends Activity{
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO MainServiceを起動する
+		//MainServiceを起動する
 		super.onCreate(savedInstanceState);
 		//MainServiceを起動する
 		Intent mainIntent = new Intent(mActivity,MainService.class);
@@ -25,7 +25,7 @@ public class MainActivity extends Activity{
 
 	@Override
 	protected void onStart() {
-		// TODO Activityを終了させる
+		//Activityを終了させる
 		super.onStart();
 		finish();
 	}

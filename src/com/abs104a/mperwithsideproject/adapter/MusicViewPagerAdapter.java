@@ -3,6 +3,7 @@ package com.abs104a.mperwithsideproject.adapter;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForAlbumViewCtl;
+import com.abs104a.mperwithsideproject.viewctl.ViewPagerForEqualizerViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForPlayListViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForPlayingQueueViewCtl;
 
@@ -29,7 +30,6 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	public static final int ALBUM = 2;
 	public static final int EQUALIZER = 3;
 	
-	//TODO Viewが消されたときに復帰できるよう場所を記憶する．
 	
 	//ViewPagerのページ数
 	public final static int PAGE_SIZE = 4;
@@ -111,7 +111,7 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 			.createView(mService,mView, mpwpl);
 			break;
 		case EQUALIZER:	//Page4
-			view = new ListView(mService);//(ListView) ViewPagerForEqualizerViewCtl.createView(mService, mpwpl);
+			view = ViewPagerForEqualizerViewCtl.createView(mService, mpwpl);
 			break;
 		}
 		container.addView(view);

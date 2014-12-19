@@ -13,7 +13,7 @@
     
     <dimen name="play_button_size">50dp</dimen>
     <dimen name="album_item_row_margins">3dp</dimen>
-    <dimen name="album_item_row_jacket">50dp</dimen>
+    <dimen name="album_item_row_jacket">58dp</dimen>
     <dimen name="album_item_row_jacket_bigger">58dp</dimen>
     
     <dimen name="main_view_handle_size">40dp</dimen>

@@ -1,9 +1,18 @@
 package com.abs104a.mperwithsideproject;
 
+import java.io.IOException;
+
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.utl.ImageCache;
+import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.MainViewController;
+import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
+
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -13,8 +22,6 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 /**
@@ -46,11 +53,14 @@ public class MainService extends Service{
 	//メインビュー生成用WindowManager
 	private WindowManager mWindowManager = null;
 	//メインビュー保持用
-	private ViewGroup mMainView = null;
+	private ViewGroup rootView = null;
+	
+	// ブロードキャストリスナー  
+	private MyBroadCastReceiver broadcastReceiver;
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Activityからバインドされた時
+		// Activityからバインドされた時
 		return null;
 	}
 
@@ -84,7 +94,7 @@ public class MainService extends Service{
 		params.y = 0;
 
 		//重畳表示するViewを取得する．
-		mMainView = (LinearLayout)MainViewController.createView(mService);
+		rootView = (LinearLayout)MainViewController.createView(mService);
 		
 		//プレイヤーのViewはハンドル部をタップした時に生成する．
 		//ハンドル部が引き出される動作と同時に大きさを変更させ，
@@ -92,7 +102,7 @@ public class MainService extends Service{
 		
 		//WindowManagerにViewとLayoutParamsを登録し，表示する
 		try{
-			mWindowManager.addView(mMainView, params);
+			mWindowManager.addView(rootView, params);
 			//こっちは↓更新用
 			//mWindowManager.updateViewLayout(mMainView, params);
 		}catch(NullPointerException mNullPointerException){
@@ -101,14 +111,14 @@ public class MainService extends Service{
 			this.stopSelf();
 		}
 		
-		//表示するためのアニメーションを作成
-		Animation showAnimation = 
-				AnimationUtils.loadAnimation(mService, android.R.anim.fade_in);
-		//Animationの設定
-		mMainView.startAnimation(showAnimation);
-		
 		//通知の生成
 		putNotification(mService);
+		
+		//Intentfilterの登録
+		broadcastReceiver = new MyBroadCastReceiver(mService, rootView);
+		mService.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_SCREEN_ON));  
+		mService.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF)); 
+		mService.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG)); 
 		
 		//開始ログ
 		Log.v("MainService","Service is Start!");
@@ -122,16 +132,29 @@ public class MainService extends Service{
 	public void onDestroy() {
 		try{
 			//MainViewを消去する．
-			mWindowManager.removeView(mMainView);
+			mWindowManager.removeView(rootView);
 		}catch(NullPointerException mNullPointerException){
 			mNullPointerException.printStackTrace();
 		}
-		//終了
-		Log.v("MainService","Service is Finished!");
+		
+		//BroadcastReceiverの消去
+		mService.unregisterReceiver(broadcastReceiver); 
+		
+		//通知の消去
 		removeNotification();
+		
+		//キャッシュのClear
+		ImageCache.clearCache();
+		
+		//終了Log
+		Log.v("MainService","Service is Finished!");
 		super.onDestroy();
 	}
 	
+	/**
+	 * 通知バーへの通知を表示する．
+	 * @param context
+	 */
 	private void putNotification(Context context) {
 	    
 	    NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
@@ -148,6 +171,9 @@ public class MainService extends Service{
 	    startForeground(R.drawable.ic_launcher, builder.build());
 	}
 	
+	/**
+	 * 通知バーへの通知を消去する．
+	 */
 	private void removeNotification(){
 		stopForeground(true);
 	}

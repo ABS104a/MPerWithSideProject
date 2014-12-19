@@ -7,13 +7,11 @@
 
     <!-- 画面下部のレイアウト -->
     
-    <SeekBar
-        android:id="@+id/seekBar_volume"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/button_action_exit"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/imageView_volume_max"
-        android:layout_toRightOf="@+id/imageView_volume_mute" />
+        android:src="@android:drawable/ic_lock_power_off" />
 
     <ImageButton
         android:id="@+id/button_action_show_list"
@@ -21,38 +19,41 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/seekBar_volume"
+        android:visibility="gone"
         android:src="@android:drawable/ic_menu_sort_by_size" />
-
-    <ImageButton
-        android:id="@+id/button_action_show_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/seekBar_volume"
-        android:layout_toLeftOf="@+id/button_action_show_list"
-        android:src="@android:drawable/ic_menu_preferences" />
-
-    <ImageButton
-        android:id="@+id/button_action_exit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/seekBar_volume"
-        android:src="@android:drawable/ic_lock_power_off" />
-
-    <ImageView
-        android:id="@+id/imageView_volume_mute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:src="@android:drawable/ic_lock_silent_mode" />
 
     <ImageView
         android:id="@+id/imageView_volume_max"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button_action_show_list"
+        android:layout_alignBottom="@+id/button_action_show_settings"
         android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:src="@android:drawable/ic_lock_silent_mode_off" />
+
+    <ImageButton
+        android:id="@+id/button_action_show_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/button_action_exit"
+        android:src="@android:drawable/ic_menu_preferences" />
+
+    <ImageView
+        android:id="@+id/imageView_volume_mute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button_action_show_settings"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/button_action_show_settings"
+        android:src="@android:drawable/ic_lock_silent_mode" />
+
+    <SeekBar
+        android:id="@+id/seekBar_volume"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/imageView_volume_max"
+        android:layout_toRightOf="@+id/imageView_volume_mute" />
 
 </RelativeLayout>

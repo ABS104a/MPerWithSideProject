@@ -7,6 +7,7 @@ import java.util.Random;
 import com.abs104a.mperwithsideproject.utl.FileUtils;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 
 /**
  * 音楽プレーヤーにくわえてプレイリスト再生を実現する
@@ -129,7 +130,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 			SecurityException, 
 			IllegalStateException, 
 			IOException 
-			{
+	{
 		if(getStatus() != PLAYING && getStatus() != PAUSEING){
 			setSource(mQueue.getCursorMusic().getPass());
 		}
@@ -300,7 +301,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 			IllegalStateException, 
 			IOException
 			{
-		//TODO List形式を実装する
+		//List形式を実装する
 		//再生を終了するかどうか設定するフラグ
 		boolean flag = false;
 		
@@ -382,6 +383,5 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		playStartAndPause();
 		return mQueue.getCursor();	
 	}
-
 
 }
