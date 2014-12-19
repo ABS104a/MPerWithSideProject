@@ -1,6 +1,6 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.utl.MusicUtils;
 
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,29 +13,16 @@ import android.view.View.OnClickListener;
 public final class PlayButtonOnClickImpl implements OnClickListener {
 
 	//プレイヤーコントロールインスタンス
-	private final MusicPlayerWithQueue _mpwpl;
+	private final View rootView;
 
-	public PlayButtonOnClickImpl(MusicPlayerWithQueue mpwpl) {
-		this._mpwpl = mpwpl;
+	public PlayButtonOnClickImpl(View rootView) {
+		this.rootView = rootView;
 	}
 
 	@Override
 	public void onClick(View v) {
 		//再生動作を行う
-		int state;
-		try {
-			state = _mpwpl.playStartAndPause();
-			if(state == MusicPlayerWithQueue.PLAYING){
-				//Viewを一時停止ボタンに
-				v.setBackgroundResource(android.R.drawable.ic_media_pause);
-			}else{
-				//Viewを再生ボタンに
-				v.setBackgroundResource(android.R.drawable.ic_media_play);
-			}
-		} catch (Exception e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
+		MusicUtils.playOrPauseWithView(rootView);
 	}
 
 }

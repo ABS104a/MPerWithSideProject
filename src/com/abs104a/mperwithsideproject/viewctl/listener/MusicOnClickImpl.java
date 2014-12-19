@@ -52,8 +52,7 @@ public final class MusicOnClickImpl implements OnClickListener {
 						mpwpl.addMusic(music, index);
 					}
 				}
-				mpwpl.seekQueue(index);
-				MusicUtils.playOrPauseWithView(rootView);
+				MusicUtils.playOrPauseWithView(rootView,index);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

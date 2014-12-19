@@ -132,6 +132,7 @@ public class MainService extends Service{
 	@Override
 	public void onDestroy() {
 		try{
+			MusicPlayerViewController.removePlayerView(rootView);
 			//MainViewを消去する．
 			mWindowManager.removeView(rootView);
 		}catch(NullPointerException mNullPointerException){

@@ -21,6 +21,8 @@
     
     <string name="add_to_queue"> add to queue</string>
     
+    <string name="enable_equalizer">Enable Equalizer</string>
+    
     <string name="shuffle_on">shuffle on</string>
     <string name="shuffle_off">shuffle off</string>
     <string name="row_empty">There is no playlist.</string>

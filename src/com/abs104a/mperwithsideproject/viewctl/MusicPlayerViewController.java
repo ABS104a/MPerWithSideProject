@@ -69,6 +69,8 @@ public final class MusicPlayerViewController {
 			((LinearLayout)rootView).removeView(playerView);
 			//キャッシュのClear
 			ImageCache.clearCache();
+		}else{
+			openViewWidth = 0;
 		}
 		playerView = null;
 		
@@ -80,13 +82,15 @@ public final class MusicPlayerViewController {
 	 * @param rootView
 	 */
 	public static void createPlayerView(Service mService,View rootView){
-		View mView = createView(mService,rootView);
-		if(openViewWidth > 0)
+		if(openViewWidth > 0){
+			View mView = createView(mService,rootView);
+
 			mView.getLayoutParams().width = openViewWidth;
-		Animation showAnimation = 
-				AnimationUtils.loadAnimation(mService, android.R.anim.fade_in);
-		//Animationの設定
-		mView.startAnimation(showAnimation);
+			Animation showAnimation = 
+					AnimationUtils.loadAnimation(mService, android.R.anim.fade_in);
+			//Animationの設定
+			mView.startAnimation(showAnimation);
+		}
 		openViewWidth = 0;
 	}
 	
@@ -132,7 +136,7 @@ public final class MusicPlayerViewController {
 		//再生ボタンの設定
 		ImageButton playButton = (ImageButton)mView.findViewById(R.id.button_play);
 		//再生ボタンの動作を登録する．
-		playButton.setOnClickListener(new PlayButtonOnClickImpl(_mpwpl));
+		playButton.setOnClickListener(new PlayButtonOnClickImpl(mView));
 		
 		//次へのボタンの設定
 		ImageButton nextButton = (ImageButton)mView.findViewById(R.id.button_next_seek);
@@ -184,7 +188,7 @@ public final class MusicPlayerViewController {
 		
 		//TODO プレイリストを設定
 		if(_mpwpl.getNowPlayingMusic() != null)
-			MusicUtils.reflectOfView(mView);
+			MusicUtils.reflectOfView(mView,true);
 		
 		//音量の設定
 		// AudioManagerを取得する

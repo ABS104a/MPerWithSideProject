@@ -50,8 +50,6 @@ public class MusicUtils {
 
 	private static MusicPlayerWithQueue musicController = null;
 	
-	private static Visualizer mVisualizer = null;
-	
 	//クラスの識別用タグ
 	public static final String TAG = "MUSIC_UTILS";
 	
@@ -81,7 +79,25 @@ public class MusicUtils {
 		try {
 			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
 			mpwpl.playStartAndPause();
-			reflectOfView(rootView);
+			reflectOfView(rootView,false);
+			android.util.Log.v(TAG, "PlayAndPauseWithView");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 再生と停止を行う．またViewへの反映も同時に行う
+	 * @param rootView
+	 * @param mpwpl
+	 */
+	public static final void playOrPauseWithView(View rootView,int index){
+		//再生動作を行う
+		try {
+			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
+			mpwpl.seekQueue(index);
+			mpwpl.playStartAndPause();
+			reflectOfView(rootView,true);
 			android.util.Log.v(TAG, "PlayAndPauseWithView");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,7 +115,7 @@ public class MusicUtils {
 			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
 			if(mpwpl.getStatus() != MusicPlayerWithQueue.PLAYING){
 				mpwpl.playStartAndPause();
-				reflectOfView(rootView);
+				reflectOfView(rootView,false);
 				android.util.Log.v(TAG, "PlayWithView");
 			}
 		} catch (Exception e) {
@@ -118,7 +134,7 @@ public class MusicUtils {
 			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
 			if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
 				mpwpl.playStartAndPause();
-				reflectOfView(rootView);
+				reflectOfView(rootView,false);
 				android.util.Log.v(TAG, "PauseWithView");
 			}
 		} catch (Exception e) {
@@ -135,7 +151,7 @@ public class MusicUtils {
 		try{
 			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
 			mpwpl.playStop();
-			reflectOfView(rootView);
+			reflectOfView(rootView,true);
 			android.util.Log.v(TAG, "StopWithView");
 		}catch(Exception e){
 			e.printStackTrace();
@@ -150,7 +166,7 @@ public class MusicUtils {
 		try{
 			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
 			mpwpl.playNext();
-			reflectOfView(rootView);
+			reflectOfView(rootView,true);
 			android.util.Log.v(TAG, "PlayNextWithView");
 		}catch(Exception e){
 			e.printStackTrace();
@@ -165,7 +181,7 @@ public class MusicUtils {
 		try{
 			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
 			mpwpl.playBack();
-			reflectOfView(rootView);
+			reflectOfView(rootView,true);
 			android.util.Log.v(TAG, "PlayBackWithView");
 		}catch(Exception e){
 			e.printStackTrace();
@@ -238,7 +254,7 @@ public class MusicUtils {
 	 * @param rootView
 	 * @param mpwpl
 	 */
-	public static final void reflectOfView(View rootView){
+	public static final void reflectOfView(View rootView,boolean isNotifitionViewPager){
 		if(rootView == null)return; //ViewがNullの時は反映しない．
 		MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
 		//再生ボタンの設定
@@ -257,11 +273,13 @@ public class MusicUtils {
 				rootView, 
 				mpwpl.getNowPlayingMusic(),
 				mpwpl);
-		//ViewPager の設定
-		ViewPager mViewPager = (ViewPager)rootView.findViewById(R.id.player_list_part);
-		//Viewへの反映
-		if(mViewPager != null)
-			((MusicViewPagerAdapter)mViewPager.getAdapter()).notifitionDataSetChagedForQueueView();
+		if(isNotifitionViewPager){
+			//ViewPager の設定
+			ViewPager mViewPager = (ViewPager)rootView.findViewById(R.id.player_list_part);
+			//Viewへの反映
+			if(mViewPager != null)
+				((MusicViewPagerAdapter)mViewPager.getAdapter()).notifitionDataSetChagedForQueueView();
+		}
 	}
 	
 	/**
@@ -292,9 +310,7 @@ public class MusicUtils {
 		//曲時間
 		final TextView maxTime = (TextView)mView.findViewById(R.id.textView_now_max_time);
 		maxTime.setText(DisplayUtils.long2TimeString(music.getDuration()));
-		//現在の再生時間
-		final TextView currentTime = (TextView)mView.findViewById(R.id.TextView_now_current_time);
-		currentTime.setText("0:00");
+
 		//アルバムジャケット
 		final ImageView jacket = (ImageView)mView.findViewById(R.id.imageView_now_jacket);
 		//ジャケットの取得
@@ -313,10 +329,15 @@ public class MusicUtils {
 			jacket.setImageResource(android.R.drawable.ic_menu_search);
 		}
 		
+		//現在の再生時間
+		final TextView currentTime = (TextView)mView.findViewById(R.id.TextView_now_current_time);
+		//currentTime.setText("0:00");
+		
 		//曲のシークバー
 		final SeekBar seekbar = (SeekBar)mView.findViewById(R.id.seekBar_now_music_seek);
-		seekbar.setMax((int)(music.getDuration()));
-		seekbar.setProgress(0);
+		if(seekbar.getMax() != music.getDuration())
+			seekbar.setMax((int)(music.getDuration()));
+		//seekbar.setProgress(0);
 		
 		seekbar.setOnSeekBarChangeListener(new MusicSeekBarOnChangeImpl(currentTime,mpwpl));
 		
@@ -329,61 +350,9 @@ public class MusicUtils {
 			playButton.setBackgroundResource(android.R.drawable.ic_media_play);
 		}
 		
-		//ListViewの変更も行う
-		ViewPager viewPager = (ViewPager)mView.findViewById(R.id.player_list_part);
-		if(viewPager != null)
-			((MusicViewPagerAdapter)viewPager.getAdapter()).notifitionDataSetChagedForQueueView();
-		
-		
 		mHandler = new MusicSeekBarHandler(currentTime,seekbar,mpwpl);
 		mHandler.sleep(0);
 		
-	}
-	
-	/**
-	 * Visualizerを作成する．
-	 * @param context
-	 * @return Visualizer
-	 */
-	public static final Visualizer createMusicVisualizer(final Context context){
-		final MusicPlayerWithQueue mpwpl = getMusicController(context);
-		//再生している曲がない場合はViewを作成しない
-		if(mpwpl.getMediaPlayerSessionId() == -1)return null;
-		final Visualizer mVisualizer = new Visualizer(mpwpl.getMediaPlayerSessionId());
-		mVisualizer.setEnabled(false);
-		
-		mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
-		
-		//キャプチャしたデータを定期的に取得するリスナーを設定
-        mVisualizer.setDataCaptureListener(new Visualizer.OnDataCaptureListener() {
-            //Wave形式のキャプチャーデータ
-            public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes,
-                    int samplingRate) {
-                //mVisualizerView.updateVisualizer(bytes);
-            	android.util.Log.v("Visualizer","setVisualizer");
-            }
- 
-            //高速フーリエ変換のキャプチャーデータ
-            public void onFftDataCapture(Visualizer visualizer, byte[] bytes,
-                    int samplingRate) {
-            }
-        },
-        Visualizer.getMaxCaptureRate() / 2, //キャプチャーデータの取得レート（ミリヘルツ）
-        true,//これがTrueだとonWaveFormDataCaptureにとんでくる
-        false);//これがTrueだとonFftDataCaptureにとんでくる
-        mVisualizer.setEnabled(true);
-        MusicUtils.mVisualizer = mVisualizer;
-		return mVisualizer;
-	}
-	
-	/**
-	 * Visualizerを解放する
-	 */
-	public static void removeMusicVisualizer(){
-		if(mVisualizer != null){
-			mVisualizer.release();
-			mVisualizer = null;
-		}
 	}
 	
 	

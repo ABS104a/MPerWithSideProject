@@ -4,44 +4,17 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
+        android:id="@+id/linearLayout_equalizer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <include
-            android:id="@+id/equalizer_60"
+        <CheckBox
+            android:id="@+id/checkBox_equalizer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/music_player_margins"
-            layout="@layout/equalizer_row" />
-        
-        <include
-            android:id="@+id/equalizer_230"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/music_player_margins"
-            layout="@layout/equalizer_row" />
-        
-        <include
-            android:id="@+id/equalizer_910"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/music_player_margins"
-            layout="@layout/equalizer_row" />
-        
-        <include
-            android:id="@+id/equalizer_3600"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/music_player_margins"
-            layout="@layout/equalizer_row" />
-        
-        <include
-            android:id="@+id/equalizer_14000"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/music_player_margins"
-            layout="@layout/equalizer_row" />
+            android:text="@string/enable_equalizer" />
+
     </LinearLayout>
 
 </ScrollView>

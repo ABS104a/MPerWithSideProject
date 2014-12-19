@@ -1,6 +1,7 @@
 package com.abs104a.mperwithsideproject.utl;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -113,7 +114,7 @@ public final class FileUtils {
 
 		    oos.close();
 		    return true;
-		} catch (Exception e) {
+		}catch (Exception e) {
 			e.printStackTrace();
 		    Log.d("FileDataObjectSave", e.getMessage()+e.toString());
 		    return false;
@@ -133,10 +134,12 @@ public final class FileUtils {
 			Object data = ois.readObject();
 		    ois.close();
 		    return data;
+		} catch(FileNotFoundException e){
+			Log.d("FileDataObjectSave","FileNotFound");
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.d("FileDataObjectRead",  e.getMessage()+e.toString());
-			return null;
 		}
+		return null;
 	}
 }
