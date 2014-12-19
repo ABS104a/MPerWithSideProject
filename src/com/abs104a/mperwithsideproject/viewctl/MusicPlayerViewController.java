@@ -221,6 +221,28 @@ public final class MusicPlayerViewController {
 	}
 	
 	/**
+	 * 音量が変更されたときにViewに反映させるメソッド
+	 */
+	public static void changeVolume(){
+		//ViewがNullの場合は変更する必要がないため何もしない．
+		if(playerView == null)return;
+		//音量の設定
+		// AudioManagerを取得する
+		final AudioManager am = (AudioManager)playerView.getContext().getSystemService(Context.AUDIO_SERVICE);
+
+		// 現在の音量を取得する
+		int musicVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+		// ストリームごとの最大音量を取得する
+		int musicMaxVolume = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+		//音量を調節するシークバー
+		final SeekBar volumeBar = (SeekBar)playerView.findViewById(R.id.seekBar_volume);
+		volumeBar.setMax(musicMaxVolume);
+		volumeBar.setProgress(musicVolume);
+		//音量のシークバーが変更された時のリスナ
+	}
+	
+	/**
 	 * アニメーション的にViewをオープンするやつ
 	 * @param mService
 	 * @param rootView

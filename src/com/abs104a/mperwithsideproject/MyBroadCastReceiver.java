@@ -25,6 +25,8 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 
 	private final Service mService;
 	private final View rootView;
+	
+	public final static String VOLUME_CHANGE = "android.media.VOLUME_CHANGED_ACTION";
 
 	public MyBroadCastReceiver(Service mService,View rootView){
 		this.mService = mService;
@@ -49,13 +51,21 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 			} else if( action.equals(Intent.ACTION_HEADSET_PLUG)){
 				//ヘッドセットの動作を検出した時
 				int state = intent.getIntExtra("state", 0);
+				
 				if(state == 0){
+					//ヘッドセットが外されたとき
 					MusicUtils.pauseWithView(rootView);
 					Log.d("MainService","HEDSET_OFF");  
 				}else{
+					//ヘッドセットがついたとき
 					MusicUtils.playWithView(rootView);
 					Log.d("MainService", "HEDSET_ON");  
 				}
+			} else if(action.equals(VOLUME_CHANGE)){
+				//音量が変わったとき
+				//音量の変更に対してViewに反映する．
+				MusicPlayerViewController.changeVolume();
+				Log.d("MainService", "VOLUME_CHANGE");
 			}
 		}
 	}

@@ -52,6 +52,9 @@ public class MusicUtils {
 	
 	private static Visualizer mVisualizer = null;
 	
+	//クラスの識別用タグ
+	public static final String TAG = "MUSIC_UTILS";
+	
 	//UIスレッドのHandler
 	private static MusicSeekBarHandler mHandler = null;
 	
@@ -79,6 +82,7 @@ public class MusicUtils {
 			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
 			mpwpl.playStartAndPause();
 			reflectOfView(rootView);
+			android.util.Log.v(TAG, "PlayAndPauseWithView");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -96,6 +100,7 @@ public class MusicUtils {
 			if(mpwpl.getStatus() != MusicPlayerWithQueue.PLAYING){
 				mpwpl.playStartAndPause();
 				reflectOfView(rootView);
+				android.util.Log.v(TAG, "PlayWithView");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,6 +119,7 @@ public class MusicUtils {
 			if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
 				mpwpl.playStartAndPause();
 				reflectOfView(rootView);
+				android.util.Log.v(TAG, "PauseWithView");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -130,6 +136,7 @@ public class MusicUtils {
 			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
 			mpwpl.playStop();
 			reflectOfView(rootView);
+			android.util.Log.v(TAG, "StopWithView");
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -144,6 +151,7 @@ public class MusicUtils {
 			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
 			mpwpl.playNext();
 			reflectOfView(rootView);
+			android.util.Log.v(TAG, "PlayNextWithView");
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -158,6 +166,7 @@ public class MusicUtils {
 			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
 			mpwpl.playBack();
 			reflectOfView(rootView);
+			android.util.Log.v(TAG, "PlayBackWithView");
 		}catch(Exception e){
 			e.printStackTrace();
 		}
