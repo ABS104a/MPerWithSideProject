@@ -227,7 +227,7 @@ public class ViewPagerForEqualizerViewCtl {
             	//android.util.Log.v("Visualizer","setVisualizerFFT");
             }
         },
-        Visualizer.getMaxCaptureRate() / 2, //キャプチャーデータの取得レート（ミリヘルツ）
+        Visualizer.getMaxCaptureRate(), //キャプチャーデータの取得レート（ミリヘルツ）
         false,//これがTrueだとonWaveFormDataCaptureにとんでくる
         true);//これがTrueだとonFftDataCaptureにとんでくる
         mVisualizer.setEnabled(true);
