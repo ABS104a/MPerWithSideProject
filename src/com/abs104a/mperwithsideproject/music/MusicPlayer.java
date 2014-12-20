@@ -2,12 +2,10 @@ package com.abs104a.mperwithsideproject.music;
 
 import java.io.IOException;
 
-import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.viewctl.listener.OnPlayCompletedImpl;
 
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
-import android.media.audiofx.Equalizer;
 
 /**
  * 再生を行う音楽リソースを扱うクラス．
@@ -40,13 +38,7 @@ public class MusicPlayer implements OnCompletionListener {
 	 ===================================*/
 	
 	//再生を行うMediaPlayerクラス
-	private MediaPlayer mMediaPlayer = null;
-	//Equalizerクラス
-	private Equalizer mEqualizer = null;
-	//Equalizerを有効にするかどうか
-	private boolean isEqualizer = false;
-	
-	private EqualizerItem[] mEqualizerItem = null;
+	protected MediaPlayer mMediaPlayer = null;
 	//現在再生しているかどうか
 	private int _status = NOSOURCE;
 	
@@ -177,8 +169,6 @@ public class MusicPlayer implements OnCompletionListener {
 			mMediaPlayer.release();
 			mMediaPlayer = new MediaPlayer();
 		}
-		//Equalizerの設定
-		initEqualizer(mMediaPlayer);
 		
 		//データソースの設定
 		mMediaPlayer.setDataSource(pass);
@@ -274,65 +264,7 @@ public class MusicPlayer implements OnCompletionListener {
 		
 	}
 	
-	//イコライザの設定を行う
-	/**
-	 * Equalizerの初期化
-	 * @param mediaPlayer
-	 */
-	public void initEqualizer(MediaPlayer mediaPlayer){
-		
-		mEqualizer = new Equalizer(0,mediaPlayer.getAudioSessionId());
-		mEqualizer.setEnabled(isEqualizer);
-		if(mEqualizerItem != null){
-			for(EqualizerItem item : mEqualizerItem){
-				android.util.Log.v("MusicPlayer", "EQ : " + item.getBand() + " / " + item.getLevel());
-				mEqualizer.setBandLevel(item.getBand(), item.getLevel());
-			}
-		}	
-	}
-	
-	/**
-	 * Equalizerを取得する．
-	 * @return
-	 */
-	public Equalizer getEqualizerInstance(){
-		if(mEqualizer != null){
-			return mEqualizer;
-		}else{
-			return new Equalizer(0, R.raw.sample);
-		}
-	}
-	
-	/**
-	 * Equalizerを有効にするか設定する
-	 * @param isEqualizer
-	 * @return
-	 */
-	public boolean setEqualizer(boolean isEqualizer){
-		return this.isEqualizer = isEqualizer ;
-	}
-	
-	/**
-	 * Equalizerが有効かどうか取得する．
-	 * @return
-	 */
-	public boolean getEqualizer(){
-		return isEqualizer;
-	}
-	
-	/**
-	 * @return mEqualizerItem
-	 */
-	public EqualizerItem[] getEqualizerItem() {
-		return mEqualizerItem;
-	}
 
-	/**
-	 * @param mEqualizerItem セットする mEqualizerItem
-	 */
-	public void setEqualizerItem(EqualizerItem[] mEqualizerItem) {
-		this.mEqualizerItem = mEqualizerItem;
-	}
 
 	/**
 	 * デストラクタ

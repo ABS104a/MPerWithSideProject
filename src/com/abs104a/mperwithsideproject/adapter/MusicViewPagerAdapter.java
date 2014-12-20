@@ -126,6 +126,8 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 		// ページの消去を行う際に呼ばれるメソッド
 		//if(position != QUEUE)
 			//mQueueListView = null;
+		if(position == EQUALIZER)
+			ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
 		((ViewPager) container).removeView((View) object);
 	}
 

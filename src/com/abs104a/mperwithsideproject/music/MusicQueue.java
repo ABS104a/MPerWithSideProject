@@ -13,7 +13,53 @@ public class MusicQueue implements Serializable {
 	private int mCursor = 0;
 	private boolean isShuffle = false;
 	private int repeatState = MusicPlayerWithQueue.NOT_LOOP;
+	private short equalizerCursor = 0;
+	private EqualizerItem[] mEqualizerItem = null;
+	//Equalizerを有効にするかどうか
+	private boolean isEqualizer = false;
 	
+	/**
+	 * @return equalizerCursor
+	 */
+	public short getEqualizerCursor() {
+		return equalizerCursor;
+	}
+
+	/**
+	 * @param equalizerCursor セットする equalizerCursor
+	 */
+	public void setEqualizerCursor(short equalizerCursor) {
+		this.equalizerCursor = equalizerCursor;
+	}
+
+	/**
+	 * @return mEqualizerItem
+	 */
+	public EqualizerItem[] getEqualizerItem() {
+		return mEqualizerItem;
+	}
+
+	/**
+	 * @param mEqualizerItem セットする mEqualizerItem
+	 */
+	public void setEqualizerItem(EqualizerItem[] mEqualizerItem) {
+		this.mEqualizerItem = mEqualizerItem;
+	}
+
+	/**
+	 * @return isEqualizer
+	 */
+	public boolean isEqualizer() {
+		return isEqualizer;
+	}
+
+	/**
+	 * @param isEqualizer セットする isEqualizer
+	 */
+	public boolean setEqualizer(boolean isEqualizer) {
+		return this.isEqualizer = isEqualizer;
+	}
+
 	public MusicQueue(ArrayList<Music> queueMusics,int mCursor,boolean isShuffle,int repeatState){
 		this.queueMusics = queueMusics;
 		this.mCursor = mCursor;

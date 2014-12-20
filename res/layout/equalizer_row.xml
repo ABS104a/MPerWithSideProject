@@ -5,7 +5,7 @@
 
     <TextView
         android:id="@+id/textView_equalizer_row_current"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/equalizer_row_text_width"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/seekBar_equalizer_row"
         android:layout_alignParentLeft="true"
@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/textView_equalizer_row_max"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/equalizer_row_text_width"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/seekBar_equalizer_row"
         android:layout_alignParentRight="true"

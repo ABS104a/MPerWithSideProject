@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.utl.FileUtils;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.media.audiofx.Equalizer;
 
 /**
  * 音楽プレーヤーにくわえてプレイリスト再生を実現する
@@ -43,6 +45,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	private MusicQueue mQueue = null;
 	//アプリケーションのコンテキスト
 	private Context mContext;
+	private Equalizer mEqualizer;
 	
 	
 	/**===================================
@@ -63,8 +66,12 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		super.finalize();
 	}
 	
+	/**
+	 * QueueItemの中身をファイルに書き込む（永続化）
+	 */
 	public void writeQueue(){
 		FileUtils.writeSerializableQueue(mContext, mQueue);
+		android.util.Log.d("MusicPlayerWithQueue","WriteQueue!");
 	}
 	
 
@@ -134,6 +141,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		if(getStatus() != PLAYING && getStatus() != PAUSEING){
 			setSource(mQueue.getCursorMusic().getPass());
 		}
+		initEqualizer(mMediaPlayer);
 		return super.playStartAndPause();
 	}	
 	
@@ -383,5 +391,79 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		playStartAndPause();
 		return mQueue.getCursor();	
 	}
+	
+	//イコライザの設定を行う
+	/**
+	 * Equalizerの初期化
+	 * @param mediaPlayer
+	 */
+	public void initEqualizer(MediaPlayer mediaPlayer){
+		
+		mEqualizer = new Equalizer(0,mediaPlayer.getAudioSessionId());
+		mEqualizer.setEnabled(mQueue.isEqualizer());
+		if(mQueue.getEqualizerItem() != null){
+			for(int i = 0;i < mQueue.getEqualizerItem().length;i++){
+				EqualizerItem item = mQueue.getEqualizerItem()[i];
+				android.util.Log.v("MusicPlayer", "EQ : " + item.getBand() + " / " + item.getLevel());
+				mEqualizer.setBandLevel((short)i, item.getLevel());
+			}
+		}	
+	}
+	
+	/**
+	 * Equalizerを取得する．
+	 * @return
+	 */
+	public Equalizer getEqualizerInstance(){
+		if(mEqualizer != null){
+			return mEqualizer;
+		}else{
+			return new Equalizer(0, R.raw.sample);
+		}
+	}
+	
+	/**
+	 * Equalizerを有効にするか設定する
+	 * @param isEqualizer
+	 * @return
+	 */
+	public boolean setEqualizer(boolean isEqualizer){
+		Equalizer eq = getEqualizerInstance();
+		eq.setEnabled(isEqualizer);
+		writeQueue();
+		return this.mQueue.setEqualizer(isEqualizer);
+	}
+	
+	/**
+	 * Equalizerが有効かどうか取得する．
+	 * @return
+	 */
+	public boolean getEqualizer(){
+		return mQueue.isEqualizer();
+	}
+	
+	public short getEqualizerCursor(){
+		return mQueue.getEqualizerCursor();
+	}
+	
+	public void setEqualizerCursor(short cursor){
+		mQueue.setEqualizerCursor(cursor);
+		writeQueue();
+	}
+	
+	/**
+	 * @return mEqualizerItem
+	 */
+	public EqualizerItem[] getEqualizerItem() {
+		return mQueue.getEqualizerItem();
+	}
+
+	/**
+	 * @param mEqualizerItem セットする mEqualizerItem
+	 */
+	public void setEqualizerItem(EqualizerItem[] mEqualizerItem) {
+		mQueue.setEqualizerItem(mEqualizerItem);
+		writeQueue();
+	} 
 
 }
