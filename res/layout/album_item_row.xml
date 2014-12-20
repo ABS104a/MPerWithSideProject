@@ -66,4 +66,14 @@
         android:layout_below="@+id/textView_album_time"
         android:background="@android:drawable/ic_input_add" />
 
+    <!-- ここにExpandableViewを突っ込む -->
+    <FrameLayout
+        android:id="@+id/framelayout_album"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView_album_album" >
+
+    </FrameLayout>
+
 </RelativeLayout>
