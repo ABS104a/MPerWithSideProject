@@ -113,7 +113,7 @@ public class ViewPagerForEqualizerViewCtl {
 		return mView;
 	}
 	
-	private static final Equalizer setEqualizerForView(View mView){
+	private static final Equalizer setEqualizerForView(final View mView){
 		final LinearLayout layoutView = (LinearLayout)mView.findViewById(R.id.linearLayout_equalizer_child);
 		//Viewのクリア
 		layoutView.removeAllViews();
@@ -176,6 +176,14 @@ public class ViewPagerForEqualizerViewCtl {
 						Equalizer eqr = mpwpl.getEqualizerInstance();
 						eqr.setBandLevel((short)index, newLevel);
 						items[index].setLevel(newLevel);
+						
+						final Spinner mSpinner = (Spinner)mView.findViewById(R.id.spinner_equalizer);
+						if(mSpinner != null && 
+								mSpinner.getAdapter() != null &&
+								mSpinner.getAdapter().getCount() >= eq.getNumberOfPresets()){
+							mSpinner.setSelection(eq.getNumberOfPresets());
+							mpwpl.setEqualizerCursor(eq.getNumberOfPresets());
+						}
 					}
 				}
 

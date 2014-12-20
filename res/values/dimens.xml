@@ -26,5 +26,7 @@
     
     <!-- メイン画面プレイヤーのマージン -->
     <dimen name="music_player_margins">2dp</dimen>
+    
+    <dimen name="expand_item_size">35dp</dimen>
 
 </resources>
