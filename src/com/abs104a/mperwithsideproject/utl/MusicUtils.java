@@ -11,6 +11,7 @@ import com.abs104a.mperwithsideproject.music.Album;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.viewctl.MusicSeekBarHandler;
+import com.abs104a.mperwithsideproject.viewctl.ViewPagerForEqualizerViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.listener.MusicSeekBarOnChangeImpl;
 
 import android.app.Service;
@@ -20,7 +21,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.audiofx.Visualizer;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
@@ -273,12 +273,18 @@ public class MusicUtils {
 				rootView, 
 				mpwpl.getNowPlayingMusic(),
 				mpwpl);
+		//ViewPager の設定
+		ViewPager mViewPager = (ViewPager)rootView.findViewById(R.id.player_list_part);
+		if(mViewPager != null && mViewPager.getCurrentItem() == MusicViewPagerAdapter.EQUALIZER){
+			ViewPagerForEqualizerViewCtl.createMusicVisualizer(mViewPager.getContext());
+		}
+		//ViewPagerに通知する必要があるかどうか選択する場合
 		if(isNotifitionViewPager){
-			//ViewPager の設定
-			ViewPager mViewPager = (ViewPager)rootView.findViewById(R.id.player_list_part);
 			//Viewへの反映
-			if(mViewPager != null)
+			if(mViewPager != null){
+				//ViewPagerのQueueに再生曲変更の通知
 				((MusicViewPagerAdapter)mViewPager.getAdapter()).notifitionDataSetChagedForQueueView();
+			}
 		}
 	}
 	

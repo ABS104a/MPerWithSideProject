@@ -8,12 +8,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-        
-        <com.abs104a.mperwithsideproject.view.FFTView
-            android:id="@+id/fftview_equalizer"
+
+        <RelativeLayout
             android:layout_width="match_parent"
-        	android:layout_height="@dimen/visualizer_view_height"
-        	android:layout_margin="@dimen/visualizer_view_margin" />
+            android:layout_height="wrap_content" >
+
+            <com.abs104a.mperwithsideproject.view.FFTView
+                android:id="@+id/fftview_equalizer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/visualizer_view_height"
+                android:layout_margin="@dimen/visualizer_view_margin" />
+
+            <Button
+                android:id="@+id/button_equalizer_switch"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="Switch" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -13,6 +13,7 @@ import com.abs104a.mperwithsideproject.viewctl.listener.OnPlayCompletedImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.RepeatButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ShuffleButtonOnClickImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.ViewPagerOnPagerChangeImpl;
 
 import android.app.Service;
 import android.content.Context;
@@ -48,7 +49,16 @@ public final class MusicPlayerViewController {
 	
 	//PlayerView
 	private static View playerView = null;
+	//ViewPagerのページを記憶する用
+	private static int pageCount = 0;
 	
+	public static int setPageCount(int page){
+		return pageCount = page;
+	}
+	
+	public static int getPageCount(){
+		return pageCount;
+	}
 	
 	/**
 	 * playerViewを取得する．
@@ -183,8 +193,11 @@ public final class MusicPlayerViewController {
 		
 		//ViewPager の設定
 		ViewPager mViewPager = (ViewPager)mView.findViewById(R.id.player_list_part);
+		//Adapterの設定
 		mViewPager.setAdapter(new MusicViewPagerAdapter(mService,mView,_mpwpl));
+		//ページの設定
 		mViewPager.setOnPageChangeListener(new ViewPagerOnPagerChangeImpl(mViewPager));
+		mViewPager.setCurrentItem(pageCount);
 		
 		//TODO プレイリストを設定
 		if(_mpwpl.getNowPlayingMusic() != null)

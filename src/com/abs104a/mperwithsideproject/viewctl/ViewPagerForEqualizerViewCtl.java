@@ -6,9 +6,11 @@ import android.media.audiofx.Equalizer;
 import android.media.audiofx.Visualizer;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -24,6 +26,7 @@ import com.abs104a.mperwithsideproject.music.EqualizerItem;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.view.FFTView;
+import com.abs104a.mperwithsideproject.viewctl.listener.MyOnDataCaptureImpl;
 
 /**
  * EqualizerViewの生成とコントロールを行うクラス
@@ -33,6 +36,10 @@ import com.abs104a.mperwithsideproject.view.FFTView;
 public class ViewPagerForEqualizerViewCtl {
 	
 	private static Visualizer mVisualizer = null;
+	private static boolean isFFT = false;
+	private static boolean isWave = true;
+	
+	private static FFTView fftView = null;
 
 	/**
 	 * Viewの生成
@@ -46,10 +53,16 @@ public class ViewPagerForEqualizerViewCtl {
 	{
 		// TODO 動作の登録
 		//TODO Visualizerの設定
+		//データの初期化
+		fftView = null;
+		
+		//Layoutの生成
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		final ScrollView mView = (ScrollView)layoutInflater.inflate(R.layout.equalizer, null);
-		final FFTView fftView = (FFTView)mView.findViewById(R.id.fftview_equalizer);
-		Visualizer visualizer = createMusicVisualizer(mService,fftView);
+		
+		//Visualizerの生成
+		fftView  = (FFTView)mView.findViewById(R.id.fftview_equalizer);
+		createMusicVisualizer(mService);
 		
 		//EqualizerのView反映
 		final Equalizer eq = setEqualizerForView(mView);
@@ -200,6 +213,30 @@ public class ViewPagerForEqualizerViewCtl {
 			layoutView.addView(eqView);
 		}
 		//>-----Equalizerのバーについての設定-----------------------------<//
+		
+		//>-----スイッチのバーについての設定-----------------------------<//
+		final Button switchButton = (Button)mView.findViewById(R.id.button_equalizer_switch);
+		switchButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				if(mVisualizer != null && fftView != null){
+					mVisualizer.setEnabled(false);
+					//各結果を反転させる．
+					isWave = !isWave;
+					isFFT = !isFFT;
+					mVisualizer.setDataCaptureListener(
+							new MyOnDataCaptureImpl(fftView),
+							Visualizer.getMaxCaptureRate(),
+							isWave, 
+							isFFT);
+					mVisualizer.setEnabled(true);
+				}
+			}
+
+		});
+		
+		//>-----スイッチのバーについての設定-----------------------------<//
 		return eq;
 	}
 	
@@ -208,8 +245,11 @@ public class ViewPagerForEqualizerViewCtl {
 	 * @param context
 	 * @return Visualizer
 	 */
-	public static final Visualizer createMusicVisualizer(final Context context,final View visualizerView){
+	public static final Visualizer createMusicVisualizer(final Context context){
 		removeMusicVisualizer();
+		
+		final int captureRate = Visualizer.getMaxCaptureRate();
+		
 		final MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(context);
 		//再生している曲がない場合はViewを作成しない
 		if(mpwpl.getMediaPlayerSessionId() == -1)return null;
@@ -219,25 +259,12 @@ public class ViewPagerForEqualizerViewCtl {
 		mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
 		
 		//キャプチャしたデータを定期的に取得するリスナーを設定
-        mVisualizer.setDataCaptureListener(new Visualizer.OnDataCaptureListener() {
-            //Wave形式のキャプチャーデータ
-            public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes,
-                    int samplingRate) {
-                //mVisualizerView.updateVisualizer(bytes);
-            	android.util.Log.v("Visualizer","setVisualizer");
-            }
- 
-            //高速フーリエ変換のキャプチャーデータ
-            public void onFftDataCapture(Visualizer visualizer, byte[] bytes,
-                    int samplingRate) {
-            	if(visualizerView != null)
-            		((FFTView)visualizerView).update(bytes);
-            	//android.util.Log.v("Visualizer","setVisualizerFFT");
-            }
-        },
-        Visualizer.getMaxCaptureRate() / 2, //キャプチャーデータの取得レート（ミリヘルツ）
-        false,//これがTrueだとonWaveFormDataCaptureにとんでくる
-        true);//これがTrueだとonFftDataCaptureにとんでくる
+        mVisualizer.setDataCaptureListener(new MyOnDataCaptureImpl(fftView),
+        captureRate, //キャプチャーデータの取得レート（ミリヘルツ）
+        isWave,//waveFrom
+        isFFT);//fftFlag
+        
+        ((FFTView)fftView).setSamplingRate(captureRate);
         mVisualizer.setEnabled(true);
         ViewPagerForEqualizerViewCtl.mVisualizer = mVisualizer;
 		return mVisualizer;
