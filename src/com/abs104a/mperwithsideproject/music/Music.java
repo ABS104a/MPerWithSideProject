@@ -35,6 +35,8 @@ public class Music implements Serializable,Comparable<Music>{
 	
 	private String albumUri;
 	
+	private boolean isExpandView = false;
+	
 	
 	/**
 	 * 初期値代入のためのコンストラクタ
@@ -149,6 +151,21 @@ public class Music implements Serializable,Comparable<Music>{
 	@Override
 	public String toString() {
 		return getPass();
+	}
+
+	/**
+	 * Viewが展開されているかどうか
+	 * @return isExpandView
+	 */
+	public boolean isExpandView() {
+		return isExpandView;
+	}
+
+	/**
+	 * @param isExpandView セットする isExpandView
+	 */
+	public void setExpandView(boolean isExpandView) {
+		this.isExpandView = isExpandView;
 	}
 	
 }

@@ -24,6 +24,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -87,11 +88,21 @@ public class DisplayUtils {
 		return DFYS.format(date);
 	}
 	
+	/**
+	 * ListViewのChild用View生成method
+	 * @param convertView	母体となるView
+	 * @param item			適用するMusicインスタンス
+	 * @param context		アプリケーションのコンテキスト
+	 * @param isQueue		Queueのカラムかどうか？
+	 * @param rootView		アプリケーションのView
+	 * @param mpwpl			ミュージックコントロールインスタンス
+	 * @return				生成したView
+	 */
 	public static final View getChildView(
 			View convertView,
 			Music item,
 			Context context,
-			boolean isDelete,
+			boolean isQueue,
 			View rootView,
 			MusicPlayerWithQueue mpwpl){
 		ViewHolder holder;
@@ -109,16 +120,13 @@ public class DisplayUtils {
 			holder.albumText.setMarqueeRepeatLimit(5);
 			holder.albumText.setSelected(true);
 			
-			if(isDelete){
-				holder.addButton.setBackgroundResource(android.R.drawable.ic_input_delete);
-			}else{
-				holder.addButton.setBackgroundResource(android.R.drawable.ic_input_add);
-			}
+			holder.addButton.setBackgroundResource(android.R.drawable.ic_input_add);
 			
 			holder.artistText  = (TextView) convertView.findViewById(R.id.textView_album_artist);
 			holder.jacketImage = (ImageView) convertView.findViewById(R.id.imageView_album_jacket);
 			holder.timeText    = (TextView) convertView.findViewById(R.id.textView_album_time);
 			holder.titleText   = (TextView) convertView.findViewById(R.id.textView_album_title);
+			holder.framelayout = (FrameLayout)convertView.findViewById(R.id.framelayout_album);
 			
 			convertView.setTag(holder);
 		}else{
@@ -144,12 +152,11 @@ public class DisplayUtils {
 				if(item.getAlbumUri() != null){
 					holder.jacketImage.setImageResource(android.R.drawable.ic_menu_search);
 					new GetJacketImageTask(context, holder.titleText, holder.jacketImage, item).execute();
-					//holder.jacketImage.setImageURI(item.getAlbumUri());
 				}else
 					holder.jacketImage.setImageResource(android.R.drawable.ic_menu_search);
 			}
 			//ボタンを表示するかどうかの設定
-			if(isDelete){
+			if(isQueue){
 				PlayListDeleteOnClickImpl plimpl = new PlayListDeleteOnClickImpl(context,rootView, item, mpwpl);
 				holder.addButton.setOnClickListener(plimpl);
 				holder.addButton.setOnLongClickListener(plimpl);
@@ -159,7 +166,11 @@ public class DisplayUtils {
 				holder.addButton.setOnClickListener(plimpl);
 				holder.addButton.setOnLongClickListener(plimpl);
 			}
-			convertView.setOnClickListener(new MusicOnClickImpl(rootView, item,!isDelete));
+			convertView.setOnClickListener(new MusicOnClickImpl(rootView, item,!isQueue));
+			
+			//ExpandViewがすでに展開されている場合は消去する．
+			if(!item.isExpandView() && holder.framelayout.getChildCount() > 0)
+				holder.framelayout.removeAllViews();
 			
 			Music currentMusic = mpwpl.getNowPlayingMusic();
 			if(currentMusic != null && item.equals(currentMusic)){
@@ -194,6 +205,8 @@ public class DisplayUtils {
 		public TextView  timeText    = null;
 		//プレイリスト追加用View
 		public ImageButton addButton = null;
+		//ExpandView用Layout
+		public FrameLayout framelayout = null;
 	}
 	
 }
