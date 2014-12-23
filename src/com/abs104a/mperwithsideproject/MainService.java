@@ -1,15 +1,10 @@
 package com.abs104a.mperwithsideproject;
 
-import java.io.IOException;
-
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
-import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.MainViewController;
 import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -70,10 +65,6 @@ public class MainService extends Service{
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
-		//MainViewの生成
-		LayoutInflater inflater = LayoutInflater.from( mService );
-		inflater.inflate(R.layout.player_view, null);
 		
 		mWindowManager  = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 

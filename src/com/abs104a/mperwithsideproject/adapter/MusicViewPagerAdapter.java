@@ -1,24 +1,26 @@
 package com.abs104a.mperwithsideproject.adapter;
 
+import android.app.Service;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ExpandableListView;
+import android.widget.ListView;
+
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForAlbumViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForEqualizerViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForPlayListViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForPlayingQueueViewCtl;
-
-import android.app.Service;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
 /**
  * MusicPlayerクラスでのViewPagerのView設定を行うクラス
  * 主に提供する機能として
- * ・ページ1	プレイリスト
- * ・ページ2	検索メディア
- * ・ページ3	イコライザAndビジュアライザ
+ * ・ページ1	キュー
+ * ・ページ2	プレイリスト
+ * ・ページ3	検索メディア
+ * ・ページ4	イコライザAndビジュアライザ
  * とする．
  * @author Kouki-Mobile
  *
@@ -42,6 +44,8 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	
 	//Queue用のListView;
 	private ListView mQueueListView = null;
+	//ExpandableListView用のListView;
+	private ExpandableListView mPlayListsListView = null;
 	
 	/**
 	 * ListViewの要素を更新する．
@@ -49,6 +53,9 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	public void notifitionDataSetChagedForQueueView(){
 		if(mQueueListView != null)
 			((MusicListAdapter)mQueueListView.getAdapter()).notifyDataSetChanged();
+		if(mPlayListsListView != null)
+			((PlayListForExpandableListAdapter)mPlayListsListView.getExpandableListAdapter()).notifyDataSetChanged();
+		
 	}
 	
 	/**
@@ -104,7 +111,8 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 			mQueueListView = (ListView) view;
 			break;
 		case PLAYLIST:	//Page2
-			view = (ListView) ViewPagerForPlayListViewCtl.createView(mService, mView, mpwpl);
+			view = (ExpandableListView) ViewPagerForPlayListViewCtl.createView(mService, mView, mpwpl);
+			mPlayListsListView = (ExpandableListView) view;
 			break;
 		case ALBUM:	//Page3
 			view = (ListView) ViewPagerForAlbumViewCtl

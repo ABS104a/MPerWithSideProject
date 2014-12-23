@@ -4,6 +4,7 @@ import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.utl.DialogUtils;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
@@ -52,6 +53,10 @@ public final class PlayListAddOnClickImpl implements OnClickListener, OnLongClic
 	 */
 	@Override
 	public void onClick(View v) {
+		
+		DialogUtils.createIfSelectPlayListDialog(mContext, item, true);
+		
+		/*
 		//Queueへの追加を行う
 		mpwpl.addMusic(item);
 		Toast.makeText(
@@ -63,6 +68,7 @@ public final class PlayListAddOnClickImpl implements OnClickListener, OnLongClic
 		ViewPager viewPager = (ViewPager)rootView.findViewById(R.id.player_list_part);
 		if(viewPager != null)
 			((MusicViewPagerAdapter)viewPager.getAdapter()).notifitionDataSetChagedForQueueView();
+		*/
 	}
 
 	/**

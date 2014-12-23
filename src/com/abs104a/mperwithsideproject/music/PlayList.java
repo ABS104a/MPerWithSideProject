@@ -15,8 +15,6 @@ public final class PlayList extends Album {
 		super(albumName, artist, albumId, jacketUri);
 	}
 	
-	private static ArrayList<PlayList> mPlayLists = null;
-	
 	public static final ArrayList<PlayList> readPlayLists(){
 		//TODO プレイリストを読み取るリスト部分の実装
 		return null;
@@ -26,13 +24,25 @@ public final class PlayList extends Album {
 		//PlayListを書き込む部分の実装
 		return false;
 	}
-
+	
 	/**
-	 * プレイリストを取得する．
-	 * getter
-	 * @return mPlayLists
+	 * 配列要素を入れ替える
+	 * @param index1　1つ目の要素
+	 * @param index2　2つ目の要素
+	 * @return
 	 */
-	public static ArrayList<PlayList> getPlayLists() {
-		return mPlayLists;
+	public boolean swapMusic(int index1,int index2){
+		try{
+			Music[] musics = getMusics();
+			if((index1 >= 0 && index1 < musics.length) &&
+					(index2 >= 0 && index2 < musics.length)){
+				Music tmp = musics[index2];
+				musics[index2] = musics[index1];
+				musics[index1] = tmp;
+			}
+			return false;
+		}catch(NullPointerException e){
+			return false;
+		}
 	}
 }

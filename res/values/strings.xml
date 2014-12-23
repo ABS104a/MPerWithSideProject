@@ -21,6 +21,7 @@
     <string name="play_loop_state_oneloop">one loop</string>
     
     <string name="add_to_queue"> add to queue</string>
+    <string name="add_to_playlist">Add to PlayList</string>
     
     <string name="enable_equalizer">Enable Equalizer</string>
     
@@ -29,6 +30,14 @@
     <string name="row_empty">There is no playlist.</string>
     <string name="search_box_hint">Enter a search term.</string>
     
+    <string name="add_queue">Add Queue</string>
+    <string name="create_playlist">Create Playlist</string>
+    
+    <string name="create_playlist_title">Create Playlist</string>
+    <string name="create_playlist_text_hint">Enter the playlist name</string>
+    
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
     
 
 </resources>
