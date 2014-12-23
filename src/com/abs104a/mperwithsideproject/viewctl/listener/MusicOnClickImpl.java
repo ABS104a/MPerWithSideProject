@@ -17,8 +17,6 @@ public final class MusicOnClickImpl implements OnClickListener {
 	private final Music music;
 	//RootView
 	private final View rootView;
-	//タップした時にキューに追加するかどうか
-	private final boolean isAddQueue;
 
 	/**
 	 * インスタンスの生成
@@ -28,10 +26,8 @@ public final class MusicOnClickImpl implements OnClickListener {
 	 * @param mpwpl		ミュージックコントロールインスタンス
 	 * @param isAddQueue	タップされたときにキューに登録するかどうか
 	 */
-	public MusicOnClickImpl(View rootView, Music item,
-			boolean isAddQueue) {
+	public MusicOnClickImpl(View rootView, Music item) {
 		this.music = item;
-		this.isAddQueue = isAddQueue;
 		this.rootView = rootView;
 	}
 
@@ -42,15 +38,11 @@ public final class MusicOnClickImpl implements OnClickListener {
 		if(music != null){
 			try {
 				int index = 0;
-				if(isAddQueue){
-					//キューに追加する時
+				index = mpwpl.getQueue().indexOf(music);
+				//曲がQueueにないときだけ追加する．
+				if(index == -1){
+					index = 0;
 					mpwpl.addMusic(music, index);
-				}else{
-					index = mpwpl.getQueue().indexOf(music);
-					//曲がQueueにないときだけ追加する．
-					if(index == -1){
-						mpwpl.addMusic(music, index);
-					}
 				}
 				MusicUtils.playOrPauseWithView(rootView,index);
 			} catch (Exception e) {

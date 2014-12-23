@@ -303,16 +303,18 @@ public class MusicUtils {
 		//タイトルView
 		final TextView title = (TextView)mView.findViewById(R.id.textView_now_music_name);
 		title.setText(music.getTitle());
+		title.setText(music.getAlbum());
+		title.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+		title.setSingleLine(true);
+		title.setMarqueeRepeatLimit(5);
+		title.setSelected(true);
 		//アーティスト
 		final TextView artist = (TextView)mView.findViewById(R.id.textView_now_artist_name);
 		artist.setText(music.getArtist());
 		//アルバム名
 		final TextView album = (TextView)mView.findViewById(R.id.textView_now_album);
 		album.setText(music.getAlbum());
-		album.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-		album.setSingleLine(true);
-		album.setMarqueeRepeatLimit(5);
-		album.setSelected(true);
+
 		//曲時間
 		final TextView maxTime = (TextView)mView.findViewById(R.id.textView_now_max_time);
 		maxTime.setText(DisplayUtils.long2TimeString(music.getDuration()));

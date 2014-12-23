@@ -29,7 +29,10 @@ public class Album  implements Serializable,Comparable<Album>{
 	public Album(String albumName,String artist,long albumId,Uri jacketUri){
 		this.albumId = albumId;
 		this.albumName = albumName;
-		this.jacketUri = jacketUri.toString();
+		if(jacketUri != null)
+			this.jacketUri = jacketUri.toString();
+		else 
+			this.jacketUri = null;
 		this.artist = artist;
 	}
 	
@@ -62,13 +65,18 @@ public class Album  implements Serializable,Comparable<Album>{
 	 * @return jacketUri
 	 */
 	public final Uri getJacketUri() {
-		return Uri.parse(jacketUri);
+		if(jacketUri != null)
+			return Uri.parse(jacketUri);
+		else return null;
 	}
 	/**
 	 * @param jacketUri セットする jacketUri
 	 */
 	public final void setJacketUri(Uri jacketUri) {
-		this.jacketUri = jacketUri.toString();
+		if(jacketUri == null)
+			this.jacketUri = null;
+		else 
+			this.jacketUri = jacketUri.toString();
 	}
 	/**
 	 * @return musics

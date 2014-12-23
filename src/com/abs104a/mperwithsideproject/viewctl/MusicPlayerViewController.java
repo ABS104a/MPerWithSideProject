@@ -41,8 +41,6 @@ public final class MusicPlayerViewController {
 
 	//PlayerViewのID
 	public final static int PLAYER_VIEW_ID = 12;
-	//AnimateOpen時のDelayTime
-	public final static int DELAY_TIME = 20;
 	
 	//前回終了時の状態(Viewの幅)
 	private static int openViewWidth = 0;
@@ -303,7 +301,7 @@ public final class MusicPlayerViewController {
 					params.width = Math.min(musicPlayerWidth, width);
 					//Layoutの変更
 					playerView.setLayoutParams(params);
-					mHandler.postDelayed(this, DELAY_TIME);
+					mHandler.post(this);
 				}else{
 					playerView.setVisibility(View.VISIBLE);
 					Animation showAnimation = 
@@ -315,7 +313,7 @@ public final class MusicPlayerViewController {
 			}
 			
 		};
-		mHandler.postDelayed(mRunnable, DELAY_TIME);
+		mHandler.post(mRunnable);
 	}
 	
 	/**
@@ -351,7 +349,7 @@ public final class MusicPlayerViewController {
 					params.width = Math.max(0, width);
 					//Layoutの変更
 					playerView.setLayoutParams(params);
-					mHandler.postDelayed(this, DELAY_TIME >> 1);
+					mHandler.post(this);
 				}else{
 					//Viewの消去を行う
 					removePlayerView(rootView);
@@ -359,7 +357,7 @@ public final class MusicPlayerViewController {
 			}
 			
 		};
-		mHandler.postDelayed(mRunnable, DELAY_TIME);
+		mHandler.post(mRunnable);
 	}
 	
 }

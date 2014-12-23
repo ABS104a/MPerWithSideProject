@@ -1,41 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/dialog_view_width"
-    android:layout_height="match_parent"
-    android:background="@color/musicplayer_viewpager_bg"
-    android:orientation="vertical" >
-
-    <TextView
-        android:id="@+id/textView_dialog_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Title"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <FrameLayout
-        android:id="@+id/frameLayout_dialog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </FrameLayout>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" 
+    android:layout_margin="@dimen/dialog_view_margin"
+    android:layout_gravity="right">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal" >
+        android:id="@+id/linearLayout_dialog"
+        android:layout_width="@dimen/dialog_view_width"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_view_margin"
+        android:background="@color/album_item_group_bg"
+        android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/button_dialog_positive"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/textView_dialog_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Positive" />
+            android:background="@color/musicplayer_viewpager_bg"
+            android:text="Title"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <Button
-            android:id="@+id/button_dialog_negative"
-            android:layout_width="0dp"
+        <FrameLayout
+            android:id="@+id/frameLayout_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Negative" />
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/button_dialog_positive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Positive" />
+
+            <Button
+                android:id="@+id/button_dialog_negative"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Negative" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

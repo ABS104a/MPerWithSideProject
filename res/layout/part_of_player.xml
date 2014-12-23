@@ -73,7 +73,6 @@
             android:id="@+id/textView_now_artist_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
             android:text="artist"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -81,7 +80,6 @@
             android:id="@+id/textView_now_album"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
             android:text="album"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 

@@ -16,7 +16,7 @@
 
     <View
         android:layout_width="1dp"
-        android:layout_height="@dimen/main_view_handle_size" />
+        android:layout_height="@dimen/player_view_height" />"
 
     <!-- ここにMusicViewを突っ込む -->
 

@@ -57,7 +57,10 @@ public class Music implements Serializable,Comparable<Music>{
 		this.title = title;
 		this.album = album;
 		this.albumId = albumId;
-		this.albumUri = album1Uri.toString();
+		if(album1Uri != null)
+			this.albumUri = album1Uri.toString();
+		else
+			this.albumUri = null;
 		this.truck = truck;
 		this.duration = duration;
 		this.setPass(pass);
@@ -116,6 +119,19 @@ public class Music implements Serializable,Comparable<Music>{
 	    }
 	    return truck - item.truck;
 	}
+	
+	/* (非 Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof Music){
+			return ((Music)o).id == this.id;
+		}else{
+			return false;
+		}
+	}
+	
 
 	/**
 	 * @return albumId
@@ -135,14 +151,20 @@ public class Music implements Serializable,Comparable<Music>{
 	 * @return albumUri
 	 */
 	public final Uri getAlbumUri() {
-		return Uri.parse(albumUri);
+		if(albumUri != null)
+			return Uri.parse(albumUri);
+		else 
+			return null;
 	}
 
 	/**
 	 * @param albumUri セットする albumUri
 	 */
 	public final void setAlbumUri(Uri albumUri) {
-		this.albumUri = albumUri.toString();
+		if(albumUri != null)
+			this.albumUri = albumUri.toString();
+		else 
+			this.albumUri = null;
 	}
 
 	/* (非 Javadoc)
@@ -167,5 +189,6 @@ public class Music implements Serializable,Comparable<Music>{
 	public void setExpandView(boolean isExpandView) {
 		this.isExpandView = isExpandView;
 	}
-	
+
+
 }

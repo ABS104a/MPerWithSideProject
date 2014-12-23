@@ -25,14 +25,15 @@ import android.text.TextUtils;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 /**
@@ -95,6 +96,28 @@ public class DisplayUtils {
 	}
 	
 	/**
+	 * IMEを表示する．
+	 * @param context
+	 * @param view
+	 */
+	public static void showInputMethodEditor(Context context, View view) {
+		InputMethodManager inputMethodManager = (InputMethodManager) context
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_FORCED);
+	}
+	
+	/**
+	 * IMEを非表示にする．
+	 * @param context
+	 * @param view
+	 */
+	public static void hideInputMethodEditor(Context context, View view) {
+		InputMethodManager inputMethodManager = (InputMethodManager) context
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+	}
+	
+	/**
 	 * ListViewのChild用View生成method
 	 * @param convertView	母体となるView
 	 * @param item			適用するMusicインスタンス
@@ -106,9 +129,9 @@ public class DisplayUtils {
 	 */
 	public static final View getChildView(
 			View convertView,
-			Music item,
-			Context context,
-			boolean isQueue,
+			final Music item,
+			final Context context,
+			final boolean isQueue,
 			View rootView,
 			Object adapter,
 			MusicPlayerWithQueue mpwpl){
@@ -173,12 +196,12 @@ public class DisplayUtils {
 				holder.addButton.setOnClickListener(plimpl);
 				holder.addButton.setOnLongClickListener(plimpl);
 			}
-			convertView.setOnClickListener(new MusicOnClickImpl(rootView, item,!isQueue));
+			convertView.setOnClickListener(new MusicOnClickImpl(rootView, item));
 			
 			//ExpandViewがすでに展開されている場合は消去する．
-			if(!item.isExpandView() && holder.framelayout.getChildCount() > 0)
+			if(!item.isExpandView() && holder.framelayout.getChildCount() > 0){
 				holder.framelayout.removeAllViews();
-			else if(item.isExpandView() && holder.framelayout.getChildCount() == 0){
+			}else if(item.isExpandView() && holder.framelayout.getChildCount() == 0){
 				//ExpandViewの生成
 				final LayoutInflater layoutInflater = LayoutInflater.from(context);
 				final ViewGroup expandView = (ViewGroup)layoutInflater.inflate(R.layout.expand_album_item, null);
@@ -202,6 +225,17 @@ public class DisplayUtils {
 				//下へのボタン 
 				ImageButton downButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_down);
 				downButton.setOnClickListener(new UpDownButtonOnClickImpl(context, item, false, true, adapter));
+				
+				//追加ボタン
+				ImageButton addButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_add);
+				addButton.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						DialogUtils.createIfSelectPlayListDialog(context, item, !isQueue);
+					}
+					
+				});
 				
 			}
 			

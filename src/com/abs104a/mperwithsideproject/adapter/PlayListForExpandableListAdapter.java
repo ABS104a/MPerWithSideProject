@@ -49,7 +49,6 @@ public final class PlayListForExpandableListAdapter extends
 		this.playLists = playLists;
 		this.mpwpl = mpwpl;
 		this.rootView = rootView;
-		
 	}
 
 	/**

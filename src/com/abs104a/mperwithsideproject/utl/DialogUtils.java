@@ -7,9 +7,7 @@ import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.PixelFormat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,12 +16,16 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,57 @@ public class DialogUtils {
 	
 	public static final String TAG = "DISPLAY_UTILS";
 	
+	public static final WindowManager setWindowManager(Context mContext,View setView){
+		final WindowManager mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+		
+		// 重ね合わせするViewの設定を行う
+		LayoutParams params = new WindowManager.LayoutParams(
+				WindowManager.LayoutParams.WRAP_CONTENT,
+				WindowManager.LayoutParams.WRAP_CONTENT,
+				WindowManager.LayoutParams.TYPE_TOAST,
+				//WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | 
+				WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
+				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED ,
+				PixelFormat.TRANSLUCENT);
+		
+		params.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
+		params.width = mContext.getResources().getDimensionPixelSize(R.dimen.dialog_view_width);
+		
+		LinearLayout layout = (LinearLayout) setView.findViewById(R.id.linearLayout_dialog);
+		Animation anim = AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left);
+		layout.startAnimation(anim);
+		
+		//Viewの追加
+		mWindowManager.addView(setView, params);
+		
+		return mWindowManager;
+	}
+	
+	private final static void removeForWindowManager(final WindowManager mWindowManager,final View mView){
+		try{
+			LinearLayout layout = (LinearLayout) mView.findViewById(R.id.linearLayout_dialog);
+			Animation anim = AnimationUtils.loadAnimation(mView.getContext(), android.R.anim.slide_out_right);
+			anim.setAnimationListener(new AnimationListener(){
+
+				@Override
+				public void onAnimationStart(Animation animation) {}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					mWindowManager.removeView(mView);//Viewの消去
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {}
+
+			});
+			layout.startAnimation(anim);
+		}catch(NullPointerException e){
+			e.printStackTrace();
+		}
+
+	}
+	
 	/**
 	 * PlayListを選択するDialogを表示する．
 	 * (最初の項目はQueue，3番目～がPlayList)
@@ -46,30 +99,13 @@ public class DialogUtils {
 	 * @param isQueue キューへ追加するItemを設定するかどうか
 	 */
 	public final static void createIfSelectPlayListDialog(Context mContext,final Music music,final boolean isQueue){
-		
-		//TODO WindowManager~の起動にする．
-		final WindowManager mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-		
-		// 重ね合わせするViewの設定を行う
-		LayoutParams params = new WindowManager.LayoutParams(
-				WindowManager.LayoutParams.WRAP_CONTENT,
-				WindowManager.LayoutParams.WRAP_CONTENT,
-				WindowManager.LayoutParams.TYPE_TOAST,
-				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | 
-				WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
-				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED ,
-				PixelFormat.TRANSLUCENT);
-		
-		params.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
-		params.width = mContext.getResources().getDimensionPixelSize(R.dimen.dialog_view_width);
-		
+			
 		//MainViewの生成
 		LayoutInflater inflater = LayoutInflater.from( mContext );
-		
 		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, null);
 		
-		//Viewの追加
-		mWindowManager.addView(mView, params);
+		//WindowManager~の起動にする．
+		final WindowManager mWindowManager = setWindowManager(mContext, mView);
 
 		//ダイアログに挿入するListView
 		final ListView mListView = new ListView(mContext);
@@ -90,7 +126,7 @@ public class DialogUtils {
 			@Override
 			public void onClick(View v) {
 				//Viewの消去
-				mWindowManager.removeView(mView);
+				removeForWindowManager(mWindowManager,mView);
 			}
 			
 		});
@@ -124,12 +160,8 @@ public class DialogUtils {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				try{
-					//Viewの消去
-					mWindowManager.removeView(mView);
-				}catch(NullPointerException e){
-					e.printStackTrace();
-				}
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
 				
 				//Queueへの追加Itemを追加しない場合はPositionを1つ増やす
 				if(!isQueue)position += 1;
@@ -189,29 +221,37 @@ public class DialogUtils {
 			final Music music,
 			final ArrayList<PlayList> mPlayLists)
 	{
-		//ダイアログの横幅
-		final int dialogWidth = mContext.getResources().getDimensionPixelSize(R.dimen.player_view_width);
-		//ダイアログビルダー
-		final AlertDialog.Builder mBuilder = new AlertDialog.Builder(mContext);
+		//MainViewの生成
+		LayoutInflater inflater = LayoutInflater.from( mContext );
+		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, null);
+		
+		//WindowManager~の起動にする．
+		final WindowManager mWindowManager = setWindowManager(mContext, mView);
 		
 		//Titleの設定
-		mBuilder.setTitle(R.string.create_playlist_title);
-		
+		final TextView titleView = (TextView)mView.findViewById(R.id.textView_dialog_title);
+		titleView.setText(R.string.create_playlist_title);
+
 		//プレイリスト名を入力するEditTextを生成
 		final EditText mEditText = new EditText(mContext);
 		mEditText.setHint(R.string.create_playlist_text_hint);
 		
+		DisplayUtils.showInputMethodEditor(mContext, mView);
+		
 		//Viewをセットする．
-		mBuilder.setView(mEditText);
+		FrameLayout contentLayout = (FrameLayout)mView.findViewById(R.id.frameLayout_dialog);
+		contentLayout.addView(mEditText);
 		
 		//DialogのOKボタンを押したときの設定
-		mBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+		final Button positiveButton = (Button)mView.findViewById(R.id.button_dialog_positive);
+		positiveButton.setText(R.string.ok);
+		positiveButton.setOnClickListener(new OnClickListener(){
 			
 			/**
 			 * 新しいプレイリストを作成する．
 			 */
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
+			public void onClick(View view) {
 				String title = mEditText.getText().toString();
 				//文字が入力されていた時
 				if(title != null && title.length() > 0){
@@ -224,29 +264,26 @@ public class DialogUtils {
 					//Musicをセット
 					newPlayList.setMusics(musics);
 					mPlayLists.add(newPlayList);
+					//Viewの消去
+					removeForWindowManager(mWindowManager,mView);
+					DisplayUtils.hideInputMethodEditor(view.getContext(), mView);
 				}
 			}
 		});
 		
 		//DialogのCancelボタンを押したときの動作
-		mBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+		final Button negativeButton = (Button)mView.findViewById(R.id.button_dialog_negative);
+		negativeButton.setText(R.string.cancel);
+		negativeButton.setOnClickListener(new OnClickListener(){
 			
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
+			public void onClick(View view) {
 				// Dialogを閉じる．
-				dialog.dismiss();
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
+				DisplayUtils.hideInputMethodEditor(view.getContext(), mView);
 			}
 		});
-		
-		//Dialogの生成
-		final AlertDialog mDialog = mBuilder.create();
-		
-		//Dialogの大きさ，位置を指定
-		mDialog.getWindow().getAttributes().width = dialogWidth;
-		mDialog.getWindow().getAttributes().gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
-		
-		//Dialogの表示
-		mDialog.show();
 	}
 	
 }

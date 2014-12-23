@@ -492,7 +492,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		
 		if(index == mQueue.getCursor())
 			mQueue.setCursor(newIndex);
-		if(newIndex == mQueue.getCursor())
+		else if(newIndex == mQueue.getCursor())
 			mQueue.setCursor(index);
 		
 	}
@@ -505,7 +505,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	public void downIndexOfQueue(Music item) {
 		ArrayList<Music> musics = mQueue.getQueueMusics();
 		int index = musics.indexOf(item);
-		int newIndex = Math.max(0, index + 1);
+		int newIndex = Math.min(musics.size()-1, index + 1);
 		
 		if(index == -1) return;
 		
@@ -514,7 +514,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		
 		if(index == mQueue.getCursor())
 			mQueue.setCursor(newIndex);
-		if(newIndex == mQueue.getCursor())
+		else if(newIndex == mQueue.getCursor())
 			mQueue.setCursor(index);
 	} 
 

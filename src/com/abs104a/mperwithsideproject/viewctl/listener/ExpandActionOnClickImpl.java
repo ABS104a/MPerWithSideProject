@@ -5,12 +5,10 @@ import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.adapter.PlayListForExpandableListAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.TextView;
 
 /**
  * ListView用のItemがタップされた時にExpandメニューを表示するためのImplリスナ
@@ -32,6 +30,10 @@ public final class ExpandActionOnClickImpl implements OnClickListener, OnLongCli
 	 */
 	@Override
 	public void onClick(View view) {
+		//Viewのタイトルで真のItemかどうか判断する．
+		TextView textView = (TextView)((View)view.getParent()).findViewById(R.id.textView_album_title);
+		if(textView == null || !textView.getText().toString().equals(item.getTitle()))
+			return;
 		if(item.isExpandView()){
 			item.setExpandView(false);
 		}else{
