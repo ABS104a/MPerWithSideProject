@@ -6,9 +6,11 @@ import java.util.Date;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.viewctl.listener.DeleteOnClickImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.ExpandActionOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.MusicOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayListAddOnClickImpl;
-import com.abs104a.mperwithsideproject.viewctl.listener.PlayListDeleteOnClickImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.UpDownButtonOnClickImpl;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -23,10 +25,14 @@ import android.text.TextUtils;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 /**
@@ -104,6 +110,7 @@ public class DisplayUtils {
 			Context context,
 			boolean isQueue,
 			View rootView,
+			Object adapter,
 			MusicPlayerWithQueue mpwpl){
 		ViewHolder holder;
 		if(convertView == null){
@@ -157,7 +164,7 @@ public class DisplayUtils {
 			}
 			//ボタンを表示するかどうかの設定
 			if(isQueue){
-				PlayListDeleteOnClickImpl plimpl = new PlayListDeleteOnClickImpl(context,rootView, item, mpwpl);
+				ExpandActionOnClickImpl plimpl = new ExpandActionOnClickImpl(adapter, item);
 				holder.addButton.setOnClickListener(plimpl);
 				holder.addButton.setOnLongClickListener(plimpl);
 			}
@@ -171,6 +178,32 @@ public class DisplayUtils {
 			//ExpandViewがすでに展開されている場合は消去する．
 			if(!item.isExpandView() && holder.framelayout.getChildCount() > 0)
 				holder.framelayout.removeAllViews();
+			else if(item.isExpandView() && holder.framelayout.getChildCount() == 0){
+				//ExpandViewの生成
+				final LayoutInflater layoutInflater = LayoutInflater.from(context);
+				final ViewGroup expandView = (ViewGroup)layoutInflater.inflate(R.layout.expand_album_item, null);
+
+				//Viewを追加する．
+				Animation showAnimation = 
+						AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+				holder.framelayout.addView(expandView);
+				holder.framelayout.startAnimation(showAnimation);
+
+				//TODO ExpandViewの動作を登録する．
+				
+				//消去ボタン
+				ImageButton deleteButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_delete);
+				deleteButton.setOnClickListener(new DeleteOnClickImpl(context, rootView, item, mpwpl));
+				
+				//上へのボタン
+				ImageButton upButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_up);
+				upButton.setOnClickListener(new UpDownButtonOnClickImpl(context, item, true, false, adapter));
+				
+				//下へのボタン 
+				ImageButton downButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_down);
+				downButton.setOnClickListener(new UpDownButtonOnClickImpl(context, item, false, true, adapter));
+				
+			}
 			
 			Music currentMusic = mpwpl.getNowPlayingMusic();
 			if(currentMusic != null && item.equals(currentMusic)){

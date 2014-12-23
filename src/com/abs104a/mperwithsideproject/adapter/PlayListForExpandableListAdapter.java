@@ -72,7 +72,7 @@ public final class PlayListForExpandableListAdapter extends
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 		Music item = playLists.get(groupPosition).getMusics()[childPosition];
-		return DisplayUtils.getChildView(convertView, item, mContext, false, rootView, mpwpl);
+		return DisplayUtils.getChildView(convertView, item, mContext, false, rootView,this, mpwpl);
 	}
 
 	/**

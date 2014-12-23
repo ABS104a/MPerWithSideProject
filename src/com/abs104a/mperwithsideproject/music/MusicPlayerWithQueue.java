@@ -296,6 +296,15 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	}
 	
 	/**
+	 * Queue内のMusicインスタンスの位置を取得する
+	 * @param music
+	 * @return
+	 */
+	public final int indexOfQueue(Music music){
+		return mQueue.getQueueMusics().indexOf(music);
+	}
+	
+	/**
 	 * 次の曲へ移動する
 	 * @return 次の曲のカーソル
 	 * @throws IOException 
@@ -464,6 +473,49 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	public void setEqualizerItem(EqualizerItem[] mEqualizerItem) {
 		mQueue.setEqualizerItem(mEqualizerItem);
 		writeQueue();
+	}
+
+	/**
+	 * Queueの中でItemを一つ前に持ってくる
+	 * Indexが1つ減る．
+	 * @param item
+	 */
+	public void upIndexOfQueue(Music item) {
+		ArrayList<Music> musics = mQueue.getQueueMusics();
+		int index = musics.indexOf(item);
+		int newIndex = Math.max(0, index - 1);
+		
+		if(index == -1) return;
+		
+		musics.remove(index);
+		musics.add(newIndex,item);
+		
+		if(index == mQueue.getCursor())
+			mQueue.setCursor(newIndex);
+		if(newIndex == mQueue.getCursor())
+			mQueue.setCursor(index);
+		
+	}
+
+	/**
+	 * Queueの中でItemを一つ後に持ってくる
+	 * Indexが1つ増える．
+	 * @param item
+	 */
+	public void downIndexOfQueue(Music item) {
+		ArrayList<Music> musics = mQueue.getQueueMusics();
+		int index = musics.indexOf(item);
+		int newIndex = Math.max(0, index + 1);
+		
+		if(index == -1) return;
+		
+		musics.remove(index);
+		musics.add(newIndex,item);
+		
+		if(index == mQueue.getCursor())
+			mQueue.setCursor(newIndex);
+		if(newIndex == mQueue.getCursor())
+			mQueue.setCursor(index);
 	} 
 
 }

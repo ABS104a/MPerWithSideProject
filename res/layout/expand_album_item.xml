@@ -5,6 +5,12 @@
     android:orientation="horizontal" >
 
     <ImageButton
+        android:id="@+id/imageButton_expand_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/ic_input_add" />
+
+    <ImageButton
         android:id="@+id/imageButton_expand_down"
         android:layout_width="@dimen/expand_item_size"
         android:layout_height="@dimen/expand_item_size"

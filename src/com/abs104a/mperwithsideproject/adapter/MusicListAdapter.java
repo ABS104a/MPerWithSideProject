@@ -9,6 +9,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 
 /**
  * アルバムのリスト管理をするAdapter
@@ -23,6 +24,8 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 	private final View rootView;
 	//プレイリスト追加ボタンを消去ボタンにするかどうか
 	private boolean isDelete = false;
+	
+	private ListAdapter adapter = this;
 
 	public MusicListAdapter(
 			Context context,
@@ -60,7 +63,7 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final Music item = getItem(position);
 		return DisplayUtils
-				.getChildView(convertView, item, getContext(), isDelete, rootView, mpwpl);
+				.getChildView(convertView, item, getContext(), isDelete, rootView, adapter, mpwpl);
 	}
 	
 
