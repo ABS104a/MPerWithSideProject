@@ -14,10 +14,6 @@
         android:gravity="center_vertical"
         android:src="@android:drawable/ic_input_add" />
 
-    <View
-        android:layout_width="1dp"
-        android:layout_height="@dimen/player_view_height" />"
-
     <!-- ここにMusicViewを突っ込む -->
 
 </LinearLayout>

@@ -71,7 +71,7 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 		case MotionEvent.ACTION_DOWN:	//画面を押した時
 			downPos  = screenWidth - event.getRawX();
 		case MotionEvent.ACTION_MOVE:	//画面上を動いている時
-			if(((LinearLayout)rootView).getChildCount() == 2){
+			if(((LinearLayout)rootView).getChildCount() == 1){
 				//MusicPlayerViewの作成
 				MusicPlayerViewController.createPlayerView(mService, rootView);
 			}else{

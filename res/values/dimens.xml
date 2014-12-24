@@ -25,7 +25,7 @@
     
     <dimen name="main_view_handle_size">40dp</dimen>
     
-    <dimen name="listview_divider">2dp</dimen>
+    <dimen name="listview_divider">3dp</dimen>
     
     <!-- メイン画面プレイヤーのマージン -->
     <dimen name="music_player_margins">2dp</dimen>

@@ -44,7 +44,7 @@ public class DialogUtils {
 		
 		// 重ね合わせするViewの設定を行う
 		LayoutParams params = new WindowManager.LayoutParams(
-				WindowManager.LayoutParams.WRAP_CONTENT,
+				mContext.getResources().getDimensionPixelSize(R.dimen.dialog_view_width),
 				WindowManager.LayoutParams.WRAP_CONTENT,
 				WindowManager.LayoutParams.TYPE_TOAST,
 				//WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | 
@@ -53,7 +53,7 @@ public class DialogUtils {
 				PixelFormat.TRANSLUCENT);
 		
 		params.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
-		params.width = mContext.getResources().getDimensionPixelSize(R.dimen.dialog_view_width);
+		params.x = mContext.getResources().getDimensionPixelSize(R.dimen.dialog_view_margin);
 		
 		LinearLayout layout = (LinearLayout) setView.findViewById(R.id.linearLayout_dialog);
 		Animation anim = AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left);
@@ -153,6 +153,11 @@ public class DialogUtils {
 		}
 		//Adapterへのセット
 		mListView.setAdapter(adapter);
+		
+		//dividerの高さを設定
+		mListView.setDividerHeight(
+				mContext.getResources()
+				.getDimensionPixelSize(R.dimen.listview_divider));
 		
 		//ListViewのItemを選択したときの動作を設定する．
 		mListView.setOnItemClickListener(new OnItemClickListener(){

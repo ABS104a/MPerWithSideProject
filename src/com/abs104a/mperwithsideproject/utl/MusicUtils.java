@@ -303,7 +303,6 @@ public class MusicUtils {
 		//タイトルView
 		final TextView title = (TextView)mView.findViewById(R.id.textView_now_music_name);
 		title.setText(music.getTitle());
-		title.setText(music.getAlbum());
 		title.setEllipsize(TextUtils.TruncateAt.MARQUEE);
 		title.setSingleLine(true);
 		title.setMarqueeRepeatLimit(5);
