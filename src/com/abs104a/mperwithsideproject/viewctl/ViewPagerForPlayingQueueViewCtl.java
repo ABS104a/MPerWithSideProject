@@ -21,8 +21,7 @@ public class ViewPagerForPlayingQueueViewCtl {
 		//Viewの生成 Listview
 		final ListView mListView = new ListView(mService);
 		ArrayList<Music> items = mpwpl.getQueue();
-		MusicListAdapter adapter = new MusicListAdapter(mService,rootView,items, mpwpl);
-		adapter.setButtonForDelete(true);
+		MusicListAdapter adapter = new MusicListAdapter(mService,rootView,items, MusicListAdapter.QUEUE, mpwpl);
 		mListView.setAdapter(adapter);
 		mListView.setDividerHeight(
 				mService

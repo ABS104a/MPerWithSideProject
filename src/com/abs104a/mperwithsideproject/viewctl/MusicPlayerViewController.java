@@ -277,7 +277,7 @@ public final class MusicPlayerViewController {
 		params.width = mWidth;
 		//Layoutの変更
 		playerView.setLayoutParams(params);
-		playerView.setVisibility(View.INVISIBLE);
+		playerView.setVisibility(View.GONE);
 		
 		final Runnable mRunnable = new Runnable(){
 			
@@ -327,11 +327,8 @@ public final class MusicPlayerViewController {
 			//MusicPlayerViewの作成
 			playerView = createView(mService,rootView);
 		}
-		Animation closeAnimation = 
-				AnimationUtils
-				.loadAnimation(mService, android.R.anim.fade_out);
 		//Animationの設定
-		playerView.startAnimation(closeAnimation);
+		playerView.setVisibility(View.GONE);
 		
 		final Runnable mRunnable = new Runnable(){
 			

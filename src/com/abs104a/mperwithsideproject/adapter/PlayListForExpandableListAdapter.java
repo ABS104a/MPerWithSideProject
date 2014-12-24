@@ -6,7 +6,6 @@ import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
-import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.GetJacketImageTask;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import android.content.Context;
@@ -35,6 +34,7 @@ public final class PlayListForExpandableListAdapter extends
 	private final MusicPlayerWithQueue mpwpl;
 	//RootView
 	private final View rootView;
+	private final int column;
 	
 	/**
 	 * インスタンスの生成
@@ -44,11 +44,12 @@ public final class PlayListForExpandableListAdapter extends
 	 * @param mpwpl アプリケーションの音楽コントロールインスタンス
 	 */
 	public PlayListForExpandableListAdapter(Context mContext,ArrayList<PlayList> playLists
-			,View rootView,MusicPlayerWithQueue mpwpl){
+			,View rootView,MusicPlayerWithQueue mpwpl,int column){
 		this.mContext = mContext;
 		this.playLists = playLists;
 		this.mpwpl = mpwpl;
 		this.rootView = rootView;
+		this.column = column;
 	}
 
 	/**
@@ -70,8 +71,9 @@ public final class PlayListForExpandableListAdapter extends
 	@Override
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
+		//TODO 1番目はQueueに追加，2番目はQueueにセット，最後はプレイリストの消去
 		Music item = playLists.get(groupPosition).getMusics()[childPosition];
-		return DisplayUtils.getChildView(convertView, item, mContext, false, rootView,this, mpwpl);
+		return MusicListAdapter.getChildView(convertView, item, mContext, column, rootView,this, mpwpl);
 	}
 
 	/**

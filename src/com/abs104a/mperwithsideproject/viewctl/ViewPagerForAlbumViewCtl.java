@@ -2,6 +2,7 @@ package com.abs104a.mperwithsideproject.viewctl;
 
 import java.util.ArrayList;
 
+import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.adapter.PlayListForExpandableListAdapter;
 import com.abs104a.mperwithsideproject.music.Album;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
@@ -41,7 +42,7 @@ public final class ViewPagerForAlbumViewCtl {
 			mlist.setMusics(album.getMusics());
 			pList.add(mlist);
 		}
-		mListView.setAdapter(new PlayListForExpandableListAdapter(mService, pList, rootView, mpwpl));
+		mListView.setAdapter(new PlayListForExpandableListAdapter(mService, pList, rootView, mpwpl,MusicListAdapter.ALBUM));
 		mListView.setOnChildClickListener(new PlayListOnChildClickImpl(mService,mpwpl));
 
 		return mListView;

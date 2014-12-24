@@ -25,13 +25,14 @@ import android.widget.Toast;
 public final class PlayListAddOnClickImpl implements OnClickListener, OnLongClickListener {
 
 	//アプリケーションのコンテキスト
-	private Context mContext;
+	private final Context mContext;
 	//rootView(MusicPlayerView)
-	private View rootView;
+	private final View rootView;
 	//music of item
-	private Music item;
+	private final Music item;
 	//music controller class
-	private MusicPlayerWithQueue mpwpl;
+	private final MusicPlayerWithQueue mpwpl;
+	private final int column;
 
 	/**
 	 * インスタンスの生成
@@ -40,10 +41,11 @@ public final class PlayListAddOnClickImpl implements OnClickListener, OnLongClic
 	 * @param item 
 	 * @param rootView 
 	 */
-	public PlayListAddOnClickImpl(Context mContext, View rootView, Music item, MusicPlayerWithQueue mpwpl) {
+	public PlayListAddOnClickImpl(Context mContext, View rootView, Music item, MusicPlayerWithQueue mpwpl,int column) {
 		this.mContext = mContext;
 		this.rootView = rootView;
 		this.item = item;
+		this.column = column;
 		this.mpwpl = mpwpl;
 	}
 
@@ -54,7 +56,7 @@ public final class PlayListAddOnClickImpl implements OnClickListener, OnLongClic
 	@Override
 	public void onClick(View v) {
 		
-		DialogUtils.createIfSelectPlayListDialog(mContext, item, true);
+		DialogUtils.createIfSelectPlayListDialog(mContext, item, column);
 		
 		/*
 		//Queueへの追加を行う

@@ -3,6 +3,7 @@ package com.abs104a.mperwithsideproject.utl;
 import java.util.ArrayList;
 
 import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
@@ -96,9 +97,9 @@ public class DialogUtils {
 	 * （2番目の項目はPlayListを作成する．）
 	 * @param mContext
 	 * @param music 対象とするMusicInstance
-	 * @param isQueue キューへ追加するItemを設定するかどうか
+	 * @param column  キューへ追加するItemを設定するかどうか
 	 */
-	public final static void createIfSelectPlayListDialog(Context mContext,final Music music,final boolean isQueue){
+	public final static void createIfSelectPlayListDialog(Context mContext,final Music music,final int column ){
 			
 		//MainViewの生成
 		LayoutInflater inflater = LayoutInflater.from( mContext );
@@ -138,7 +139,7 @@ public class DialogUtils {
 		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1);
 		
 		//Queueへの追加をするItemの追加
-		if(isQueue)
+		if(column != MusicListAdapter.QUEUE)
 			adapter.add(mContext.getString(R.string.add_queue));
 		//PlayListを作成するItemの追加
 		adapter.add(mContext.getString(R.string.create_playlist));
@@ -169,7 +170,7 @@ public class DialogUtils {
 				removeForWindowManager(mWindowManager,mView);
 				
 				//Queueへの追加Itemを追加しない場合はPositionを1つ増やす
-				if(!isQueue)position += 1;
+				if(column == MusicListAdapter.QUEUE )position += 1;
 				
 				//MusicControllerInstanceを取得
 				final MusicPlayerWithQueue mpwpl 
@@ -240,6 +241,7 @@ public class DialogUtils {
 		//プレイリスト名を入力するEditTextを生成
 		final EditText mEditText = new EditText(mContext);
 		mEditText.setHint(R.string.create_playlist_text_hint);
+		mEditText.requestFocus();
 		
 		DisplayUtils.showInputMethodEditor(mContext, mView);
 		
@@ -269,6 +271,12 @@ public class DialogUtils {
 					//Musicをセット
 					newPlayList.setMusics(musics);
 					mPlayLists.add(newPlayList);
+					FileUtils.writeSerializablePlayList(view.getContext(), mPlayLists);
+					Toast.makeText(
+							view.getContext(), 
+							"PlayList \"" + newPlayList.getAlbum() + "\" created!", 
+							Toast.LENGTH_SHORT)
+							.show();
 					//Viewの消去
 					removeForWindowManager(mWindowManager,mView);
 					DisplayUtils.hideInputMethodEditor(view.getContext(), mView);

@@ -1,4 +1,4 @@
-package com.abs104a.mperwithsideproject;
+package com.abs104a.mperwithsideproject.music;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -3,6 +3,7 @@ package com.abs104a.mperwithsideproject.viewctl;
 import java.util.ArrayList;
 
 import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.adapter.PlayListForExpandableListAdapter;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
@@ -21,6 +22,10 @@ import android.widget.TextView;
  */
 public final class ViewPagerForPlayListViewCtl {
 	
+	public static final String TAG = "ViewPagerForPlayListViewCtl";
+	
+	public static ExpandableListView mListView = null;
+	
 	/**
 	 * プレイリストViewを生成する
 	 * @param mServie	親となるサービスのコンテキスト
@@ -28,16 +33,26 @@ public final class ViewPagerForPlayListViewCtl {
 	 */
 	public final static ExpandableListView createView(Service mService,View rootView ,MusicPlayerWithQueue mpwpl){
 		//TODO　ルーチンの実装
-		ExpandableListView mListView = new ExpandableListView(mService);
-		//TODO ここでPlayListを読み込む
+		mListView = new ExpandableListView(mService);
+		//ここでPlayListを読み込む
 		ArrayList<PlayList> pList = FileUtils.readSerializablePlayList(mService);
-		mListView.setAdapter(new PlayListForExpandableListAdapter(mService, pList, rootView, mpwpl));
+		android.util.Log.v(TAG , "ListNum : " + (pList != null ? pList.size() : "null"));
+		mListView.setAdapter(new PlayListForExpandableListAdapter(mService, pList, rootView, mpwpl,MusicListAdapter.PLAYLIST));
 		mListView.setOnChildClickListener(new PlayListOnChildClickImpl(mService,mpwpl));
 		TextView textView = new TextView(mService);
 		textView.setText(R.string.row_empty);
 		mListView.setEmptyView(textView);
 
 		return mListView;
+	}
+	
+	public static void updateExpandableListViewItems(Service mService,View rootView ,MusicPlayerWithQueue mpwpl){
+		//ここでPlayListを読み込む
+		if(mListView == null)return;
+		ArrayList<PlayList> pList = FileUtils.readSerializablePlayList(mService);
+		android.util.Log.v(TAG + " Update" , "ListNum : " + (pList != null ? pList.size() : "null"));
+		mListView.setAdapter(new PlayListForExpandableListAdapter(mService, pList, rootView, mpwpl,MusicListAdapter.PLAYLIST));
+		mListView.setOnChildClickListener(new PlayListOnChildClickImpl(mService,mpwpl));
 	}
 	
 }

@@ -58,7 +58,7 @@ public final class FileUtils {
 	public final static boolean writeSerializablePlayList(Context mContext,ArrayList<PlayList> data){
 		return writeDataObject(
 				mContext, 
-				mContext.getString(R.string.queue_serializable), 
+				mContext.getString(R.string.playlist_serializable), 
 				data.toArray(new PlayList[data.size()])
 				);
 	}
