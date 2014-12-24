@@ -20,3 +20,4 @@
 - プレイリストの作成と永続化などの動作設定
 - タップすると再生ボタン（Queueの上下移動ボタンなどを追加）
 - PlayList追加部分の実装
+- PlayList 1つ目のItem→Add to Queue　，2つ目のItem→Set to Queue.
