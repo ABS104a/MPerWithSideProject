@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
+import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.RemoteControlClient;
@@ -48,6 +49,8 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	//全曲ループ
 	public final static int ALL_LOOP = 2;
 	
+	public final static String TAG = "MusicPlayerWithQueue";
+	
 	/**===================================
 	 * 内部変数
 	 ===================================*/
@@ -55,7 +58,10 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	private MusicQueue mQueue = null;
 	//アプリケーションのコンテキスト
 	private Context mContext;
+	//equalizerのインスタンス
 	private Equalizer mEqualizer;
+	//ロック画面通知用のインスタンス
+	private RemoteControlClient mRemoteControlClient = null;
 	
 	
 	/**===================================
@@ -152,7 +158,13 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 			setSource(mQueue.getCursorMusic().getPass());
 		}
 		initEqualizer(mMediaPlayer);
-		setLockScreenNotifition(mMediaPlayer);
+		initLockScreenNotifition(mMediaPlayer);
+		if(mRemoteControlClient != null){
+			if(getStatus() == PLAYING)
+				mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
+			else if (getStatus() == PAUSEING || getStatus() == STOPPING)
+				mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
+		}
 		return super.playStartAndPause();
 	}	
 	
@@ -535,7 +547,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * @param mPlayer
 	 * @param mContext
 	 */
-	public final void setLockScreenNotifition(MediaPlayer mMediaPlayer){
+	public final void initLockScreenNotifition(MediaPlayer mMediaPlayer){
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mContext);
 		Music item = mpwpl.getNowPlayingMusic();
 		if(mpwpl.getNowPlayingMusic() == null)
@@ -544,13 +556,12 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		AudioManager mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 
 		// setWakeModeを以下のように呼び出す
-		mMediaPlayer.setWakeMode(mContext.getApplicationContext(),
-		    PowerManager.PARTIAL_WAKE_LOCK);
+		mMediaPlayer.setWakeMode(mContext,PowerManager.PARTIAL_WAKE_LOCK);
 		 
 		// Intent.ACTION_MEDIA_BUTTONのブロードキャストを受け取る
 		// BroadcastReceiverでComponentNameを生成
 		ComponentName mMediaButtonReceiverComponent =
-		    new ComponentName(mContext, MusicPlayerReceiver.class); // ※
+		    new ComponentName(mContext.getPackageName(), MusicPlayerReceiver.class.getName()); // ※
 		// AudioManagerにComponentNameを登録
 		mAudioManager.registerMediaButtonEventReceiver(mMediaButtonReceiverComponent);
 		 
@@ -559,10 +570,19 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		// ComponentNameをIntentに設定
 		intent.setComponent(mMediaButtonReceiverComponent);
 		// RemoteControlClientを生成
-		RemoteControlClient mRemoteControlClient = new RemoteControlClient(
-		    PendingIntent.getBroadcast(mContext, 0 , intent, 0));
+		mRemoteControlClient = new RemoteControlClient(
+		    PendingIntent.getBroadcast(mContext.getApplicationContext(), 0 , intent, 0));
 		// AudioManagerにRemoteControlClientを登録
 		mAudioManager.registerRemoteControlClient(mRemoteControlClient);
+		mAudioManager.requestAudioFocus(new OnAudioFocusChangeListener(){
+
+			@Override
+			public void onAudioFocusChange(int focusChange){
+				android.util.Log.d(TAG,"Focus changed: " + focusChange);
+			}
+		},
+		AudioManager.STREAM_MUSIC,
+		AudioManager.AUDIOFOCUS_GAIN);
 		 
 		// リモコンの状態を設定
 		mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
@@ -570,8 +590,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		mRemoteControlClient.setTransportControlFlags(
 		    RemoteControlClient.FLAG_KEY_MEDIA_PLAY
 		    | RemoteControlClient.FLAG_KEY_MEDIA_PAUSE
-		    | RemoteControlClient.FLAG_KEY_MEDIA_NEXT
-		    | RemoteControlClient.FLAG_KEY_MEDIA_STOP);
+		    | RemoteControlClient.FLAG_KEY_MEDIA_NEXT);
 		
 		Bitmap mArbumArt;
 		if(ImageCache.isCache(item.getAlbumUri().toString()))
@@ -586,6 +605,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		    .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, item.getTitle())
 		    .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, item.getDuration())
 		    .putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, mArbumArt).apply();
+		android.util.Log.v(TAG, "initLockScreenNotifition");
 	}
 
 }
