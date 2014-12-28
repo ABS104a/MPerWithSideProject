@@ -1,9 +1,11 @@
 package com.abs104a.mperwithsideproject;
 
+import com.abs104a.mperwithsideproject.music.MusicPlayerReceiver;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.viewctl.MainViewController;
 import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +15,11 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.RemoteViews;
 
 /**
  * メイン画面を表示するService
@@ -153,14 +155,35 @@ public class MainService extends Service{
 	    NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 	    
 	    builder.setContentTitle(context.getString(R.string.app_name));
-	    builder.setContentText("hogehoge");//
 	    builder.setSmallIcon(android.R.drawable.ic_media_play);
 	    
+	    //RemoteViewの動作を設定
+	    RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
+	    
+	    //再生ボタンのアクションを設定
+	    Intent playIntent = new Intent(context, MusicPlayerReceiver.class);
+	    playIntent.setAction("Play");
+	    PendingIntent playPi = PendingIntent.getBroadcast(context, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_play, playPi);
+	    
+	    //戻るボタンの動作を設定
+	    Intent previousIntent = new Intent(context, MusicPlayerReceiver.class);
+	    playIntent.setAction("Previous");
+	    PendingIntent previousPi = PendingIntent.getBroadcast(context, 0, previousIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_previous, previousPi);
+	    
+	    //次に進むボタンの動作を設定
+	    Intent nextIntent = new Intent(this, MusicPlayerReceiver.class);
+	    playIntent.setAction("Next");
+	    PendingIntent nextPi = PendingIntent.getBroadcast(context, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_next, nextPi);
+	    
+	    builder.setContent(contentView);
 	    builder.setWhen(0);
 	    builder.setOngoing(true);
 	    builder.setAutoCancel(false);
 	    
-	    // ちなみにServiceを継承したクラス内
+	    // Serviceを継承したクラス内
 	    startForeground(R.drawable.ic_launcher, builder.build());
 	}
 	

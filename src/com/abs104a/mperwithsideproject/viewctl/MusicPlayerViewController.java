@@ -4,6 +4,7 @@ package com.abs104a.mperwithsideproject.viewctl;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.settings.SettingsActivity;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.BackButtonOnClickImpl;
@@ -17,11 +18,13 @@ import com.abs104a.mperwithsideproject.viewctl.listener.ViewPagerOnPagerChangeIm
 
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
@@ -139,7 +142,7 @@ public final class MusicPlayerViewController {
 	 * @param mView
 	 * @param _mpwpl 
 	 */
-	private static void initButtonOfView(Service mService,View mView, MusicPlayerWithQueue _mpwpl){
+	private static void initButtonOfView(final Service mService,View mView, MusicPlayerWithQueue _mpwpl){
 		//Viewのボタンに動作をつける
 		//再生ボタンの設定
 		ImageButton playButton = (ImageButton)mView.findViewById(R.id.button_play);
@@ -174,7 +177,17 @@ public final class MusicPlayerViewController {
 		ImageButton showListButton = (ImageButton)mView.findViewById(R.id.button_action_show_list);
 		//TODO リスト表示ボタンの設定を登録する
 		
-		ImageButton showSettigsButton = (ImageButton)mView.findViewById(R.id.button_action_show_settings);
+		//設定ボタンを押した時の動作
+		ImageButton showSettingsButton = (ImageButton)mView.findViewById(R.id.button_action_show_settings);
+		showSettingsButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mService,SettingsActivity.class);
+				mService.startActivity(intent);
+			}
+			
+		});
 		
 	}
 	
@@ -267,8 +280,8 @@ public final class MusicPlayerViewController {
 		final int mWidth;
 		if(playerView == null){
 			//MusicPlayerViewの作成
+			mWidth = openViewWidth;
 			playerView = createView(mService,rootView);
-			mWidth = 0;
 		}else{
 			mWidth = playerView.getWidth();
 		}
@@ -277,7 +290,7 @@ public final class MusicPlayerViewController {
 		params.width = mWidth;
 		//Layoutの変更
 		playerView.setLayoutParams(params);
-		playerView.setVisibility(View.GONE);
+		playerView.setVisibility(View.INVISIBLE);
 		
 		final Runnable mRunnable = new Runnable(){
 			
@@ -296,7 +309,7 @@ public final class MusicPlayerViewController {
 				//Layout設定
 				final LayoutParams params = (LayoutParams) playerView.getLayoutParams();
 
-				width += 50;
+				width += 10;
 				if(musicPlayerWidth > width){
 					params.width = Math.min(musicPlayerWidth, width);
 					//Layoutの変更
@@ -328,7 +341,7 @@ public final class MusicPlayerViewController {
 			playerView = createView(mService,rootView);
 		}
 		//Animationの設定
-		playerView.setVisibility(View.GONE);
+		playerView.setVisibility(View.INVISIBLE);
 		
 		final Runnable mRunnable = new Runnable(){
 			
@@ -340,7 +353,7 @@ public final class MusicPlayerViewController {
 				//Layout設定
 				final LayoutParams params = (LayoutParams) playerView.getLayoutParams();
 				//android.util.Log.v("hogebefore", width + " / " + musicPlayerWidth);
-				width -= 50;
+				width -= 10;
 				if(width > 0){
 					//android.util.Log.v("hoge", width + "");
 					params.width = Math.max(0, width);
