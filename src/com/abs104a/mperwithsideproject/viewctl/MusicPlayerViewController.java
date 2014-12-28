@@ -45,6 +45,8 @@ public final class MusicPlayerViewController {
 	//PlayerViewのID
 	public final static int PLAYER_VIEW_ID = 12;
 	
+	public final static int ANIMATE_OPEN = 35;
+	
 	//前回終了時の状態(Viewの幅)
 	private static int openViewWidth = 0;
 	
@@ -309,7 +311,7 @@ public final class MusicPlayerViewController {
 				//Layout設定
 				final LayoutParams params = (LayoutParams) playerView.getLayoutParams();
 
-				width += 10;
+				width += ANIMATE_OPEN;
 				if(musicPlayerWidth > width){
 					params.width = Math.min(musicPlayerWidth, width);
 					//Layoutの変更
@@ -353,7 +355,7 @@ public final class MusicPlayerViewController {
 				//Layout設定
 				final LayoutParams params = (LayoutParams) playerView.getLayoutParams();
 				//android.util.Log.v("hogebefore", width + " / " + musicPlayerWidth);
-				width -= 10;
+				width -= ANIMATE_OPEN;
 				if(width > 0){
 					//android.util.Log.v("hoge", width + "");
 					params.width = Math.max(0, width);

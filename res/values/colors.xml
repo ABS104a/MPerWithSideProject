@@ -8,4 +8,26 @@
     <color name="musicplayer_controller_bg">#99292929</color>
     
     <color name="listview_current_row">#69292929</color>
+    
+    <color name="Solitude">#ECEEF1</color>
+    <color name="Denim">#0E7AC4</color>
+    <color name="Summer_Sky">#40AAEF</color>
+    <color name="Black_Rock">#363947</color>
+    <color name="Silver_Tree">#58BE89</color>
+    <color name="My_Sin">#FBA848</color>
+    <color name="Light_Coral">#F27398</color>
+    <color name="Very_Light_Grey">#CCCCCC</color>
+    
+    <color name="white_smoke">#F5F5F5</color>
+    <color name="downy">#79D1B0</color>
+    <color name="golden_Tainoi">#FDC44F</color>
+    <color name="summer_sky">#33BFDB</color>
+    <color name="puerto_rico">#5EBABA</color>
+    <color name="turquoise">#44DEDE</color>
+    <color name="atlantis">#8DCF3F</color>
+    <color name="polo_blue">#93B8CA</color>
+    <color name="light_coral">#F58E7E</color>
+    <color name="empress">#737373</color>
+    <color name="eclipse">#383838</color>
+    
 </resources>

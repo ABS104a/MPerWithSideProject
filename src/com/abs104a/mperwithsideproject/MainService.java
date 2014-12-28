@@ -105,7 +105,7 @@ public class MainService extends Service{
 		}
 		
 		//通知の生成
-		putNotification(mService);
+		Notifications.putNotification(mService);
 		
 		//Intentfilterの登録
 		broadcastReceiver = new MyBroadCastReceiver(mService, rootView);
@@ -136,7 +136,7 @@ public class MainService extends Service{
 		mService.unregisterReceiver(broadcastReceiver); 
 		
 		//通知の消去
-		removeNotification();
+		Notifications.removeNotification(mService);
 		
 		//キャッシュのClear
 		ImageCache.clearCache();
@@ -146,52 +146,6 @@ public class MainService extends Service{
 		super.onDestroy();
 	}
 	
-	/**
-	 * 通知バーへの通知を表示する．
-	 * @param context
-	 */
-	private void putNotification(Context context) {
-	    
-	    NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-	    
-	    builder.setContentTitle(context.getString(R.string.app_name));
-	    builder.setSmallIcon(android.R.drawable.ic_media_play);
-	    
-	    //RemoteViewの動作を設定
-	    RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification);
-	    
-	    //再生ボタンのアクションを設定
-	    Intent playIntent = new Intent(context, MusicPlayerReceiver.class);
-	    playIntent.setAction("Play");
-	    PendingIntent playPi = PendingIntent.getBroadcast(context, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_play, playPi);
-	    
-	    //戻るボタンの動作を設定
-	    Intent previousIntent = new Intent(context, MusicPlayerReceiver.class);
-	    playIntent.setAction("Previous");
-	    PendingIntent previousPi = PendingIntent.getBroadcast(context, 0, previousIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_previous, previousPi);
-	    
-	    //次に進むボタンの動作を設定
-	    Intent nextIntent = new Intent(this, MusicPlayerReceiver.class);
-	    playIntent.setAction("Next");
-	    PendingIntent nextPi = PendingIntent.getBroadcast(context, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_next, nextPi);
-	    
-	    builder.setContent(contentView);
-	    builder.setWhen(0);
-	    builder.setOngoing(true);
-	    builder.setAutoCancel(false);
-	    
-	    // Serviceを継承したクラス内
-	    startForeground(R.drawable.ic_launcher, builder.build());
-	}
-	
-	/**
-	 * 通知バーへの通知を消去する．
-	 */
-	private void removeNotification(){
-		stopForeground(true);
-	}
+
 	
 }

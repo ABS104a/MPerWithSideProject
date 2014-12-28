@@ -18,14 +18,14 @@ import android.widget.LinearLayout.LayoutParams;
  */
 public final class MainHandleOnTouchImpl implements OnTouchListener {
 
-	
-	
 	//サービスのコンテキスト
 	private final Service mService;
 	//画面幅
 	private final int screenWidth;
+	//Handleをタップした時の画面上でのX座標
 	private float downPos = 0;
 	
+	//Viewを消去するためのX閾値
 	private static final int WIDTH_TH = 20;
 
 	/**
