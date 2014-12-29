@@ -6,8 +6,10 @@
 
     <ImageView
         android:id="@+id/imageView_notification_jacket"
-        android:layout_width="@dimen/notification_item_row_jacket"
-        android:layout_height="@dimen/notification_item_row_jacket"
+        android:layout_width="@dimen/notification_item_height"
+        android:layout_height="@dimen/notification_item_height"
+        android:scaleType="centerCrop"
+        android:layout_marginRight="@dimen/notification_image_to_text_margin"
         android:src="@drawable/ic_launcher" />
 
     <LinearLayout
@@ -19,14 +21,23 @@
             android:id="@+id/textView_notification_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/notification_title_sp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:focusable="true"
             android:text="title"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge" >
+            
+            <requestFocus />
+        </TextView>
 
+        
         <TextView
             android:id="@+id/textView_notification_albumandartist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
+            android:textSize="@dimen/notification_album_sp"
             android:text="album and artist"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 

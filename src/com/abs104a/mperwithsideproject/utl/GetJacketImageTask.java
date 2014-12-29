@@ -58,7 +58,7 @@ public final class GetJacketImageTask extends AsyncTask<Void,Void,Bitmap>{
 		this.album = group.getAlbum();
 	}
 
-	public Bitmap resizeBitmapToDisplaySize(Bitmap src,float newSize){
+	public synchronized Bitmap resizeBitmapToDisplaySize(Bitmap src,float newSize){
         int srcWidth = src.getWidth(); // 元画像のwidth
         int srcHeight = src.getHeight(); // 元画像のheight
 
@@ -95,9 +95,6 @@ public final class GetJacketImageTask extends AsyncTask<Void,Void,Bitmap>{
 
 	@Override
 	protected Bitmap doInBackground(Void... params) {
-		//Uri albumArtUri = Uri.parse(
-		      //  "content://media/external/audio/albumart");
-		//Uri album1Uri = ContentUris.withAppendedId(albumArtUri, item.getAlbumId());
 		try{
 		    ContentResolver cr = context.getContentResolver();
 		    InputStream is = cr.openInputStream(uri);

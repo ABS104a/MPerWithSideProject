@@ -1,15 +1,17 @@
 package com.abs104a.mperwithsideproject;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerReceiver;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
-import com.abs104a.mperwithsideproject.utl.ImageCache;
+import com.abs104a.mperwithsideproject.utl.GetImageTask;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 
 /**
@@ -18,15 +20,38 @@ import com.abs104a.mperwithsideproject.utl.MusicUtils;
  *
  */
 public final class Notifications {
+	//サービスのコンテキスト
+	private static Service mService = null;
 	
+	public static final String PLAY = "action_play";
+	
+	public static final String PREVIOUS = "action_previous";
+	
+	public static final String NEXT = "action_next";
+	
+	/**
+	 * サービスのコンテキストを登録
+	 * @param service
+	 */
+	public static void setService(Service service){
+		mService = service;
+	}
+	
+	/**
+	 * セットするRemoteViews
+	 */
 	private static RemoteViews contentView = null;
 
 	/**
 	 * 通知バーへの通知を表示する．
 	 * @param mService
 	 */
-	public static final void putNotification(Service mService) {
+	public static final void putNotification() {
 	    
+		//サービスが存在しない時は何もしない・
+		if(mService == null)return;
+		
+		//通知の作成
 	    NotificationCompat.Builder builder = new NotificationCompat.Builder(mService);
 	    
 	    builder.setContentTitle(mService.getString(R.string.app_name));
@@ -34,22 +59,25 @@ public final class Notifications {
 	    
 	    //RemoteViewの動作を設定
 	    contentView = new RemoteViews(mService.getPackageName(), R.layout.notification);
+	    Intent mainIntent = new Intent(mService, MusicPlayerReceiver.class);
+	    PendingIntent mainPi = PendingIntent.getBroadcast(mService, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    contentView.setOnClickPendingIntent(R.layout.notification, mainPi);
 	    
 	    //再生ボタンのアクションを設定
 	    Intent playIntent = new Intent(mService, MusicPlayerReceiver.class);
-	    playIntent.setAction("Play");
+	    playIntent.setAction(PLAY);
 	    PendingIntent playPi = PendingIntent.getBroadcast(mService, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_play, playPi);
 	    
 	    //戻るボタンの動作を設定
 	    Intent previousIntent = new Intent(mService, MusicPlayerReceiver.class);
-	    playIntent.setAction("Previous");
+	    playIntent.setAction(PREVIOUS);
 	    PendingIntent previousPi = PendingIntent.getBroadcast(mService, 0, previousIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_previous, previousPi);
 	    
 	    //次に進むボタンの動作を設定
 	    Intent nextIntent = new Intent(mService, MusicPlayerReceiver.class);
-	    playIntent.setAction("Next");
+	    playIntent.setAction(NEXT);
 	    PendingIntent nextPi = PendingIntent.getBroadcast(mService, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_next, nextPi);
 	    
@@ -58,36 +86,51 @@ public final class Notifications {
 	    builder.setOngoing(true);
 	    builder.setAutoCancel(false);
 	    
-	    // Serviceを継承したクラス内
-	    mService.startForeground(R.drawable.ic_launcher, builder.build());
+	    Notification notification = builder.build();
+	    setDataOfRemoteViews(notification);
 	    
-	    setDataOfRemoteViews(mService);
+	    // Serviceを継承したクラス内
+	    mService.startForeground(R.drawable.ic_launcher,notification );
 	}
 	
-	public static final void setDataOfRemoteViews(Service mService){
+	/**
+	 * 通知バーへデータをセットする
+	 * @param notification
+	 */
+	private static final void setDataOfRemoteViews(final Notification notification){
 		//コントローラークラスの取得
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mService);
 		//RemoteViewsがnull　の時はなにもしない．
-		if(contentView == null || mpwpl.getNowPlayingMusic() == null)return;
+		if(notification == null || mpwpl.getNowPlayingMusic() == null)return;
+		final RemoteViews contentView = notification.contentView;
+		if(contentView == null)return;
 		
 		int currentState = mpwpl.getStatus();
-		Music currentMusic = mpwpl.getNowPlayingMusic();
+		final Music currentMusic = mpwpl.getNowPlayingMusic();
 		
-		if(ImageCache.isCache(currentMusic.getAlbumUri().toString())){
-			contentView.setBitmap(
-					R.id.imageView_notification_jacket,
-					null,
-					ImageCache.getImage(currentMusic.getAlbumUri().toString()));
-		}
+		new GetImageTask(mService,new GetImageTask.OnGetImageListener() {
+			
+			@Override
+			public void onGetImage(Bitmap image) {
+				contentView.setImageViewBitmap(
+						R.id.imageView_notification_jacket,
+						image);
+				// Serviceを継承したクラス内
+			    mService.startForeground(R.drawable.ic_launcher,notification );
+			}
+		}).execute(currentMusic.getAlbumUri());
+			
+		
 		contentView.setTextViewText(R.id.textView_notification_title, currentMusic.getTitle());
 		contentView.setTextViewText(
 				R.id.textView_notification_albumandartist,
 				currentMusic.getArtist() + " / " + currentMusic.getAlbum());	
 		if(currentState == MusicPlayerWithQueue.PLAYING){
 			//一時停止ボタンにする．
-			
+			contentView.setImageViewResource(R.id.imageButton_notification_play, android.R.drawable.ic_media_pause);
 		}else{
 			//再生ボタンにする．
+			contentView.setImageViewResource(R.id.imageButton_notification_play, android.R.drawable.ic_media_play);
 		}
 	}
 	
@@ -97,6 +140,7 @@ public final class Notifications {
 	public  static final void removeNotification(Service mService){
 		mService.stopForeground(true);
 		contentView = null;
+		mService = null;
 	}
 
 }

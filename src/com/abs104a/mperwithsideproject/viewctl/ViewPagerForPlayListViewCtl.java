@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 /**
  * PlayListのViewをコントロールするクラス
+ * TODO　空の場合にPlayListを作成するItemを作成する．
+ * TODO　作成したプレイリストの作成，曲の消去を行えるようにする．
  * @author Kouki-Mobile
  *
  */

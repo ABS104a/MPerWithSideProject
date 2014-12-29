@@ -54,6 +54,7 @@ public class MainService extends Service{
 	
 	// ブロードキャストリスナー  
 	private MyBroadCastReceiver broadcastReceiver;
+	private MusicPlayerReceiver musicPlayerReceiver;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -105,7 +106,8 @@ public class MainService extends Service{
 		}
 		
 		//通知の生成
-		Notifications.putNotification(mService);
+		Notifications.setService(mService);
+		Notifications.putNotification();
 		
 		//Intentfilterの登録
 		broadcastReceiver = new MyBroadCastReceiver(mService, rootView);
@@ -113,6 +115,11 @@ public class MainService extends Service{
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF)); 
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG)); 
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(MyBroadCastReceiver.VOLUME_CHANGE)); 
+		
+		musicPlayerReceiver = new MusicPlayerReceiver();
+		mService.registerReceiver(musicPlayerReceiver, new IntentFilter(Notifications.PLAY));
+		mService.registerReceiver(musicPlayerReceiver, new IntentFilter(Notifications.PREVIOUS));
+		mService.registerReceiver(musicPlayerReceiver, new IntentFilter(Notifications.NEXT));
 		
 		//開始ログ
 		Log.v("MainService","Service is Start!");
@@ -134,6 +141,7 @@ public class MainService extends Service{
 		
 		//BroadcastReceiverの消去
 		mService.unregisterReceiver(broadcastReceiver); 
+		mService.unregisterReceiver(musicPlayerReceiver); 
 		
 		//通知の消去
 		Notifications.removeNotification(mService);

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.abs104a.mperwithsideproject.Notifications;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Album;
@@ -278,6 +279,9 @@ public class MusicUtils {
 		if(mViewPager != null && mViewPager.getCurrentItem() == MusicViewPagerAdapter.EQUALIZER){
 			ViewPagerForEqualizerViewCtl.createMusicVisualizer(mViewPager.getContext());
 		}
+		//Notificationに通知を設定
+		Notifications.putNotification();
+		
 		//ViewPagerに通知する必要があるかどうか選択する場合
 		if(isNotifitionViewPager){
 			//Viewへの反映

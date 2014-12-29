@@ -1,5 +1,7 @@
 package com.abs104a.mperwithsideproject.music;
 
+import com.abs104a.mperwithsideproject.Notifications;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +18,14 @@ public class MusicPlayerReceiver extends BroadcastReceiver {
 		// TODO 自動生成されたメソッド・スタブ
 		if(intent.getAction().equals(Intent.ACTION_MEDIA_BUTTON)){
 			android.util.Log.v("MusicPlayerReceiver", intent.toString());
+		}else if(intent.getAction().equals(Notifications.PLAY)){
+			android.util.Log.v("MusicPlayerReceiver", intent.toString());
+		}else if(intent.getAction().equals(Notifications.PREVIOUS)){
+			android.util.Log.v("MusicPlayerReceiver", intent.toString());
+		}else if(intent.getAction().equals(Notifications.NEXT)){
+			android.util.Log.v("MusicPlayerReceiver", intent.toString());
 		}
+		android.util.Log.v("MusicPlayerReceiver", intent.toString());
 	}
 
 }

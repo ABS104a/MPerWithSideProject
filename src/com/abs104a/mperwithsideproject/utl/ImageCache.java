@@ -16,7 +16,7 @@ public class ImageCache {
 	
 	/**
 	 * キャッシュがあるか確認する
-	 * @param key
+	 * @param key album
 	 * @return	キャッシュがあるかどうか
 	 */
 	public static final boolean isCache(String key){

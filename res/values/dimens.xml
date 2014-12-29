@@ -19,7 +19,10 @@
     <dimen name="album_item_row_jacket">58dp</dimen>
     <dimen name="album_item_row_jacket_bigger">58dp</dimen>
     
-    <dimen name="notification_item_row_jacket">90dp</dimen>
+    <dimen name="notification_item_height">64dp</dimen>
+    <dimen name="notification_image_to_text_margin">5dp</dimen>
+    <dimen name="notification_title_sp">18sp</dimen>
+    <dimen name="notification_album_sp">14sp</dimen>
     
     <dimen name="equalizer_row_text_width">58dp</dimen>
     <dimen name="visualizer_view_height">200dp</dimen>

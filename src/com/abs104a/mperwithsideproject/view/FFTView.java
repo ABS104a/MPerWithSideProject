@@ -35,10 +35,10 @@ public class FFTView extends View {
 	// バンドの内側の表示オフセット
 	private static float BAND_INNER_OFFSET = 4;
 	// FFTデータの描画色ID
-	private static int FFT_DATA_SHADER_START_COLOR_ID = android.R.color.holo_green_dark;
-	private static int FFT_DATA_SHADER_END_COLOR_ID = android.R.color.white;
+	private static int FFT_DATA_SHADER_START_COLOR_ID = android.R.color.holo_blue_dark;
+	private static int FFT_DATA_SHADER_END_COLOR_ID = android.R.color.holo_blue_bright;
 	// 対数グリッドの色ID
-	private static int LOG_GRID_COLOR_ID = android.R.color.holo_green_light;
+	private static int LOG_GRID_COLOR_ID = android.R.color.holo_blue_bright;
 	
 	// ----------------------------
 	// 変数
