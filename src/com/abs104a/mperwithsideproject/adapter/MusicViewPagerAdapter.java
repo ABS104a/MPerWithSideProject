@@ -54,8 +54,11 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 		if(mQueueListView != null)
 			((MusicListAdapter)mQueueListView.getAdapter()).notifyDataSetChanged();
 		if(mPlayListsListView != null){
+			int expandPosition = ViewPagerForPlayListViewCtl.getCurrentGroupPos();
 			ViewPagerForPlayListViewCtl.updateExpandableListViewItems(mService, mView, mpwpl);
 			((PlayListForExpandableListAdapter)mPlayListsListView.getExpandableListAdapter()).notifyDataSetChanged();
+			if(expandPosition != -1)
+			mPlayListsListView.expandGroup(expandPosition);
 		}
 		
 	}

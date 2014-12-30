@@ -8,11 +8,16 @@ import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.utl.GetJacketImageTask;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
+import com.abs104a.mperwithsideproject.viewctl.listener.EditOfPlayListOnLCImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.PlayOfPlayListOnLCImpl;
+
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,6 +31,20 @@ import android.widget.TextView;
 public final class PlayListForExpandableListAdapter extends
 	BaseExpandableListAdapter {
 	
+	
+	//定数///////////////////////////////////////////////////////////
+	public final static int QUEUE = MusicListAdapter.QUEUE;
+	public final static int PLAYLIST = MusicListAdapter.PLAYLIST;
+	public final static int ALBUM = MusicListAdapter.ALBUM;
+	
+	//ヘッダーの数
+	public final static int HEADER_COUNT = 2;
+	//フッターの数
+	public final static int FOOTER_COUNT = 0;
+	
+	
+	//変数///////////////////////////////////////////////////////////
+	
 	//アプリケーションコンテキスト
 	private final Context mContext;
 	//プレイリスト
@@ -34,6 +53,7 @@ public final class PlayListForExpandableListAdapter extends
 	private final MusicPlayerWithQueue mpwpl;
 	//RootView
 	private final View rootView;
+	//AdapterのColumn
 	private final int column;
 	
 	/**
@@ -72,8 +92,50 @@ public final class PlayListForExpandableListAdapter extends
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 		//TODO 1番目はQueueに追加，2番目はQueueにセット，最後はプレイリストの消去
-		Music item = playLists.get(groupPosition).getMusics()[childPosition];
-		return MusicListAdapter.getChildView(convertView, item, mContext, column, rootView,this, mpwpl);
+		if(column == PLAYLIST && childPosition == 0){
+			//header1 play
+			TextView playView = new TextView(mContext);
+			playView.setText(R.string.play_to_playlist);
+			playView.setLayoutParams(
+					new LayoutParams(
+							LayoutParams.MATCH_PARENT,
+							mContext.getResources().getDimensionPixelSize(R.dimen.album_item_height)));
+			playView.setGravity(Gravity.CENTER);
+			//OnClickListenerの実装
+			PlayOfPlayListOnLCImpl impl = new PlayOfPlayListOnLCImpl(playLists.get(groupPosition));
+			playView.setOnClickListener(impl);
+			playView.setOnLongClickListener(impl);
+			
+			return playView;
+			
+		}else if(column == PLAYLIST && childPosition == 1){
+			//header2 Edit
+			TextView editView = new TextView(mContext);
+			editView.setText(R.string.edit_to_playlist);
+			editView.setLayoutParams(
+					new LayoutParams(
+							LayoutParams.MATCH_PARENT,
+							mContext.getResources().getDimensionPixelSize(R.dimen.album_item_height)));
+			editView.setGravity(Gravity.CENTER);
+			
+			//OnClickListenerの実装　（名前の変更，消去）
+			EditOfPlayListOnLCImpl impl = new EditOfPlayListOnLCImpl();
+			editView.setOnClickListener(impl);
+			editView.setOnLongClickListener(impl);
+			
+			return editView;
+		}else{
+			if(convertView instanceof TextView){
+				//Header or Footerのrecycleは破棄
+				convertView = null;
+			}
+			if(column == PLAYLIST){
+				childPosition -= HEADER_COUNT;
+			}
+			//Viewの生成
+			Music item = playLists.get(groupPosition).getMusics()[childPosition];
+			return MusicListAdapter.getChildView(convertView, item, mContext, column, rootView,this, mpwpl);
+		}
 	}
 
 	/**
@@ -82,7 +144,10 @@ public final class PlayListForExpandableListAdapter extends
 	@Override
 	public int getChildrenCount(int groupPosition) {
 		Music[] pLists = playLists.get(groupPosition).getMusics();
-		return pLists == null ? 0 : pLists.length;
+		if(column == PLAYLIST)
+			return pLists == null ? 0 : pLists.length + HEADER_COUNT + FOOTER_COUNT;
+		else
+			return pLists == null ? 0 : pLists.length;
 	}
 
 	/**

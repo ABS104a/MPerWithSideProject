@@ -207,6 +207,12 @@ public class DialogUtils {
 						mPlayLists.get(index).setMusics(newMusics);
 						//データを保存する．
 						FileUtils.writeSerializablePlayList(view.getContext(), mPlayLists);
+						Toast.makeText(
+								view.getContext(), 
+								music.getTitle() + " → " + 
+								mPlayLists.get(index).getAlbum(),
+								Toast.LENGTH_SHORT)
+								.show();
 					}catch(NullPointerException e){
 						android.util.Log.e(TAG,"NotFoundPlayLists");
 						android.util.Log.e(TAG,e.getMessage());
@@ -216,7 +222,6 @@ public class DialogUtils {
 			}
 			
 		});
-		
 	}
 	
 	/**
@@ -295,6 +300,226 @@ public class DialogUtils {
 				//Viewの消去
 				removeForWindowManager(mWindowManager,mView);
 				DisplayUtils.hideInputMethodEditor(view.getContext(), mView);
+			}
+		});
+	}
+	
+	/**
+	 * プレイリストを編集する時に表示するダイアログを作成する．
+	 * @param mContext
+	 * @param music
+	 * @param column
+	 */
+	public final static void createDialogIfEditPlayList(Context mContext,final int index,final ArrayList<PlayList> mPlayLists ){
+		
+		//MainViewの生成
+		LayoutInflater inflater = LayoutInflater.from( mContext );
+		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, null);
+		
+		//WindowManager~の起動にする．
+		final WindowManager mWindowManager = setWindowManager(mContext, mView);
+
+		//ダイアログに挿入するListView
+		final ListView mListView = new ListView(mContext);
+		
+		final FrameLayout mLayout = (FrameLayout)mView.findViewById(R.id.frameLayout_dialog);
+		mLayout.addView(mListView);
+		
+		final TextView titleView = (TextView)mView.findViewById(R.id.textView_dialog_title);
+		titleView.setText(R.string.edit_to_playlist);
+		
+		final Button positiveButton = (Button)mView.findViewById(R.id.button_dialog_positive);
+		positiveButton.setVisibility(View.GONE);
+		
+		final Button negativeButton = (Button)mView.findViewById(R.id.button_dialog_negative);
+		negativeButton.setText(R.string.cancel);
+		negativeButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
+			}
+			
+		});
+		
+		//ListViewへ適用させるAdapter
+		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1);
+		
+		//PlayListを作成するItemの追加
+		//Rename
+		adapter.add(mContext.getString(R.string.rename_playlist));
+		//delete
+		adapter.add(mContext.getString(R.string.delete_playlist));
+		
+		//Adapterへのセット
+		mListView.setAdapter(adapter);
+		
+		//dividerの高さを設定
+		mListView.setDividerHeight(
+				mContext.getResources()
+				.getDimensionPixelSize(R.dimen.listview_divider));
+		
+		//ListViewのItemを選択したときの動作を設定する．
+		mListView.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
+				
+				switch(position){
+				case 0://プレイリストの名前を変更する．
+					//変更するダイアログの表示
+					renamePlayListDialog(view.getContext(), position, mPlayLists);
+					break;
+				case 1://プレイリストを消去する
+					//確認ダイアログの表示
+				default:
+				}
+			}	
+		});
+	}
+	
+	/**
+	 * プレイリストの名前を変更するダイアログを作成する．
+	 */
+	public final static void renamePlayListDialog(
+			Context mContext,
+			final int index,
+			final ArrayList<PlayList> mPlayLists)
+	{
+		//MainViewの生成
+		LayoutInflater inflater = LayoutInflater.from( mContext );
+		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, null);
+		
+		//WindowManager~の起動にする．
+		final WindowManager mWindowManager = setWindowManager(mContext, mView);
+		
+		//Titleの設定
+		final TextView titleView = (TextView)mView.findViewById(R.id.textView_dialog_title);
+		titleView.setText(R.string.rename_playlist_title);
+
+		//プレイリスト名を入力するEditTextを生成
+		final EditText mEditText = new EditText(mContext);
+		mEditText.setHint(R.string.rename_playlist_text_hint);
+		mEditText.requestFocus();
+		
+		DisplayUtils.showInputMethodEditor(mContext, mView);
+		
+		//Viewをセットする．
+		FrameLayout contentLayout = (FrameLayout)mView.findViewById(R.id.frameLayout_dialog);
+		contentLayout.addView(mEditText);
+		
+		//DialogのOKボタンを押したときの設定
+		final Button positiveButton = (Button)mView.findViewById(R.id.button_dialog_positive);
+		positiveButton.setText(R.string.ok);
+		positiveButton.setOnClickListener(new OnClickListener(){
+			
+			/**
+			 * プレイリストの名前を変更する．
+			 */
+			@Override
+			public void onClick(View view) {
+				String title = mEditText.getText().toString();
+				//文字が入力されていた時
+				if(title != null && title.length() > 0){
+					// プレイリストを生成して曲を追加する．
+					
+					final PlayList newPlayList = 
+							mPlayLists.get(index);
+					//Musicをセット
+					newPlayList.setAlbum(title);
+					newPlayList.setArtist(title);
+					FileUtils.writeSerializablePlayList(view.getContext(), mPlayLists);
+					Toast.makeText(
+							view.getContext(), 
+							"PlayList \"" + newPlayList.getAlbum() + "\" renamed!", 
+							Toast.LENGTH_SHORT)
+							.show();
+					//Viewの消去
+					removeForWindowManager(mWindowManager,mView);
+					DisplayUtils.hideInputMethodEditor(view.getContext(), mView);
+				}
+			}
+		});
+		
+		//DialogのCancelボタンを押したときの動作
+		final Button negativeButton = (Button)mView.findViewById(R.id.button_dialog_negative);
+		negativeButton.setText(R.string.cancel);
+		negativeButton.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View view) {
+				// Dialogを閉じる．
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
+				DisplayUtils.hideInputMethodEditor(view.getContext(), mView);
+			}
+		});
+	}
+	
+	/**
+	 * プレイリストを消去するダイアログを作成する．
+	 */
+	public final static void deletePlayListDialog(
+			Context mContext,
+			final int index,
+			final ArrayList<PlayList> mPlayLists)
+	{
+		//MainViewの生成
+		LayoutInflater inflater = LayoutInflater.from( mContext );
+		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, null);
+		
+		//WindowManager~の起動にする．
+		final WindowManager mWindowManager = setWindowManager(mContext, mView);
+		
+		//Titleの設定
+		final TextView titleView = (TextView)mView.findViewById(R.id.textView_dialog_title);
+		titleView.setText(R.string.delete_playlist);
+
+		final TextView subTitleView = new TextView(mContext);
+		subTitleView.setText("PlayList : " + mPlayLists.get(index).getAlbum());
+		
+		//Viewをセットする．
+		FrameLayout contentLayout = (FrameLayout)mView.findViewById(R.id.frameLayout_dialog);
+		contentLayout.addView(subTitleView);
+		
+		//DialogのOKボタンを押したときの設定
+		final Button positiveButton = (Button)mView.findViewById(R.id.button_dialog_positive);
+		positiveButton.setText(R.string.ok);
+		positiveButton.setOnClickListener(new OnClickListener(){
+			
+			/**
+			 * プレイリストを消去する．
+			 */
+			@Override
+			public void onClick(View view) {
+				
+				PlayList removePL = mPlayLists.remove(index);
+				FileUtils.writeSerializablePlayList(view.getContext(), mPlayLists);
+				Toast.makeText(
+						view.getContext(), 
+						"PlayList \"" + removePL.getAlbum() + "\" removed!", 
+						Toast.LENGTH_SHORT)
+						.show();
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
+				
+			}
+		});
+		
+		//DialogのCancelボタンを押したときの動作
+		final Button negativeButton = (Button)mView.findViewById(R.id.button_dialog_negative);
+		negativeButton.setText(R.string.cancel);
+		negativeButton.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View view) {
+				// Dialogを閉じる．
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
 			}
 		});
 	}

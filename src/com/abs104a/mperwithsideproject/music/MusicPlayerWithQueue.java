@@ -208,6 +208,25 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	}
 	
 	/**
+	 * 既存のQueueにPlayListを追加します．
+	 * @param playList　追加するプレイリスト
+	 * @throws IllegalArgumentException
+	 * @throws SecurityException
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
+	public final void addPlayList(ArrayList<Music> playList) 
+			throws IllegalArgumentException, 
+			SecurityException, 
+			IllegalStateException, 
+			IOException
+			{
+		ArrayList<Music> mPlayList = mQueue.getQueueMusics();
+		mPlayList.addAll(playList);
+		writeQueue();
+	}
+	
+	/**
 	 * 曲をセットする（新たなプレイリストを作成して曲をセットする．）
 	 * @param music
 	 * @throws IllegalArgumentException
@@ -540,6 +559,26 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		else if(newIndex == mQueue.getCursor())
 			mQueue.setCursor(index);
 	} 
+	
+	/**
+	 * 現在のCursorを取得する
+	 * @param index
+	 * @return
+	 */
+	public final int setCursor(int index){
+		if(mQueue != null){
+			mQueue.setCursor(index);
+			return index;
+		}else
+			return 0;
+	}
+	
+	public final int getCursor(){
+		if(mQueue != null)
+			return mQueue.getCursor();
+		else 
+			return 0;
+	}
 	
 	/**
 	 * Lockスクリーンに通知を表示させるメソッド

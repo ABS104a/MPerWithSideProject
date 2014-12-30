@@ -45,4 +45,16 @@ public final class PlayList extends Album {
 			return false;
 		}
 	}
+	
+	public ArrayList<Music> getMusicList(){
+		try{
+			Music[] musics = getMusics();
+			ArrayList<Music> result = new ArrayList<Music>();
+			for(Music music : musics)
+				result.add(music);
+			return result;
+		}catch(NullPointerException e){
+			return null;
+		}
+	}
 }
