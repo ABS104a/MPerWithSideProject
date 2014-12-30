@@ -26,11 +26,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 /**
@@ -46,9 +46,6 @@ public final class MusicPlayerViewController {
 	public final static int PLAYER_VIEW_ID = 12;
 	
 	public final static int ANIMATE_OPEN = 35;
-	
-	//前回終了時の状態(Viewの幅)
-	private static int openViewWidth = 0;
 	
 	//PlayerView
 	private static View playerView = null;
@@ -75,18 +72,45 @@ public final class MusicPlayerViewController {
 	 * PlayerViewを消去する．
 	 * @param rootView
 	 */
-	public static void removePlayerView(View rootView){
+	public static void removePlayerView(final View rootView){
 		//Viewの消去を行う
 		if(playerView != null && rootView != null){
-			openViewWidth = playerView.getWidth();
-			((LinearLayout)rootView).removeView(playerView);
-			//キャッシュのClear
-			ImageCache.clearCache();
-		}else{
-			openViewWidth = 0;
+			final ImageButton handle = (ImageButton) rootView.findViewById(R.id.imageButton_handle);
+			handle.setVisibility(View.INVISIBLE);
+			Animation closeAnimation = 
+					AnimationUtils.loadAnimation(rootView.getContext(), android.R.anim.fade_out);
+			closeAnimation.setAnimationListener(new AnimationListener(){
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					((LinearLayout)rootView).removeView(playerView);
+					//キャッシュのClear
+					ImageCache.clearCache();
+					playerView = null;
+					final Handler mHandler = new Handler();
+					mHandler.post(new Runnable(){
+
+						@Override
+						public void run() {
+							handle.setVisibility(View.VISIBLE);
+							handle.startAnimation(
+									AnimationUtils
+									.loadAnimation(rootView.getContext(), android.R.anim.fade_in));
+						}
+						
+					});
+					
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {}
+
+				@Override
+				public void onAnimationStart(Animation animation) {}
+				
+			});
+			playerView.startAnimation(closeAnimation);
 		}
-		playerView = null;
-		
 	}
 	
 	/**
@@ -94,17 +118,31 @@ public final class MusicPlayerViewController {
 	 *　を生成する（non-OpenAnimation）
 	 * @param rootView
 	 */
-	public static void createPlayerView(Service mService,View rootView){
-		if(openViewWidth > 0){
+	public static void createPlayerView(final Service mService,View rootView){
+		if(playerView == null){
 			View mView = createView(mService,rootView);
-
-			mView.getLayoutParams().width = openViewWidth;
+			final ImageButton handle = (ImageButton) rootView.findViewById(R.id.imageButton_handle);
+			handle.setVisibility(View.INVISIBLE);
 			Animation showAnimation = 
 					AnimationUtils.loadAnimation(mService, android.R.anim.fade_in);
+			showAnimation.setAnimationListener(new AnimationListener(){
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					handle.setVisibility(View.VISIBLE);
+					handle.startAnimation(AnimationUtils.loadAnimation(mService, android.R.anim.fade_in));
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {}
+
+				@Override
+				public void onAnimationStart(Animation animation) {}
+				
+			});
 			//Animationの設定
 			mView.startAnimation(showAnimation);
-		}
-		openViewWidth = 0;
+		}	
 	}
 	
 	/**
@@ -272,11 +310,14 @@ public final class MusicPlayerViewController {
 		//音量のシークバーが変更された時のリスナ
 	}
 	
+	
+	
 	/**
 	 * アニメーション的にViewをオープンするやつ
 	 * @param mService
 	 * @param rootView
 	 */
+	/*
 	public final static void animateOpen(final Service mService,View rootView){
 		final Handler mHandler = new Handler();
 		final int mWidth;
@@ -329,13 +370,13 @@ public final class MusicPlayerViewController {
 			
 		};
 		mHandler.post(mRunnable);
-	}
+	}*/
 	
 	/**
 	 * アニメーション的にViewをクローズするやつ
 	 * @param mService
 	 * @param rootView
-	 */
+	 *//*
 	public final static void animateClose(final Service mService,final View rootView){
 		final Handler mHandler = new Handler();
 		if(playerView == null){
@@ -370,6 +411,6 @@ public final class MusicPlayerViewController {
 			
 		};
 		mHandler.post(mRunnable);
-	}
+	}*/
 	
 }

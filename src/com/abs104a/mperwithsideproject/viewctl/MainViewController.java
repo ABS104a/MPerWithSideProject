@@ -59,7 +59,7 @@ public final class MainViewController {
 	private final static void initActionOfView(Service mService,View mView, MusicPlayerWithQueue mpwpl){
 		//MainViewのアクションを設定する
 		//自動的に引っ張り出るようにする．
-		MusicPlayerViewController.animateOpen(mService, mView);
+		MusicPlayerViewController.createPlayerView(mService, mView);
 	}
 	
 }

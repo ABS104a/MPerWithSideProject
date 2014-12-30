@@ -10,6 +10,8 @@ import com.abs104a.mperwithsideproject.utl.GetJacketImageTask;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.viewctl.listener.EditOfPlayListOnLCImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayOfPlayListOnLCImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.UpDownButtonOnClickImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.UpDownForExpandOnClickImpl;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -70,6 +72,18 @@ public final class PlayListForExpandableListAdapter extends
 		this.mpwpl = mpwpl;
 		this.rootView = rootView;
 		this.column = column;
+	}
+	
+	/**
+	 * AdapterのColumnを返す
+	 * @return
+	 */
+	public int getCuolumn(){
+		return column;
+	}
+	
+	public ArrayList<PlayList> getPlayLists(){
+		return this.playLists;
 	}
 
 	/**
@@ -134,7 +148,20 @@ public final class PlayListForExpandableListAdapter extends
 			}
 			//Viewの生成
 			Music item = playLists.get(groupPosition).getMusics()[childPosition];
-			return MusicListAdapter.getChildView(convertView, item, mContext, column, rootView,this, mpwpl);
+			View view = MusicListAdapter.getChildView(convertView, item, mContext, column, rootView,this, mpwpl);
+			
+			
+			//上へのボタン
+			ImageButton upButton = (ImageButton)view.findViewById(R.id.imageButton_expand_up);
+			if(upButton != null)
+				upButton.setOnClickListener(new UpDownForExpandOnClickImpl(playLists,groupPosition,childPosition, true, false, this));
+			
+			//下へのボタン 
+			ImageButton downButton = (ImageButton)view.findViewById(R.id.imageButton_expand_down);
+			if(downButton != null)
+				downButton.setOnClickListener(new UpDownForExpandOnClickImpl(playLists,groupPosition,childPosition, false, true, this));
+			
+			return view;
 		}
 	}
 
