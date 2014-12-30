@@ -4,12 +4,15 @@ import java.util.ArrayList;
 
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
+import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
+import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +41,15 @@ import android.widget.Toast;
  */
 public class DialogUtils {
 	
+	//アプリケーションのタグ
 	public static final String TAG = "DISPLAY_UTILS";
 	
+	/**
+	 * WindowManagerの生成と配置を行う
+	 * @param mContext	アプリケーションのコンテキスト
+	 * @param setView	セットするためのView
+	 * @return			作成したWindowManager
+	 */
 	public static final WindowManager setWindowManager(Context mContext,View setView){
 		final WindowManager mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
 		
@@ -66,6 +76,11 @@ public class DialogUtils {
 		return mWindowManager;
 	}
 	
+	/**
+	 * 生成したDialog（WindowManager）を消去する．
+	 * @param mWindowManager	対象となるWindowManager
+	 * @param mView				生成したView
+	 */
 	private final static void removeForWindowManager(final WindowManager mWindowManager,final View mView){
 		try{
 			LinearLayout layout = (LinearLayout) mView.findViewById(R.id.linearLayout_dialog);
@@ -268,14 +283,21 @@ public class DialogUtils {
 				//文字が入力されていた時
 				if(title != null && title.length() > 0){
 					// プレイリストを生成して曲を追加する．
-					final Music[] musics = new Music[1];
-					musics[0] = music;
-					
 					final PlayList newPlayList = 
 							new PlayList(title, title, System.currentTimeMillis(), null);
-					//Musicをセット
-					newPlayList.setMusics(musics);
-					mPlayLists.add(newPlayList);
+					
+					if(music == null){
+						final Music[] musics = new Music[0];
+						//Musicをセット
+						newPlayList.setMusics(musics);
+						mPlayLists.add(newPlayList);
+					}else{
+						final Music[] musics = new Music[1];
+						musics[0] = music;
+						//Musicをセット
+						newPlayList.setMusics(musics);
+						mPlayLists.add(newPlayList);
+					}
 					FileUtils.writeSerializablePlayList(view.getContext(), mPlayLists);
 					Toast.makeText(
 							view.getContext(), 
@@ -283,6 +305,11 @@ public class DialogUtils {
 							Toast.LENGTH_SHORT)
 							.show();
 					//Viewの消去
+					if(MusicPlayerViewController.getPlayerView() != null){
+						//ViewPagerの更新を行う
+						ViewPager v = (ViewPager) MusicPlayerViewController.getPlayerView().findViewById(R.id.player_list_part);
+						((MusicViewPagerAdapter)v.getAdapter()).notifitionDataSetChagedForQueueView();
+					}
 					removeForWindowManager(mWindowManager,mView);
 					DisplayUtils.hideInputMethodEditor(view.getContext(), mView);
 				}
@@ -372,10 +399,11 @@ public class DialogUtils {
 				switch(position){
 				case 0://プレイリストの名前を変更する．
 					//変更するダイアログの表示
-					renamePlayListDialog(view.getContext(), position, mPlayLists);
+					renamePlayListDialog(view.getContext(), index, mPlayLists);
 					break;
 				case 1://プレイリストを消去する
 					//確認ダイアログの表示
+					deletePlayListDialog(view.getContext(), index, mPlayLists);
 				default:
 				}
 			}	
@@ -426,7 +454,7 @@ public class DialogUtils {
 				//文字が入力されていた時
 				if(title != null && title.length() > 0){
 					// プレイリストを生成して曲を追加する．
-					
+					android.util.Log.v(TAG, "position : " + index);
 					final PlayList newPlayList = 
 							mPlayLists.get(index);
 					//Musicをセット
@@ -441,6 +469,12 @@ public class DialogUtils {
 					//Viewの消去
 					removeForWindowManager(mWindowManager,mView);
 					DisplayUtils.hideInputMethodEditor(view.getContext(), mView);
+					//Viewの消去
+					if(MusicPlayerViewController.getPlayerView() != null){
+						//ViewPagerの更新を行う
+						ViewPager v = (ViewPager) MusicPlayerViewController.getPlayerView().findViewById(R.id.player_list_part);
+						((MusicViewPagerAdapter)v.getAdapter()).notifitionDataSetChagedForQueueView();
+					}
 				}
 			}
 		});
@@ -506,6 +540,12 @@ public class DialogUtils {
 						.show();
 				//Viewの消去
 				removeForWindowManager(mWindowManager,mView);
+				//Viewの消去
+				if(MusicPlayerViewController.getPlayerView() != null){
+					//ViewPagerの更新を行う
+					ViewPager v = (ViewPager) MusicPlayerViewController.getPlayerView().findViewById(R.id.player_list_part);
+					((MusicViewPagerAdapter)v.getAdapter()).notifitionDataSetChagedForQueueView(false);
+				}
 				
 			}
 		});

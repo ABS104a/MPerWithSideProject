@@ -57,8 +57,35 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 			int expandPosition = ViewPagerForPlayListViewCtl.getCurrentGroupPos();
 			ViewPagerForPlayListViewCtl.updateExpandableListViewItems(mService, mView, mpwpl);
 			((PlayListForExpandableListAdapter)mPlayListsListView.getExpandableListAdapter()).notifyDataSetChanged();
-			if(expandPosition != -1)
-			mPlayListsListView.expandGroup(expandPosition);
+			if(expandPosition != -1){
+				int groupCount = ((PlayListForExpandableListAdapter)mPlayListsListView.getExpandableListAdapter()).getGroupCount();
+				if(expandPosition >= groupCount )
+					mPlayListsListView.expandGroup(groupCount - 1);
+				else if(groupCount != 0)
+					mPlayListsListView.expandGroup(expandPosition);
+			}
+		}
+		
+	}
+	
+	/**
+	 * ListViewの要素を更新する．ExpandViewを更新するかどうか選択するFlag付
+	 */
+	public void notifitionDataSetChagedForQueueView(boolean flag){
+		if(mQueueListView != null)
+			((MusicListAdapter)mQueueListView.getAdapter()).notifyDataSetChanged();
+		if(mPlayListsListView != null){
+			int expandPosition = ViewPagerForPlayListViewCtl.getCurrentGroupPos();
+			ViewPagerForPlayListViewCtl.updateExpandableListViewItems(mService, mView, mpwpl);
+			((PlayListForExpandableListAdapter)mPlayListsListView.getExpandableListAdapter()).notifyDataSetChanged();
+			
+			if(flag && expandPosition != -1){
+				int groupCount = ((PlayListForExpandableListAdapter)mPlayListsListView.getExpandableListAdapter()).getGroupCount();
+				if(expandPosition >= groupCount )
+					mPlayListsListView.expandGroup(groupCount - 1);
+				else if(groupCount != 0)
+					mPlayListsListView.expandGroup(expandPosition);
+			}
 		}
 		
 	}

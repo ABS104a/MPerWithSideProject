@@ -7,6 +7,7 @@ import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.adapter.PlayListForExpandableListAdapter;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
+import com.abs104a.mperwithsideproject.utl.DialogUtils;
 import com.abs104a.mperwithsideproject.utl.FileUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayListOnChildClickImpl;
 
@@ -14,6 +15,8 @@ import android.app.Service;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
@@ -37,11 +40,11 @@ public final class ViewPagerForPlayListViewCtl implements OnGroupExpandListener,
 	 * @param mServie	親となるサービスのコンテキスト
 	 * @return	生成したView
 	 */
-	public final static ExpandableListView createView(Service mService,View rootView ,MusicPlayerWithQueue mpwpl){
+	public final static ExpandableListView createView(final Service mService,View rootView ,MusicPlayerWithQueue mpwpl){
 		//TODO　ルーチンの実装
 		mListView = new ExpandableListView(mService);
 		//ここでPlayListを読み込む
-		ArrayList<PlayList> pList = FileUtils.readSerializablePlayList(mService);
+		final ArrayList<PlayList> pList = FileUtils.readSerializablePlayList(mService);
 		android.util.Log.v(TAG , "ListNum : " + (pList != null ? pList.size() : "null"));
 		//adapterのセット
 		mListView.setAdapter(new PlayListForExpandableListAdapter(mService, pList, rootView, mpwpl,MusicListAdapter.PLAYLIST));
@@ -63,8 +66,21 @@ public final class ViewPagerForPlayListViewCtl implements OnGroupExpandListener,
 						LayoutParams.MATCH_PARENT,
 						mService.getResources().getDimensionPixelSize(R.dimen.album_item_height)));
 		addView.setGravity(Gravity.CENTER);
-		
 		mListView.addFooterView(addView);
+	
+		mListView.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				//Dialogの生成
+				DialogUtils.createPlayListDialog(mService, null, pList);
+				android.util.Log.v(TAG,"position : " + arg2);
+			}
+			
+		});
+		
+
 
 		return mListView;
 	}

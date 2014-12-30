@@ -21,19 +21,21 @@ public class FFTView extends View {
 	// ピーク値
 	private static float FFT_PEAK_VALUE = (float) 181.019335984f;
 	// デシベルの下限
-	private static float DISPLAY_MINIMUM_DB = -30;
+	private static float DISPLAY_MINIMUM_DB = -35;
 	// 最小周波数
 	private static float DISPLAY_MINIMUM_HZ = 35;
 	// 最大周波数
-	private static float DISPLAY_MAXIMUM_HZ = 22000;
+	private static float DISPLAY_MAXIMUM_HZ = 20000;
 	// バンド表示の最小周波数
 	private static float BAND_MINIMUM_HZ = 40;
 	// バンド表示の最大周波数
-	private static float BAND_MAXIMUM_HZ = 20000;
+	private static float BAND_MAXIMUM_HZ = 18000;
 	// バンドのデフォルト数
 	private static int BAND_DEFAULT_NUMBER = 20;
 	// バンドの内側の表示オフセット
 	private static float BAND_INNER_OFFSET = 4;
+	
+	private static float FFT_BAND_SCALE = 1.5f;
 	// FFTデータの描画色ID
 	private static int FFT_DATA_SHADER_START_COLOR_ID = android.R.color.holo_blue_dark;
 	private static int FFT_DATA_SHADER_END_COLOR_ID = android.R.color.holo_blue_bright;
@@ -224,7 +226,7 @@ public class FFTView extends View {
 			int index = (int) (x - bandRegionMinX_) / bandWidth_;
 			if(index >= 0 && index < bandNumber_){
 				// 振幅スペクトルを計算
-				float amplitude = (float) Math.sqrt(Math.pow((float)fftData_[i * 2], 2) + Math.pow((float)fftData_[i * 2 + 1], 2));
+				float amplitude = FFT_BAND_SCALE * (float)Math.sqrt(Math.pow((float)fftData_[i * 2], 2) + Math.pow((float)fftData_[i * 2 + 1], 2));
 				if(amplitude > 0 ){
 					// 対応する区間で一番大きい値を取っておく
 					if(bandFftData_[index] < amplitude) {

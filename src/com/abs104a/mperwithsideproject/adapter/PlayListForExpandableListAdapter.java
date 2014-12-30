@@ -119,7 +119,7 @@ public final class PlayListForExpandableListAdapter extends
 			editView.setGravity(Gravity.CENTER);
 			
 			//OnClickListenerの実装　（名前の変更，消去）
-			EditOfPlayListOnLCImpl impl = new EditOfPlayListOnLCImpl();
+			EditOfPlayListOnLCImpl impl = new EditOfPlayListOnLCImpl(groupPosition, playLists);
 			editView.setOnClickListener(impl);
 			editView.setOnLongClickListener(impl);
 			

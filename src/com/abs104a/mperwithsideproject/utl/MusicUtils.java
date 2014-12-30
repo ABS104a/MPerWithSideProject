@@ -57,6 +57,7 @@ public class MusicUtils {
 	//UIスレッドのHandler
 	private static MusicSeekBarHandler mHandler = null;
 	
+	
 	/**
 	 * ミュージックコントロールクラスを返す.
 	 * 
