@@ -110,6 +110,10 @@ public final class MusicPlayerViewController {
 				
 			});
 			playerView.startAnimation(closeAnimation);
+			
+			//プレイリストの書き込みを行う
+			ViewPagerForPlayListViewCtl.writePlayList(playerView.getContext());
+			
 		}
 	}
 	

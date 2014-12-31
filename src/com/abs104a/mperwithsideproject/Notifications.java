@@ -23,11 +23,18 @@ public final class Notifications {
 	//サービスのコンテキスト
 	private static Service mService = null;
 	
-	public static final String PLAY = "action_play";
+	public static final String PLAY = "com.abs104a.mperwithsideproject.play";
 	
-	public static final String PREVIOUS = "action_previous";
+	public static final String PREVIOUS = "com.abs104a.mperwithsideproject.previous";
 	
-	public static final String NEXT = "action_next";
+	public static final String NEXT = "com.abs104a.mperwithsideproject.next";
+
+	public static final String MAIN = "com.abs104a.mperwithsideproject.main";
+	
+	public static final int PLAY_REQ = 11;
+	public static final int PREVIOUS_REQ = 12;
+	public static final int NEXT_REQ = 13;
+	public static final int MAIN_REQ = 14;
 	
 	/**
 	 * サービスのコンテキストを登録
@@ -60,25 +67,27 @@ public final class Notifications {
 	    //RemoteViewの動作を設定
 	    contentView = new RemoteViews(mService.getPackageName(), R.layout.notification);
 	    Intent mainIntent = new Intent(mService, MusicPlayerReceiver.class);
-	    PendingIntent mainPi = PendingIntent.getBroadcast(mService, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    mainIntent.setAction(MAIN);
+	    PendingIntent mainPi = PendingIntent.getBroadcast(mService, MAIN_REQ, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 	    contentView.setOnClickPendingIntent(R.layout.notification, mainPi);
 	    
 	    //再生ボタンのアクションを設定
 	    Intent playIntent = new Intent(mService, MusicPlayerReceiver.class);
 	    playIntent.setAction(PLAY);
-	    PendingIntent playPi = PendingIntent.getBroadcast(mService, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    PendingIntent playPi = PendingIntent.getBroadcast(mService, PLAY_REQ, playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_play, playPi);
 	    
 	    //戻るボタンの動作を設定
 	    Intent previousIntent = new Intent(mService, MusicPlayerReceiver.class);
-	    playIntent.setAction(PREVIOUS);
-	    PendingIntent previousPi = PendingIntent.getBroadcast(mService, 0, previousIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    previousIntent.setAction(PREVIOUS);
+	    PendingIntent previousPi = PendingIntent.getBroadcast(mService, PREVIOUS_REQ, previousIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_previous, previousPi);
 	    
 	    //次に進むボタンの動作を設定
 	    Intent nextIntent = new Intent(mService, MusicPlayerReceiver.class);
-	    playIntent.setAction(NEXT);
-	    PendingIntent nextPi = PendingIntent.getBroadcast(mService, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    nextIntent.setAction(NEXT);
+	    android.util.Log.v(NEXT, nextIntent.getAction());
+	    PendingIntent nextPi = PendingIntent.getBroadcast(mService, NEXT_REQ, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_next, nextPi);
 	    
 	    builder.setContent(contentView);

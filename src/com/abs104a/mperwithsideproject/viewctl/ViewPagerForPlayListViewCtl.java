@@ -12,6 +12,7 @@ import com.abs104a.mperwithsideproject.utl.FileUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayListOnChildClickImpl;
 
 import android.app.Service;
+import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -34,6 +35,21 @@ public final class ViewPagerForPlayListViewCtl implements OnGroupExpandListener,
 	public static final String TAG = "ViewPagerForPlayListViewCtl";
 	
 	public static ExpandableListView mListView = null;
+
+	//プレイリスト
+	private static ArrayList<PlayList> pList = null;
+	
+	public static ArrayList<PlayList> getPlayList(Context mContext){
+		if(pList == null){
+			pList = FileUtils.readSerializablePlayList(mContext);	
+		}
+		return pList;
+	}
+	
+	public static void writePlayList(Context con){
+		if(pList != null)
+			FileUtils.writeSerializablePlayList(con, pList);
+	}
 	
 	/**
 	 * プレイリストViewを生成する
@@ -44,7 +60,7 @@ public final class ViewPagerForPlayListViewCtl implements OnGroupExpandListener,
 		//TODO　ルーチンの実装
 		mListView = new ExpandableListView(mService);
 		//ここでPlayListを読み込む
-		final ArrayList<PlayList> pList = FileUtils.readSerializablePlayList(mService);
+		pList = getPlayList(mService);
 		android.util.Log.v(TAG , "ListNum : " + (pList != null ? pList.size() : "null"));
 		//adapterのセット
 		mListView.setAdapter(new PlayListForExpandableListAdapter(mService, pList, rootView, mpwpl,MusicListAdapter.PLAYLIST));
@@ -94,7 +110,7 @@ public final class ViewPagerForPlayListViewCtl implements OnGroupExpandListener,
 	public static void updateExpandableListViewItems(Service mService,View rootView ,MusicPlayerWithQueue mpwpl){
 		//ここでPlayListを読み込む
 		if(mListView == null)return;
-		ArrayList<PlayList> pList = FileUtils.readSerializablePlayList(mService);
+		ArrayList<PlayList> pList = getPlayList(mService);
 		android.util.Log.v(TAG + " Update" , "ListNum : " + (pList != null ? pList.size() : "null"));
 		mListView.setAdapter(new PlayListForExpandableListAdapter(mService, pList, rootView, mpwpl,MusicListAdapter.PLAYLIST));
 		mListView.setOnChildClickListener(new PlayListOnChildClickImpl(mService,mpwpl));

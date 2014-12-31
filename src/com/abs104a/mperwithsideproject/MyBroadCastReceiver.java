@@ -2,7 +2,6 @@ package com.abs104a.mperwithsideproject;
 
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
-
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;

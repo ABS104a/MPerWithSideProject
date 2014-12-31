@@ -9,6 +9,7 @@ import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
+import com.abs104a.mperwithsideproject.viewctl.ViewPagerForPlayListViewCtl;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
@@ -148,7 +149,7 @@ public class DialogUtils {
 		});
 		
 		//表示するPlayList
-		final ArrayList<PlayList> mPlayLists = FileUtils.readSerializablePlayList(mContext);
+		final ArrayList<PlayList> mPlayLists = ViewPagerForPlayListViewCtl.getPlayList(mContext);
 		
 		//ListViewへ適用させるAdapter
 		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1);
@@ -221,7 +222,7 @@ public class DialogUtils {
 						//新しい配列をセットする．
 						mPlayLists.get(index).setMusics(newMusics);
 						//データを保存する．
-						FileUtils.writeSerializablePlayList(view.getContext(), mPlayLists);
+						ViewPagerForPlayListViewCtl.writePlayList(view.getContext());
 						Toast.makeText(
 								view.getContext(), 
 								music.getTitle() + " → " + 
@@ -284,7 +285,7 @@ public class DialogUtils {
 				if(title != null && title.length() > 0){
 					// プレイリストを生成して曲を追加する．
 					final PlayList newPlayList = 
-							new PlayList(title, title, System.currentTimeMillis(), null);
+							new PlayList(title, "PlayList", System.currentTimeMillis(), null);
 					
 					if(music == null){
 						final Music[] musics = new Music[0];
@@ -298,7 +299,7 @@ public class DialogUtils {
 						newPlayList.setMusics(musics);
 						mPlayLists.add(newPlayList);
 					}
-					FileUtils.writeSerializablePlayList(view.getContext(), mPlayLists);
+					//ViewPagerForPlayListViewCtl.writePlayList(view.getContext());
 					Toast.makeText(
 							view.getContext(), 
 							"PlayList \"" + newPlayList.getAlbum() + "\" created!", 
@@ -459,8 +460,6 @@ public class DialogUtils {
 							mPlayLists.get(index);
 					//Musicをセット
 					newPlayList.setAlbum(title);
-					newPlayList.setArtist(title);
-					FileUtils.writeSerializablePlayList(view.getContext(), mPlayLists);
 					Toast.makeText(
 							view.getContext(), 
 							"PlayList \"" + newPlayList.getAlbum() + "\" renamed!", 
@@ -532,7 +531,6 @@ public class DialogUtils {
 			public void onClick(View view) {
 				
 				PlayList removePL = mPlayLists.remove(index);
-				FileUtils.writeSerializablePlayList(view.getContext(), mPlayLists);
 				Toast.makeText(
 						view.getContext(), 
 						"PlayList \"" + removePL.getAlbum() + "\" removed!", 

@@ -5,21 +5,18 @@ import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.viewctl.MainViewController;
 import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
 
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.LinearLayout;
-import android.widget.RemoteViews;
 
 /**
  * メイン画面を表示するService
@@ -117,6 +114,7 @@ public class MainService extends Service{
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(MyBroadCastReceiver.VOLUME_CHANGE)); 
 		
 		musicPlayerReceiver = new MusicPlayerReceiver();
+		mService.registerReceiver(musicPlayerReceiver, new IntentFilter(Notifications.MAIN));
 		mService.registerReceiver(musicPlayerReceiver, new IntentFilter(Notifications.PLAY));
 		mService.registerReceiver(musicPlayerReceiver, new IntentFilter(Notifications.PREVIOUS));
 		mService.registerReceiver(musicPlayerReceiver, new IntentFilter(Notifications.NEXT));

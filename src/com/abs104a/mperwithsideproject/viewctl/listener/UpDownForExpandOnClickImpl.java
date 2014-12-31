@@ -38,8 +38,6 @@ public class UpDownForExpandOnClickImpl implements OnClickListener {
 			//下に移動する場合
 			pList.swapMusic(Math.min(pList.getMusics().length - 1, childPos + 1), childPos);
 		}
-		//Fileへの書き込み
-		FileUtils.writeSerializablePlayList(v.getContext(), playLists);
 		if(adapter != null){
 			if(adapter instanceof MusicListAdapter){
 				((MusicListAdapter)adapter).notifyDataSetChanged();

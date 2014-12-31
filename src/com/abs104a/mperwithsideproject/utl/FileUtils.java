@@ -28,6 +28,8 @@ import android.util.Log;
  *
  */
 public final class FileUtils {
+	
+	public static final String TAG = "FileUtils";
 
 	/**
 	 * プレイリストを読み込むメソッド
@@ -45,6 +47,7 @@ public final class FileUtils {
 			for(PlayList list : lists)
 				resultList.add(list);
 		}
+		android.util.Log.v(TAG,"readSerializablePlayList : " + resultList);
 		
 		return resultList;
 	}
@@ -56,6 +59,7 @@ public final class FileUtils {
 	 * @return	書き込みが成功したか？
 	 */
 	public final static boolean writeSerializablePlayList(Context mContext,ArrayList<PlayList> data){
+		android.util.Log.v(TAG,"writeSerializablePlayList : " + data);
 		return writeDataObject(
 				mContext, 
 				mContext.getString(R.string.playlist_serializable), 
@@ -82,6 +86,7 @@ public final class FileUtils {
 					false, 
 					MusicPlayerWithQueue.NOT_LOOP);
 		}
+		android.util.Log.v(TAG,"readSerializableQueue : " + lists);
 		return lists;
 	}
 	
@@ -92,6 +97,7 @@ public final class FileUtils {
 	 * @return	書き込みが成功したか？
 	 */
 	public final static boolean writeSerializableQueue(Context mContext,MusicQueue data){
+		android.util.Log.v(TAG,"writeSerializablePlayList : " + data);
 		return writeDataObject(
 				mContext, 
 				mContext.getString(R.string.queue_serializable), 

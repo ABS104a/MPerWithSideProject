@@ -10,7 +10,6 @@ import com.abs104a.mperwithsideproject.utl.GetJacketImageTask;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.viewctl.listener.EditOfPlayListOnLCImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayOfPlayListOnLCImpl;
-import com.abs104a.mperwithsideproject.viewctl.listener.UpDownButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.UpDownForExpandOnClickImpl;
 
 import android.content.Context;
@@ -19,10 +18,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -40,7 +39,7 @@ public final class PlayListForExpandableListAdapter extends
 	public final static int ALBUM = MusicListAdapter.ALBUM;
 	
 	//ヘッダーの数
-	public final static int HEADER_COUNT = 2;
+	public final static int HEADER_COUNT = 1;
 	//フッターの数
 	public final static int FOOTER_COUNT = 0;
 	
@@ -106,40 +105,45 @@ public final class PlayListForExpandableListAdapter extends
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 		//TODO 1番目はQueueに追加，2番目はQueueにセット，最後はプレイリストの消去
+		
+		
 		if(column == PLAYLIST && childPosition == 0){
+			final int viewHeight = mContext.getResources().getDimensionPixelSize(R.dimen.album_item_height);
+			
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, viewHeight, 1);
+			params.gravity = Gravity.CENTER;
+			
 			//header1 play
 			TextView playView = new TextView(mContext);
 			playView.setText(R.string.play_to_playlist);
-			playView.setLayoutParams(
-					new LayoutParams(
-							LayoutParams.MATCH_PARENT,
-							mContext.getResources().getDimensionPixelSize(R.dimen.album_item_height)));
+			playView.setLayoutParams(params);
 			playView.setGravity(Gravity.CENTER);
 			//OnClickListenerの実装
 			PlayOfPlayListOnLCImpl impl = new PlayOfPlayListOnLCImpl(playLists.get(groupPosition));
 			playView.setOnClickListener(impl);
 			playView.setOnLongClickListener(impl);
 			
-			return playView;
-			
-		}else if(column == PLAYLIST && childPosition == 1){
 			//header2 Edit
 			TextView editView = new TextView(mContext);
 			editView.setText(R.string.edit_to_playlist);
-			editView.setLayoutParams(
-					new LayoutParams(
-							LayoutParams.MATCH_PARENT,
-							mContext.getResources().getDimensionPixelSize(R.dimen.album_item_height)));
+			editView.setLayoutParams(params);
 			editView.setGravity(Gravity.CENTER);
 			
 			//OnClickListenerの実装　（名前の変更，消去）
-			EditOfPlayListOnLCImpl impl = new EditOfPlayListOnLCImpl(groupPosition, playLists);
-			editView.setOnClickListener(impl);
-			editView.setOnLongClickListener(impl);
+			EditOfPlayListOnLCImpl eimpl = new EditOfPlayListOnLCImpl(groupPosition, playLists);
+			editView.setOnClickListener(eimpl);
+			editView.setOnLongClickListener(eimpl);
 			
-			return editView;
+			LinearLayout mLayout = new LinearLayout(mContext);
+			mLayout.setOrientation(LinearLayout.HORIZONTAL);
+			mLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, viewHeight));
+			mLayout.addView(playView);
+			mLayout.addView(editView);
+			
+			return mLayout;
+			
 		}else{
-			if(convertView instanceof TextView){
+			if(convertView instanceof LinearLayout){
 				//Header or Footerのrecycleは破棄
 				convertView = null;
 			}
@@ -148,6 +152,7 @@ public final class PlayListForExpandableListAdapter extends
 			}
 			//Viewの生成
 			Music item = playLists.get(groupPosition).getMusics()[childPosition];
+			android.util.Log.v("getChildView", "isExpand" + item.isExpandView());
 			View view = MusicListAdapter.getChildView(convertView, item, mContext, column, rootView,this, mpwpl);
 			
 			
