@@ -159,7 +159,7 @@ public class ViewPagerForEqualizerViewCtl {
 		}else{
 			eq.usePreset(mpwpl.getEqualizerCursor());
 			for(short i = 0;i < bands;i++){
-				items[i].setBand((short) eq.getCenterFreq(i));
+				items[i].setBand((short) (eq.getCenterFreq(i) / 1000));
 				items[i].setLevel((short) eq.getBandLevel(i));
 			}
 		}
@@ -167,7 +167,7 @@ public class ViewPagerForEqualizerViewCtl {
 		//>-----Equalizerのバーについての設定-----------------------------<//
 		for(short i = 0;i < bands;i++){
 			final int index = (int)i;
-			final short band = (short) eq.getCenterFreq(i);
+			final short band = (short) (eq.getCenterFreq(i) / 100);
 			//指定バンド幅の数だけViewを作成する．
 			View eqView = layoutInflater.inflate(R.layout.equalizer_row, null);
 			final TextView currentText = (TextView)eqView.findViewById(R.id.textView_equalizer_row_current);
@@ -175,20 +175,20 @@ public class ViewPagerForEqualizerViewCtl {
 			TextView maxText = (TextView)eqView.findViewById(R.id.textView_equalizer_row_max);
 			currentText.setText(eq.getBandLevel((short)index) + "");
 			
-			seekBar.setMax((int)(maxEQLevel - minEQLevel));
-			seekBar.setProgress((int) eq.getBandLevel((short)index) - minEQLevel);
+			seekBar.setMax((int)(maxEQLevel - minEQLevel) / 100);
+			seekBar.setProgress(((int) eq.getBandLevel((short)index) - minEQLevel) / 100);
 			seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
 
 				@Override
 				public void onProgressChanged(SeekBar seekBar, int progress,
 						boolean fromUser) {
 					if(fromUser){
-						currentText.setText((progress + minEQLevel) + "");
-						short newLevel = (short) (progress + minEQLevel);
+						currentText.setText((progress * 100 + minEQLevel) + "");
+						short newLevel = (short) ((progress * 100 + minEQLevel) / 100);
 						//android.util.Log.v("Equalizer","NewLevel : " + newLevel);
 						Equalizer eqr = mpwpl.getEqualizerInstance();
 						eqr.setBandLevel((short)index, newLevel);
-						items[index].setLevel(newLevel);
+						items[index].setLevel((short) (newLevel * 100));
 						
 						final Spinner mSpinner = (Spinner)mView.findViewById(R.id.spinner_equalizer);
 						if(mSpinner != null && 
