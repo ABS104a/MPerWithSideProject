@@ -13,6 +13,7 @@ import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
@@ -43,11 +44,15 @@ import android.widget.LinearLayout;
 public class MainService extends Service{
 	
 	//自分のサービス（Context取得用)
-	private final Service mService = this;
+	private static Service mService = null;
 	//メインビュー生成用WindowManager
 	private WindowManager mWindowManager = null;
 	//メインビュー保持用
-	private ViewGroup rootView = null;
+	private static ViewGroup rootView = null;
+	
+	public static View getRootView(){
+		return rootView;
+	}
 	
 	// ブロードキャストリスナー  
 	private MyBroadCastReceiver broadcastReceiver;
@@ -58,6 +63,10 @@ public class MainService extends Service{
 		// Activityからバインドされた時
 		return null;
 	}
+	
+	public static Service getService(){
+		return mService;
+	}
 
 	/**
 	 * Serviceが開始された時
@@ -65,6 +74,8 @@ public class MainService extends Service{
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		
+		mService = this;
 		
 		mWindowManager  = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
@@ -74,10 +85,7 @@ public class MainService extends Service{
 				WindowManager.LayoutParams.WRAP_CONTENT,
 				WindowManager.LayoutParams.TYPE_TOAST,
 				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | 
-				//WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | 
 				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED ,// | 
-				//WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL ,//| WindowManager.LayoutParams.FLAG_TOUCHABLE_WHEN_WAKING,
-				//WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
 				PixelFormat.TRANSLUCENT);
 
 		params.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
@@ -113,12 +121,6 @@ public class MainService extends Service{
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG)); 
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(MyBroadCastReceiver.VOLUME_CHANGE)); 
 		
-		musicPlayerReceiver = new MusicPlayerReceiver();
-		mService.registerReceiver(musicPlayerReceiver, new IntentFilter(Notifications.MAIN));
-		mService.registerReceiver(musicPlayerReceiver, new IntentFilter(Notifications.PLAY));
-		mService.registerReceiver(musicPlayerReceiver, new IntentFilter(Notifications.PREVIOUS));
-		mService.registerReceiver(musicPlayerReceiver, new IntentFilter(Notifications.NEXT));
-		
 		//開始ログ
 		Log.v("MainService","Service is Start!");
 
@@ -146,6 +148,8 @@ public class MainService extends Service{
 		
 		//キャッシュのClear
 		ImageCache.clearCache();
+		
+		mService = null;
 		
 		//終了Log
 		Log.v("MainService","Service is Finished!");

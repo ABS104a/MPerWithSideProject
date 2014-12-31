@@ -11,23 +11,12 @@ import android.view.View.OnClickListener;
  */
 public final class NextButtonOnClickImpl implements OnClickListener {
 
-	//rootView
-	private View rootView;
-
-	/**
-	 * インスタンスの生成
-	 * @param _service　サービスのコンテキスト
-	 * @param mpwpl　ミュージックコントロールクラス
-	 */
-	public NextButtonOnClickImpl(View rootView) {
-		this.rootView = rootView;
-	}
 
 	@Override
 	public void onClick(View v) {
 		try {
 			//次への再生を行うs
-			MusicUtils.playNextWithView(rootView);
+			MusicUtils.playNextWithView();
 		} catch (IllegalArgumentException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

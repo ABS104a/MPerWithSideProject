@@ -150,7 +150,7 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 				holder.addButton.setOnClickListener(plimpl);
 				holder.addButton.setOnLongClickListener(plimpl);
 			}
-			convertView.setOnClickListener(new MusicOnClickImpl(rootView, item));
+			convertView.setOnClickListener(new MusicOnClickImpl(item));
 			
 			//ExpandViewがすでに展開されている場合は消去する．
 			if(!item.isExpandView() && holder.framelayout.getChildCount() > 0){

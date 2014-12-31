@@ -8,7 +8,6 @@ import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
-import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForPlayListViewCtl;
 
 import android.content.Context;
@@ -306,9 +305,9 @@ public class DialogUtils {
 							Toast.LENGTH_SHORT)
 							.show();
 					//Viewの消去
-					if(MusicPlayerViewController.getPlayerView() != null){
+					if(MusicUtils.getPlayerView() != null){
 						//ViewPagerの更新を行う
-						ViewPager v = (ViewPager) MusicPlayerViewController.getPlayerView().findViewById(R.id.player_list_part);
+						ViewPager v = (ViewPager) MusicUtils.getPlayerView().findViewById(R.id.player_list_part);
 						((MusicViewPagerAdapter)v.getAdapter()).notifitionDataSetChagedForQueueView();
 					}
 					removeForWindowManager(mWindowManager,mView);
@@ -469,9 +468,9 @@ public class DialogUtils {
 					removeForWindowManager(mWindowManager,mView);
 					DisplayUtils.hideInputMethodEditor(view.getContext(), mView);
 					//Viewの消去
-					if(MusicPlayerViewController.getPlayerView() != null){
+					if(MusicUtils.getPlayerView() != null){
 						//ViewPagerの更新を行う
-						ViewPager v = (ViewPager) MusicPlayerViewController.getPlayerView().findViewById(R.id.player_list_part);
+						ViewPager v = (ViewPager) MusicUtils.getPlayerView().findViewById(R.id.player_list_part);
 						((MusicViewPagerAdapter)v.getAdapter()).notifitionDataSetChagedForQueueView();
 					}
 				}
@@ -539,9 +538,9 @@ public class DialogUtils {
 				//Viewの消去
 				removeForWindowManager(mWindowManager,mView);
 				//Viewの消去
-				if(MusicPlayerViewController.getPlayerView() != null){
+				if(MusicUtils.getPlayerView() != null){
 					//ViewPagerの更新を行う
-					ViewPager v = (ViewPager) MusicPlayerViewController.getPlayerView().findViewById(R.id.player_list_part);
+					ViewPager v = (ViewPager) MusicUtils.getPlayerView().findViewById(R.id.player_list_part);
 					((MusicViewPagerAdapter)v.getAdapter()).notifitionDataSetChagedForQueueView(false);
 				}
 				

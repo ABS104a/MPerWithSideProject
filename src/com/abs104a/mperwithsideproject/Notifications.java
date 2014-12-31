@@ -68,32 +68,33 @@ public final class Notifications {
 	    contentView = new RemoteViews(mService.getPackageName(), R.layout.notification);
 	    Intent mainIntent = new Intent(mService, MusicPlayerReceiver.class);
 	    mainIntent.setAction(MAIN);
-	    PendingIntent mainPi = PendingIntent.getBroadcast(mService, MAIN_REQ, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-	    contentView.setOnClickPendingIntent(R.layout.notification, mainPi);
+	    PendingIntent mainPi = PendingIntent.getBroadcast(mService.getApplicationContext(), MAIN_REQ, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    //contentView.setOnClickPendingIntent(R.layout.notification, mainPi);
 	    
 	    //再生ボタンのアクションを設定
 	    Intent playIntent = new Intent(mService, MusicPlayerReceiver.class);
 	    playIntent.setAction(PLAY);
-	    PendingIntent playPi = PendingIntent.getBroadcast(mService, PLAY_REQ, playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    PendingIntent playPi = PendingIntent.getBroadcast(mService.getApplicationContext(), PLAY_REQ, playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_play, playPi);
 	    
 	    //戻るボタンの動作を設定
 	    Intent previousIntent = new Intent(mService, MusicPlayerReceiver.class);
 	    previousIntent.setAction(PREVIOUS);
-	    PendingIntent previousPi = PendingIntent.getBroadcast(mService, PREVIOUS_REQ, previousIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    PendingIntent previousPi = PendingIntent.getBroadcast(mService.getApplicationContext(), PREVIOUS_REQ, previousIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_previous, previousPi);
 	    
 	    //次に進むボタンの動作を設定
 	    Intent nextIntent = new Intent(mService, MusicPlayerReceiver.class);
 	    nextIntent.setAction(NEXT);
 	    android.util.Log.v(NEXT, nextIntent.getAction());
-	    PendingIntent nextPi = PendingIntent.getBroadcast(mService, NEXT_REQ, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    PendingIntent nextPi = PendingIntent.getBroadcast(mService.getApplicationContext(), NEXT_REQ, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_next, nextPi);
 	    
 	    builder.setContent(contentView);
 	    builder.setWhen(0);
 	    builder.setOngoing(true);
 	    builder.setAutoCancel(false);
+	    builder.setContentIntent(mainPi);
 	    
 	    Notification notification = builder.build();
 	    setDataOfRemoteViews(notification);

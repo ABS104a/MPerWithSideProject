@@ -53,11 +53,11 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 				
 				if(state == 0){
 					//ヘッドセットが外されたとき
-					MusicUtils.pauseWithView(rootView);
+					MusicUtils.pauseWithView();
 					Log.d("MainService","HEDSET_OFF");  
 				}else{
 					//ヘッドセットがついたとき
-					MusicUtils.playWithView(rootView);
+					MusicUtils.playWithView();
 					Log.d("MainService", "HEDSET_ON");  
 				}
 			} else if(action.equals(VOLUME_CHANGE)){
@@ -66,6 +66,7 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 				MusicPlayerViewController.changeVolume();
 				Log.d("MainService", "VOLUME_CHANGE");
 			}
+			
 		}
 	}
 

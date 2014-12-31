@@ -12,17 +12,11 @@ import android.view.View.OnClickListener;
  */
 public final class PlayButtonOnClickImpl implements OnClickListener {
 
-	//プレイヤーコントロールインスタンス
-	private final View rootView;
-
-	public PlayButtonOnClickImpl(View rootView) {
-		this.rootView = rootView;
-	}
 
 	@Override
 	public void onClick(View v) {
 		//再生動作を行う
-		MusicUtils.playOrPauseWithView(rootView);
+		MusicUtils.playOrPauseWithView();
 	}
 
 }

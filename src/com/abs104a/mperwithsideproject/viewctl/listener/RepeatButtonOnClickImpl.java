@@ -11,24 +11,13 @@ import android.view.View.OnClickListener;
  */
 public final class RepeatButtonOnClickImpl implements OnClickListener {
 
-	private final View rootView;
-
-	/**
-	 * インスタンスの生成
-	 * @param mView 結果反映用View
-	 * @param mpwpl 音楽コントロールクラス
-	 */
-	public RepeatButtonOnClickImpl(View rootView) {
-		this.rootView = rootView;
-	}
-
 	/**
 	 * タップされた時
 	 * （1曲ループ）→ループなし→全曲ループ→1曲ループ
 	 */
 	@Override
 	public void onClick(View v) {
-		MusicUtils.changeRepeatState(rootView);
+		MusicUtils.changeRepeatState();
 	}
 
 }

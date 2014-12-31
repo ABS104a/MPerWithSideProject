@@ -12,24 +12,12 @@ import android.view.View.OnClickListener;
  */
 public final class ShuffleButtonOnClickImpl implements OnClickListener {
 
-	//rootのView
-	private final View rootView;
-
-	/**
-	 * インスタンスの生成
-	 * @param shuffleButton　シャッフルボタンのView
-	 * @param mpwpl　ミュージッククラスのインスタンス
-	 */
-	public ShuffleButtonOnClickImpl(View rootView) {
-		this.rootView = rootView;
-	}
-
 	/**
 	 * クリックされた時
 	 */
 	@Override
 	public void onClick(View v) {
-		MusicUtils.changeShuffleState(rootView);
+		MusicUtils.changeShuffleState();
 	}
 
 }

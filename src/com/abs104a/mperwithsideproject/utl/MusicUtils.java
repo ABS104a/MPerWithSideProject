@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.abs104a.mperwithsideproject.MainService;
 import com.abs104a.mperwithsideproject.Notifications;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
@@ -57,6 +58,20 @@ public class MusicUtils {
 	//UIスレッドのHandler
 	private static MusicSeekBarHandler mHandler = null;
 	
+	private static View playerView = null;
+	
+	public static View getPlayerView(){
+		return playerView;
+	}
+	
+	public static void setPlayerView(View view){
+		playerView = view;
+	}
+	
+	public static Context getContext(){
+		return MainService.getService();
+	}
+	
 	
 	/**
 	 * ミュージックコントロールクラスを返す.
@@ -73,15 +88,15 @@ public class MusicUtils {
 	
 	/**
 	 * 再生と停止を行う．またViewへの反映も同時に行う
-	 * @param rootView
+	 * @param playerView
 	 * @param mpwpl
 	 */
-	public static final void playOrPauseWithView(View rootView){
+	public static final void playOrPauseWithView(){
 		//再生動作を行う
 		try {
-			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
+			MusicPlayerWithQueue mpwpl = getMusicController(getContext());
 			mpwpl.playStartAndPause();
-			reflectOfView(rootView,false);
+			reflectOfView(false);
 			android.util.Log.v(TAG, "PlayAndPauseWithView");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,16 +105,16 @@ public class MusicUtils {
 	
 	/**
 	 * 再生と停止を行う．またViewへの反映も同時に行う
-	 * @param rootView
+	 * @param playerView
 	 * @param mpwpl
 	 */
-	public static final void playOrPauseWithView(View rootView,int index){
+	public static final void playOrPauseWithView(int index){
 		//再生動作を行う
 		try {
-			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
+			MusicPlayerWithQueue mpwpl = getMusicController(getContext());
 			mpwpl.seekQueue(index);
 			mpwpl.playStartAndPause();
-			reflectOfView(rootView,true);
+			reflectOfView(true);
 			android.util.Log.v(TAG, "PlayAndPauseWithView");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -108,16 +123,16 @@ public class MusicUtils {
 	
 	/**
 	 * 再生と停止を行う．またViewへの反映も同時に行う
-	 * @param rootView
+	 * @param playerView
 	 * @param mpwpl
 	 */
-	public static final void playWithView(View rootView){
+	public static final void playWithView(){
 		//再生動作を行う
 		try {
-			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
+			MusicPlayerWithQueue mpwpl = getMusicController(getContext());
 			if(mpwpl.getStatus() != MusicPlayerWithQueue.PLAYING){
 				mpwpl.playStartAndPause();
-				reflectOfView(rootView,false);
+				reflectOfView(false);
 				android.util.Log.v(TAG, "PlayWithView");
 			}
 		} catch (Exception e) {
@@ -127,16 +142,16 @@ public class MusicUtils {
 	
 	/**
 	 * 再生と停止を行う．またViewへの反映も同時に行う
-	 * @param rootView
+	 * @param playerView
 	 * @param mpwpl
 	 */
-	public static final void pauseWithView(View rootView){
+	public static final void pauseWithView(){
 		//再生動作を行う
 		try {
-			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
+			MusicPlayerWithQueue mpwpl = getMusicController(getContext());
 			if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
 				mpwpl.playStartAndPause();
-				reflectOfView(rootView,false);
+				reflectOfView(false);
 				android.util.Log.v(TAG, "PauseWithView");
 			}
 		} catch (Exception e) {
@@ -146,14 +161,14 @@ public class MusicUtils {
 	
 	/**
 	 * 再生の停止を行う．
-	 * @param rootView
+	 * @param playerView
 	 * @param mpwpl
 	 */
-	public static final void stopWithView(View rootView){
+	public static final void stopWithView(){
 		try{
-			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
+			MusicPlayerWithQueue mpwpl = getMusicController(getContext());
 			mpwpl.playStop();
-			reflectOfView(rootView,true);
+			reflectOfView(true);
 			android.util.Log.v(TAG, "StopWithView");
 		}catch(Exception e){
 			e.printStackTrace();
@@ -162,13 +177,13 @@ public class MusicUtils {
 	
 	/**
 	 * 次の曲へ移動する．
-	 * @param rootView
+	 * @param playerView
 	 */
-	public static final void playNextWithView(View rootView){
+	public static final void playNextWithView(){
 		try{
-			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
+			MusicPlayerWithQueue mpwpl = getMusicController(getContext());
 			mpwpl.playNext();
-			reflectOfView(rootView,true);
+			reflectOfView(true);
 			android.util.Log.v(TAG, "PlayNextWithView");
 		}catch(Exception e){
 			e.printStackTrace();
@@ -177,13 +192,13 @@ public class MusicUtils {
 	
 	/**
 	 * 前の曲に戻る．
-	 * @param rootView
+	 * @param playerView
 	 */
-	public static final void playBackWithView(View rootView){
+	public static final void playBackWithView(){
 		try{
-			MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
+			MusicPlayerWithQueue mpwpl = getMusicController(getContext());
 			mpwpl.playBack();
-			reflectOfView(rootView,true);
+			reflectOfView(true);
 			android.util.Log.v(TAG, "PlayBackWithView");
 		}catch(Exception e){
 			e.printStackTrace();
@@ -192,10 +207,10 @@ public class MusicUtils {
 	
 	/**
 	 * Repeat状態の変化
-	 * @param rootView
+	 * @param playerView
 	 */
-	public static final void changeRepeatState(View rootView){
-		MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
+	public static final void changeRepeatState(){
+		MusicPlayerWithQueue mpwpl = getMusicController(getContext());
 		//現在の状態を取得する
 		int loopState = mpwpl.getLoopState();
 		//LOOPしてない時
@@ -214,53 +229,62 @@ public class MusicUtils {
 		loopState = mpwpl.setLoopState(loopState);
 		
 		//リピートボタンの動作設定
-		ImageButton repeatButton = (ImageButton)rootView.findViewById(R.id.button_repeat);
+		ImageButton repeatButton = (ImageButton)playerView.findViewById(R.id.button_repeat);
 		
 		final String message;
 		switch(loopState){
 		default:
 		case MusicPlayerWithQueue.NOT_LOOP:
-			message = rootView.getContext().getString(R.string.play_loop_state_notloop);
+			message = getContext().getString(R.string.play_loop_state_notloop);
 			break;
 		case MusicPlayerWithQueue.ALL_LOOP:
-			message = rootView.getContext().getString(R.string.play_loop_state_allloop);
+			message = getContext().getString(R.string.play_loop_state_allloop);
 			break;
 		case MusicPlayerWithQueue.ONE_LOOP:
-			message = rootView.getContext().getString(R.string.play_loop_state_oneloop);
+			message = getContext().getString(R.string.play_loop_state_oneloop);
 		}
-		Toast.makeText(rootView.getContext(), message, Toast.LENGTH_SHORT).show();
+		Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
 	}
 	
 	/**
 	 * シャッフルの状態を変更する
 	 * Viewの変更を伴う
-	 * @param rootView
+	 * @param playerView
 	 */
-	public static final void changeShuffleState(View rootView){
-		MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
+	public static final void changeShuffleState(){
+		MusicPlayerWithQueue mpwpl = getMusicController(getContext());
 		boolean isShuffle = mpwpl.setShuffle(!mpwpl.isShuffle());
 		if(isShuffle){
-			Toast.makeText(rootView.getContext(), R.string.shuffle_on, Toast.LENGTH_SHORT).show();
+			Toast.makeText(getContext(), R.string.shuffle_on, Toast.LENGTH_SHORT).show();
 			//シャッフルがONの時
 			//Viewへの反映
 		}else{
 			//シャッフルがOFFの時
-			Toast.makeText(rootView.getContext(), R.string.shuffle_off, Toast.LENGTH_SHORT).show();
+			Toast.makeText(getContext(), R.string.shuffle_off, Toast.LENGTH_SHORT).show();
 		}
 		//TODO　動作を登録する．
-		ImageButton shuffleButton = (ImageButton)rootView.findViewById(R.id.button_shuffle);
+		ImageButton shuffleButton = (ImageButton)playerView.findViewById(R.id.button_shuffle);
 	}
 	
 	/**
 	 * PlayerViewへ変更を反映させる．
-	 * @param rootView
+	 * @param playerView
 	 * @param mpwpl
 	 */
-	public static final void reflectOfView(View rootView,boolean isNotifitionViewPager){
-		if(rootView == null)return; //ViewがNullの時は反映しない．
-		MusicPlayerWithQueue mpwpl = getMusicController(rootView.getContext());
+	public static final void reflectOfView(boolean isNotifitionViewPager){
+		
+		try{
+			//Notificationに通知を設定
+			Notifications.putNotification();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		if(playerView == null)return; //ViewがNullの時は反映しない．
+		
+		MusicPlayerWithQueue mpwpl = getMusicController(getContext());
 		//再生ボタンの設定
-		ImageButton playButton = (ImageButton)rootView.findViewById(R.id.button_play);
+		ImageButton playButton = (ImageButton)playerView.findViewById(R.id.button_play);
 		if(playButton != null){
 			if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
 				//Viewを一時停止ボタンに
@@ -271,17 +295,15 @@ public class MusicUtils {
 			}
 		}
 		setPartOfPlayerView(
-				rootView.getContext(),
-				rootView, 
+				getContext(),
+				playerView, 
 				mpwpl.getNowPlayingMusic(),
 				mpwpl);
 		//ViewPager の設定
-		ViewPager mViewPager = (ViewPager)rootView.findViewById(R.id.player_list_part);
+		ViewPager mViewPager = (ViewPager)playerView.findViewById(R.id.player_list_part);
 		if(mViewPager != null && mViewPager.getCurrentItem() == MusicViewPagerAdapter.EQUALIZER){
 			ViewPagerForEqualizerViewCtl.createMusicVisualizer(mViewPager.getContext());
 		}
-		//Notificationに通知を設定
-		Notifications.putNotification();
 		
 		//ViewPagerに通知する必要があるかどうか選択する場合
 		if(isNotifitionViewPager){
@@ -300,6 +322,9 @@ public class MusicUtils {
 	 * @param music
 	 */
 	private static final void setPartOfPlayerView(final Context context,final View mView,final Music music,final MusicPlayerWithQueue mpwpl){
+		
+		//ViewがNullの場合は何もしない．
+		if(mView == null) return;
 		//一定時間おきの動作設定
 		if(mHandler != null)
 			mHandler.stopHandler();

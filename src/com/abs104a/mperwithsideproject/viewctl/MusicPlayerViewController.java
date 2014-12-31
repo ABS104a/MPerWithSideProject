@@ -46,9 +46,7 @@ public final class MusicPlayerViewController {
 	public final static int PLAYER_VIEW_ID = 12;
 	
 	public final static int ANIMATE_OPEN = 35;
-	
-	//PlayerView
-	private static View playerView = null;
+
 	//ViewPagerのページを記憶する用
 	private static int pageCount = 0;
 	
@@ -60,33 +58,26 @@ public final class MusicPlayerViewController {
 		return pageCount;
 	}
 	
-	/**
-	 * playerViewを取得する．
-	 * @return
-	 */
-	public static View getPlayerView(){
-		return playerView;
-	}
 	
 	/**
 	 * PlayerViewを消去する．
-	 * @param rootView
+	 * @param PlayerView
 	 */
-	public static void removePlayerView(final View rootView){
+	public static void removePlayerView(final View PlayerView){
 		//Viewの消去を行う
-		if(playerView != null && rootView != null){
-			final ImageButton handle = (ImageButton) rootView.findViewById(R.id.imageButton_handle);
+		if(MusicUtils.getPlayerView() != null && PlayerView != null){
+			final ImageButton handle = (ImageButton) PlayerView.findViewById(R.id.imageButton_handle);
 			handle.setVisibility(View.INVISIBLE);
 			Animation closeAnimation = 
-					AnimationUtils.loadAnimation(rootView.getContext(), android.R.anim.fade_out);
+					AnimationUtils.loadAnimation(PlayerView.getContext(), android.R.anim.fade_out);
 			closeAnimation.setAnimationListener(new AnimationListener(){
 
 				@Override
 				public void onAnimationEnd(Animation animation) {
-					((LinearLayout)rootView).removeView(playerView);
+					((LinearLayout)PlayerView).removeView(MusicUtils.getPlayerView());
 					//キャッシュのClear
 					ImageCache.clearCache();
-					playerView = null;
+					MusicUtils.setPlayerView(null);
 					final Handler mHandler = new Handler();
 					mHandler.post(new Runnable(){
 
@@ -95,7 +86,7 @@ public final class MusicPlayerViewController {
 							handle.setVisibility(View.VISIBLE);
 							handle.startAnimation(
 									AnimationUtils
-									.loadAnimation(rootView.getContext(), android.R.anim.fade_in));
+									.loadAnimation(PlayerView.getContext(), android.R.anim.fade_in));
 						}
 						
 					});
@@ -109,10 +100,10 @@ public final class MusicPlayerViewController {
 				public void onAnimationStart(Animation animation) {}
 				
 			});
-			playerView.startAnimation(closeAnimation);
+			MusicUtils.getPlayerView().startAnimation(closeAnimation);
 			
 			//プレイリストの書き込みを行う
-			ViewPagerForPlayListViewCtl.writePlayList(playerView.getContext());
+			ViewPagerForPlayListViewCtl.writePlayList(MusicUtils.getPlayerView().getContext());
 			
 		}
 	}
@@ -120,12 +111,12 @@ public final class MusicPlayerViewController {
 	/**
 	 * PlayerView
 	 *　を生成する（non-OpenAnimation）
-	 * @param rootView
+	 * @param PlayerView
 	 */
-	public static void createPlayerView(final Service mService,View rootView){
-		if(playerView == null){
-			View mView = createView(mService,rootView);
-			final ImageButton handle = (ImageButton) rootView.findViewById(R.id.imageButton_handle);
+	public static void createPlayerView(final Service mService,View PlayerView){
+		if(MusicUtils.getPlayerView() == null){
+			View mView = createView(mService,PlayerView);
+			final ImageButton handle = (ImageButton) PlayerView.findViewById(R.id.imageButton_handle);
 			handle.setVisibility(View.INVISIBLE);
 			Animation showAnimation = 
 					AnimationUtils.loadAnimation(mService, android.R.anim.fade_in);
@@ -155,26 +146,26 @@ public final class MusicPlayerViewController {
 	 * @param mService
 	 * @return　生成したViewGroup
 	 */
-	private static View createView(Service mService,View rootView){
+	private static View createView(Service mService,View PlayerView){
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する
-		playerView = layoutInflater.inflate(R.layout.player_view, null);
-		playerView.setId(PLAYER_VIEW_ID);
-		((LinearLayout)rootView).addView(playerView);
+		MusicUtils.setPlayerView(layoutInflater.inflate(R.layout.player_view, null));
+		MusicUtils.getPlayerView().setId(PLAYER_VIEW_ID);
+		((LinearLayout)PlayerView).addView(MusicUtils.getPlayerView());
 		//Action Settings 
-		init(mService, playerView,rootView);
-		return playerView;
+		init(mService, MusicUtils.getPlayerView(),PlayerView);
+		return MusicUtils.getPlayerView();
 	}
 	
 	/**
 	 * 初期化を行う
 	 * @param mService
 	 * @param mView
-	 * @param rootView 
+	 * @param PlayerView 
 	 * @param mpwpl 
 	 */
-	private final static void init(Service mService,View mView, View rootView){
+	private final static void init(Service mService,View mView, View PlayerView){
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mService);
 		initAction(mService,mView,mpwpl);
 		initButtonOfView(mService,mView,mpwpl);
@@ -191,24 +182,24 @@ public final class MusicPlayerViewController {
 		//再生ボタンの設定
 		ImageButton playButton = (ImageButton)mView.findViewById(R.id.button_play);
 		//再生ボタンの動作を登録する．
-		playButton.setOnClickListener(new PlayButtonOnClickImpl(mView));
+		playButton.setOnClickListener(new PlayButtonOnClickImpl());
 		
 		//次へのボタンの設定
 		ImageButton nextButton = (ImageButton)mView.findViewById(R.id.button_next_seek);
 		//次へボタンの動作を登録する．
-		nextButton.setOnClickListener(new NextButtonOnClickImpl(mView));
+		nextButton.setOnClickListener(new NextButtonOnClickImpl());
 		
 		ImageButton backButton = (ImageButton)mView.findViewById(R.id.button_back_seek);
 		//前へボタンの動作を登録する．
-		backButton.setOnClickListener(new BackButtonOnClickImpl(mView));
+		backButton.setOnClickListener(new BackButtonOnClickImpl());
 		
 		ImageButton repeatButton = (ImageButton)mView.findViewById(R.id.button_repeat);
 		//リピートボタンの動作を登録する．
-		repeatButton.setOnClickListener(new RepeatButtonOnClickImpl(mView));
+		repeatButton.setOnClickListener(new RepeatButtonOnClickImpl());
 		
 		ImageButton shuffleButton = (ImageButton)mView.findViewById(R.id.button_shuffle);
 		//シャッフルボタンの動作を登録する．
-		shuffleButton.setOnClickListener(new ShuffleButtonOnClickImpl(mView));
+		shuffleButton.setOnClickListener(new ShuffleButtonOnClickImpl());
 		
 		//TODO 設定表示ボタンの設定を登録する．
 		//((LinearLayout)mView).addView(ViewPagerForAlbumViewCtl.createView(mService, _mpwpl));
@@ -244,7 +235,7 @@ public final class MusicPlayerViewController {
 	private static void initAction(Service mService,View mView, MusicPlayerWithQueue _mpwpl){
 		//再生が終了した時に呼ばれるリスナを実装する．
 		//再生が完了したときのリスナをセット．
-		_mpwpl.setOnPlayCompletedListener(new OnPlayCompletedImpl( mView));
+		_mpwpl.setOnPlayCompletedListener(new OnPlayCompletedImpl());
 		
 		//ViewPager の設定
 		ViewPager mViewPager = (ViewPager)mView.findViewById(R.id.player_list_part);
@@ -256,7 +247,7 @@ public final class MusicPlayerViewController {
 		
 		//TODO プレイリストを設定
 		if(_mpwpl.getNowPlayingMusic() != null)
-			MusicUtils.reflectOfView(mView,true);
+			MusicUtils.reflectOfView(true);
 		
 		//音量の設定
 		// AudioManagerを取得する
@@ -297,10 +288,10 @@ public final class MusicPlayerViewController {
 	 */
 	public static void changeVolume(){
 		//ViewがNullの場合は変更する必要がないため何もしない．
-		if(playerView == null)return;
+		if(MusicUtils.getPlayerView() == null)return;
 		//音量の設定
 		// AudioManagerを取得する
-		final AudioManager am = (AudioManager)playerView.getContext().getSystemService(Context.AUDIO_SERVICE);
+		final AudioManager am = (AudioManager)MusicUtils.getPlayerView().getContext().getSystemService(Context.AUDIO_SERVICE);
 
 		// 現在の音量を取得する
 		int musicVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -308,7 +299,7 @@ public final class MusicPlayerViewController {
 		// ストリームごとの最大音量を取得する
 		int musicMaxVolume = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 		//音量を調節するシークバー
-		final SeekBar volumeBar = (SeekBar)playerView.findViewById(R.id.seekBar_volume);
+		final SeekBar volumeBar = (SeekBar)MusicUtils.getPlayerView().findViewById(R.id.seekBar_volume);
 		volumeBar.setMax(musicMaxVolume);
 		volumeBar.setProgress(musicVolume);
 		//音量のシークバーが変更された時のリスナ
@@ -319,16 +310,16 @@ public final class MusicPlayerViewController {
 	/**
 	 * アニメーション的にViewをオープンするやつ
 	 * @param mService
-	 * @param rootView
+	 * @param PlayerView
 	 */
 	/*
-	public final static void animateOpen(final Service mService,View rootView){
+	public final static void animateOpen(final Service mService,View PlayerView){
 		final Handler mHandler = new Handler();
 		final int mWidth;
 		if(playerView == null){
 			//MusicPlayerViewの作成
 			mWidth = openViewWidth;
-			playerView = createView(mService,rootView);
+			playerView = createView(mService,PlayerView);
 		}else{
 			mWidth = playerView.getWidth();
 		}
@@ -379,13 +370,13 @@ public final class MusicPlayerViewController {
 	/**
 	 * アニメーション的にViewをクローズするやつ
 	 * @param mService
-	 * @param rootView
+	 * @param PlayerView
 	 *//*
-	public final static void animateClose(final Service mService,final View rootView){
+	public final static void animateClose(final Service mService,final View PlayerView){
 		final Handler mHandler = new Handler();
 		if(playerView == null){
 			//MusicPlayerViewの作成
-			playerView = createView(mService,rootView);
+			playerView = createView(mService,PlayerView);
 		}
 		//Animationの設定
 		playerView.setVisibility(View.INVISIBLE);
@@ -409,7 +400,7 @@ public final class MusicPlayerViewController {
 					mHandler.post(this);
 				}else{
 					//Viewの消去を行う
-					removePlayerView(rootView);
+					removePlayerView(PlayerView);
 				}
 			}
 			

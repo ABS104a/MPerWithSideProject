@@ -18,6 +18,15 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <receiver
+            android:name="com.abs104a.mperwithsideproject.music.MusicPlayerReceiver">
+        	<intent-filter>
+                <action android:name="com.abs104a.mperwithsideproject.play" />
+                <action android:name="com.abs104a.mperwithsideproject.previous" />
+                <action android:name="com.abs104a.mperwithsideproject.next" />
+                <action android:name="com.abs104a.mperwithsideproject.main" />
+            </intent-filter>    
+        </receiver>
         
         <activity
             android:name="com.abs104a.mperwithsideproject.MainActivity"

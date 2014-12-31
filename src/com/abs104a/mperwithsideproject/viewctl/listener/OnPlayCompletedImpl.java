@@ -1,7 +1,5 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
-import android.view.View;
-
 import com.abs104a.mperwithsideproject.music.MusicPlayer.OnPlayCompletedListener;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 
@@ -12,16 +10,6 @@ import com.abs104a.mperwithsideproject.utl.MusicUtils;
  */
 public final class OnPlayCompletedImpl implements OnPlayCompletedListener{
 
-	//rootView
-	private final View rootView;
-
-	/**
-	 * インスタンスの作成
-	 * @param mpwpl　ミュージックコントロールクラスのインスタンス．
-	 */
-	public OnPlayCompletedImpl(View rootView) {
-		this.rootView = rootView;
-	}
 
 	/**
 	 * 再生が完了した時
@@ -31,7 +19,7 @@ public final class OnPlayCompletedImpl implements OnPlayCompletedListener{
 		//再生が終了したとき 次の曲をセットする．
 		try {
 			//次の曲を再生
-			MusicUtils.playNextWithView(rootView);
+			MusicUtils.playNextWithView();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
