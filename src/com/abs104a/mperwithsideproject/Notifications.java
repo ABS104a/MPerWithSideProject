@@ -118,7 +118,10 @@ public final class Notifications {
 		int currentState = mpwpl.getStatus();
 		final Music currentMusic = mpwpl.getNowPlayingMusic();
 		
-		new GetImageTask(mService,new GetImageTask.OnGetImageListener() {
+		new GetImageTask(
+				mService,
+				mService.getResources().getDimensionPixelSize(R.dimen.notification_item_height),
+				new GetImageTask.OnGetImageListener() {
 			
 			@Override
 			public void onGetImage(Bitmap image) {

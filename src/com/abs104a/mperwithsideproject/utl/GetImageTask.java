@@ -19,14 +19,16 @@ public class GetImageTask extends AsyncTask<Uri, Void, Bitmap> {
 	
 	private final Context context;
 	private final OnGetImageListener listener;
+	private final int size;
 	
 	public interface OnGetImageListener{
 		public void onGetImage(Bitmap image);
 	}
 
-	public GetImageTask(Context context,OnGetImageListener listener){
+	public GetImageTask(Context context,int picSize,OnGetImageListener listener){
 		this.context = context;
 		this.listener = listener;
+		this.size = picSize;
 	}
 	
 	@Override
@@ -35,7 +37,7 @@ public class GetImageTask extends AsyncTask<Uri, Void, Bitmap> {
 		try{
 		    ContentResolver cr = context.getContentResolver();
 		    InputStream is = cr.openInputStream(params[0]);
-		    return BitmapFactory.decodeStream(is);
+		    return DisplayUtils.resizeBitmap(BitmapFactory.decodeStream(is), size);
 		}catch(FileNotFoundException err){
 
 		}

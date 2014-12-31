@@ -6,6 +6,7 @@ import java.util.Date;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PorterDuffXfermode;
@@ -64,6 +65,27 @@ public class DisplayUtils {
         canvas.drawBitmap(bm, new Rect(0, 0, size, size), new Rect(0, 0, size, size), paint);
         bm.recycle();
         return newImage;
+    }
+    
+    public synchronized static Bitmap resizeBitmap(Bitmap src,float newSize){
+    	 int srcWidth = src.getWidth(); // 元画像のwidth
+         int srcHeight = src.getHeight(); // 元画像のheight
+
+         // 画面サイズを取得する
+         Matrix matrix = new Matrix();
+         float screenWidth = newSize;
+         float screenHeight = newSize;
+
+         float widthScale = screenWidth / srcWidth;
+         float heightScale = screenHeight / srcHeight;
+         if (widthScale > heightScale) {
+             matrix.postScale(heightScale, heightScale);
+         } else {
+             matrix.postScale(widthScale, widthScale);
+         }
+         
+         // リサイズ
+         return Bitmap.createBitmap(src, 0, 0, srcWidth, srcHeight, matrix, true);
     }
 	
 	/**
