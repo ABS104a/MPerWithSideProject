@@ -167,13 +167,14 @@ public class ViewPagerForEqualizerViewCtl {
 		//>-----Equalizerのバーについての設定-----------------------------<//
 		for(short i = 0;i < bands;i++){
 			final int index = (int)i;
-			final short band = (short) (eq.getCenterFreq(i) / 100);
+			final short band = (short) (eq.getCenterFreq(i) / 1000);
 			//指定バンド幅の数だけViewを作成する．
 			View eqView = layoutInflater.inflate(R.layout.equalizer_row, null);
 			final TextView currentText = (TextView)eqView.findViewById(R.id.textView_equalizer_row_current);
 			SeekBar seekBar = (SeekBar)eqView.findViewById(R.id.seekBar_equalizer_row);
 			TextView maxText = (TextView)eqView.findViewById(R.id.textView_equalizer_row_max);
-			currentText.setText(eq.getBandLevel((short)index) + "");
+			maxText.setText(String.valueOf(band) + "Hz");
+			currentText.setText(eq.getBandLevel((short)index) / 100 + "");
 			
 			seekBar.setMax((int)(maxEQLevel - minEQLevel) / 100);
 			seekBar.setProgress(((int) eq.getBandLevel((short)index) - minEQLevel) / 100);
@@ -183,11 +184,11 @@ public class ViewPagerForEqualizerViewCtl {
 				public void onProgressChanged(SeekBar seekBar, int progress,
 						boolean fromUser) {
 					if(fromUser){
-						currentText.setText((progress * 100 + minEQLevel) + "");
+						currentText.setText((progress * 100 + minEQLevel) / 100 + "");
 						short newLevel = (short) ((progress * 100 + minEQLevel) / 100);
 						//android.util.Log.v("Equalizer","NewLevel : " + newLevel);
 						Equalizer eqr = mpwpl.getEqualizerInstance();
-						eqr.setBandLevel((short)index, newLevel);
+						eqr.setBandLevel((short)index,(short) (newLevel * 100));
 						items[index].setLevel((short) (newLevel * 100));
 						
 						final Spinner mSpinner = (Spinner)mView.findViewById(R.id.spinner_equalizer);
@@ -209,7 +210,7 @@ public class ViewPagerForEqualizerViewCtl {
 				}
 				
 			});
-			maxText.setText(String.valueOf(band));
+			
 			layoutView.addView(eqView);
 		}
 		//>-----Equalizerのバーについての設定-----------------------------<//
