@@ -149,7 +149,7 @@ public final class PlayListForExpandableListAdapter extends
 				//Header or Footerのrecycleは破棄
 				convertView = null;
 			}
-			if(column == PLAYLIST){
+			if(column == PLAYLIST || column == ALBUM){
 				childPosition -= HEADER_COUNT;
 			}
 			//Viewの生成
@@ -178,7 +178,7 @@ public final class PlayListForExpandableListAdapter extends
 	@Override
 	public int getChildrenCount(int groupPosition) {
 		Music[] pLists = playLists.get(groupPosition).getMusics();
-		if(column == PLAYLIST)
+		if(column == PLAYLIST || column == ALBUM)
 			return pLists == null ? 0 : pLists.length + HEADER_COUNT + FOOTER_COUNT;
 		else
 			return pLists == null ? 0 : pLists.length;
