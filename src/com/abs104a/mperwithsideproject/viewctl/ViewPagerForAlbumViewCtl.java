@@ -45,6 +45,7 @@ public final class ViewPagerForAlbumViewCtl {
 		mListView.setAdapter(new PlayListForExpandableListAdapter(mService, pList, rootView, mpwpl,MusicListAdapter.ALBUM));
 		mListView.setOnChildClickListener(new PlayListOnChildClickImpl(mService,mpwpl));
 
+		
 		return mListView;
 		
 		/*

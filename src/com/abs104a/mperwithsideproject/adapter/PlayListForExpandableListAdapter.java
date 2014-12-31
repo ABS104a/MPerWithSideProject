@@ -107,11 +107,15 @@ public final class PlayListForExpandableListAdapter extends
 		//TODO 1番目はQueueに追加，2番目はQueueにセット，最後はプレイリストの消去
 		
 		
-		if(column == PLAYLIST && childPosition == 0){
+		if((column == PLAYLIST || column == ALBUM )&& childPosition == 0){
 			final int viewHeight = mContext.getResources().getDimensionPixelSize(R.dimen.album_item_height);
 			
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, viewHeight, 1);
 			params.gravity = Gravity.CENTER;
+			
+			LinearLayout mLayout = new LinearLayout(mContext);
+			mLayout.setOrientation(LinearLayout.HORIZONTAL);
+			mLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, viewHeight));
 			
 			//header1 play
 			TextView playView = new TextView(mContext);
@@ -122,23 +126,21 @@ public final class PlayListForExpandableListAdapter extends
 			PlayOfPlayListOnLCImpl impl = new PlayOfPlayListOnLCImpl(playLists.get(groupPosition));
 			playView.setOnClickListener(impl);
 			playView.setOnLongClickListener(impl);
+			mLayout.addView(playView);
 			
 			//header2 Edit
-			TextView editView = new TextView(mContext);
-			editView.setText(R.string.edit_to_playlist);
-			editView.setLayoutParams(params);
-			editView.setGravity(Gravity.CENTER);
-			
-			//OnClickListenerの実装　（名前の変更，消去）
-			EditOfPlayListOnLCImpl eimpl = new EditOfPlayListOnLCImpl(groupPosition, playLists);
-			editView.setOnClickListener(eimpl);
-			editView.setOnLongClickListener(eimpl);
-			
-			LinearLayout mLayout = new LinearLayout(mContext);
-			mLayout.setOrientation(LinearLayout.HORIZONTAL);
-			mLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, viewHeight));
-			mLayout.addView(playView);
-			mLayout.addView(editView);
+			if(column == PLAYLIST){
+				TextView editView = new TextView(mContext);
+				editView.setText(R.string.edit_to_playlist);
+				editView.setLayoutParams(params);
+				editView.setGravity(Gravity.CENTER);
+
+				//OnClickListenerの実装　（名前の変更，消去）
+				EditOfPlayListOnLCImpl eimpl = new EditOfPlayListOnLCImpl(groupPosition, playLists);
+				editView.setOnClickListener(eimpl);
+				editView.setOnLongClickListener(eimpl);
+				mLayout.addView(editView);
+			}
 			
 			return mLayout;
 			
