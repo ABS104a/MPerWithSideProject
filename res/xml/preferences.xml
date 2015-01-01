@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <PreferenceCategory
+            android:title="@string/headset_title">
+ 
+        <SwitchPreference
+                android:key="@string/connected_headset_key"
+                android:title="@string/connected_headset"
+                android:defaultValue="true"
+                android:summary="@string/connected_headset_m" />
+        
+        
+        <SwitchPreference
+                android:key="@string/unconnected_headset_key"
+                android:title="@string/unconnected_headset"
+                android:defaultValue="true"
+                android:summary="@string/unconnected_headset_m" />
+ 
+    </PreferenceCategory>
+    
+
+</PreferenceScreen>

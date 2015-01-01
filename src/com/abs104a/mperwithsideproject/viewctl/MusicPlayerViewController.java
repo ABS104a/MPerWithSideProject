@@ -1,6 +1,7 @@
 package com.abs104a.mperwithsideproject.viewctl;
 
 
+import com.abs104a.mperwithsideproject.MainService;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
@@ -63,18 +64,18 @@ public final class MusicPlayerViewController {
 	 * PlayerViewを消去する．
 	 * @param PlayerView
 	 */
-	public static void removePlayerView(final View PlayerView){
+	public static void removePlayerView(final View rootView){
 		//Viewの消去を行う
-		if(MusicUtils.getPlayerView() != null && PlayerView != null){
-			final ImageButton handle = (ImageButton) PlayerView.findViewById(R.id.imageButton_handle);
+		if(MusicUtils.getPlayerView() != null && rootView != null){
+			final ImageButton handle = (ImageButton) rootView.findViewById(R.id.imageButton_handle);
 			handle.setVisibility(View.INVISIBLE);
 			Animation closeAnimation = 
-					AnimationUtils.loadAnimation(PlayerView.getContext(), android.R.anim.fade_out);
+					AnimationUtils.loadAnimation(rootView.getContext(), R.anim.left_to_right_out);
 			closeAnimation.setAnimationListener(new AnimationListener(){
 
 				@Override
 				public void onAnimationEnd(Animation animation) {
-					((LinearLayout)PlayerView).removeView(MusicUtils.getPlayerView());
+					((LinearLayout)rootView).removeView(MusicUtils.getPlayerView());
 					//キャッシュのClear
 					ImageCache.clearCache();
 					MusicUtils.setPlayerView(null);
@@ -86,7 +87,7 @@ public final class MusicPlayerViewController {
 							handle.setVisibility(View.VISIBLE);
 							handle.startAnimation(
 									AnimationUtils
-									.loadAnimation(PlayerView.getContext(), android.R.anim.fade_in));
+									.loadAnimation(rootView.getContext(), android.R.anim.fade_in));
 						}
 						
 					});
@@ -113,13 +114,14 @@ public final class MusicPlayerViewController {
 	 *　を生成する（non-OpenAnimation）
 	 * @param PlayerView
 	 */
-	public static void createPlayerView(final Service mService,View PlayerView){
+	public static void createPlayerView(final Service mService,View rootView){
 		if(MusicUtils.getPlayerView() == null){
-			View mView = createView(mService,PlayerView);
-			final ImageButton handle = (ImageButton) PlayerView.findViewById(R.id.imageButton_handle);
+			final View mView = createView(mService,rootView);
+			final ImageButton handle = (ImageButton) rootView.findViewById(R.id.imageButton_handle);
 			handle.setVisibility(View.INVISIBLE);
-			Animation showAnimation = 
-					AnimationUtils.loadAnimation(mService, android.R.anim.fade_in);
+			
+			final Animation showAnimation = 
+					AnimationUtils.loadAnimation(mService, R.anim.right_to_left_in);
 			showAnimation.setAnimationListener(new AnimationListener(){
 
 				@Override
@@ -146,15 +148,15 @@ public final class MusicPlayerViewController {
 	 * @param mService
 	 * @return　生成したViewGroup
 	 */
-	private static View createView(Service mService,View PlayerView){
+	private static View createView(Service mService,View rootView){
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する
 		MusicUtils.setPlayerView(layoutInflater.inflate(R.layout.player_view, null));
 		MusicUtils.getPlayerView().setId(PLAYER_VIEW_ID);
-		((LinearLayout)PlayerView).addView(MusicUtils.getPlayerView());
+		((LinearLayout)rootView).addView(MusicUtils.getPlayerView());
 		//Action Settings 
-		init(mService, MusicUtils.getPlayerView(),PlayerView);
+		init(mService, MusicUtils.getPlayerView(),rootView);
 		return MusicUtils.getPlayerView();
 	}
 	
@@ -165,7 +167,7 @@ public final class MusicPlayerViewController {
 	 * @param PlayerView 
 	 * @param mpwpl 
 	 */
-	private final static void init(Service mService,View mView, View PlayerView){
+	private final static void init(Service mService,View mView, View rootView){
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mService);
 		initAction(mService,mView,mpwpl);
 		initButtonOfView(mService,mView,mpwpl);
@@ -177,7 +179,7 @@ public final class MusicPlayerViewController {
 	 * @param mView
 	 * @param _mpwpl 
 	 */
-	private static void initButtonOfView(final Service mService,View mView, MusicPlayerWithQueue _mpwpl){
+	private static void initButtonOfView(final Service mService,final View mView, MusicPlayerWithQueue _mpwpl){
 		//Viewのボタンに動作をつける
 		//再生ボタンの設定
 		ImageButton playButton = (ImageButton)mView.findViewById(R.id.button_play);
@@ -219,7 +221,9 @@ public final class MusicPlayerViewController {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mService,SettingsActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
 				mService.startActivity(intent);
+				removePlayerView(MainService.getRootView());
 			}
 			
 		});
@@ -304,108 +308,5 @@ public final class MusicPlayerViewController {
 		volumeBar.setProgress(musicVolume);
 		//音量のシークバーが変更された時のリスナ
 	}
-	
-	
-	
-	/**
-	 * アニメーション的にViewをオープンするやつ
-	 * @param mService
-	 * @param PlayerView
-	 */
-	/*
-	public final static void animateOpen(final Service mService,View PlayerView){
-		final Handler mHandler = new Handler();
-		final int mWidth;
-		if(playerView == null){
-			//MusicPlayerViewの作成
-			mWidth = openViewWidth;
-			playerView = createView(mService,PlayerView);
-		}else{
-			mWidth = playerView.getWidth();
-		}
-		//Layout設定
-		final LayoutParams params = (LayoutParams) playerView.getLayoutParams();
-		params.width = mWidth;
-		//Layoutの変更
-		playerView.setLayoutParams(params);
-		playerView.setVisibility(View.INVISIBLE);
-		
-		final Runnable mRunnable = new Runnable(){
-			
-			private int width = 0;
-
-			@Override
-			public void run() {
-				final int musicPlayerWidth = 
-						mService
-						.getResources()
-						.getDimensionPixelSize(R.dimen.player_view_width) 
-						+ 
-						2 * mService.getResources()
-						.getDimensionPixelSize(R.dimen.activity_vertical_margin);
-				
-				//Layout設定
-				final LayoutParams params = (LayoutParams) playerView.getLayoutParams();
-
-				width += ANIMATE_OPEN;
-				if(musicPlayerWidth > width){
-					params.width = Math.min(musicPlayerWidth, width);
-					//Layoutの変更
-					playerView.setLayoutParams(params);
-					mHandler.post(this);
-				}else{
-					playerView.setVisibility(View.VISIBLE);
-					Animation showAnimation = 
-							AnimationUtils
-							.loadAnimation(mService, android.R.anim.fade_in);
-					//Animationの設定
-					playerView.startAnimation(showAnimation);
-				}
-			}
-			
-		};
-		mHandler.post(mRunnable);
-	}*/
-	
-	/**
-	 * アニメーション的にViewをクローズするやつ
-	 * @param mService
-	 * @param PlayerView
-	 *//*
-	public final static void animateClose(final Service mService,final View PlayerView){
-		final Handler mHandler = new Handler();
-		if(playerView == null){
-			//MusicPlayerViewの作成
-			playerView = createView(mService,PlayerView);
-		}
-		//Animationの設定
-		playerView.setVisibility(View.INVISIBLE);
-		
-		final Runnable mRunnable = new Runnable(){
-			
-			private int width = playerView.getWidth();
-
-			@Override
-			public void run() {
-				
-				//Layout設定
-				final LayoutParams params = (LayoutParams) playerView.getLayoutParams();
-				//android.util.Log.v("hogebefore", width + " / " + musicPlayerWidth);
-				width -= ANIMATE_OPEN;
-				if(width > 0){
-					//android.util.Log.v("hoge", width + "");
-					params.width = Math.max(0, width);
-					//Layoutの変更
-					playerView.setLayoutParams(params);
-					mHandler.post(this);
-				}else{
-					//Viewの消去を行う
-					removePlayerView(PlayerView);
-				}
-			}
-			
-		};
-		mHandler.post(mRunnable);
-	}*/
 	
 }
