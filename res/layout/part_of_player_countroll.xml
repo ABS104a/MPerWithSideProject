@@ -19,32 +19,32 @@
     <!-- 戻るボタン -->
     <ImageButton
         android:id="@+id/button_back_seek"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/controll_button_size"
+        android:layout_height="@dimen/controll_button_size"
         android:layout_gravity="bottom"
         android:background="@android:drawable/ic_media_previous" />
 
     <!-- 進むボタン -->
     <ImageButton
         android:id="@+id/button_next_seek"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/controll_button_size"
+        android:layout_height="@dimen/controll_button_size"
         android:layout_gravity="bottom"
         android:background="@android:drawable/ic_media_next" />
 
     <!-- リピートボタン -->
     <ImageButton
         android:id="@+id/button_repeat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/controll_button_size"
+        android:layout_height="@dimen/controll_button_size"
         android:layout_gravity="bottom"
         android:background="@android:drawable/ic_menu_revert"  />
     
 	<!-- シャッフルボタン -->
     <ImageButton
         android:id="@+id/button_shuffle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/controll_button_size"
+        android:layout_height="@dimen/controll_button_size"
         android:layout_gravity="bottom"
         android:background="@android:drawable/ic_menu_send" />
 

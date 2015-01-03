@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">  
+    <padding android:left="@dimen/player_view_padding" android:top="@dimen/player_view_padding"  
+            android:right="@dimen/player_view_padding" android:bottom="@dimen/player_view_padding" />  
+    <corners android:radius="6dp" />  
+    <gradient
+        android:angle="0"
+        android:startColor="@color/white_smoke"
+        android:endColor="@color/white_smoke"
+        android:type="linear" />
+    <stroke
+        android:width="2dp"
+        android:color="@color/white_smoke" />
+</shape>

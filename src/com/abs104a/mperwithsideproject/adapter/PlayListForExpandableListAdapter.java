@@ -104,7 +104,7 @@ public final class PlayListForExpandableListAdapter extends
 	@Override
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
-		//TODO 1番目はQueueに追加，2番目はQueueにセット，最後はプレイリストの消去
+		//1番目はQueueに追加，2番目はQueueにセット，最後はプレイリストの消去
 		
 		
 		if((column == PLAYLIST || column == ALBUM )&& childPosition == 0){
