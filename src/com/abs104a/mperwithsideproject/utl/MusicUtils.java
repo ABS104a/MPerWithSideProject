@@ -229,7 +229,7 @@ public class MusicUtils {
 		loopState = mpwpl.setLoopState(loopState);
 		
 		//リピートボタンの動作設定
-		ImageButton repeatButton = (ImageButton)playerView.findViewById(R.id.button_repeat);
+		reflectOfView(false);
 		
 		final String message;
 		switch(loopState){
@@ -288,12 +288,27 @@ public class MusicUtils {
 		if(playButton != null){
 			if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
 				//Viewを一時停止ボタンに
-				playButton.setBackgroundResource(R.drawable.pause_not_pushed);
+				playButton.setBackgroundResource(R.drawable.button_pause);
 			}else{
 				//Viewを再生ボタンに
-				playButton.setBackgroundResource(R.drawable.play_not_pushed);
+				playButton.setBackgroundResource(R.drawable.button_play);
 			}
 		}
+		ImageButton loopButton = (ImageButton)playerView.findViewById(R.id.button_repeat);
+		if(loopButton != null){
+			switch(mpwpl.getLoopState()){
+			default:
+			case MusicPlayerWithQueue.NOT_LOOP:
+				loopButton.setBackgroundResource(R.drawable.button_loop_no);
+				break;
+			case MusicPlayerWithQueue.ALL_LOOP:
+				loopButton.setBackgroundResource(R.drawable.button_loop_all);
+				break;
+			case MusicPlayerWithQueue.ONE_LOOP:
+				loopButton.setBackgroundResource(R.drawable.button_loop_once);
+			}
+		}
+		
 		setPartOfPlayerView(
 				getContext(),
 				playerView, 
@@ -377,15 +392,6 @@ public class MusicUtils {
 		//seekbar.setProgress(0);
 		
 		seekbar.setOnSeekBarChangeListener(new MusicSeekBarOnChangeImpl(currentTime,mpwpl));
-		
-		final ImageButton playButton = (ImageButton)mView.findViewById(R.id.button_play);
-		
-		if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
-			//Viewを一時停止ボタンに
-			playButton.setBackgroundResource(android.R.drawable.ic_media_pause);
-		}else{
-			playButton.setBackgroundResource(android.R.drawable.ic_media_play);
-		}
 		
 		mHandler = new MusicSeekBarHandler(currentTime,seekbar,mpwpl);
 		mHandler.sleep(0);

@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/controll_margin"
-        android:background="@drawable/button_not_pushed"
+        android:background="@drawable/button_circle"
         android:src="@android:drawable/ic_lock_power_off" />
 
     <ImageButton
@@ -37,9 +37,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/button_action_exit"
         android:layout_marginRight="@dimen/controll_margin"
-        android:background="@drawable/button_not_pushed"
+        android:layout_toRightOf="@+id/button_action_exit"
+        android:background="@drawable/button_circle"
         android:src="@android:drawable/ic_menu_preferences" />
 
     <ImageView

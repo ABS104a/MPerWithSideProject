@@ -15,7 +15,7 @@
         android:layout_height="@dimen/play_button_size"
         android:layout_gravity="bottom"
         android:layout_marginRight="@dimen/controll_margin"
-        android:background="@drawable/play_not_pushed" />
+        android:background="@drawable/button_play" />
 
     <!-- 戻るボタン -->
 
@@ -23,9 +23,9 @@
         android:id="@+id/button_back_seek"
         android:layout_width="@dimen/controll_button_size"
         android:layout_height="@dimen/controll_button_size"
-        android:layout_marginRight="@dimen/controll_margin"
         android:layout_gravity="bottom"
-        android:background="@drawable/previous_not_pushed" />
+        android:layout_marginRight="@dimen/controll_margin"
+        android:background="@drawable/button_previous" />
 
     <!-- 進むボタン -->
 
@@ -33,9 +33,9 @@
         android:id="@+id/button_next_seek"
         android:layout_width="@dimen/controll_button_size"
         android:layout_height="@dimen/controll_button_size"
-        android:layout_marginRight="@dimen/controll_margin"
         android:layout_gravity="bottom"
-        android:background="@drawable/next_not_pushed" />
+        android:layout_marginRight="@dimen/controll_margin"
+        android:background="@drawable/button_next" />
 
     <!-- リピートボタン -->
 
@@ -43,9 +43,9 @@
         android:id="@+id/button_repeat"
         android:layout_width="@dimen/controll_button_size"
         android:layout_height="@dimen/controll_button_size"
-        android:layout_marginRight="@dimen/controll_margin"
         android:layout_gravity="bottom"
-        android:background="@drawable/loop_no_not_pushed" />
+        android:layout_marginRight="@dimen/controll_margin"
+        android:background="@drawable/button_loop_no" />
     
 	<!-- シャッフルボタン -->
     <ImageButton
