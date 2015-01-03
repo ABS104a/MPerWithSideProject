@@ -18,7 +18,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="@dimen/player_view_inside_padding"
-        android:src="@drawable/ic_launcher" />
+        android:src="@android:drawable/stat_notify_sync_noanim" />
 
     <!-- 現在再生している曲のアーティスト名 -->
 
@@ -97,5 +97,7 @@
         android:layout_below="@+id/linearLayout1"
         android:layout_toLeftOf="@+id/textView_now_max_time"
         android:layout_toRightOf="@+id/TextView_now_current_time" />
+
+
 
 </RelativeLayout>

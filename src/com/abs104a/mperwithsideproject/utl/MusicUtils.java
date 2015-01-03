@@ -288,10 +288,10 @@ public class MusicUtils {
 		if(playButton != null){
 			if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
 				//Viewを一時停止ボタンに
-				playButton.setBackgroundResource(android.R.drawable.ic_media_pause);
+				playButton.setBackgroundResource(R.drawable.pause_not_pushed);
 			}else{
 				//Viewを再生ボタンに
-				playButton.setBackgroundResource(android.R.drawable.ic_media_play);
+				playButton.setBackgroundResource(R.drawable.play_not_pushed);
 			}
 		}
 		setPartOfPlayerView(
