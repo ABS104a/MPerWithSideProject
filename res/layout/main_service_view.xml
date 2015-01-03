@@ -11,8 +11,8 @@
         android:layout_width="@dimen/main_view_handle_size"
         android:layout_height="@dimen/main_view_handle_size"
         android:background="@color/transparent"
-        android:gravity="center_vertical"
-        android:src="@android:drawable/ic_input_add" />
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/handle" />
 
     <!-- ここにMusicViewを突っ込む -->
 

@@ -262,8 +262,8 @@ public class MusicUtils {
 			//シャッフルがOFFの時
 			Toast.makeText(getContext(), R.string.shuffle_off, Toast.LENGTH_SHORT).show();
 		}
-		//TODO　動作を登録する．
-		ImageButton shuffleButton = (ImageButton)playerView.findViewById(R.id.button_shuffle);
+		//　動作を登録する．
+		reflectOfView(false);
 	}
 	
 	/**
@@ -307,6 +307,14 @@ public class MusicUtils {
 			case MusicPlayerWithQueue.ONE_LOOP:
 				loopButton.setBackgroundResource(R.drawable.button_loop_once);
 			}
+		}
+		ImageButton shuffleButton = (ImageButton)playerView.findViewById(R.id.button_shuffle);
+		if(mpwpl.isShuffle()){
+			shuffleButton.setBackgroundResource(R.drawable.button_shuffle_on);
+			//シャッフルがONの時
+		}else{
+			//シャッフルがOFFの時
+			shuffleButton.setBackgroundResource(R.drawable.button_shuffle_off);
 		}
 		
 		setPartOfPlayerView(

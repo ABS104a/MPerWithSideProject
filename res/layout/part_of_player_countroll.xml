@@ -48,11 +48,11 @@
         android:background="@drawable/button_loop_no" />
     
 	<!-- シャッフルボタン -->
-    <ImageButton
+    <ImageButton
         android:id="@+id/button_shuffle"
         android:layout_width="@dimen/controll_button_size"
         android:layout_height="@dimen/controll_button_size"
         android:layout_gravity="bottom"
-        android:background="@android:drawable/ic_menu_send" />
+        android:background="@drawable/button_shuffle_off" />
 
 </LinearLayout>

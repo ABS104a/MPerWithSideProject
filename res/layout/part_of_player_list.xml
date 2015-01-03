@@ -3,14 +3,14 @@
     android:id="@+id/music_pager"
     android:layout_width="match_parent"
     android:layout_height="@dimen/player_list_view_height"
-    android:background="@color/musicplayer_viewpager_bg" >
+    android:background="@color/polo_blue" >
 
     <android.support.v4.view.PagerTabStrip
         android:id="@+id/pager_tab_strip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="#39393939"
+        android:background="@color/Denim"
         android:textColor="#FFFFFF" />
 
 </android.support.v4.view.ViewPager>

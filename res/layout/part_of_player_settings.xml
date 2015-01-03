@@ -30,6 +30,7 @@
         android:layout_alignBottom="@+id/button_action_show_settings"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/volume_margin"
         android:src="@drawable/volume_max" />
 
     <ImageButton
@@ -37,7 +38,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="@dimen/controll_margin"
         android:layout_toRightOf="@+id/button_action_exit"
         android:background="@drawable/button_circle"
         android:src="@android:drawable/ic_menu_preferences" />
@@ -48,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/button_action_show_settings"
         android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/volume_margin"
         android:layout_toRightOf="@+id/button_action_show_settings"
         android:src="@drawable/volume_mute" />
 
