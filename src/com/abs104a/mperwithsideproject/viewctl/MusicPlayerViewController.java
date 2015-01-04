@@ -203,16 +203,34 @@ public final class MusicPlayerViewController {
 		//シャッフルボタンの動作を登録する．
 		shuffleButton.setOnClickListener(new ShuffleButtonOnClickImpl());
 		
-		//TODO 設定表示ボタンの設定を登録する．
-		//((LinearLayout)mView).addView(ViewPagerForAlbumViewCtl.createView(mService, _mpwpl));
-		
 		//終了ボタンの設定
 		ImageButton exitButton = (ImageButton)mView
 				.findViewById(R.id.button_action_exit);
 		exitButton.setOnClickListener(new ExitButtonOnClickListenerImpl(mService, MusicUtils.getMusicController(mService)));
 		
+		//リスト表示ボタン
 		ImageButton showListButton = (ImageButton)mView.findViewById(R.id.button_action_show_list);
-		//TODO リスト表示ボタンの設定を登録する
+		showListButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				//TODO リスト表示ボタンの設定を登録する
+				
+			}
+			
+		});
+		
+		//ShareButtonの動作
+		ImageButton shareButton = (ImageButton)mView.findViewById(R.id.imageButton_share);
+		shareButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				//Tweet画面を呼び出す．
+				MusicUtils.shareButtonIntent();
+			}
+			
+		});
 		
 		//設定ボタンを押した時の動作
 		ImageButton showSettingsButton = (ImageButton)mView.findViewById(R.id.button_action_show_settings);
@@ -249,7 +267,7 @@ public final class MusicPlayerViewController {
 		mViewPager.setOnPageChangeListener(new ViewPagerOnPagerChangeImpl(mViewPager));
 		mViewPager.setCurrentItem(pageCount);
 		
-		//TODO プレイリストを設定
+		//プレイリストを設定
 		if(_mpwpl.getNowPlayingMusic() != null)
 			MusicUtils.reflectOfView(true);
 		

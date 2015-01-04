@@ -26,7 +26,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:text="Switch" />
+                android:layout_margin="@dimen/equalizer_button_margin"
+                android:background="@drawable/button_circle"
+                android:text="Sw"
+                android:textColor="@color/white_smoke"/>
 
         </RelativeLayout>
 

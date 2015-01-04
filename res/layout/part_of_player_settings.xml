@@ -8,16 +8,16 @@
     
     <ImageButton
         android:id="@+id/button_action_exit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/controll_button_size"
+        android:layout_height="@dimen/controll_button_size"
         android:layout_marginRight="@dimen/controll_margin"
         android:background="@drawable/button_circle"
         android:src="@android:drawable/ic_lock_power_off" />
 
     <ImageButton
         android:id="@+id/button_action_show_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/controll_button_size"
+        android:layout_height="@dimen/controll_button_size"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/seekBar_volume"
         android:visibility="gone"
@@ -25,8 +25,8 @@
 
     <ImageView
         android:id="@+id/imageView_volume_max"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/controll_button_size"
+        android:layout_height="@dimen/controll_button_size"
         android:layout_alignBottom="@+id/button_action_show_settings"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
@@ -35,8 +35,8 @@
 
     <ImageButton
         android:id="@+id/button_action_show_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/controll_button_size"
+        android:layout_height="@dimen/controll_button_size"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/button_action_exit"
         android:background="@drawable/button_circle"
@@ -44,8 +44,8 @@
 
     <ImageView
         android:id="@+id/imageView_volume_mute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/controll_button_size"
+        android:layout_height="@dimen/controll_button_size"
         android:layout_alignBottom="@+id/button_action_show_settings"
         android:layout_alignParentTop="true"
         android:layout_margin="@dimen/volume_margin"

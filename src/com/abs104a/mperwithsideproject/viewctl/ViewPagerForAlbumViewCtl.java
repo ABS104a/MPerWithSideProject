@@ -2,6 +2,7 @@ package com.abs104a.mperwithsideproject.viewctl;
 
 import java.util.ArrayList;
 
+import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.adapter.PlayListForExpandableListAdapter;
 import com.abs104a.mperwithsideproject.music.Album;
@@ -44,6 +45,8 @@ public final class ViewPagerForAlbumViewCtl {
 		}
 		mListView.setAdapter(new PlayListForExpandableListAdapter(mService, pList, rootView, mpwpl,MusicListAdapter.ALBUM));
 		mListView.setOnChildClickListener(new PlayListOnChildClickImpl(mService,mpwpl));
+		
+		mListView.setDividerHeight(mService.getResources().getDimensionPixelSize(R.dimen.listview_divider));
 
 		
 		return mListView;

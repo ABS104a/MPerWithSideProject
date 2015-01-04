@@ -3,8 +3,7 @@
     <padding android:left="@dimen/player_view_padding" android:top="@dimen/player_view_padding"  
             android:right="0dp" android:bottom="@dimen/player_view_padding" />  
     <corners 
-        android:topLeftRadius="6dp"
-        android:bottomLeftRadius="6dp" />  
+        android:radius="6dp" />  
     <gradient
         android:angle="0"
         android:startColor="@color/white_smoke"

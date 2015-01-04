@@ -1,10 +1,12 @@
 package com.abs104a.mperwithsideproject;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
@@ -43,16 +45,12 @@ public final class Notifications {
 	public static void setService(Service service){
 		mService = service;
 	}
-	
-	/**
-	 * セットするRemoteViews
-	 */
-	private static RemoteViews contentView = null;
 
 	/**
 	 * 通知バーへの通知を表示する．
 	 * @param mService
 	 */
+	@SuppressLint("NewApi")
 	public static final void putNotification() {
 	    
 		//サービスが存在しない時は何もしない・
@@ -64,12 +62,35 @@ public final class Notifications {
 	    builder.setContentTitle(mService.getString(R.string.app_name));
 	    builder.setSmallIcon(android.R.drawable.ic_media_play);
 	    
-	    //RemoteViewの動作を設定
-	    contentView = new RemoteViews(mService.getPackageName(), R.layout.notification);
+	    RemoteViews contentView = createRemoteViews();
+	   
+	    builder.setContent(contentView);
+	    builder.setWhen(0);
+	    builder.setOngoing(true);
+	    builder.setAutoCancel(false);
+	    
 	    Intent mainIntent = new Intent(mService, MusicPlayerReceiver.class);
 	    mainIntent.setAction(MAIN);
 	    PendingIntent mainPi = PendingIntent.getBroadcast(mService.getApplicationContext(), MAIN_REQ, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-	    //contentView.setOnClickPendingIntent(R.layout.notification, mainPi);
+	    builder.setContentIntent(mainPi);
+	    
+	    Notification notification = builder.build();
+	    
+	    if(Build.VERSION.SDK_INT >= 16){
+	    	//APIレベル16以降の時の処理
+	    	notification.bigContentView = createRemoteViews();
+	    	setDataOfRemoteViews(notification, notification.bigContentView);
+	    }
+	    
+	    setDataOfRemoteViews(notification, notification.contentView);
+	    
+	    // Serviceを継承したクラス内
+	    mService.startForeground(R.drawable.ic_launcher,notification );
+	}
+	
+	private static RemoteViews createRemoteViews(){
+		//RemoteViewの動作を設定
+	    RemoteViews contentView = new RemoteViews(mService.getPackageName(), R.layout.notification);
 	    
 	    //再生ボタンのアクションを設定
 	    Intent playIntent = new Intent(mService, MusicPlayerReceiver.class);
@@ -90,37 +111,25 @@ public final class Notifications {
 	    PendingIntent nextPi = PendingIntent.getBroadcast(mService.getApplicationContext(), NEXT_REQ, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 	    contentView.setOnClickPendingIntent(R.id.imageButton_notification_next, nextPi);
 	    
-	    builder.setContent(contentView);
-	    builder.setWhen(0);
-	    builder.setOngoing(true);
-	    builder.setAutoCancel(false);
-	    builder.setContentIntent(mainPi);
-	    
-	    Notification notification = builder.build();
-	    setDataOfRemoteViews(notification);
-	    
-	    // Serviceを継承したクラス内
-	    mService.startForeground(R.drawable.ic_launcher,notification );
+	    return contentView;
 	}
 	
 	/**
 	 * 通知バーへデータをセットする
-	 * @param notification
+	 * @param contentView
 	 */
-	private static final void setDataOfRemoteViews(final Notification notification){
+	private static final void setDataOfRemoteViews(final Notification notification,final RemoteViews contentView){
 		//コントローラークラスの取得
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mService);
 		//RemoteViewsがnull　の時はなにもしない．
-		if(notification == null || mpwpl.getNowPlayingMusic() == null)return;
-		final RemoteViews contentView = notification.contentView;
-		if(contentView == null)return;
+		if(contentView == null || mpwpl.getNowPlayingMusic() == null)return;
 		
 		int currentState = mpwpl.getStatus();
 		final Music currentMusic = mpwpl.getNowPlayingMusic();
 		
 		new GetImageTask(
 				mService,
-				mService.getResources().getDimensionPixelSize(R.dimen.notification_item_height),
+				mService.getResources().getDimensionPixelSize(R.dimen.notification_item_height) * 2,
 				new GetImageTask.OnGetImageListener() {
 			
 			@Override
@@ -152,7 +161,6 @@ public final class Notifications {
 	 */
 	public  static final void removeNotification(Service mService){
 		mService.stopForeground(true);
-		contentView = null;
 		mService = null;
 	}
 

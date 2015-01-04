@@ -2,7 +2,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" 
-    android:layout_margin="@dimen/dialog_view_margin"
     android:layout_gravity="right">
 
     <LinearLayout
@@ -10,16 +9,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dialog_view_margin"
-        android:background="@color/album_item_group_bg"
+        android:background="@drawable/dialog_view"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/textView_dialog_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/musicplayer_viewpager_bg"
             android:text="Title"
             android:textAppearance="?android:attr/textAppearanceLarge" />
+        
+        <View 
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/musicplayer_viewpager_bg"
+            />
 
         <FrameLayout
             android:id="@+id/frameLayout_dialog"
@@ -30,6 +34,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal" >
 
             <Button
@@ -37,6 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/button"
                 android:text="Positive" />
 
             <Button
@@ -44,6 +50,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/button"
+                android:layout_marginRight="@dimen/dialog_view_right_margin"
                 android:text="Negative" />
         </LinearLayout>
     </LinearLayout>

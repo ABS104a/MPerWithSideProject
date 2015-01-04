@@ -15,7 +15,6 @@ import android.app.Service;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ExpandableListView;
@@ -71,18 +70,22 @@ public final class ViewPagerForPlayListViewCtl implements OnGroupExpandListener,
 		mListView.setOnGroupCollapseListener(mInstance);
 		
 		//EmptyViewのセット
+		ExpandableListView.LayoutParams params = new ExpandableListView.LayoutParams(
+				ExpandableListView.LayoutParams.MATCH_PARENT,
+				mService.getResources().getDimensionPixelSize(R.dimen.album_item_height));
+		
 		TextView textView = new TextView(mService);
 		textView.setText(R.string.row_empty);
+		textView.setLayoutParams(params);
+		textView.setGravity(Gravity.CENTER);
 		mListView.setEmptyView(textView);
 		
 		TextView addView = new TextView(mService);
 		addView.setText(R.string.create_playlist);
-		addView.setLayoutParams(
-				new LayoutParams(
-						LayoutParams.MATCH_PARENT,
-						mService.getResources().getDimensionPixelSize(R.dimen.album_item_height)));
+		addView.setLayoutParams(params);	
 		addView.setGravity(Gravity.CENTER);
 		mListView.addFooterView(addView);
+		mListView.setDividerHeight(mService.getResources().getDimensionPixelSize(R.dimen.listview_divider));
 	
 		mListView.setOnItemClickListener(new OnItemClickListener(){
 

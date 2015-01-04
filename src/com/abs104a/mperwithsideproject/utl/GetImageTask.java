@@ -3,6 +3,8 @@ package com.abs104a.mperwithsideproject.utl;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import com.abs104a.mperwithsideproject.R;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,14 +19,23 @@ import android.os.AsyncTask;
  */
 public class GetImageTask extends AsyncTask<Uri, Void, Bitmap> {
 	
+	//アプリケーションのコンテキスト
 	private final Context context;
+	//イメージを取得した後のリスナ
 	private final OnGetImageListener listener;
+	//イメージ画像のサイズ
 	private final int size;
 	
 	public interface OnGetImageListener{
 		public void onGetImage(Bitmap image);
 	}
 
+	/**
+	 * インスタンスの生成
+	 * @param context
+	 * @param picSize
+	 * @param listener
+	 */
 	public GetImageTask(Context context,int picSize,OnGetImageListener listener){
 		this.context = context;
 		this.listener = listener;
@@ -33,15 +44,21 @@ public class GetImageTask extends AsyncTask<Uri, Void, Bitmap> {
 	
 	@Override
 	protected Bitmap doInBackground(Uri... params) {
-		if(params == null || params.length == 0)return null;
-		try{
-		    ContentResolver cr = context.getContentResolver();
-		    InputStream is = cr.openInputStream(params[0]);
-		    return DisplayUtils.resizeBitmap(BitmapFactory.decodeStream(is), size);
-		}catch(FileNotFoundException err){
+		Bitmap result = null;
+		if(params != null && params.length > 0){
+			try{
+				ContentResolver cr = context.getContentResolver();
+				InputStream is = cr.openInputStream(params[0]);
+				result =  DisplayUtils.resizeBitmap(BitmapFactory.decodeStream(is), size);
+			}catch(FileNotFoundException err){
 
+			}
 		}
-		return null;
+		//イメージが取得できなかった場合
+		if(result == null){
+			result = BitmapFactory.decodeResource(context.getResources(), R.drawable.no_image);
+		}
+		return result;
 	}
 
 	/* (非 Javadoc)

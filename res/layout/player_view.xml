@@ -33,7 +33,8 @@
         android:id="@+id/player"
         android:layout_width="@dimen/player_view_width"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/music_player_margins"
+        android:layout_marginRight="@dimen/music_player_margins"
+        android:layout_marginLeft="@dimen/music_player_margins"
         layout="@layout/part_of_player" />
 
     <!-- コントローラ部分のレイアウト -->
@@ -42,7 +43,8 @@
         android:id="@+id/player_controll"
         android:layout_width="@dimen/player_view_width"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/music_player_margins"
+        android:layout_marginRight="@dimen/music_player_margins"
+        android:layout_marginLeft="@dimen/music_player_margins"
         layout="@layout/part_of_player_countroll" />
 
     <!-- 設定部分のレイアウト -->

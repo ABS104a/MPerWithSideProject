@@ -17,12 +17,12 @@ import android.view.View.OnLongClickListener;
  * @author Kouki-Mobile
  *
  */
-public class PlayOfPlayListOnLCImpl implements OnClickListener,
+public class AddOfPlayListOnLCImpl implements OnClickListener,
 		OnLongClickListener {
 	
 	private final PlayList mPlayList;
 
-	public PlayOfPlayListOnLCImpl(PlayList playList){
+	public AddOfPlayListOnLCImpl(PlayList playList){
 		this.mPlayList = playList;
 	}
 
@@ -34,16 +34,11 @@ public class PlayOfPlayListOnLCImpl implements OnClickListener,
 
 	@Override
 	public void onClick(View view) {
-		//PlayListをセットする
+		// タップした時，Queueに追加する．
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(view.getContext());
 		try {
 			ArrayList<Music> list = mPlayList.getMusicList();
-			mpwpl.setPlayList(list);
-			mpwpl.setCursor(0);
-			if(list.size() > 0){
-				MusicUtils.playOrPauseWithView();
-			}
-			
+			mpwpl.addPlayList(list);	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

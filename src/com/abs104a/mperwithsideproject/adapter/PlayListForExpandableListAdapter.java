@@ -8,6 +8,7 @@ import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.utl.GetJacketImageTask;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
+import com.abs104a.mperwithsideproject.viewctl.listener.AddOfPlayListOnLCImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.EditOfPlayListOnLCImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayOfPlayListOnLCImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.UpDownForExpandOnClickImpl;
@@ -122,13 +123,26 @@ public final class PlayListForExpandableListAdapter extends
 			playView.setText(R.string.play_to_playlist);
 			playView.setLayoutParams(params);
 			playView.setGravity(Gravity.CENTER);
+			playView.setBackgroundResource(R.drawable.button);
 			//OnClickListenerの実装
 			PlayOfPlayListOnLCImpl impl = new PlayOfPlayListOnLCImpl(playLists.get(groupPosition));
 			playView.setOnClickListener(impl);
 			playView.setOnLongClickListener(impl);
 			mLayout.addView(playView);
 			
-			//header2 Edit
+			//header1 play
+			TextView addView = new TextView(mContext);
+			addView.setText(R.string.addqueue_to_playlist);
+			addView.setLayoutParams(params);
+			addView.setGravity(Gravity.CENTER);
+			//OnClickListenerの実装
+			AddOfPlayListOnLCImpl implp = new AddOfPlayListOnLCImpl(playLists.get(groupPosition));
+			addView.setOnClickListener(implp);
+			addView.setOnLongClickListener(implp);
+			addView.setBackgroundResource(R.drawable.button);
+			mLayout.addView(addView);
+			
+			//header3 Edit
 			if(column == PLAYLIST){
 				TextView editView = new TextView(mContext);
 				editView.setText(R.string.edit_to_playlist);
@@ -139,6 +153,7 @@ public final class PlayListForExpandableListAdapter extends
 				EditOfPlayListOnLCImpl eimpl = new EditOfPlayListOnLCImpl(groupPosition, playLists);
 				editView.setOnClickListener(eimpl);
 				editView.setOnLongClickListener(eimpl);
+				editView.setBackgroundResource(R.drawable.button);
 				mLayout.addView(editView);
 			}
 			
@@ -220,7 +235,7 @@ public final class PlayListForExpandableListAdapter extends
 		//ViewがNullの時は新しく生成する
 		if(convertView == null){
 			LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-			convertView = layoutInflater.inflate(R.layout.item_row_group, null);
+			convertView = layoutInflater.inflate(R.layout.album_group_row, null);
 			holder = new GroupHolder();
 			holder.albumText = (TextView) convertView.findViewById(R.id.textView_album_album);
 			holder.jacketImage = (ImageView)convertView.findViewById(R.id.imageView_album_jacket);

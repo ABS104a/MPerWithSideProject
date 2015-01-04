@@ -20,6 +20,7 @@ import android.app.Service;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -382,11 +383,11 @@ public class MusicUtils {
 		    InputStream is = cr.openInputStream(album1Uri);
 		    Bitmap bm = BitmapFactory.decodeStream(is);
 		    if(bm != null)
-		    	jacket.setImageBitmap(DisplayUtils.RadiusImage(bm));
+		    	jacket.setImageBitmap(bm);
 		    else
-		    	jacket.setImageResource(android.R.drawable.ic_menu_search);
+		    	jacket.setImageResource(R.drawable.no_image);
 		}catch(FileNotFoundException err){
-			jacket.setImageResource(android.R.drawable.ic_menu_search);
+			jacket.setImageResource(R.drawable.no_image);
 		}
 		
 		//現在の再生時間
@@ -404,6 +405,24 @@ public class MusicUtils {
 		mHandler = new MusicSeekBarHandler(currentTime,seekbar,mpwpl);
 		mHandler.sleep(0);
 		
+	}
+	
+	/**
+	 * ShareButtonを押した時の動作．
+	 * Twitterにインテントを飛ばす．
+	 */
+	public final static void shareButtonIntent(){
+		final Context mContext = getContext();
+		try{
+			Music nowPlayingMusic = getMusicController(mContext).getNowPlayingMusic();
+			final String musicStrings = nowPlayingMusic.getTitle() + " / " +  nowPlayingMusic.getArtist();
+			final String url = "http://twitter.com/share?text=NowPlaying... " + musicStrings + "&hashtags=MusicProjects";
+			final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
+			mContext.startActivity(intent);
+		}catch(NullPointerException e){
+			e.printStackTrace();
+		}
 	}
 	
 	

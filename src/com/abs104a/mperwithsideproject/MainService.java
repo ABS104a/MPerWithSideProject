@@ -64,6 +64,10 @@ public class MainService extends Service{
 		return null;
 	}
 	
+	/**
+	 * アプリケーションのコンテキストを取得する．
+	 * @return
+	 */
 	public static Service getService(){
 		return mService;
 	}
@@ -77,6 +81,10 @@ public class MainService extends Service{
 		
 		mService = this;
 		
+		//テーマの適応
+		mService.setTheme(R.style.AppTheme);
+		
+		//WindowManagerの取得
 		mWindowManager  = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
 		// 重ね合わせするViewの設定を行う
@@ -91,6 +99,7 @@ public class MainService extends Service{
 		params.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
 		params.x = 0;
 		params.y = 0;
+		
 
 		//重畳表示するViewを取得する．
 		rootView = (LinearLayout)MainViewController.createView(mService);
@@ -141,7 +150,6 @@ public class MainService extends Service{
 		
 		//BroadcastReceiverの消去
 		mService.unregisterReceiver(broadcastReceiver); 
-		mService.unregisterReceiver(musicPlayerReceiver); 
 		
 		//通知の消去
 		Notifications.removeNotification(mService);

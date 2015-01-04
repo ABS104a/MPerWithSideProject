@@ -24,6 +24,7 @@
     <string name="add_to_playlist">Add to PlayList</string>
     
     <string name="play_to_playlist">Play</string>
+    <string name="addqueue_to_playlist">Add</string>
     <string name="edit_to_playlist">Edit</string>
     
     <string name="enable_equalizer">Enable Equalizer</string>

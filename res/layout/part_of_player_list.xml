@@ -2,8 +2,8 @@
 <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/music_pager"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/player_list_view_height"
-    android:background="@color/polo_blue" >
+    android:background="@color/white_dark_smoke"
+    android:layout_height="@dimen/player_list_view_height" >
 
     <android.support.v4.view.PagerTabStrip
         android:id="@+id/pager_tab_strip"

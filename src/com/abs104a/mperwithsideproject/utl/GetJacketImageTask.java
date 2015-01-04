@@ -113,11 +113,13 @@ public final class GetJacketImageTask extends AsyncTask<Void,Void,Bitmap>{
 	@Override
 	protected void onPostExecute(Bitmap result) {
 		try{
-			if(result != null && titleText.getText().equals(confilmString)){
-				jacketImage.setImageBitmap(result);
-				ImageCache.setImage(album, result);
-				//Animation anim = AnimationUtils.loadAnimation(context,android.R.anim.fade_in);
-				//jacketImage.startAnimation(anim);
+			if(titleText.getText().equals(confilmString)){
+				if(result != null){
+					jacketImage.setImageBitmap(result);
+					ImageCache.setImage(album, result);
+				}else{
+					jacketImage.setImageResource(R.drawable.no_image);
+				}
 			}
 		}catch(NullPointerException e){ }
 		super.onPostExecute(result);
