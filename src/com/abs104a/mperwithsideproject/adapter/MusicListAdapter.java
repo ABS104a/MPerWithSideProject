@@ -141,14 +141,18 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			}
 			//ボタンを表示するかどうかの設定
 			if(column == QUEUE || column == PLAYLIST){
+				//Expandする．
 				ExpandActionOnClickImpl plimpl = new ExpandActionOnClickImpl(adapter, item);
 				holder.addButton.setOnClickListener(plimpl);
 				holder.addButton.setOnLongClickListener(plimpl);
+				holder.addButton.setImageResource(R.drawable.button_open);
 			}
 			else{
+				//Expandしない．
 				PlayListAddOnClickImpl plimpl = new PlayListAddOnClickImpl(context,rootView, item, mpwpl,column);
 				holder.addButton.setOnClickListener(plimpl);
 				holder.addButton.setOnLongClickListener(plimpl);
+				holder.addButton.setImageResource(R.drawable.button_add);
 			}
 			convertView.setOnClickListener(new MusicOnClickImpl(item));
 			
@@ -156,6 +160,10 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			if(!item.isExpandView() && holder.framelayout.getChildCount() > 0){
 				holder.framelayout.removeAllViews();
 			}else if(item.isExpandView() && holder.framelayout.getChildCount() == 0){
+				
+				//Indicatorの変更
+				holder.addButton.setImageResource(R.drawable.button_close);
+				
 				//ExpandViewの生成
 				final LayoutInflater layoutInflater = LayoutInflater.from(context);
 				final ViewGroup expandView = (ViewGroup)layoutInflater.inflate(R.layout.expand_album_item, null);
@@ -165,8 +173,6 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 						AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
 				holder.framelayout.addView(expandView);
 				holder.framelayout.startAnimation(showAnimation);
-
-				//TODO columnによって動作を分岐させる．
 				
 				//消去ボタン
 				ImageButton deleteButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_delete);

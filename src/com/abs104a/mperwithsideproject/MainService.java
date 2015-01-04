@@ -1,7 +1,9 @@
 package com.abs104a.mperwithsideproject;
 
 import com.abs104a.mperwithsideproject.music.MusicPlayerReceiver;
+import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
+import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.MainViewController;
 import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
 
@@ -140,6 +142,11 @@ public class MainService extends Service{
 	 */
 	@Override
 	public void onDestroy() {
+		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mService);
+		if(mpwpl != null){
+			//Queueの保存
+			mpwpl.writeQueue();
+		}
 		try{
 			MusicPlayerViewController.removePlayerView(rootView);
 			//MainViewを消去する．

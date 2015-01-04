@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/textView_album_time"
+        android:layout_alignRight="@+id/textView_album_artist"
         android:layout_toRightOf="@+id/imageView_album_jacket"
         android:singleLine="true"
         android:text="Title"
@@ -43,28 +43,10 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView_album_artist"
         android:layout_below="@+id/textView_album_artist"
-        android:layout_toLeftOf="@+id/imageButton_album_add"
+        android:layout_toLeftOf="@+id/textView_album_time"
         android:singleLine="true"
         android:text="album"
         android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        android:id="@+id/textView_album_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:singleLine="true"
-        android:text="time"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <ImageButton
-        android:id="@+id/imageButton_album_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView_album_time"
-        android:background="@android:drawable/ic_input_add" />
 
     <!-- ここにExpandableViewを突っ込む -->
     <FrameLayout
@@ -75,5 +57,27 @@
         android:layout_below="@+id/textView_album_album" >
 
     </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/imageButton_album_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView_album_jacket"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:background="@color/transparent"
+        android:scaleType="center"
+        android:src="@drawable/button_open" />
+
+    <TextView
+        android:id="@+id/textView_album_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/framelayout_album"
+        android:layout_alignRight="@+id/textView_album_artist"
+        android:singleLine="true"
+        android:text="time"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

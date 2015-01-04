@@ -47,6 +47,10 @@ public final class FileUtils {
 			for(PlayList list : lists)
 				resultList.add(list);
 		}
+		
+		if(resultList.size() == 0){
+			resultList.add(new PlayList("Sample", "PlayList", System.currentTimeMillis(), null));
+		}
 		android.util.Log.v(TAG,"readSerializablePlayList : " + resultList);
 		
 		return resultList;

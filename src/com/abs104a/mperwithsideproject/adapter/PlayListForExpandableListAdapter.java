@@ -244,8 +244,7 @@ public final class PlayListForExpandableListAdapter extends
 			holder.artistView.setSingleLine(true);
 			holder.artistView.setMarqueeRepeatLimit(5);
 			holder.artistView.setSelected(true);
-			holder.expandButton = (ImageButton)convertView.findViewById(R.id.imageButton_album_add);
-			holder.expandButton.setVisibility(View.GONE);
+			holder.expandIndicator = (ImageView)convertView.findViewById(R.id.imageView_album_add);
 			convertView.setTag(holder);
 		}else{
 			holder = (GroupHolder) convertView.getTag();
@@ -277,6 +276,16 @@ public final class PlayListForExpandableListAdapter extends
 					holder.jacketImage.setImageResource(android.R.drawable.ic_menu_search);
 			}
 		}
+		
+		//Viewが広がっているかどうか
+		if(isExpanded){
+			//Expanded
+			holder.expandIndicator.setImageResource(R.drawable.button_close);
+		}else{
+			//not Expanded
+			holder.expandIndicator.setImageResource(R.drawable.button_open);
+		}
+		
 		return convertView;
 	}
 
@@ -322,7 +331,7 @@ public final class PlayListForExpandableListAdapter extends
 		//アルバム名用View
 		public TextView albumText = null;
 		//要素展開用ボタン
-		public ImageButton expandButton = null;
+		public ImageView expandIndicator = null;
 		//アーティスト用View
 		public TextView artistView = null;
 		

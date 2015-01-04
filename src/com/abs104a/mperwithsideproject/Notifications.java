@@ -77,7 +77,7 @@ public final class Notifications {
 	    Notification notification = builder.build();
 	    
 	    if(Build.VERSION.SDK_INT >= 16){
-	    	//APIレベル16以降の時の処理
+	    	//APIレベル16以降の時の処理 デカいNotifitionを追加する．
 	    	notification.bigContentView = createRemoteViews();
 	    	setDataOfRemoteViews(notification, notification.bigContentView);
 	    }
@@ -90,7 +90,7 @@ public final class Notifications {
 	
 	private static RemoteViews createRemoteViews(){
 		//RemoteViewの動作を設定
-	    RemoteViews contentView = new RemoteViews(mService.getPackageName(), R.layout.notification);
+	    RemoteViews contentView = new RemoteViews(mService.getPackageName(), R.layout.notification);;
 	    
 	    //再生ボタンのアクションを設定
 	    Intent playIntent = new Intent(mService, MusicPlayerReceiver.class);

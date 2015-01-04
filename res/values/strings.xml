@@ -38,7 +38,7 @@
     <string name="create_playlist">Create Playlist</string>
     
     <string name="rename_playlist_title">Rename Playlist</string>
-    <string name="rename_playlist_text_hint">Enter the playlist name</string>
+    <string name="rename_playlist_text_hint">Enter the playlist name.</string>
     <string name="rename_playlist">Rename</string>
     <string name="delete_playlist">Delete Playlist</string>
     

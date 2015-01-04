@@ -13,7 +13,6 @@
     
     <dimen name="dialog_view_width">280dp</dimen>
     <dimen name="dialog_view_margin">20dp</dimen>
-    <dimen name="dialog_view_right_margin">8dp</dimen>
     
     <dimen name="play_button_size">50dp</dimen>
     <dimen name="controll_button_size">40dp</dimen>
@@ -25,7 +24,9 @@
     <dimen name="album_item_row_jacket_bigger">58dp</dimen>
     
     <dimen name="notification_item_height">64dp</dimen>
+    <dimen name="notification_item_height_bigger">128dp</dimen>
     <dimen name="notification_image_to_text_margin">5dp</dimen>
+    <dimen name="notification_button_margin">1dp</dimen>
     <dimen name="notification_title_sp">18sp</dimen>
     <dimen name="notification_album_sp">14sp</dimen>
     
@@ -43,5 +44,6 @@
     <dimen name="music_player_margins">2dp</dimen>
     
     <dimen name="expand_item_size">35dp</dimen>
+    <dimen name="expand_right_margin">5dp</dimen>
 
 </resources>

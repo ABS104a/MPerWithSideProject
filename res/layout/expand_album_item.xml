@@ -6,26 +6,30 @@
 
     <ImageButton
         android:id="@+id/imageButton_expand_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/ic_input_add" />
+        android:layout_width="@dimen/expand_item_size"
+        android:layout_height="@dimen/expand_item_size"
+        android:layout_marginRight="@dimen/expand_right_margin"
+        android:background="@drawable/button_add" />
+    
+    <ImageButton
+        android:id="@+id/imageButton_expand_up"
+        android:layout_width="@dimen/expand_item_size"
+        android:layout_height="@dimen/expand_item_size"
+        android:layout_marginRight="@dimen/expand_right_margin"
+        android:background="@drawable/button_up" />
 
     <ImageButton
         android:id="@+id/imageButton_expand_down"
         android:layout_width="@dimen/expand_item_size"
         android:layout_height="@dimen/expand_item_size"
-        android:background="@android:drawable/stat_sys_download_done" />
-
-    <ImageButton
-        android:id="@+id/imageButton_expand_up"
-        android:layout_width="@dimen/expand_item_size"
-        android:layout_height="@dimen/expand_item_size"
-        android:background="@android:drawable/stat_sys_upload" />
+        android:layout_marginRight="@dimen/expand_right_margin"
+        android:background="@drawable/button_down" />
 
     <ImageButton
         android:id="@+id/imageButton_expand_delete"
         android:layout_width="@dimen/expand_item_size"
         android:layout_height="@dimen/expand_item_size"
-        android:background="@android:drawable/ic_delete" />
+        android:layout_marginRight="@dimen/expand_right_margin"
+        android:background="@drawable/button_delete" />
 
 </LinearLayout>
