@@ -7,7 +7,8 @@
     <color name="album_item_group_bg">#69292929</color>
     <color name="musicplayer_controller_bg">#99292929</color>
     
-    <color name="listview_current_row">#CCCCCC</color>
+    <color name="listview_current_row">#550E7AC4</color>
+    <color name="listview_child_row">#FFFFFF</color>
     
     <color name="Solitude">#ECEEF1</color>
     <color name="Denim">#0E7AC4</color>

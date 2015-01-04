@@ -201,10 +201,11 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			
 			Music currentMusic = mpwpl.getNowPlayingMusic();
 			if(currentMusic != null && item.equals(currentMusic)){
-				//再生中の曲がカラムと同じ場合
+				//再生中の曲がカラムと同じ場合　Childのいろを変える．
 				convertView.setBackgroundResource(R.color.listview_current_row);
+			}else if(column == ALBUM || column == PLAYLIST){
+				convertView.setBackgroundResource(R.color.listview_child_row);
 			}else{
-				//再生中の曲がカラムと違う場合
 				convertView.setBackgroundResource(R.color.transparent);
 			}
 			

@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="@dimen/player_view_padding"
+    android:paddingBottom="@dimen/player_view_padding"
     android:gravity="center" >
 
     <!-- プレイヤー部分のレイアウト -->
@@ -16,6 +18,7 @@
         android:layout_marginRight="@dimen/player_view_padding"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:paddingBottom="@dimen/player_view_padding"
         android:src="@android:drawable/stat_notify_sync_noanim" />
 
     <!-- 現在再生している曲のアーティスト名 -->
