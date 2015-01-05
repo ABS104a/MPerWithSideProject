@@ -279,17 +279,24 @@ public class ViewPagerForEqualizerViewCtl {
         
         ((FFTView)fftView).setSamplingRate(captureRate);
         if(mpwpl.getNowPlayingMusic() != null){
+        	
+        	final ImageView imageView = (ImageView)((ViewGroup)fftView.getParent()).findViewById(R.id.imageview_equalizer);
+        	if(imageView != null && imageView.getDrawable() == null)
+        		oldAlbumName = new String();
+        	
         	if(oldAlbumName == null)
         		oldAlbumName = new String();
         	
         	if(!oldAlbumName.equals(mpwpl.getNowPlayingMusic().getAlbum())){
         		oldAlbumName = mpwpl.getNowPlayingMusic().getAlbum();
-        		new GetImageTask(context, fftView.getHeight(), new GetImageTask.OnGetImageListener() {
+        		new GetImageTask(
+        				context, 
+        				context.getResources().getDimensionPixelSize(R.dimen.visualizer_view_height), 
+        				new GetImageTask.OnGetImageListener() {
 
         			@Override
         			public void onGetImage(Bitmap image) {
         				try{
-        					ImageView imageView = (ImageView)((ViewGroup)fftView.getParent()).findViewById(R.id.imageview_equalizer);
         					if(imageView != null){
         						//ジャケット画像を表示する．
         						Animation anim = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);

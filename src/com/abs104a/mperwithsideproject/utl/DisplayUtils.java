@@ -52,7 +52,7 @@ public class DisplayUtils {
      * @param bm
      * @return
      */
-    public static Bitmap RadiusImage(Bitmap bm){
+    public synchronized static Bitmap RadiusImage(Bitmap bm){
         int width  = bm.getWidth();
         int height = bm.getHeight();
         int size = Math.min(width, height);
