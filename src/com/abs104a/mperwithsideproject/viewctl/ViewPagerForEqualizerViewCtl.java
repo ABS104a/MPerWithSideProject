@@ -279,7 +279,10 @@ public class ViewPagerForEqualizerViewCtl {
         
         ((FFTView)fftView).setSamplingRate(captureRate);
         if(mpwpl.getNowPlayingMusic() != null){
-        	if(oldAlbumName != null && !oldAlbumName.equals(mpwpl.getNowPlayingMusic().getAlbum())){
+        	if(oldAlbumName == null)
+        		oldAlbumName = new String();
+        	
+        	if(!oldAlbumName.equals(mpwpl.getNowPlayingMusic().getAlbum())){
         		oldAlbumName = mpwpl.getNowPlayingMusic().getAlbum();
         		new GetImageTask(context, fftView.getHeight(), new GetImageTask.OnGetImageListener() {
 
