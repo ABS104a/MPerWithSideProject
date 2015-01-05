@@ -1,6 +1,7 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
-import com.abs104a.mperwithsideproject.utl.MusicUtils;
+import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -16,7 +17,7 @@ public final class BackButtonOnClickImpl implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		try {
-			MusicUtils.playBackWithView();
+			MusicViewCtl.playBackWithView();
 		} catch (IllegalArgumentException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

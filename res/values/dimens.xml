@@ -33,7 +33,7 @@
     <dimen name="equalizer_text_current_width">30dp</dimen>
     <dimen name="equalizer_button_margin">5dp</dimen>
     <dimen name="equalizer_text_max_width">58dp</dimen>
-    <dimen name="visualizer_view_height">200dp</dimen>
+    <dimen name="visualizer_view_height">215dp</dimen>
     <dimen name="visualizer_view_margin">8dp</dimen>
     
     <dimen name="main_view_handle_size">40dp</dimen>
@@ -45,5 +45,7 @@
     
     <dimen name="expand_item_size">35dp</dimen>
     <dimen name="expand_right_margin">5dp</dimen>
+    
+    <dimen name="tweet_image_size">300dp</dimen>
 
 </resources>

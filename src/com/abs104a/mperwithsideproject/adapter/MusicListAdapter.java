@@ -16,6 +16,7 @@ import com.abs104a.mperwithsideproject.viewctl.listener.UpDownButtonOnClickImpl;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -66,11 +68,37 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		final Music item = getItem(position);
-		return getChildView(convertView, item, getContext(), column, rootView, adapter, mpwpl);
+		try{
+			final Music item = getItem(position);
+			return getChildView(convertView, item, getContext(), column, rootView, adapter, mpwpl);
+		}catch(IndexOutOfBoundsException e){
+			final int viewHeight = getContext().getResources().getDimensionPixelSize(R.dimen.album_item_height);
+			LinearLayout ll = new LinearLayout(getContext());
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, viewHeight);
+			params.gravity = Gravity.CENTER;
+			
+			TextView emptyView = new TextView(getContext());
+			emptyView.setText(R.string.play_to_playlist);
+			emptyView.setLayoutParams(params);
+			emptyView.setGravity(Gravity.CENTER);
+			emptyView.setBackgroundResource(R.drawable.button);
+			emptyView.setText(R.string.row_empty);
+			ll.addView(emptyView);
+			return ll;
+		}
 	}
 	
 	
+	
+	
+	/* (非 Javadoc)
+	 * @see android.widget.ArrayAdapter#getCount()
+	 */
+	@Override
+	public int getCount() {
+		return Math.max(1, super.getCount());
+	}
+
 	/**
 	 * ListViewのChild用View生成method
 	 * @param convertView	母体となるView
@@ -90,7 +118,8 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			Object adapter,
 			MusicPlayerWithQueue mpwpl){
 		ViewHolder holder;
-		if(convertView == null){
+		if(convertView == null || convertView instanceof LinearLayout){
+			convertView = null;
 			//取得したViewがNullの時
 			LayoutInflater inflater = LayoutInflater.from(context);
 			inflater = LayoutInflater.from(context);
@@ -176,7 +205,7 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 				
 				//消去ボタン
 				ImageButton deleteButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_delete);
-				deleteButton.setOnClickListener(new DeleteOnClickImpl(context, rootView, item, mpwpl));
+				deleteButton.setOnClickListener(new DeleteOnClickImpl(context, rootView,column, item, mpwpl));
 				
 				//上へのボタン
 				ImageButton upButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_up);
@@ -202,11 +231,11 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			Music currentMusic = mpwpl.getNowPlayingMusic();
 			if(currentMusic != null && item.equals(currentMusic)){
 				//再生中の曲がカラムと同じ場合　Childのいろを変える．
-				convertView.setBackgroundResource(R.color.listview_current_row);
+				convertView.setBackgroundResource(R.drawable.child_current_row);
 			}else if(column == ALBUM || column == PLAYLIST){
-				convertView.setBackgroundResource(R.color.listview_child_row);
+				convertView.setBackgroundResource(R.drawable.child_row);
 			}else{
-				convertView.setBackgroundResource(R.color.transparent);
+				convertView.setBackgroundResource(R.drawable.group_row);
 			}
 			
 		}

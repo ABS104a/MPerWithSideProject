@@ -9,6 +9,7 @@ import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.utl.GetJacketImageTask;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.viewctl.listener.AddOfPlayListOnLCImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.DeletePlayListOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.EditOfPlayListOnLCImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.PlayOfPlayListOnLCImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.UpDownForExpandOnClickImpl;
@@ -18,6 +19,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
@@ -173,15 +175,22 @@ public final class PlayListForExpandableListAdapter extends
 			View view = MusicListAdapter.getChildView(convertView, item, mContext, column, rootView,this, mpwpl);
 			
 			
-			//上へのボタン
+			//上へのボタンを上書き
 			ImageButton upButton = (ImageButton)view.findViewById(R.id.imageButton_expand_up);
 			if(upButton != null)
 				upButton.setOnClickListener(new UpDownForExpandOnClickImpl(playLists,groupPosition,childPosition, true, false, this));
 			
-			//下へのボタン 
+			//下へのボタン を上書き
 			ImageButton downButton = (ImageButton)view.findViewById(R.id.imageButton_expand_down);
 			if(downButton != null)
 				downButton.setOnClickListener(new UpDownForExpandOnClickImpl(playLists,groupPosition,childPosition, false, true, this));
+			
+			//消去ボタンを上書き
+			ImageButton deleteButton = (ImageButton)view.findViewById(R.id.imageButton_expand_delete);
+			if(deleteButton != null){//PlayList中の曲を消去するようにする．
+				deleteButton.setOnClickListener(new DeletePlayListOnClickImpl(mContext, rootView,playLists,groupPosition,childPosition));
+				deleteButton.setOnLongClickListener((OnLongClickListener)null);
+			}
 			
 			return view;
 		}
@@ -236,6 +245,7 @@ public final class PlayListForExpandableListAdapter extends
 		if(convertView == null){
 			LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 			convertView = layoutInflater.inflate(R.layout.album_group_row, null);
+			convertView.setBackgroundResource(R.drawable.group_row);
 			holder = new GroupHolder();
 			holder.albumText = (TextView) convertView.findViewById(R.id.textView_album_album);
 			holder.jacketImage = (ImageView)convertView.findViewById(R.id.imageView_album_jacket);

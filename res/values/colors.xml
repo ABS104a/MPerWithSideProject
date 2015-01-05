@@ -8,7 +8,9 @@
     <color name="musicplayer_controller_bg">#99292929</color>
     
     <color name="listview_current_row">#550E7AC4</color>
-    <color name="listview_child_row">#FFFFFF</color>
+    <color name="listview_child_row">#FAFAFA</color>
+    
+    <color name="fftview_background">#66EEEEEE</color>
     
     <color name="Solitude">#ECEEF1</color>
     <color name="Denim">#0E7AC4</color>
@@ -20,7 +22,7 @@
     <color name="Very_Light_Grey">#CCCCCC</color>
     
     <color name="white_smoke">#F5F5F5</color>
-    <color name="white_dark_smoke">#F0F0F0</color>
+    <color name="white_dark_smoke">#EEEEEE</color>
     <color name="downy">#79D1B0</color>
     <color name="golden_Tainoi">#FDC44F</color>
     <color name="summer_sky">#33BFDB</color>

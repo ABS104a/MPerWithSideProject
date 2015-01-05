@@ -2,7 +2,7 @@ package com.abs104a.mperwithsideproject.viewctl.listener;
 
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
-import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
+import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
 
 import android.app.Service;
 import android.view.MotionEvent;
@@ -57,26 +57,26 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 		case MotionEvent.ACTION_UP:
 			if(rootView.getWidth() < musicPlayerWidth / 3){
 				if(downPos < musicPlayerWidth / 3)
-					MusicPlayerViewController.createPlayerView(mService, rootView);
+					MusicViewCtl.createPlayerView(mService, rootView);
 				else
-					MusicPlayerViewController.removePlayerView(rootView);
+					MusicViewCtl.removePlayerView(rootView);
 			}else if(rootView.getWidth() > (musicPlayerWidth / 3) * 2){
 				if(downPos > (musicPlayerWidth / 3) * 2)
-					MusicPlayerViewController.removePlayerView(rootView);
+					MusicViewCtl.removePlayerView(rootView);
 				else
-					MusicPlayerViewController.createPlayerView(mService, rootView);
+					MusicViewCtl.createPlayerView(mService, rootView);
 			}
 			break;
 		case MotionEvent.ACTION_DOWN:	//画面を押した時
 			downPos  = screenWidth - event.getRawX();
 		case MotionEvent.ACTION_MOVE:	//画面上を動いている時
-			if(((LinearLayout)rootView).findViewById(MusicPlayerViewController.PLAYER_VIEW_ID) == null){
+			if(((LinearLayout)rootView).findViewById(MusicViewCtl.PLAYER_VIEW_ID) == null){
 				//MusicPlayerViewの作成
-				MusicPlayerViewController.createPlayerView(mService, rootView);
+				MusicViewCtl.createPlayerView(mService, rootView);
 			}else{
 				mPlayerView = 
 						((LinearLayout)rootView)
-						.findViewById(MusicPlayerViewController.PLAYER_VIEW_ID);
+						.findViewById(MusicViewCtl.PLAYER_VIEW_ID);
 			}
 		}
 		
@@ -86,7 +86,7 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 			if(rawX > screenWidth - WIDTH_TH)
 			{
 				//Viewの消去を行う
-				MusicPlayerViewController.removePlayerView(rootView);
+				MusicViewCtl.removePlayerView(rootView);
 			}else{
 				//Layout設定
 				final LayoutParams params = (LayoutParams) mPlayerView.getLayoutParams();

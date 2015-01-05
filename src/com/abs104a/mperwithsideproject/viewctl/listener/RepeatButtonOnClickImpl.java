@@ -1,6 +1,6 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
-import com.abs104a.mperwithsideproject.utl.MusicUtils;
+import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
 
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,7 +17,7 @@ public final class RepeatButtonOnClickImpl implements OnClickListener {
 	 */
 	@Override
 	public void onClick(View v) {
-		MusicUtils.changeRepeatState();
+		MusicViewCtl.changeRepeatState();
 	}
 
 }

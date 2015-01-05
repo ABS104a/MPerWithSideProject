@@ -3,6 +3,7 @@ package com.abs104a.mperwithsideproject.utl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -26,7 +27,8 @@ import android.view.inputmethod.InputMethodManager;
 public class DisplayUtils {
 	
 	//日付のフォーマット
-	private final static SimpleDateFormat DFYS = new SimpleDateFormat("mm:ss");
+	@SuppressLint("SimpleDateFormat") 
+	private final static SimpleDateFormat DFYS = new SimpleDateFormat("m:ss");
 
 	/**
 	 * 画面の幅を取得するクラス

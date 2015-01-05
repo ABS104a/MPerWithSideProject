@@ -15,11 +15,11 @@
         android:id="@+id/imageView_now_jacket"
         android:layout_width="@dimen/player_now_jacket_size"
         android:layout_height="@dimen/player_now_jacket_size"
-        android:layout_marginRight="@dimen/player_view_padding"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="@dimen/player_view_padding"
         android:paddingBottom="@dimen/player_view_padding"
-        android:src="@android:drawable/stat_notify_sync_noanim" />
+        android:src="@drawable/no_image" />
 
     <!-- 現在再生している曲のアーティスト名 -->
 
@@ -39,15 +39,15 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/imageView_now_jacket"
         android:layout_toRightOf="@+id/imageView_now_jacket"
+        android:gravity="center"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/textView_now_music_name"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="title"
+            android:text="No title"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="artist"
+            android:text="No artist"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="album"
+            android:text="No album"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 
@@ -85,7 +85,7 @@
         android:paddingRight="@dimen/player_view_padding"
         android:gravity="center"
         android:singleLine="true"
-        android:text="time"
+        android:text="0:00"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
@@ -97,7 +97,7 @@
         android:layout_alignTop="@+id/seekBar_now_music_seek"
         android:gravity="center"
         android:singleLine="true"
-        android:text="time"
+        android:text="0:00"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

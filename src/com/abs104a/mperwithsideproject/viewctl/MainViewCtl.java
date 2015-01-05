@@ -15,7 +15,7 @@ import com.abs104a.mperwithsideproject.viewctl.listener.MainHandleOnTouchImpl;
  * @author Kouki
  *
  */
-public final class MainViewController {
+public final class MainViewCtl {
 
 	/**
 	 * MainのViewを生成するメソッド
@@ -59,7 +59,7 @@ public final class MainViewController {
 	private final static void initActionOfView(Service mService,View mView, MusicPlayerWithQueue mpwpl){
 		//MainViewのアクションを設定する
 		//自動的に引っ張り出るようにする．
-		MusicPlayerViewController.createPlayerView(mService, mView);
+		MusicViewCtl.createPlayerView(mService, mView);
 	}
 	
 }

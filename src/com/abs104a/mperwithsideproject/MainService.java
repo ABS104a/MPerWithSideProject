@@ -4,8 +4,8 @@ import com.abs104a.mperwithsideproject.music.MusicPlayerReceiver;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
-import com.abs104a.mperwithsideproject.viewctl.MainViewController;
-import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
+import com.abs104a.mperwithsideproject.viewctl.MainViewCtl;
+import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
 
 import android.app.Service;
 import android.content.Context;
@@ -104,7 +104,7 @@ public class MainService extends Service{
 		
 
 		//重畳表示するViewを取得する．
-		rootView = (LinearLayout)MainViewController.createView(mService);
+		rootView = (LinearLayout)MainViewCtl.createView(mService);
 		
 		//プレイヤーのViewはハンドル部をタップした時に生成する．
 		//ハンドル部が引き出される動作と同時に大きさを変更させ，
@@ -148,7 +148,7 @@ public class MainService extends Service{
 			mpwpl.writeQueue();
 		}
 		try{
-			MusicPlayerViewController.removePlayerView(rootView);
+			MusicViewCtl.removePlayerView(rootView);
 			//MainViewを消去する．
 			mWindowManager.removeView(rootView);
 		}catch(NullPointerException mNullPointerException){

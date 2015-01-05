@@ -49,7 +49,11 @@ public final class FileUtils {
 		}
 		
 		if(resultList.size() == 0){
-			resultList.add(new PlayList("Sample", "PlayList", System.currentTimeMillis(), null));
+			PlayList newPlayList = new PlayList("Sample", "PlayList", System.currentTimeMillis(), null);
+			final Music[] musics = new Music[0];
+			//Musicをセット
+			newPlayList.setMusics(musics);
+			resultList.add(newPlayList);
 		}
 		android.util.Log.v(TAG,"readSerializablePlayList : " + resultList);
 		

@@ -3,6 +3,8 @@ package com.abs104a.mperwithsideproject.viewctl.listener;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
+import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -41,7 +43,7 @@ public final class MusicOnClickImpl implements OnClickListener {
 					index = 0;
 					mpwpl.addMusic(music, index);
 				}
-				MusicUtils.playOrPauseWithView(index);
+				MusicViewCtl.playOrPauseWithView(index);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

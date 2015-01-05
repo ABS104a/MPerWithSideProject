@@ -1,5 +1,7 @@
 package com.abs104a.mperwithsideproject.view;
 
+import com.abs104a.mperwithsideproject.R;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
@@ -37,10 +39,10 @@ public class FFTView extends View {
 	
 	private static float FFT_BAND_SCALE = 1.5f;
 	// FFTデータの描画色ID
-	private static int FFT_DATA_SHADER_START_COLOR_ID = android.R.color.holo_blue_dark;
+	private static int FFT_DATA_SHADER_START_COLOR_ID = R.color.Denim;
 	private static int FFT_DATA_SHADER_END_COLOR_ID = android.R.color.holo_blue_bright;
 	// 対数グリッドの色ID
-	private static int LOG_GRID_COLOR_ID = android.R.color.holo_blue_bright;
+	private static int LOG_GRID_COLOR_ID = R.color.Denim;
 	
 	// ----------------------------
 	// 変数

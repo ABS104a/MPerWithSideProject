@@ -6,9 +6,12 @@ import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
+import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.widget.Toast;
 
 /**
  * PlayListの再生ボタンを
@@ -41,9 +44,9 @@ public class PlayOfPlayListOnLCImpl implements OnClickListener,
 			mpwpl.setPlayList(list);
 			mpwpl.setCursor(0);
 			if(list.size() > 0){
-				MusicUtils.playOrPauseWithView();
+				MusicViewCtl.playOrPauseWithView();
 			}
-			
+			Toast.makeText(view.getContext(), mPlayList.getAlbum() + " → Queue And Play.", Toast.LENGTH_SHORT).show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

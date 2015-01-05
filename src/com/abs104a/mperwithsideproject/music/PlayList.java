@@ -40,12 +40,16 @@ public final class PlayList extends Album {
 				musics[index2] = musics[index1];
 				musics[index1] = tmp;
 			}
-			return false;
+			return true;
 		}catch(NullPointerException e){
 			return false;
 		}
 	}
 	
+	/**
+	 * MusicListをArrayListで取得する．
+	 * @return
+	 */
 	public ArrayList<Music> getMusicList(){
 		try{
 			Music[] musics = getMusics();
@@ -53,6 +57,25 @@ public final class PlayList extends Album {
 			for(Music music : musics)
 				result.add(music);
 			return result;
+		}catch(NullPointerException e){
+			return null;
+		}
+	}
+	
+	/**
+	 * Musicリストを消去する．
+	 * @param index
+	 * @return
+	 */
+	public Music removeMusic(int index){
+		try{
+			Music[] musics = getMusics();
+			ArrayList<Music> result = new ArrayList<Music>();
+			for(Music music : musics)
+				result.add(music);
+			Music m = result.remove(index);
+			setMusics(result.toArray(new Music[result.size()]));
+			return m;
 		}catch(NullPointerException e){
 			return null;
 		}

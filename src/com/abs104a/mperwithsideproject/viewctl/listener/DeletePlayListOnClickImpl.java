@@ -1,43 +1,44 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
+import java.util.ArrayList;
+
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
-import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.music.PlayList;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
+import android.widget.Toast;
 
-public final class DeleteOnClickImpl implements OnClickListener, OnLongClickListener  {
+public final class DeletePlayListOnClickImpl implements OnClickListener  {
 
 	//アプリケーションのコンテキスト
 	private Context mContext;
 	//rootView(MusicPlayerView)
 	private View rootView;
-	//music of item
-	private Music item;
-	//music controller class
-	private MusicPlayerWithQueue mpwpl;
-	//Itemのcolumn
-	private int column;
+	//GroupPosition
+	private int groupPosition;
+	//ChildPosition
+	private int childPosition;
+	//Music PlayList
+	private ArrayList<PlayList> playLists;
 
 	/**
 	 * インスタンスの生成
 	 * @param mContext	アプリケーションのコンテキスト
-	 * @param mpwpl 
-	 * @param item 
+	 * @param childPosition 
+	 * @param groupPosition 
 	 * @param rootView 
 	 */
-	public DeleteOnClickImpl(Context mContext, View rootView,int column, Music item, MusicPlayerWithQueue mpwpl) {
+	public DeletePlayListOnClickImpl(Context mContext, View rootView,ArrayList<PlayList> playLists, int groupPosition, int childPosition) {
 		this.mContext = mContext;
 		this.rootView = rootView;
-		this.item = item;
-		this.mpwpl = mpwpl;
-		this.column = column;
+		this.groupPosition = groupPosition;
+		this.childPosition = childPosition;
+		this.playLists = playLists;
 	}
 
 	/**
@@ -46,23 +47,21 @@ public final class DeleteOnClickImpl implements OnClickListener, OnLongClickList
 	 */
 	@Override
 	public void onClick(View v) {
-		if(column == MusicListAdapter.QUEUE){
-			//Queueへの消去を行う
-			mpwpl.removeMusic(item);
+		//TODO 確認画面
+		//PlayList消去を行う
+		Music result = playLists.get(groupPosition).removeMusic(childPosition);
+		
+		if(result != null){
+			//通知する．
+			Toast.makeText(mContext, result.getTitle() + " Removed.", Toast.LENGTH_SHORT).show();
+		}else{
+			Toast.makeText(mContext,  "Music is not found.", Toast.LENGTH_SHORT).show();
 		}
+		
 		//ViewPager の設定
 		ViewPager mViewPager = (ViewPager)rootView.findViewById(R.id.player_list_part);
 		//Viewへの反映
 		((MusicViewPagerAdapter)mViewPager.getAdapter()).notifitionDataSetChagedForQueueView();
-	}
-
-	/**
-	 * 長押しされたとき
-	 */
-	@Override
-	public boolean onLongClick(View v) {
-		// TODO プレイリストへの追加を行う
-		return true;
 	}
 	
 }

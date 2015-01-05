@@ -1,6 +1,7 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
-import com.abs104a.mperwithsideproject.utl.MusicUtils;
+import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -16,7 +17,7 @@ public final class NextButtonOnClickImpl implements OnClickListener {
 	public void onClick(View v) {
 		try {
 			//次への再生を行うs
-			MusicUtils.playNextWithView();
+			MusicViewCtl.playNextWithView();
 		} catch (IllegalArgumentException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

@@ -12,10 +12,18 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
+            
+            <ImageView 
+                android:id="@+id/imageview_equalizer"
+                android:scaleType="center"
+                android:layout_margin="@dimen/visualizer_view_margin"
+                android:layout_width="match_parent"
+            	android:layout_height="@dimen/visualizer_view_height"/>
 
             <com.abs104a.mperwithsideproject.view.FFTView
                 android:id="@+id/fftview_equalizer"
                 android:layout_width="match_parent"
+                android:background="@color/fftview_background"
                 android:layout_height="@dimen/visualizer_view_height"
                 android:layout_margin="@dimen/visualizer_view_margin" />
 

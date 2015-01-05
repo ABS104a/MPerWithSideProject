@@ -9,8 +9,6 @@ import com.abs104a.mperwithsideproject.music.Album;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
-import com.abs104a.mperwithsideproject.viewctl.listener.PlayListOnChildClickImpl;
-
 import android.app.Service;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -44,7 +42,6 @@ public final class ViewPagerForAlbumViewCtl {
 			pList.add(mlist);
 		}
 		mListView.setAdapter(new PlayListForExpandableListAdapter(mService, pList, rootView, mpwpl,MusicListAdapter.ALBUM));
-		mListView.setOnChildClickListener(new PlayListOnChildClickImpl(mService,mpwpl));
 		
 		mListView.setDividerHeight(mService.getResources().getDimensionPixelSize(R.dimen.listview_divider));
 

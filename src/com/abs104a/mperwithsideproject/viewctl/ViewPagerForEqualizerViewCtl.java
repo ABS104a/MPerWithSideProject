@@ -2,17 +2,22 @@ package com.abs104a.mperwithsideproject.viewctl;
 
 import android.app.Service;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.media.audiofx.Equalizer;
 import android.media.audiofx.Visualizer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -24,6 +29,7 @@ import android.widget.TextView;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.EqualizerItem;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.utl.GetImageTask;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.view.FFTView;
 import com.abs104a.mperwithsideproject.viewctl.listener.MyOnDataCaptureImpl;
@@ -40,6 +46,9 @@ public class ViewPagerForEqualizerViewCtl {
 	private static boolean isWave = true;
 	
 	private static FFTView fftView = null;
+	
+	//Tag
+	public static final String TAG = "ViewPagerForEqualizerViewCtl";
 
 	/**
 	 * Viewの生成
@@ -51,7 +60,7 @@ public class ViewPagerForEqualizerViewCtl {
 			final Service mService,
 			final MusicPlayerWithQueue mpwpl) 
 	{
-		// TODO 動作の登録
+		
 		//TODO Visualizerの設定
 		//データの初期化
 		fftView = null;
@@ -241,6 +250,9 @@ public class ViewPagerForEqualizerViewCtl {
 		return eq;
 	}
 	
+	//前に取得したジャケットの画像のアルバム名
+	private static String oldAlbumName = null;
+	
 	/**
 	 * Visualizerを作成する．
 	 * @param context
@@ -266,6 +278,31 @@ public class ViewPagerForEqualizerViewCtl {
         isFFT);//fftFlag
         
         ((FFTView)fftView).setSamplingRate(captureRate);
+        if(mpwpl.getNowPlayingMusic() != null){
+        	if(oldAlbumName != null && !oldAlbumName.equals(mpwpl.getNowPlayingMusic().getAlbum())){
+        		oldAlbumName = mpwpl.getNowPlayingMusic().getAlbum();
+        		new GetImageTask(context, fftView.getHeight(), new GetImageTask.OnGetImageListener() {
+
+        			@Override
+        			public void onGetImage(Bitmap image) {
+        				try{
+        					ImageView imageView = (ImageView)((ViewGroup)fftView.getParent()).findViewById(R.id.imageview_equalizer);
+        					if(imageView != null){
+        						//ジャケット画像を表示する．
+        						Animation anim = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+        						imageView.setImageBitmap(image);
+        						imageView.startAnimation(anim);
+        					}else{
+        						image.recycle();
+        						image = null;
+        					}
+        				}catch(NullPointerException e){
+        					android.util.Log.e(TAG,e.getMessage());
+        				}
+        			}
+        		}).execute(mpwpl.getNowPlayingMusic().getAlbumUri());
+        	}
+        }
         mVisualizer.setEnabled(true);
         ViewPagerForEqualizerViewCtl.mVisualizer = mVisualizer;
 		return mVisualizer;

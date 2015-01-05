@@ -1,8 +1,7 @@
 package com.abs104a.mperwithsideproject;
 
 import com.abs104a.mperwithsideproject.settings.Settings;
-import com.abs104a.mperwithsideproject.utl.MusicUtils;
-import com.abs104a.mperwithsideproject.viewctl.MusicPlayerViewController;
+import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -43,15 +42,15 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 				// 画面ON時  
 				Log.d("MainService", "SCREEN_ON");  
 				
-				if(rootView != null && MusicUtils.getPlayerView() == null && screenFlag == false){
-					MusicPlayerViewController.createPlayerView(mService, rootView);
+				if(rootView != null && MusicViewCtl.getPlayerView() == null && screenFlag == false){
+					MusicViewCtl.createPlayerView(mService, rootView);
 					screenFlag = true;
 				}
 			} else if (action.equals(Intent.ACTION_SCREEN_OFF)) {  
 				// 画面OFF時  
 				Log.d("MainService", "SCREEN_OFF");  
-				if(rootView != null && MusicUtils.getPlayerView() != null){
-					MusicPlayerViewController.removePlayerView(rootView);
+				if(rootView != null && MusicViewCtl.getPlayerView() != null){
+					MusicViewCtl.removePlayerView(rootView);
 					screenFlag = false;
 				}
 			} else if( action.equals(Intent.ACTION_HEADSET_PLUG)){
@@ -61,18 +60,18 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 				if(state == 0){
 					//ヘッドセットが外されたとき
 					if(Settings.getHeadsetUnStopPlay(mService))
-						MusicUtils.pauseWithView();
+						MusicViewCtl.pauseWithView();
 					Log.d("MainService","HEDSET_OFF");  
 				}else{
 					//ヘッドセットがついたとき
 					if(Settings.getHeadsetOnStartPlay(mService))
-						MusicUtils.playWithView();
+						MusicViewCtl.playWithView();
 					Log.d("MainService", "HEDSET_ON");  
 				}
 			} else if(action.equals(VOLUME_CHANGE)){
 				//音量が変わったとき
 				//音量の変更に対してViewに反映する．
-				MusicPlayerViewController.changeVolume();
+				MusicViewCtl.changeVolume();
 				Log.d("MainService", "VOLUME_CHANGE");
 			}
 			

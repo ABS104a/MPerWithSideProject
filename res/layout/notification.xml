@@ -26,7 +26,7 @@
             android:ellipsize="marquee"
             android:focusable="true"
             android:singleLine="true"
-            android:text="title"
+            android:text="No title"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/Black_Rock"
             android:textSize="@dimen/notification_title_sp" >
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="album and artist"
+            android:text="No album / No artist"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/eclipse"
             android:textSize="@dimen/notification_album_sp" />

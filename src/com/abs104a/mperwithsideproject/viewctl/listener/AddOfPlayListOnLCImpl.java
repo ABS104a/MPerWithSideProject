@@ -9,6 +9,7 @@ import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.widget.Toast;
 
 /**
  * PlayListの再生ボタンを
@@ -39,6 +40,7 @@ public class AddOfPlayListOnLCImpl implements OnClickListener,
 		try {
 			ArrayList<Music> list = mPlayList.getMusicList();
 			mpwpl.addPlayList(list);	
+			Toast.makeText(view.getContext(), mPlayList.getAlbum() + " → Queue", Toast.LENGTH_SHORT).show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
