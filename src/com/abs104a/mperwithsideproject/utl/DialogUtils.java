@@ -49,7 +49,7 @@ public class DialogUtils {
 	 * @param setView	セットするためのView
 	 * @return			作成したWindowManager
 	 */
-	public static final WindowManager setWindowManager(Context mContext,View setView){
+	public final WindowManager setWindowManager(Context mContext,View setView){
 		final WindowManager mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
 		
 		// 重ね合わせするViewの設定を行う
@@ -80,7 +80,7 @@ public class DialogUtils {
 	 * @param mWindowManager	対象となるWindowManager
 	 * @param mView				生成したView
 	 */
-	private final static void removeForWindowManager(final WindowManager mWindowManager,final View mView){
+	private static void removeForWindowManager(final WindowManager mWindowManager,final View mView){
 		try{
 			LinearLayout layout = (LinearLayout) mView.findViewById(R.id.linearLayout_dialog);
 			Animation anim = AnimationUtils.loadAnimation(mView.getContext(), android.R.anim.slide_out_right);
@@ -113,7 +113,7 @@ public class DialogUtils {
 	 * @param music 対象とするMusicInstance
 	 * @param column  キューへ追加するItemを設定するかどうか
 	 */
-	public final static void createIfSelectPlayListDialog(Context mContext,final Music music,final int column ){
+	public final void createIfSelectPlayListDialog(Context mContext,final Music music,final int column ){
 			
 		//MainViewの生成
 		LayoutInflater inflater = LayoutInflater.from( mContext );
@@ -242,7 +242,7 @@ public class DialogUtils {
 	/**
 	 * プレイリストを新たに作成する時に表示するダイアログを設定する．
 	 */
-	public final static void createPlayListDialog(
+	public final void createPlayListDialog(
 			Context mContext,
 			final Music music,
 			final ArrayList<PlayList> mPlayLists)
@@ -337,7 +337,7 @@ public class DialogUtils {
 	 * @param music
 	 * @param column
 	 */
-	public final static void createDialogIfEditPlayList(Context mContext,final int index,final ArrayList<PlayList> mPlayLists ){
+	public final void createDialogIfEditPlayList(Context mContext,final int index,final ArrayList<PlayList> mPlayLists ){
 		
 		//MainViewの生成
 		LayoutInflater inflater = LayoutInflater.from( mContext );
@@ -413,7 +413,7 @@ public class DialogUtils {
 	/**
 	 * プレイリストの名前を変更するダイアログを作成する．
 	 */
-	public final static void renamePlayListDialog(
+	public final void renamePlayListDialog(
 			Context mContext,
 			final int index,
 			final ArrayList<PlayList> mPlayLists)
@@ -495,7 +495,7 @@ public class DialogUtils {
 	/**
 	 * プレイリストを消去するダイアログを作成する．
 	 */
-	public final static void deletePlayListDialog(
+	public final void deletePlayListDialog(
 			Context mContext,
 			final int index,
 			final ArrayList<PlayList> mPlayLists)

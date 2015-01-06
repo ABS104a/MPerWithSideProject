@@ -264,6 +264,17 @@ public class MusicPlayer implements OnCompletionListener {
 		
 	}
 	
+	
+	/**
+	 * Resourceの解放
+	 */
+	public void release(){
+		if(mMediaPlayer != null){
+			playStop();
+			mMediaPlayer.release();
+			mMediaPlayer = null;
+		}
+	}
 
 
 	/**

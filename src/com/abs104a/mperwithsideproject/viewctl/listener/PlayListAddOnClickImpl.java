@@ -55,7 +55,7 @@ public final class PlayListAddOnClickImpl implements OnClickListener, OnLongClic
 	 */
 	@Override
 	public void onClick(View v) {
-		DialogUtils.createIfSelectPlayListDialog(mContext, item, column);
+		new DialogUtils().createIfSelectPlayListDialog(mContext, item, column);
 	}
 
 	/**

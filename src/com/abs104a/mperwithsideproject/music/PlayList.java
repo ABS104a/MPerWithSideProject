@@ -33,6 +33,10 @@ public final class PlayList extends Album {
 			FileUtils.writeSerializablePlayList(con, pList);
 	}
 	
+	public static void clearPlayList(){
+		pList = null;
+	}
+	
 	/**
 	 * 配列要素を入れ替える
 	 * @param index1　1つ目の要素

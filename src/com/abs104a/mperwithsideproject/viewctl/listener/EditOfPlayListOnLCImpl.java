@@ -36,7 +36,7 @@ public final class EditOfPlayListOnLCImpl implements OnClickListener,
 
 	@Override
 	public void onClick(View v) {
-		DialogUtils.createDialogIfEditPlayList(v.getContext(), index, playList);
+		new DialogUtils().createDialogIfEditPlayList(v.getContext(), index, playList);
 		android.util.Log.v(TAG, "position : " + index);
 
 	}

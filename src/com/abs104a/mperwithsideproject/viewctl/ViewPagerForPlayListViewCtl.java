@@ -66,7 +66,7 @@ public final class ViewPagerForPlayListViewCtl{
 				Context mContext = view.getContext();
 				//Dialogの生成
 				ArrayList<PlayList> pList = PlayList.getPlayList(mContext);
-				DialogUtils.createPlayListDialog(mContext, null, pList);
+				new DialogUtils().createPlayListDialog(mContext, null, pList);
 				android.util.Log.v(TAG,"position : " + arg2);
 			}
 			

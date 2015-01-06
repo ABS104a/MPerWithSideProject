@@ -14,6 +14,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.PorterDuff.Mode;
+import android.os.Debug;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,32 @@ public class DisplayUtils {
         final float width = size.x;
 
         return width;
+	}
+	
+	public static final void printHeapSize(){
+		// 全体ネイティブサイズ
+		long nativeHeap = Debug.getNativeHeapSize() / 1024;
+		 
+		// 使用中ネイティブヒープサイズ
+		long usedNativeHeap = Debug.getNativeHeapAllocatedSize() / 1024;
+		 
+		// 空きネイティブヒープサイズ
+		long emptyNativeHeap = Debug.getNativeHeapFreeSize() / 1024;
+		
+		// 確保されたDalvikヒープサイズ
+		long dalvikHeap = Runtime.getRuntime().totalMemory() / 1024;
+		 
+		// メモリが足りない場合に確保しようとする最大のDalvikヒープサイズ
+		long maxDalvikHeap = Runtime.getRuntime().maxMemory() / 1024;
+		 
+		// 空きDalvikヒープサイズ
+		long emptyDalvikHeap = Runtime.getRuntime().freeMemory() / 1024;
+		 
+		// 使用中Dalvikヒープサイズ
+		long usedDalvikHeap = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+		
+		android.util.Log.v("NativeHeap", "Total : " + nativeHeap + "KB / Used : " + usedNativeHeap + "KB / Empty : " + emptyNativeHeap + "KB");
+		android.util.Log.v("DalvikHeap", "Total : " + dalvikHeap + "KB / Max : " + maxDalvikHeap + "KB / Used : " + usedDalvikHeap + "KB / Empty : " + emptyDalvikHeap + "KB");
 	}
 	
 	/**
@@ -137,6 +164,7 @@ public class DisplayUtils {
 	 * （ドローワブルをのコールバックメソッドによるアクティビティのリークを防ぐため） 
 	 * @param view 
 	 */ 
+	@SuppressWarnings("deprecation")
 	public static final void cleanupView(View view) { 
 		if(view instanceof ImageButton) { 
 			ImageButton ib = (ImageButton)view; 

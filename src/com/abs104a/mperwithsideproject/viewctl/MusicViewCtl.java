@@ -12,6 +12,7 @@ import java.util.List;
 import com.abs104a.mperwithsideproject.MainService;
 import com.abs104a.mperwithsideproject.Notifications;
 import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.adapter.MusicListAdapter.ViewHolder;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
@@ -116,6 +117,15 @@ public final class MusicViewCtl {
 
 				@Override
 				public void onAnimationEnd(Animation animation) {
+					//Visualizerの消去
+					//ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
+					
+					MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(getContext());
+					if(mpwpl.getStatus() != MusicPlayerWithQueue.PLAYING){
+						mpwpl.playStop();
+						mpwpl.release();
+					}
+
 					DisplayUtils.cleanupView(getPlayerView());
 					((LinearLayout)rootView).removeView(getPlayerView());
 					setPlayerView(null);
@@ -149,6 +159,8 @@ public final class MusicViewCtl {
 			
 			//プレイリストの書き込みを行う
 			PlayList.writePlayList(getPlayerView().getContext());
+			PlayList.clearPlayList();
+			DisplayUtils.printHeapSize();
 			
 		}
 	}
@@ -201,6 +213,7 @@ public final class MusicViewCtl {
 		((LinearLayout)rootView).addView(getPlayerView());
 		//Action Settings 
 		init(mService, getPlayerView(),rootView);
+		DisplayUtils.printHeapSize();
 		return getPlayerView();
 	}
 	
@@ -293,6 +306,7 @@ public final class MusicViewCtl {
 		ViewPagerOnPagerChangeImpl pageChangeListener = new ViewPagerOnPagerChangeImpl(mViewPager);
 		mViewPager.setOnPageChangeListener(pageChangeListener);
 		mViewPager.setCurrentItem(pageCount);
+		
 		
 		//プレイリストを設定
 		if(_mpwpl.getNowPlayingMusic() != null)

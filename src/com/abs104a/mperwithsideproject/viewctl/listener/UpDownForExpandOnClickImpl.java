@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.adapter.PlayListForExpandableListAdapter;
 import com.abs104a.mperwithsideproject.music.PlayList;
-import com.abs104a.mperwithsideproject.utl.FileUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 

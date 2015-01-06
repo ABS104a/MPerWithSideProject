@@ -18,3 +18,4 @@
 - 再生時にToastを表示する．
 - Subsonic対応
 - DLNA対応
+- LISTVIEWの解放

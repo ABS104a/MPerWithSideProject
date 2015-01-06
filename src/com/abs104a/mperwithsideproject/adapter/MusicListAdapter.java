@@ -222,7 +222,7 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 
 					@Override
 					public void onClick(View v) {
-						DialogUtils.createIfSelectPlayListDialog(context, item, column);
+						new DialogUtils().createIfSelectPlayListDialog(context, item, column);
 					}
 					
 				});

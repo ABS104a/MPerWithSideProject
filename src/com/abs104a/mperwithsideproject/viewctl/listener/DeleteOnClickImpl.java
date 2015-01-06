@@ -14,8 +14,6 @@ import android.view.View.OnLongClickListener;
 
 public final class DeleteOnClickImpl implements OnClickListener, OnLongClickListener  {
 
-	//アプリケーションのコンテキスト
-	private Context mContext;
 	//rootView(MusicPlayerView)
 	private View rootView;
 	//music of item
@@ -33,7 +31,6 @@ public final class DeleteOnClickImpl implements OnClickListener, OnLongClickList
 	 * @param rootView 
 	 */
 	public DeleteOnClickImpl(Context mContext, View rootView,int column, Music item, MusicPlayerWithQueue mpwpl) {
-		this.mContext = mContext;
 		this.rootView = rootView;
 		this.item = item;
 		this.mpwpl = mpwpl;
