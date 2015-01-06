@@ -41,8 +41,11 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	//ExpandableListView用のListView;
 	private ExpandableListView mPlayListsListView = null;
 	
+	private ExpandableListView mAlbumView = null;
+	
 	
 	private PagerHolder pageHolder = null;
+
 	
 	/**
 	 * ListViewの要素を更新する．
@@ -53,6 +56,10 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 		if(mPlayListsListView != null){
 			//ViewPagerForPlayListViewCtl.updateExpandableListViewItems(mService, mView, mpwpl);
 			PlayListForExpandableListAdapter adapter = ((PlayListForExpandableListAdapter)mPlayListsListView.getExpandableListAdapter());
+			adapter.notifyDataSetChanged();	
+		}
+		if(mAlbumView != null){
+			PlayListForExpandableListAdapter adapter = ((PlayListForExpandableListAdapter)mAlbumView.getExpandableListAdapter());
 			adapter.notifyDataSetChanged();	
 		}
 	}
@@ -111,7 +118,8 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 			mPlayListsListView = (ExpandableListView) view;
 			break;
 		case ALBUM:	//Page3
-			view = (ListView) pageHolder.getView(mService, position);
+			view = (ExpandableListView) pageHolder.getView(mService, position);
+			mAlbumView = (ExpandableListView) view;
 			break;
 		case EQUALIZER:	//Page4
 			view = pageHolder.getView(mService, position);
@@ -127,10 +135,12 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
 		// ページの消去を行う際に呼ばれるメソッド
-		if(position != QUEUE)
+		if(position == QUEUE)
 			mQueueListView = null;
-		if(position != PLAYLIST)
+		else if(position == PLAYLIST)
 			mPlayListsListView = null;
+		else if(position == ALBUM)
+			mAlbumView = null;
 		if(position == EQUALIZER){
 			ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
 		}
