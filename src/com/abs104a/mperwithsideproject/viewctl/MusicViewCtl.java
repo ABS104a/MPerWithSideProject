@@ -12,7 +12,6 @@ import java.util.List;
 import com.abs104a.mperwithsideproject.MainService;
 import com.abs104a.mperwithsideproject.Notifications;
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.adapter.MusicListAdapter.ViewHolder;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
@@ -50,6 +49,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -118,21 +118,29 @@ public final class MusicViewCtl {
 				@Override
 				public void onAnimationEnd(Animation animation) {
 					//Visualizerの消去
-					//ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
+					//プレイリストの書き込みを行う
+					PlayList.writePlayList(getPlayerView().getContext());
+					PlayList.clearPlayList();
+					DisplayUtils.printHeapSize();
 					
-					MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(getContext());
-					if(mpwpl.getStatus() != MusicPlayerWithQueue.PLAYING){
-						mpwpl.playStop();
-						mpwpl.release();
-					}
+					ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
 
+					//Adapterの消去
+					ViewPager vp = (ViewPager) ((LinearLayout)rootView).findViewById(R.id.player_list_part);
+					
+					if(vp != null){
+						((MusicViewPagerAdapter) vp.getAdapter()).cleanUp();
+						vp.setAdapter((PagerAdapter)null);
+					}
+					
 					DisplayUtils.cleanupView(getPlayerView());
 					((LinearLayout)rootView).removeView(getPlayerView());
 					setPlayerView(null);
-					System.gc();
+
 					//キャッシュのClear
 					ImageCache.clearCache();
-					setPlayerView(null);
+					System.gc();
+					
 					final Handler mHandler = new Handler();
 					mHandler.post(new Runnable(){
 
@@ -156,11 +164,6 @@ public final class MusicViewCtl {
 				
 			});
 			getPlayerView().startAnimation(closeAnimation);
-			
-			//プレイリストの書き込みを行う
-			PlayList.writePlayList(getPlayerView().getContext());
-			PlayList.clearPlayList();
-			DisplayUtils.printHeapSize();
 			
 		}
 	}
@@ -293,7 +296,7 @@ public final class MusicViewCtl {
 	 * @param mView
 	 * @param _mpwpl
 	 */
-	private static void initAction(Service mService,View mView, MusicPlayerWithQueue _mpwpl){
+	private static void initAction(Service mService,View mView, final MusicPlayerWithQueue _mpwpl){
 		//再生が終了した時に呼ばれるリスナを実装する．
 		//再生が完了したときのリスナをセット．
 		_mpwpl.setOnPlayCompletedListener(new OnPlayCompletedImpl());
@@ -311,6 +314,19 @@ public final class MusicViewCtl {
 		//プレイリストを設定
 		if(_mpwpl.getNowPlayingMusic() != null)
 			reflectOfView(true);
+		
+		if(pageCount == PagerHolder.EQUALIZER){
+			new Handler().post(new Runnable(){
+
+				@Override
+				public void run() {
+					//プレイリストを設定
+					if(_mpwpl.getNowPlayingMusic() != null)
+						reflectOfView(true);
+				}
+				
+			});
+		}
 		
 		//音量の設定
 		// AudioManagerを取得する

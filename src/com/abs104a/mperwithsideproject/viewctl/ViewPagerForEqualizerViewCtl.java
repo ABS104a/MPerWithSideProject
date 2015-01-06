@@ -325,7 +325,6 @@ public class ViewPagerForEqualizerViewCtl {
 		if(mVisualizer != null){
 			mVisualizer.release();
 			mVisualizer = null;
-			oldAlbumName = null;
 			System.gc();
 		}
 	}

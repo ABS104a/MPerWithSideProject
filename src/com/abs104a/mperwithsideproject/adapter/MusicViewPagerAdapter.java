@@ -45,6 +45,14 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	
 	
 	private PagerHolder pageHolder = null;
+	private ViewGroup container = null;
+	
+	public void cleanUp(){
+		if(container != null){
+		DisplayUtils.cleanupView(container);
+		container.removeAllViews();
+		}
+	}
 
 	
 	/**
@@ -106,6 +114,7 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	 */
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
+		this.container  = container;
 		//ページごとのViewを生成する
 		View view = null;
 		switch(position){
