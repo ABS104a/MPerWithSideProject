@@ -9,8 +9,6 @@ import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
-import com.abs104a.mperwithsideproject.viewctl.ViewPagerForPlayListViewCtl;
-
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.support.v4.view.ViewPager;
@@ -119,7 +117,7 @@ public class DialogUtils {
 			
 		//MainViewの生成
 		LayoutInflater inflater = LayoutInflater.from( mContext );
-		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, null);
+		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, (ViewGroup)MusicViewCtl.getPlayerView(),false);
 		
 		//WindowManager~の起動にする．
 		final WindowManager mWindowManager = setWindowManager(mContext, mView);
@@ -149,7 +147,7 @@ public class DialogUtils {
 		});
 		
 		//表示するPlayList
-		final ArrayList<PlayList> mPlayLists = ViewPagerForPlayListViewCtl.getPlayList(mContext);
+		ArrayList<PlayList> mPlayLists = PlayList.getPlayList(mContext);
 		
 		//ListViewへ適用させるAdapter
 		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1);
@@ -182,6 +180,7 @@ public class DialogUtils {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				ArrayList<PlayList> mPlayLists = PlayList.getPlayList(view.getContext());
 				//Viewの消去
 				removeForWindowManager(mWindowManager,mView);
 				
@@ -222,7 +221,7 @@ public class DialogUtils {
 						//新しい配列をセットする．
 						mPlayLists.get(index).setMusics(newMusics);
 						//データを保存する．
-						ViewPagerForPlayListViewCtl.writePlayList(view.getContext());
+						PlayList.writePlayList(view.getContext());
 						Toast.makeText(
 								view.getContext(), 
 								music.getTitle() + " → " + 
@@ -250,7 +249,7 @@ public class DialogUtils {
 	{
 		//MainViewの生成
 		LayoutInflater inflater = LayoutInflater.from( mContext );
-		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, null);
+		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, (ViewGroup)MusicViewCtl.getPlayerView(),false);
 		
 		//WindowManager~の起動にする．
 		final WindowManager mWindowManager = setWindowManager(mContext, mView);
@@ -342,7 +341,7 @@ public class DialogUtils {
 		
 		//MainViewの生成
 		LayoutInflater inflater = LayoutInflater.from( mContext );
-		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, null);
+		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, (ViewGroup)MusicViewCtl.getPlayerView(),false);
 		
 		//WindowManager~の起動にする．
 		final WindowManager mWindowManager = setWindowManager(mContext, mView);
@@ -421,7 +420,7 @@ public class DialogUtils {
 	{
 		//MainViewの生成
 		LayoutInflater inflater = LayoutInflater.from( mContext );
-		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, null);
+		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, (ViewGroup)MusicViewCtl.getPlayerView(),false);
 		
 		//WindowManager~の起動にする．
 		final WindowManager mWindowManager = setWindowManager(mContext, mView);
@@ -503,7 +502,7 @@ public class DialogUtils {
 	{
 		//MainViewの生成
 		LayoutInflater inflater = LayoutInflater.from( mContext );
-		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, null);
+		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, (ViewGroup)MusicViewCtl.getPlayerView(),false);
 		
 		//WindowManager~の起動にする．
 		final WindowManager mWindowManager = setWindowManager(mContext, mView);

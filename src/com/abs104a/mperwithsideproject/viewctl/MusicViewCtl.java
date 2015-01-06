@@ -15,6 +15,7 @@ import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
@@ -55,6 +56,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -114,7 +116,10 @@ public final class MusicViewCtl {
 
 				@Override
 				public void onAnimationEnd(Animation animation) {
+					DisplayUtils.cleanupView(getPlayerView());
 					((LinearLayout)rootView).removeView(getPlayerView());
+					setPlayerView(null);
+					System.gc();
 					//キャッシュのClear
 					ImageCache.clearCache();
 					setPlayerView(null);
@@ -143,7 +148,7 @@ public final class MusicViewCtl {
 			getPlayerView().startAnimation(closeAnimation);
 			
 			//プレイリストの書き込みを行う
-			ViewPagerForPlayListViewCtl.writePlayList(getPlayerView().getContext());
+			PlayList.writePlayList(getPlayerView().getContext());
 			
 		}
 	}
@@ -191,7 +196,7 @@ public final class MusicViewCtl {
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する
-		setPlayerView(layoutInflater.inflate(R.layout.player_view, null));
+		setPlayerView(layoutInflater.inflate(R.layout.player_view, (ViewGroup)getPlayerView(),false));
 		getPlayerView().setId(PLAYER_VIEW_ID);
 		((LinearLayout)rootView).addView(getPlayerView());
 		//Action Settings 
@@ -283,9 +288,10 @@ public final class MusicViewCtl {
 		//ViewPager の設定
 		ViewPager mViewPager = (ViewPager)mView.findViewById(R.id.player_list_part);
 		//Adapterの設定
-		mViewPager.setAdapter(new MusicViewPagerAdapter(mService,mView,_mpwpl));
+		mViewPager.setAdapter(new MusicViewPagerAdapter(mService));
 		//ページの設定
-		mViewPager.setOnPageChangeListener(new ViewPagerOnPagerChangeImpl(mViewPager));
+		ViewPagerOnPagerChangeImpl pageChangeListener = new ViewPagerOnPagerChangeImpl(mViewPager);
+		mViewPager.setOnPageChangeListener(pageChangeListener);
 		mViewPager.setCurrentItem(pageCount);
 		
 		//プレイリストを設定

@@ -1,5 +1,8 @@
 package com.abs104a.mperwithsideproject.utl;
 
+import java.util.Map.Entry;
+import java.util.Set;
+
 import android.graphics.Bitmap;
 
 /**
@@ -45,6 +48,11 @@ public class ImageCache {
 	 * キャッシュをクリアする
 	 */
 	public static final void clearCache(){
+		Set<Entry<String, Bitmap>> data = cache.entrySet();
+		for(Entry<String, Bitmap> d : data){
+			d.getValue().recycle();
+			d.setValue(null);
+		}
 		cache.clear();
 	}
 }

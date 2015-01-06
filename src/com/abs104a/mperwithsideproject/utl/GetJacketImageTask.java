@@ -77,6 +77,10 @@ public final class GetJacketImageTask extends AsyncTask<Void,Void,Bitmap>{
         
         // リサイズ
         Bitmap bm = Bitmap.createBitmap(src, 0, 0, srcWidth, srcHeight, matrix, true);
+        if(!bm.equals(src)){
+        	src.recycle();
+        	src = null;
+        }
         int width  = bm.getWidth();
         int height = bm.getHeight();
         int size = Math.min(width, height);
@@ -90,6 +94,7 @@ public final class GetJacketImageTask extends AsyncTask<Void,Void,Bitmap>{
         paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
         canvas.drawBitmap(bm, new Rect(0, 0, size, size), new Rect(0, 0, size, size), paint);
         bm.recycle();
+        bm = null;
         return newImage;
     }
 

@@ -45,6 +45,7 @@ public final class ViewPagerOnPagerChangeImpl implements OnPageChangeListener {
 			//EQUALIZERViewのとき
 			ViewPagerForEqualizerViewCtl.createMusicVisualizer(mViewPager.getContext());
 		}
+		System.gc();
 	}
 
 }

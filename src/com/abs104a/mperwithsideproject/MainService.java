@@ -1,6 +1,5 @@
 package com.abs104a.mperwithsideproject;
 
-import com.abs104a.mperwithsideproject.music.MusicPlayerReceiver;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
@@ -58,7 +57,6 @@ public class MainService extends Service{
 	
 	// ブロードキャストリスナー  
 	private MyBroadCastReceiver broadcastReceiver;
-	private MusicPlayerReceiver musicPlayerReceiver;
 
 	@Override
 	public IBinder onBind(Intent intent) {

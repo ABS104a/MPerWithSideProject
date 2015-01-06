@@ -1,6 +1,5 @@
 package com.abs104a.mperwithsideproject.viewctl;
 
-import android.app.Service;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.audiofx.Equalizer;
@@ -45,8 +44,6 @@ public class ViewPagerForEqualizerViewCtl {
 	private static boolean isFFT = false;
 	private static boolean isWave = true;
 	
-	private static FFTView fftView = null;
-	
 	//Tag
 	public static final String TAG = "ViewPagerForEqualizerViewCtl";
 
@@ -56,22 +53,18 @@ public class ViewPagerForEqualizerViewCtl {
 	 * @param mpwpl		音楽playerのコントロール
 	 * @return			生成したView
 	 */
-	public static final View createView(
-			final Service mService,
+	public final View createView(
+			final Context mContext,
 			final MusicPlayerWithQueue mpwpl) 
 	{
 		
 		//TODO Visualizerの設定
-		//データの初期化
-		fftView = null;
 		
 		//Layoutの生成
-		LayoutInflater layoutInflater = LayoutInflater.from(mService);
-		final ScrollView mView = (ScrollView)layoutInflater.inflate(R.layout.equalizer, null);
+		LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+		final ScrollView mView = (ScrollView)layoutInflater.inflate(R.layout.equalizer, (ViewGroup)MusicViewCtl.getPlayerView(),false);
 		
-		//Visualizerの生成
-		fftView  = (FFTView)mView.findViewById(R.id.fftview_equalizer);
-		createMusicVisualizer(mService);
+		createMusicVisualizer(mContext);
 		
 		//EqualizerのView反映
 		final Equalizer eq = setEqualizerForView(mView);
@@ -101,7 +94,7 @@ public class ViewPagerForEqualizerViewCtl {
 		//現在のプリセット値
 		short currentPreset = mpwpl.getEqualizerCursor();
 		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(mService, android.R.layout.simple_spinner_item);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
 		for(short i = 0;i < numOfPresets;i++){
@@ -135,7 +128,7 @@ public class ViewPagerForEqualizerViewCtl {
 		return mView;
 	}
 	
-	private static final Equalizer setEqualizerForView(final View mView){
+	private final Equalizer setEqualizerForView(final View mView){
 		final LinearLayout layoutView = (LinearLayout)mView.findViewById(R.id.linearLayout_equalizer_child);
 		//Viewのクリア
 		layoutView.removeAllViews();
@@ -178,7 +171,7 @@ public class ViewPagerForEqualizerViewCtl {
 			final int index = (int)i;
 			final short band = (short) (eq.getCenterFreq(i) / 1000);
 			//指定バンド幅の数だけViewを作成する．
-			View eqView = layoutInflater.inflate(R.layout.equalizer_row, null);
+			View eqView = layoutInflater.inflate(R.layout.equalizer_row, (ViewGroup)MusicViewCtl.getPlayerView(),false);
 			final TextView currentText = (TextView)eqView.findViewById(R.id.textView_equalizer_row_current);
 			SeekBar seekBar = (SeekBar)eqView.findViewById(R.id.seekBar_equalizer_row);
 			TextView maxText = (TextView)eqView.findViewById(R.id.textView_equalizer_row_max);
@@ -230,6 +223,9 @@ public class ViewPagerForEqualizerViewCtl {
 
 			@Override
 			public void onClick(View v) {
+				View mView = v.getRootView();
+				//Visualizerの生成
+				FFTView fftView = (FFTView)mView.findViewById(R.id.fftview_equalizer);
 				if(mVisualizer != null && fftView != null){
 					mVisualizer.setEnabled(false);
 					//各結果を反転させる．
@@ -258,9 +254,13 @@ public class ViewPagerForEqualizerViewCtl {
 	 * @param context
 	 * @return Visualizer
 	 */
-	public static final Visualizer createMusicVisualizer(final Context context){
+	public final static Visualizer createMusicVisualizer(final Context context){
 		removeMusicVisualizer();
 		
+		View playerView = MusicViewCtl.getPlayerView();
+		if(playerView == null) return null;
+		FFTView fftView = (FFTView)playerView.findViewById(R.id.fftview_equalizer);
+		if(fftView == null) return null;
 		final int captureRate = Visualizer.getMaxCaptureRate();
 		
 		final MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(context);
@@ -277,7 +277,7 @@ public class ViewPagerForEqualizerViewCtl {
         isWave,//waveFrom
         isFFT);//fftFlag
         
-        ((FFTView)fftView).setSamplingRate(captureRate);
+        (fftView).setSamplingRate(captureRate);
         if(mpwpl.getNowPlayingMusic() != null){
         	
         	final ImageView imageView = (ImageView)((ViewGroup)fftView.getParent()).findViewById(R.id.imageview_equalizer);
@@ -325,6 +325,7 @@ public class ViewPagerForEqualizerViewCtl {
 		if(mVisualizer != null){
 			mVisualizer.release();
 			mVisualizer = null;
+			System.gc();
 		}
 	}
 

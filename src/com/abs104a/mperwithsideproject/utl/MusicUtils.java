@@ -1,39 +1,17 @@
 package com.abs104a.mperwithsideproject.utl;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.abs104a.mperwithsideproject.MainService;
-import com.abs104a.mperwithsideproject.Notifications;
-import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Album;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
-import com.abs104a.mperwithsideproject.viewctl.MusicSeekBarHandler;
-import com.abs104a.mperwithsideproject.viewctl.ViewPagerForEqualizerViewCtl;
-import com.abs104a.mperwithsideproject.viewctl.listener.MusicSeekBarOnChangeImpl;
-
-import android.app.Service;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * このアプリケーションにおける
@@ -137,7 +115,7 @@ public class MusicUtils {
 	 * @param mService
 	 * @return AlbumのArrayList
 	 */
-	public static ArrayList<Album> getMusicAlbumList(Service mService) {
+	public static ArrayList<Album> getMusicAlbumList(Context mService) {
 		
 		final ArrayList<Album> albums = new ArrayList<Album>();
 		

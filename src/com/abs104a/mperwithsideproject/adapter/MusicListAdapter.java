@@ -8,6 +8,7 @@ import com.abs104a.mperwithsideproject.utl.DialogUtils;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.GetJacketImageTask;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
+import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.listener.DeleteOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ExpandActionOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.MusicOnClickImpl;
@@ -123,7 +124,7 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			//取得したViewがNullの時
 			LayoutInflater inflater = LayoutInflater.from(context);
 			inflater = LayoutInflater.from(context);
-			convertView = inflater.inflate(R.layout.album_item_row, null);
+			convertView = inflater.inflate(R.layout.album_item_row, (ViewGroup) MusicViewCtl.getPlayerView(),false);
 			holder = new ViewHolder();
 			holder.addButton   = (ImageButton) convertView.findViewById(R.id.imageButton_album_add);
 			
@@ -195,7 +196,7 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 				
 				//ExpandViewの生成
 				final LayoutInflater layoutInflater = LayoutInflater.from(context);
-				final ViewGroup expandView = (ViewGroup)layoutInflater.inflate(R.layout.expand_album_item, null);
+				final ViewGroup expandView = (ViewGroup)layoutInflater.inflate(R.layout.expand_album_item, (ViewGroup) MusicViewCtl.getPlayerView(),false);
 
 				//Viewを追加する．
 				Animation showAnimation = 

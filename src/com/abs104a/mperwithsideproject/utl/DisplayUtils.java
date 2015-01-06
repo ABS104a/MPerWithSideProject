@@ -16,8 +16,12 @@ import android.graphics.RectF;
 import android.graphics.PorterDuff.Mode;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.SeekBar;
 
 /**
  * ディスプレイに関するユーティリティクラス
@@ -86,8 +90,14 @@ public class DisplayUtils {
              matrix.postScale(widthScale, widthScale);
          }
          
+         Bitmap result = Bitmap.createBitmap(src, 0, 0, srcWidth, srcHeight, matrix, true);
+         if(!result.equals(src)){
+        	 src.recycle();
+        	 src = null;
+         }
+         
          // リサイズ
-         return Bitmap.createBitmap(src, 0, 0, srcWidth, srcHeight, matrix, true);
+         return result;
     }
 	
 	/**
@@ -120,6 +130,35 @@ public class DisplayUtils {
 		InputMethodManager inputMethodManager = (InputMethodManager) context
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+	}
+	
+	/** 
+	 * 指定したビュー階層内のドローワブルをクリアする。 
+	 * （ドローワブルをのコールバックメソッドによるアクティビティのリークを防ぐため） 
+	 * @param view 
+	 */ 
+	public static final void cleanupView(View view) { 
+		if(view instanceof ImageButton) { 
+			ImageButton ib = (ImageButton)view; 
+			ib.setImageDrawable(null); 
+		} else if(view instanceof ImageView) { 
+			ImageView iv = (ImageView)view; 
+			iv.setImageDrawable(null); 
+		} else if(view instanceof SeekBar) { 
+			SeekBar sb = (SeekBar)view; 
+			sb.setProgressDrawable(null); 
+			sb.setThumb(null); 
+			// } else if(view instanceof( xxxx )) {  -- 他にもDrawableを使用するUIコンポーネントがあれば追加 
+		} 
+		view.setBackgroundDrawable(null); 
+		if(view instanceof ViewGroup) { 
+			ViewGroup vg = (ViewGroup)view; 
+			int size = vg.getChildCount(); 
+			for(int i = 0; i < size; i++) { 
+				cleanupView(vg.getChildAt(i)); 
+			} 
+		}
+		System.gc();
 	}
 	
 

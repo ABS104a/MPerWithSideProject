@@ -9,7 +9,7 @@ import com.abs104a.mperwithsideproject.music.Album;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
-import android.app.Service;
+import android.content.Context;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -27,38 +27,24 @@ public final class ViewPagerForAlbumViewCtl {
 	 * @param mpwpl		playerのコントロール
 	 * @return			作成したView
 	 */
-	public final static View createView(
-			final Service mService,
+	public final View createView(
+			final Context mContext,
 			View rootView, final MusicPlayerWithQueue mpwpl)
 	{
 		//TODO　ルーチンの実装
-		ExpandableListView mListView = new ExpandableListView(mService);
+		ExpandableListView mListView = new ExpandableListView(mContext);
 		//TODO ここでPlayListを読み込む
-		ArrayList<Album> list = MusicUtils.getMusicAlbumList(mService);
+		ArrayList<Album> list = MusicUtils.getMusicAlbumList(mContext);
 		ArrayList<PlayList> pList = new ArrayList<PlayList>();
 		for(Album album : list){
 			PlayList mlist = new PlayList(album.getAlbum(), album.getArtist(), album.getAlbumId(), album.getJacketUri());
 			mlist.setMusics(album.getMusics());
 			pList.add(mlist);
 		}
-		mListView.setAdapter(new PlayListForExpandableListAdapter(mService, pList, rootView, mpwpl,MusicListAdapter.ALBUM));
+		mListView.setAdapter(new PlayListForExpandableListAdapter(mContext, pList, rootView, mpwpl,MusicListAdapter.ALBUM));
 		
-		mListView.setDividerHeight(mService.getResources().getDimensionPixelSize(R.dimen.listview_divider));
-
-		
-		return mListView;
-		
-		/*
-		//TODO Viewの生成 ExpandableListview
-		final ListView mListView = new ListView(mService);
-		ArrayList<Music> items = MusicUtils.getMusicList(mService);
-		mListView.setAdapter(new MusicListAdapter(mService,rootView,items, mpwpl));
-		
-		android.util.Log.v("count", mListView.getAdapter().getCount()+"");
-		//MusicUtilsからアルバム情報を取得
-		//ArrayList<Album> list = MusicUtils.getMusicList(mService);
+		mListView.setDividerHeight(mContext.getResources().getDimensionPixelSize(R.dimen.listview_divider));
 		
 		return mListView;
-		*/
 	}
 }

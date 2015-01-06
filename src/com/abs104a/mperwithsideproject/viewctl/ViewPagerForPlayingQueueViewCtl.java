@@ -2,7 +2,7 @@ package com.abs104a.mperwithsideproject.viewctl;
 
 import java.util.ArrayList;
 
-import android.app.Service;
+import android.content.Context;
 import android.view.View;
 import android.widget.ListView;
 
@@ -13,18 +13,18 @@ import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 
 public class ViewPagerForPlayingQueueViewCtl {
 
-	public final static View createView(
-			final Service mService,
+	public final View createView(
+			final Context mContext,
 			View rootView, final MusicPlayerWithQueue mpwpl)
 	{
 
 		//Viewの生成 Listview
-		final ListView mListView = new ListView(mService);
+		final ListView mListView = new ListView(mContext);
 		ArrayList<Music> items = mpwpl.getQueue();
-		MusicListAdapter adapter = new MusicListAdapter(mService,rootView,items, MusicListAdapter.QUEUE, mpwpl);
+		MusicListAdapter adapter = new MusicListAdapter(mContext,rootView,items, MusicListAdapter.QUEUE, mpwpl);
 		mListView.setAdapter(adapter);
 		mListView.setDividerHeight(
-				mService
+				mContext
 				.getResources()
 				.getDimensionPixelSize(R.dimen.listview_divider));
 		mListView.setDrawingCacheEnabled(true);

@@ -8,6 +8,7 @@ import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.utl.GetJacketImageTask;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
+import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.listener.AddOfPlayListOnLCImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.DeletePlayListOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.EditOfPlayListOnLCImpl;
@@ -244,7 +245,7 @@ public final class PlayListForExpandableListAdapter extends
 		//ViewがNullの時は新しく生成する
 		if(convertView == null){
 			LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-			convertView = layoutInflater.inflate(R.layout.album_group_row, null);
+			convertView = layoutInflater.inflate(R.layout.album_group_row, (ViewGroup) MusicViewCtl.getPlayerView(),false);
 			convertView.setBackgroundResource(R.drawable.group_row);
 			holder = new GroupHolder();
 			holder.albumText = (TextView) convertView.findViewById(R.id.textView_album_album);

@@ -2,6 +2,9 @@ package com.abs104a.mperwithsideproject.music;
 
 import java.util.ArrayList;
 
+import com.abs104a.mperwithsideproject.utl.FileUtils;
+
+import android.content.Context;
 import android.net.Uri;
 
 public final class PlayList extends Album {
@@ -15,14 +18,19 @@ public final class PlayList extends Album {
 		super(albumName, artist, albumId, jacketUri);
 	}
 	
-	public static final ArrayList<PlayList> readPlayLists(){
-		//TODO プレイリストを読み取るリスト部分の実装
-		return null;
+	//プレイリスト
+	private static ArrayList<PlayList> pList = null;
+
+	public static ArrayList<PlayList> getPlayList(Context mContext){
+		if(pList == null){
+			pList = FileUtils.readSerializablePlayList(mContext);	
+		}
+		return pList;
 	}
-	
-	public static final boolean writePlayLists(){
-		//PlayListを書き込む部分の実装
-		return false;
+
+	public static void writePlayList(Context con){
+		if(pList != null)
+			FileUtils.writeSerializablePlayList(con, pList);
 	}
 	
 	/**
