@@ -13,7 +13,7 @@ import android.graphics.Bitmap;
 public class ImageCache {
 
 	//キャッシュするイメージ数
-	private static final int IMAGESIZE = 30;
+	private static final int IMAGESIZE = 10;
 	//LRUキャッシュ
 	private static ConcurrentLRUCache<String, Bitmap> cache = new ConcurrentLRUCache<String,Bitmap>(IMAGESIZE);
 	

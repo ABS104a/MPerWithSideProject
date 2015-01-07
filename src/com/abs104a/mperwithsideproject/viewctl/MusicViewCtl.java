@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -17,6 +16,7 @@ import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
+import com.abs104a.mperwithsideproject.utl.GetImageTask;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.BackButtonOnClickImpl;
@@ -34,7 +34,6 @@ import com.abs104a.mperwithsideproject.viewctl.listener.ViewPagerOnPagerChangeIm
 import android.app.Service;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -42,7 +41,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Environment;
@@ -688,20 +686,20 @@ public final class MusicViewCtl {
 		//アルバムジャケット
 		final ImageView jacket = (ImageView)mView.findViewById(R.id.imageView_now_jacket);
 		//ジャケットの取得
-		Uri albumArtUri = Uri.parse(
-		        "content://media/external/audio/albumart");
-		Uri album1Uri = ContentUris.withAppendedId(albumArtUri, music.getAlbumId());
-		try{
-		    ContentResolver cr = context.getContentResolver();
-		    InputStream is = cr.openInputStream(album1Uri);
-		    Bitmap bm = BitmapFactory.decodeStream(is);
-		    if(bm != null)
-		    	jacket.setImageBitmap(bm);
-		    else
-		    	jacket.setImageResource(R.drawable.no_image);
-		}catch(FileNotFoundException err){
-			jacket.setImageResource(R.drawable.no_image);
-		}
+		new GetImageTask(
+				context,
+				context.getResources().getDimensionPixelSize(R.dimen.player_now_jacket_size),
+				new GetImageTask.OnGetImageListener() {
+					
+					@Override
+					public void onGetImage(Bitmap image) {
+						if(image == null){
+							jacket.setImageResource(R.drawable.no_image);
+						}else{
+							jacket.setImageBitmap(image);
+						}
+					}
+				}).execute(music.getAlbumUri());
 		
 		//現在の再生時間
 		final TextView currentTime = (TextView)mView.findViewById(R.id.TextView_now_current_time);
@@ -757,16 +755,17 @@ public final class MusicViewCtl {
 	}
 	 
 	//twitter投稿時の画像保存
-	private static final String APPLICATION_NAME = "PATOM";
+	private static final String APPLICATION_NAME = "Music";
 	private static final Uri IMAGE_URI = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 	private static final String PATH = Environment.getExternalStorageDirectory().toString() + "/" + APPLICATION_NAME;
 	public static Uri addImageAsApplication(ContentResolver cr, Bitmap bitmap) {
 	    long dateTaken = System.currentTimeMillis();
-	    String name = createName(dateTaken) + ".jpg";
+		String name = createName(dateTaken) + ".jpg";
 	    return addImageAsApplication(cr, name, dateTaken, PATH, name, bitmap, null);
 	}
 	 
 	//画像ファイル名を生成
+	
 	private static String createName(long dateTaken) {
 	    return DateFormat.format("yyyy-MM-dd_kk.mm.ss", dateTaken).toString();
 	}

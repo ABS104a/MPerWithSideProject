@@ -160,7 +160,11 @@ public class MainService extends Service{
 		Notifications.removeNotification(mService);
 		
 		//キャッシュのClear
-		ImageCache.clearCache();
+		try{
+			ImageCache.clearCache();
+		}catch(Exception e){
+			
+		}
 		
 		mService = null;
 		

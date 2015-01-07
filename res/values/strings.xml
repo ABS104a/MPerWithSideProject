@@ -20,7 +20,7 @@
     <string name="play_loop_state_allloop">all loop</string>
     <string name="play_loop_state_oneloop">one loop</string>
     
-    <string name="add_to_queue"> add to queue</string>
+    <string name="add_to_queue"> → queue</string>
     <string name="add_to_playlist">Add to PlayList</string>
     
     <string name="play_to_playlist">Play</string>

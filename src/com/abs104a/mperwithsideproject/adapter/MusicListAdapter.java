@@ -134,8 +134,6 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			holder.albumText.setMarqueeRepeatLimit(5);
 			holder.albumText.setSelected(true);
 			
-			holder.addButton.setBackgroundResource(android.R.drawable.ic_input_add);
-			
 			holder.artistText  = (TextView) convertView.findViewById(R.id.textView_album_artist);
 			holder.jacketImage = (ImageView) convertView.findViewById(R.id.imageView_album_jacket);
 			holder.timeText    = (TextView) convertView.findViewById(R.id.textView_album_time);

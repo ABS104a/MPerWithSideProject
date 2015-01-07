@@ -6,6 +6,7 @@ import java.util.Date;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -126,6 +127,38 @@ public class DisplayUtils {
          // リサイズ
          return result;
     }
+    
+    public static Bitmap decodeSampledBitmapFromFile(String filePath, int reqWidth, int reqHeight) {  
+    	  
+        // inJustDecodeBounds=true で画像のサイズをチェック  
+        final BitmapFactory.Options options = new BitmapFactory.Options();  
+        options.inJustDecodeBounds = true;  
+        BitmapFactory.decodeFile(filePath, options);  
+      
+        // inSampleSize を計算  
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);  
+      
+        // inSampleSize をセットしてデコード  
+        options.inJustDecodeBounds = false;  
+        return BitmapFactory.decodeFile(filePath, options);  
+    }  
+    
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {  
+    	  
+        // 画像の元サイズ  
+        final int height = options.outHeight;  
+        final int width = options.outWidth;  
+        int inSampleSize = 1;  
+      
+        if (height > reqHeight || width > reqWidth) {  
+            if (width > height) {  
+                inSampleSize = Math.round((float)height / (float)reqHeight);  
+            } else {  
+                inSampleSize = Math.round((float)width / (float)reqWidth);  
+            }  
+        }  
+        return inSampleSize;  
+    } 
 	
 	/**
 	 * Longでの時間を，分:秒に変換する

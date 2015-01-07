@@ -11,13 +11,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.widget.ImageView;
@@ -58,54 +51,14 @@ public final class GetJacketImageTask extends AsyncTask<Void,Void,Bitmap>{
 		this.album = group.getAlbum();
 	}
 
-	public synchronized Bitmap resizeBitmapToDisplaySize(Bitmap src,float newSize){
-        int srcWidth = src.getWidth(); // 元画像のwidth
-        int srcHeight = src.getHeight(); // 元画像のheight
-
-        // 画面サイズを取得する
-        Matrix matrix = new Matrix();
-        float screenWidth = newSize;
-        float screenHeight = newSize;
-
-        float widthScale = screenWidth / srcWidth;
-        float heightScale = screenHeight / srcHeight;
-        if (widthScale > heightScale) {
-            matrix.postScale(heightScale, heightScale);
-        } else {
-            matrix.postScale(widthScale, widthScale);
-        }
-        
-        // リサイズ
-        Bitmap bm = Bitmap.createBitmap(src, 0, 0, srcWidth, srcHeight, matrix, true);
-        if(!bm.equals(src)){
-        	src.recycle();
-        	src = null;
-        }
-        int width  = bm.getWidth();
-        int height = bm.getHeight();
-        int size = Math.min(width, height);
-        Bitmap clipArea = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas c = new Canvas(clipArea);
-        c.drawRoundRect(new RectF(0, 0, size, size), size/10, size/10, new Paint(Paint.ANTI_ALIAS_FLAG));
-        Bitmap newImage = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(newImage);
-        Paint paint = new Paint();
-        canvas.drawBitmap(clipArea, 0, 0, paint);
-        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-        canvas.drawBitmap(bm, new Rect(0, 0, size, size), new Rect(0, 0, size, size), paint);
-        bm.recycle();
-        bm = null;
-        return newImage;
-    }
-
 	@Override
 	protected Bitmap doInBackground(Void... params) {
 		try{
 		    ContentResolver cr = context.getContentResolver();
 		    InputStream is = cr.openInputStream(uri);
-		    return resizeBitmapToDisplaySize(
+		    return DisplayUtils.resizeBitmap(
 		    		BitmapFactory.decodeStream(is), 
-		    		context.getResources().getDimension(R.dimen.album_item_row_jacket));
+		    		context.getResources().getDimensionPixelSize(R.dimen.album_item_row_jacket));
 		}catch(FileNotFoundException err){
 
 		}

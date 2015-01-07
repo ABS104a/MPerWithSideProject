@@ -3,6 +3,8 @@ package com.abs104a.mperwithsideproject.utl;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import android.graphics.Bitmap;
+
 public class ConcurrentLRUCache<A, B> extends LinkedHashMap<A, B> {
     /**
 	 * 
@@ -40,6 +42,10 @@ public class ConcurrentLRUCache<A, B> extends LinkedHashMap<A, B> {
 	public B remove(Object key) {
 		try{
 			B removeObject = super.remove(key);	
+			if(removeObject instanceof Bitmap){
+				((Bitmap) removeObject).recycle();
+				removeObject = null;
+			}
 			return removeObject;
 		}catch(Exception e){
 			e.printStackTrace();

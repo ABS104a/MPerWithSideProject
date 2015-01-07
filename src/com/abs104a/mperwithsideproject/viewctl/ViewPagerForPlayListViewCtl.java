@@ -40,6 +40,7 @@ public final class ViewPagerForPlayListViewCtl{
 		android.util.Log.v(TAG , "ListNum : " + (pList != null ? pList.size() : "null"));
 		//adapterのセット
 		mListView.setAdapter(new PlayListForExpandableListAdapter(mContext, pList, rootView, mpwpl,MusicListAdapter.PLAYLIST));
+		
 		//EmptyViewのセット
 		ExpandableListView.LayoutParams params = new ExpandableListView.LayoutParams(
 				ExpandableListView.LayoutParams.MATCH_PARENT,

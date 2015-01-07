@@ -167,6 +167,7 @@ public class MusicPlayer implements OnCompletionListener {
 			setStatus(NOSOURCE);
 			//リソースを開放する．
 			mMediaPlayer.release();
+			mMediaPlayer = null;
 			mMediaPlayer = new MediaPlayer();
 		}
 		
