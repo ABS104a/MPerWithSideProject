@@ -7,9 +7,11 @@ import com.abs104a.mperwithsideproject.viewctl.MainViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
 
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.util.Log;
@@ -171,6 +173,22 @@ public class MainService extends Service{
 		//終了Log
 		Log.v("MainService","Service is Finished!");
 		super.onDestroy();
+	}
+	
+	public class MainServiceConnection implements ServiceConnection{
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			// TODO 自動生成されたメソッド・スタブ
+			
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			// TODO 自動生成されたメソッド・スタブ
+			
+		}
+		
 	}
 	
 

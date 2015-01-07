@@ -55,6 +55,7 @@
             android:label="@string/app_name" />
 
         <service android:name="com.abs104a.mperwithsideproject.MainService" />
+        <service android:name="com.abs104a.mperwithsideproject.PlayerService" android:process=":player" />
     </application>
 
 </manifest>
