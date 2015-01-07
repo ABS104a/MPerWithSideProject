@@ -12,6 +12,7 @@
         android:layout_height="@dimen/main_view_handle_size"
         android:background="@color/transparent"
         android:layout_gravity="center_vertical"
+        android:scaleType="fitCenter"
         android:src="@drawable/handle" />
 
     <!-- ここにMusicViewを突っ込む -->
