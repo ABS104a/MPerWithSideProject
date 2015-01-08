@@ -42,6 +42,7 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
+		android.util.Log.v("onTouch", event.getAction() + " " + event.getRawX());
 		//タップ座標
 		final int rawX = (int) event.getRawX();
 		final View rootView = (View) v.getParent();
@@ -49,7 +50,9 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 		final int musicPlayerWidth = 
 				mService
 				.getResources()
-				.getDimensionPixelSize(R.dimen.player_view_width);
+				.getDimensionPixelSize(R.dimen.player_view_width)
+				+
+				mService.getResources().getDimensionPixelSize(R.dimen.player_view_padding);
 		
 		View mPlayerView = null;
 		//タップ動作によって動作を設定する．
@@ -69,6 +72,7 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 			break;
 		case MotionEvent.ACTION_DOWN:	//画面を押した時
 			downPos  = screenWidth - event.getRawX();
+		case MotionEvent.ACTION_OUTSIDE:
 		case MotionEvent.ACTION_MOVE:	//画面上を動いている時
 			if(((LinearLayout)rootView).findViewById(MusicViewCtl.PLAYER_VIEW_ID) == null){
 				//MusicPlayerViewの作成

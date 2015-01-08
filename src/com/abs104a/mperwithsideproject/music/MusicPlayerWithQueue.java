@@ -639,7 +639,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		try{
 			ContentResolver cr = mContext.getContentResolver();
 			InputStream is = cr.openInputStream(item.getAlbumUri());
-			image =  DisplayUtils.resizeBitmap(BitmapFactory.decodeStream(is), mContext.getResources().getDimensionPixelSize(R.dimen.player_now_jacket_size));
+			image =  BitmapFactory.decodeStream(is);
 		}catch(FileNotFoundException err){
 
 		}

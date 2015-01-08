@@ -114,6 +114,10 @@ public final class MainViewCtl {
 		ImageButton handleButton = (ImageButton)mView.findViewById(R.id.imageButton_handle);
 		handleButton.setClickable(true);
 		handleButton.setOnTouchListener(new MainHandleOnTouchImpl(mService));
+		
+		View handleView = mView.findViewById(R.id.imageButton_handle_view);
+		handleView.setClickable(true);
+		handleView.setOnTouchListener(new MainHandleOnTouchImpl(mService));
 	}
 	
 	/**
@@ -128,10 +132,10 @@ public final class MainViewCtl {
 		//自動的に引っ張り出るようにする．
 		//MusicViewCtl.createPlayerView(mService, mView);
 		final ImageButton handle = (ImageButton) rootView.findViewById(R.id.imageButton_handle);
-		handle.setVisibility(View.VISIBLE);
-		handle.startAnimation(
-				AnimationUtils
-				.loadAnimation(rootView.getContext(), android.R.anim.fade_in));
+		handle.setVisibility(View.GONE);
+		//handle.startAnimation(
+			//	AnimationUtils
+			//	.loadAnimation(rootView.getContext(), android.R.anim.fade_in));
 	}
 	
 }
