@@ -43,8 +43,9 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 				// 画面ON時  
 				Log.d("MainService", "SCREEN_ON");  
 				
-				if(rootView != null && MusicViewCtl.getPlayerView() == null && screenFlag == false){
-					MusicViewCtl.createPlayerView(mService, rootView);
+				if(MusicViewCtl.getPlayerView() == null && screenFlag == false){
+					MainViewCtl.createAndShowMainView(mService);
+					//MusicViewCtl.createPlayerView(mService, rootView);
 					screenFlag = true;
 				}
 			} else if (action.equals(Intent.ACTION_SCREEN_OFF)) {  

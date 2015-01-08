@@ -1,6 +1,8 @@
 package com.abs104a.mperwithsideproject.adapter;
 
 import android.app.Service;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -9,7 +11,6 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.viewctl.PagerHolder;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForEqualizerViewCtl;
 /**
@@ -31,6 +32,8 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	public static final int EQUALIZER = 3;
 	
 	
+	
+	public final static String TAG = "MusicViewPagerAdapter";
 	//ViewPagerのページ数
 	public final static int PAGE_SIZE = 4;
 	//自身のサービスコンテキスト
@@ -49,7 +52,12 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	
 	public void cleanUp(){
 		if(container != null){
-		DisplayUtils.cleanupView(container);
+			if(mAlbumView != null){
+				int firstVisiblePosition = mAlbumView.getFirstVisiblePosition();
+				SharedPreferences sp = mService.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+				sp.edit().putInt("FIRST_VISIBLE", firstVisiblePosition).commit();
+			}
+		//DisplayUtils.cleanupView(container);
 		container.removeAllViews();
 		}
 	}
@@ -148,13 +156,18 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 			mQueueListView = null;
 		else if(position == PLAYLIST)
 			mPlayListsListView = null;
-		else if(position == ALBUM)
+		else if(position == ALBUM){
+			if(mAlbumView != null){
+				int firstVisiblePosition = mAlbumView.getFirstVisiblePosition();
+				SharedPreferences sp = mService.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+				sp.edit().putInt("FIRST_VISIBLE", firstVisiblePosition).commit();
+			}
 			mAlbumView = null;
-		if(position == EQUALIZER){
+		}else if(position == EQUALIZER){
 			ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
 		}
 		
-		DisplayUtils.cleanupView((View) object);
+		//DisplayUtils.cleanupView((View) object);
 		((ViewPager) container).removeView((View) object);
 	}
 

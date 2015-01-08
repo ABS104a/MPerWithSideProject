@@ -139,6 +139,7 @@ public class MainService extends Service{
         }
     }
 	
+	
 	private MainServiceConnection mMainServiceConnection = new MainServiceConnection();
 	
 	public class MainServiceConnection implements ServiceConnection{

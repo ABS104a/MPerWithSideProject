@@ -48,10 +48,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -120,19 +118,17 @@ public final class MusicViewCtl {
 					//プレイリストの書き込みを行う
 					PlayList.writePlayList(getPlayerView().getContext());
 					PlayList.clearPlayList();
-					DisplayUtils.printHeapSize();
-					
+					DisplayUtils.printHeapSize();	
 					ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
-
-					//Adapterの消去
-					ViewPager vp = (ViewPager) ((LinearLayout)rootView).findViewById(R.id.player_list_part);
 					
-					if(vp != null){
-						((MusicViewPagerAdapter) vp.getAdapter()).cleanUp();
-						vp.setAdapter((PagerAdapter)null);
+					try{
+						ViewPager mViewPager = (ViewPager)getPlayerView().findViewById(R.id.player_list_part);
+						((MusicViewPagerAdapter)mViewPager.getAdapter()).cleanUp();
+					}catch(NullPointerException e){
+						
 					}
 					
-					DisplayUtils.cleanupView(rootView);
+					DisplayUtils.cleanupView(getPlayerView());
 					setPlayerView(null);
 					MainViewCtl.removeRootView();
 

@@ -24,12 +24,14 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -75,6 +77,7 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 		}catch(IndexOutOfBoundsException e){
 			final int viewHeight = getContext().getResources().getDimensionPixelSize(R.dimen.album_item_height);
 			LinearLayout ll = new LinearLayout(getContext());
+			ll.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,ListView.LayoutParams.WRAP_CONTENT));
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, viewHeight);
 			params.gravity = Gravity.CENTER;
 			
@@ -125,6 +128,7 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			LayoutInflater inflater = LayoutInflater.from(context);
 			inflater = LayoutInflater.from(context);
 			convertView = inflater.inflate(R.layout.album_item_row, (ViewGroup) MusicViewCtl.getPlayerView(),false);
+			convertView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,AbsListView.LayoutParams.WRAP_CONTENT));
 			holder = new ViewHolder();
 			holder.addButton   = (ImageButton) convertView.findViewById(R.id.imageButton_album_add);
 			

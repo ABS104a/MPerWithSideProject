@@ -1,19 +1,24 @@
 package com.abs104a.mperwithsideproject.music;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
 import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.FileUtils;
-import com.abs104a.mperwithsideproject.utl.ImageCache;
+import com.abs104a.mperwithsideproject.utl.GetImageTask;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 
 import android.app.PendingIntent;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.MediaMetadataRetriever;
@@ -588,7 +593,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 */
 	public final void initLockScreenNotifition(MediaPlayer mMediaPlayer){
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mContext);
-		Music item = mpwpl.getNowPlayingMusic();
+		final Music item = mpwpl.getNowPlayingMusic();
 		if(mpwpl.getNowPlayingMusic() == null)
 			return;
 		
@@ -631,11 +636,14 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		    | RemoteControlClient.FLAG_KEY_MEDIA_PAUSE
 		    | RemoteControlClient.FLAG_KEY_MEDIA_NEXT);
 		
-		Bitmap mArbumArt;
-		if(ImageCache.isCache(item.getAlbumUri().toString()))
-			mArbumArt = ImageCache.getImage(item.getAlbumUri().toString());
-		else
-			mArbumArt = null;
+		Bitmap image = null;
+		try{
+			ContentResolver cr = mContext.getContentResolver();
+			InputStream is = cr.openInputStream(item.getAlbumUri());
+			image =  DisplayUtils.resizeBitmap(BitmapFactory.decodeStream(is), mContext.getResources().getDimensionPixelSize(R.dimen.player_now_jacket_size));
+		}catch(FileNotFoundException err){
+
+		}
 		
 		// リモコン上の曲情報を更新
 		mRemoteControlClient.editMetadata(true)
@@ -643,7 +651,9 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		    .putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, item.getAlbum())
 		    .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, item.getTitle())
 		    .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, item.getDuration())
-		    .putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, mArbumArt).apply();
+		    .putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, image).apply();
+		
+		
 		android.util.Log.v(TAG, "initLockScreenNotifition");
 	}
 

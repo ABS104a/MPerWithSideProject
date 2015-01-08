@@ -22,10 +22,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -99,7 +102,7 @@ public final class PlayListForExpandableListAdapter extends
 
 	@Override
 	public long getChildId(int groupPosition, int childPosition) {
-		return 1000 * groupPosition + childPosition;
+		return 1000 * (groupPosition + 1) + childPosition;
 	}
 
 	/**
@@ -119,7 +122,7 @@ public final class PlayListForExpandableListAdapter extends
 			
 			LinearLayout mLayout = new LinearLayout(mContext);
 			mLayout.setOrientation(LinearLayout.HORIZONTAL);
-			mLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, viewHeight));
+			mLayout.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, viewHeight));
 			
 			//header1 play
 			TextView playView = new TextView(mContext);
@@ -174,7 +177,6 @@ public final class PlayListForExpandableListAdapter extends
 			Music item = playLists.get(groupPosition).getMusics()[childPosition];
 			android.util.Log.v("getChildView", "isExpand" + item.isExpandView());
 			View view = MusicListAdapter.getChildView(convertView, item, mContext, column, rootView,this, mpwpl);
-			
 			
 			//上へのボタンを上書き
 			ImageButton upButton = (ImageButton)view.findViewById(R.id.imageButton_expand_up);
@@ -247,6 +249,7 @@ public final class PlayListForExpandableListAdapter extends
 			LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 			convertView = layoutInflater.inflate(R.layout.album_group_row, (ViewGroup) MusicViewCtl.getPlayerView(),false);
 			convertView.setBackgroundResource(R.drawable.group_row);
+			convertView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,AbsListView.LayoutParams.WRAP_CONTENT));
 			holder = new GroupHolder();
 			holder.albumText = (TextView) convertView.findViewById(R.id.textView_album_album);
 			holder.jacketImage = (ImageView)convertView.findViewById(R.id.imageView_album_jacket);
@@ -296,6 +299,7 @@ public final class PlayListForExpandableListAdapter extends
 			//not Expanded
 			holder.expandIndicator.setImageResource(R.drawable.button_open);
 		}
+		
 		
 		return convertView;
 	}
