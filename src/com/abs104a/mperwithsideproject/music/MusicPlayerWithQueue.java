@@ -9,7 +9,6 @@ import java.util.Random;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.FileUtils;
-import com.abs104a.mperwithsideproject.utl.GetImageTask;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 
 import android.app.PendingIntent;
