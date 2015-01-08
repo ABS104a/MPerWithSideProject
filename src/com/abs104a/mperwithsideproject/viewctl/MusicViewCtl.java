@@ -37,6 +37,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
@@ -730,7 +731,7 @@ public final class MusicViewCtl {
 	        Intent tweetIntent = new Intent(Intent.ACTION_SEND);
 	        //画像を保存
 	        ContentResolver cr = con.getContentResolver();
-	        Uri imageuri = addImageAsApplication(cr,bm);
+	        Uri imageuri = addImageAsApplication(con,cr,bm);
 	        tweetIntent.putExtra(Intent.EXTRA_TEXT, message);
 	        tweetIntent.putExtra(Intent.EXTRA_STREAM,imageuri);
 	        tweetIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
@@ -755,23 +756,25 @@ public final class MusicViewCtl {
 	}
 	 
 	//twitter投稿時の画像保存
-	private static final String APPLICATION_NAME = "Music";
+	private static final String APPLICATION_NAME = "MperWithSideProjects";
 	private static final Uri IMAGE_URI = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 	private static final String PATH = Environment.getExternalStorageDirectory().toString() + "/" + APPLICATION_NAME;
-	public static Uri addImageAsApplication(ContentResolver cr, Bitmap bitmap) {
+	private static final String FILE_NAME = "TwitImage.jpg";
+	public static Uri addImageAsApplication(Context con,ContentResolver cr, Bitmap bitmap) {
 	    long dateTaken = System.currentTimeMillis();
-		String name = createName(dateTaken) + ".jpg";
-	    return addImageAsApplication(cr, name, dateTaken, PATH, name, bitmap, null);
+	    ;//String name = createName(dateTaken) + ".jpg";
+	    return addImageAsApplication(con,cr, FILE_NAME, dateTaken, PATH, FILE_NAME, bitmap, null);
 	}
 	 
 	//画像ファイル名を生成
-	
+	/*
 	private static String createName(long dateTaken) {
 	    return DateFormat.format("yyyy-MM-dd_kk.mm.ss", dateTaken).toString();
-	}
+	}*/
 	 
 	//画像をアルバムに保存しURI取得
 	public static Uri addImageAsApplication(
+			Context con,
 	        ContentResolver cr,
 	        String name,
 	        long dateTaken,
@@ -780,6 +783,8 @@ public final class MusicViewCtl {
 	        Bitmap source,
 	        byte[] jpegData
 	){
+		SharedPreferences sp = con.getSharedPreferences(name, Context.MODE_PRIVATE);
+		String oldUri = sp.getString(FILE_NAME, null);
 	    OutputStream outputStream = null;
 	    String filePath = directory + "/" + filename;
 	    try {
@@ -789,11 +794,22 @@ public final class MusicViewCtl {
 	            Log.d(TAG, dir.toString() + " create");
 	        }
 	        File file = new File(directory, filename);
+	        if(file.exists() && oldUri != null){
+	        	//ファイルがあるとき
+	        	try{
+	        		cr.delete(Uri.parse(oldUri), null, null);
+	        	}catch(Exception e){
+	        		file.delete();
+	        	}
+	        }
+
 	        if (file.createNewFile()) {
 	            outputStream = new FileOutputStream(file);
 	            if (source != null) {
 	                source.compress(CompressFormat.JPEG, 75, outputStream);
+	                Log.d(TAG, dir.toString() + " data is save");
 	            } else {
+	            	Log.d(TAG, dir.toString() + " data is null");
 	                outputStream.write(jpegData);
 	            }
 	        }
@@ -818,7 +834,9 @@ public final class MusicViewCtl {
 	    values.put(Images.Media.DATE_TAKEN, dateTaken);
 	    values.put(Images.Media.MIME_TYPE, "image/jpeg");
 	    values.put(Images.Media.DATA, filePath);
-	    return cr.insert(IMAGE_URI, values);
+	    Uri uri = cr.insert(IMAGE_URI, values);
+	    sp.edit().putString(FILE_NAME, uri.toString()).commit();
+	    return uri;
 	}
 	
 }
