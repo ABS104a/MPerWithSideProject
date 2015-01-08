@@ -1,6 +1,7 @@
 package com.abs104a.mperwithsideproject;
 
 import com.abs104a.mperwithsideproject.settings.Settings;
+import com.abs104a.mperwithsideproject.viewctl.MainViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -28,7 +29,7 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 	
 	private boolean screenFlag = true;
 
-	public MyBroadCastReceiver(Service mService,View rootView){
+	public MyBroadCastReceiver(Service mService){
 		this.mService = mService;
 	}
 	
@@ -36,7 +37,7 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		String action = intent.getAction();  
 		if (action != null) {  
-			View rootView = MainService.getRootView();
+			View rootView = MainViewCtl.getRootView();
 			//画面onoff時の動作を設定する
 			if (action.equals(Intent.ACTION_SCREEN_ON)) {  
 				// 画面ON時  

@@ -2,6 +2,7 @@ package com.abs104a.mperwithsideproject.music;
 
 import com.abs104a.mperwithsideproject.MainService;
 import com.abs104a.mperwithsideproject.Notifications;
+import com.abs104a.mperwithsideproject.viewctl.MainViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
 
 import android.content.BroadcastReceiver;
@@ -18,10 +19,10 @@ public class MusicPlayerReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if(intent.getAction().equals(Notifications.MAIN)){
-			if(MainService.getService() != null && MainService.getRootView() != null)
+			if(MainService.getService() != null && MainViewCtl.getRootView() != null)
 				MusicViewCtl.createPlayerView(
 						MainService.getService(),
-						MainService.getRootView());
+						MainViewCtl.getRootView());
 			android.util.Log.v("MusicPlayerReceiver", intent.toString());
 		}else if(intent.getAction().equals(Notifications.PLAY)){
 			MusicViewCtl.playOrPauseWithView();
