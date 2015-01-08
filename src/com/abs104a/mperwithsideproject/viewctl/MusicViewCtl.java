@@ -131,26 +131,23 @@ public final class MusicViewCtl {
 						vp.setAdapter((PagerAdapter)null);
 					}
 					
-					DisplayUtils.cleanupView(getPlayerView());
-					((LinearLayout)rootView).removeView(getPlayerView());
+					DisplayUtils.cleanupView(rootView);
 					setPlayerView(null);
+					MainViewCtl.removeRootView();
 
 					//キャッシュのClear
 					ImageCache.clearCache();
 					System.gc();
 					
 					final Handler mHandler = new Handler();
-					mHandler.post(new Runnable(){
+					mHandler.postDelayed(new Runnable(){
 
 						@Override
 						public void run() {
-							handle.setVisibility(View.VISIBLE);
-							handle.startAnimation(
-									AnimationUtils
-									.loadAnimation(rootView.getContext(), android.R.anim.fade_in));
+							MainViewCtl.createAndShowMainView(MainService.getService());
 						}
 						
-					});
+					},100);
 					
 				}
 

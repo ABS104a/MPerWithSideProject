@@ -4,23 +4,13 @@ import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.MainViewCtl;
-import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
-
 import android.app.Service;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.WindowManager.LayoutParams;
-import android.widget.LinearLayout;
 
 /**
  * メイン画面を表示するService
@@ -48,14 +38,6 @@ public class MainService extends Service{
 	
 	//自分のサービス（Context取得用)
 	private static Service mService = null;
-	//メインビュー生成用WindowManager
-	private WindowManager mWindowManager = null;
-	//メインビュー保持用
-	private static ViewGroup rootView = null;
-	
-	public static View getRootView(){
-		return rootView;
-	}
 	
 	// ブロードキャストリスナー  
 	private MyBroadCastReceiver broadcastReceiver;
@@ -86,47 +68,14 @@ public class MainService extends Service{
 		//テーマの適応
 		mService.setTheme(R.style.AppTheme);
 		
-		//WindowManagerの取得
-		mWindowManager  = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-
-		// 重ね合わせするViewの設定を行う
-		LayoutParams params = new WindowManager.LayoutParams(
-				WindowManager.LayoutParams.WRAP_CONTENT,
-				WindowManager.LayoutParams.WRAP_CONTENT,
-				WindowManager.LayoutParams.TYPE_TOAST,
-				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | 
-				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED ,// | 
-				PixelFormat.TRANSLUCENT);
-
-		params.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
-		params.x = 0;
-		params.y = 0;
-		
-
-		//重畳表示するViewを取得する．
-		rootView = (LinearLayout)MainViewCtl.createView(mService);
-		
-		//プレイヤーのViewはハンドル部をタップした時に生成する．
-		//ハンドル部が引き出される動作と同時に大きさを変更させ，
-		//完全にハンドルが収納されたらViewを破棄する．
-		
-		//WindowManagerにViewとLayoutParamsを登録し，表示する
-		try{
-			mWindowManager.addView(rootView, params);
-			//こっちは↓更新用
-			//mWindowManager.updateViewLayout(mMainView, params);
-		}catch(NullPointerException mNullPointerException){
-			mNullPointerException.printStackTrace();
-			//自分のサービスを終了させる．
-			this.stopSelf();
-		}
+		MainViewCtl.createAndShowMainView(mService);
 		
 		//通知の生成
 		Notifications.setService(mService);
 		Notifications.putNotification();
 		
 		//Intentfilterの登録
-		broadcastReceiver = new MyBroadCastReceiver(mService, rootView);
+		broadcastReceiver = new MyBroadCastReceiver(mService);
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_SCREEN_ON));  
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF)); 
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG)); 
@@ -147,13 +96,8 @@ public class MainService extends Service{
 			//Queueの保存
 			mpwpl.writeQueue();
 		}
-		try{
-			MusicViewCtl.removePlayerView(rootView);
-			//MainViewを消去する．
-			mWindowManager.removeView(rootView);
-		}catch(NullPointerException mNullPointerException){
-			mNullPointerException.printStackTrace();
-		}
+		
+		MainViewCtl.removeRootView();
 		
 		//BroadcastReceiverの消去
 		mService.unregisterReceiver(broadcastReceiver); 
