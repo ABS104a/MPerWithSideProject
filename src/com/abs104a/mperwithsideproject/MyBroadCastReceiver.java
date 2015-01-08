@@ -23,10 +23,13 @@ import android.view.View;
  */
 public final class MyBroadCastReceiver extends BroadcastReceiver {
 
+	//MainServiceのコンテキスト
 	private final Service mService;
 	
+	//ボリュームが変更されたときに呼ばれるBroadcast名
 	public final static String VOLUME_CHANGE = "android.media.VOLUME_CHANGED_ACTION";
 	
+	//画面がOFFになって
 	private boolean screenFlag = true;
 
 	public MyBroadCastReceiver(Service mService){
@@ -35,27 +38,37 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		
+		//Broadcastを受信した．
 		String action = intent.getAction();  
-		if (action != null) {  
+		if (action != null) {
+			//RootViewを取得
 			View rootView = MainViewCtl.getRootView();
-			//画面onoff時の動作を設定する
+			
+			//画面ONの時の動作
 			if (action.equals(Intent.ACTION_SCREEN_ON)) {  
 				// 画面ON時  
 				Log.d("MainService", "SCREEN_ON");  
 				
 				if(MusicViewCtl.getPlayerView() == null && screenFlag == false){
+					//MainViewを生成する．
 					MainViewCtl.createAndShowMainView(mService);
 					//MusicViewCtl.createPlayerView(mService, rootView);
 					screenFlag = true;
 				}
-			} else if (action.equals(Intent.ACTION_SCREEN_OFF)) {  
+			} 
+			//画面がOFFの時の動作
+			else if (action.equals(Intent.ACTION_SCREEN_OFF)) {  
 				// 画面OFF時  
 				Log.d("MainService", "SCREEN_OFF");  
 				if(rootView != null && MusicViewCtl.getPlayerView() != null){
 					MusicViewCtl.removePlayerView(rootView);
 					screenFlag = false;
 				}
-			} else if( action.equals(Intent.ACTION_HEADSET_PLUG)){
+			} 
+			
+			//ヘッドセットの接続状態が変化した時．
+			else if( action.equals(Intent.ACTION_HEADSET_PLUG)){
 				//ヘッドセットの動作を検出した時
 				int state = intent.getIntExtra("state", 0);
 				
@@ -70,7 +83,9 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 						MusicViewCtl.playWithView();
 					Log.d("MainService", "HEDSET_ON");  
 				}
-			} else if(action.equals(VOLUME_CHANGE)){
+			} 
+			//音量が変化したとき
+			else if(action.equals(VOLUME_CHANGE)){
 				//音量が変わったとき
 				//音量の変更に対してViewに反映する．
 				MusicViewCtl.changeVolume();

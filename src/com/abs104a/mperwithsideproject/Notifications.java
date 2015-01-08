@@ -22,21 +22,29 @@ import com.abs104a.mperwithsideproject.utl.MusicUtils;
  *
  */
 public final class Notifications {
+	
+	//定数//////////////////////////////
+	public static final String PLAY = "com.abs104a.mperwithsideproject.play";
+	public static final String PREVIOUS = "com.abs104a.mperwithsideproject.previous";
+	public static final String NEXT = "com.abs104a.mperwithsideproject.next";
+	public static final String MAIN = "com.abs104a.mperwithsideproject.main";
+	
+	//PlayButton
+	public static final int PLAY_REQ = 11;
+	//PreviousButton
+	public static final int PREVIOUS_REQ = 12;
+	//NextButton
+	public static final int NEXT_REQ = 13;
+	//MainButton
+	public static final int MAIN_REQ = 14;
+	
+	
+	//変数/////////////////////////////////////
 	//サービスのコンテキスト
 	private static Service mService = null;
 	
-	public static final String PLAY = "com.abs104a.mperwithsideproject.play";
 	
-	public static final String PREVIOUS = "com.abs104a.mperwithsideproject.previous";
-	
-	public static final String NEXT = "com.abs104a.mperwithsideproject.next";
 
-	public static final String MAIN = "com.abs104a.mperwithsideproject.main";
-	
-	public static final int PLAY_REQ = 11;
-	public static final int PREVIOUS_REQ = 12;
-	public static final int NEXT_REQ = 13;
-	public static final int MAIN_REQ = 14;
 	
 	/**
 	 * サービスのコンテキストを登録

@@ -38,7 +38,13 @@ import android.util.Log;
  */
 public class MainService extends Service{
 	
+	
+	//定数////////////////////////////
+	
+	//アプリケーションのTAG
 	private final static String TAG = "MainService";
+	
+	//変数////////////////////////////
 	
 	//自分のサービス（Context取得用)
 	private static Service mService = null;
@@ -46,8 +52,10 @@ public class MainService extends Service{
 	// ブロードキャストリスナー  
 	private MyBroadCastReceiver broadcastReceiver;
 	
+	//TODO　プレイヤーのサービス
 	private PlayerService mPlayerService = null;
 
+	//プロセス間通信用のバインダー
 	private final IBinder mBinder = new LocalBinder();
 	
 	@Override
@@ -89,7 +97,7 @@ public class MainService extends Service{
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG)); 
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(MyBroadCastReceiver.VOLUME_CHANGE)); 
 		
-		//PlayerServiceをバインドする．
+		//TODO PlayerServiceをバインドする．
 		//mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
 		
 		//開始ログ
@@ -133,15 +141,23 @@ public class MainService extends Service{
 		super.onDestroy();
 	}
 	
+	
+	//バインダ-関係////////////////////////////////
+	
 	public class LocalBinder extends Binder {
     	MainService getService() {
             return (MainService) mService;
         }
     }
 	
-	
+	//ServiceConnection
 	private MainServiceConnection mMainServiceConnection = new MainServiceConnection();
 	
+	/**
+	 * サービスをバインドした時に呼ばれるインスタンス．
+	 * @author Kouki
+	 *
+	 */
 	public class MainServiceConnection implements ServiceConnection{
 
 		@Override
