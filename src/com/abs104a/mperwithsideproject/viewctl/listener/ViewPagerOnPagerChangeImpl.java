@@ -1,5 +1,6 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
+import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.ViewPagerForEqualizerViewCtl;
@@ -41,7 +42,7 @@ public final class ViewPagerOnPagerChangeImpl implements OnPageChangeListener {
 		MusicViewPagerAdapter adapter = (MusicViewPagerAdapter)mViewPager.getAdapter();
 		adapter.notifitionDataSetChagedForQueueView();
 		MusicViewCtl.setPageCount(index);
-		if(index == MusicViewPagerAdapter.EQUALIZER){
+		if(index == Column.EQUALIZER){
 			//EQUALIZERViewのとき
 			ViewPagerForEqualizerViewCtl.createMusicVisualizer(mViewPager.getContext());
 		}

@@ -13,6 +13,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+/**
+ * プレイリストの消去ボタンが押された時に呼ばれるImplリスナ
+ * @author Kouki
+ *
+ */
 public final class DeletePlayListOnClickImpl implements OnClickListener  {
 
 	//アプリケーションのコンテキスト
@@ -43,7 +48,7 @@ public final class DeletePlayListOnClickImpl implements OnClickListener  {
 
 	/**
 	 * ボタンがクリックされたとき
-	 * プレイリストへの追加を行う.
+	 * プレイリストの消去を行う．
 	 */
 	@Override
 	public void onClick(View v) {

@@ -12,26 +12,29 @@ import android.media.audiofx.Visualizer.OnDataCaptureListener;
  */
 public class MyOnDataCaptureImpl implements OnDataCaptureListener {
 
+	//対象となるView
 	private FFTView fftView;
 	
 	public MyOnDataCaptureImpl(FFTView fftView){
 		this.fftView = fftView;
 	}
 
-	//Wave形式のキャプチャーデータ
+	/**
+	 * 生波形データ
+	 */
     public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes,
             int samplingRate) {
     	if(fftView != null)
     		((FFTView)fftView).updateWave(bytes);
-    	//android.util.Log.v("Visualizer","setVisualizer");
     }
 
-    //高速フーリエ変換のキャプチャーデータ
+    /**
+     * FFTデータ
+     */
     public void onFftDataCapture(Visualizer visualizer, byte[] bytes,
             int samplingRate) {
     	if(fftView != null)
     		((FFTView)fftView).updateFFT(bytes);
-    	//android.util.Log.v("Visualizer","setVisualizerFFT");
     }
 
 }

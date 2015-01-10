@@ -2,12 +2,14 @@ package com.abs104a.mperwithsideproject.adapter;
 
 import java.util.ArrayList;
 
+import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.utl.GetJacketImageTask;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
+import com.abs104a.mperwithsideproject.utl.ItemViewFactory;
 import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.listener.AddOfPlayListOnLCImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.DeletePlayListOnClickImpl;
@@ -22,7 +24,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
@@ -38,12 +39,6 @@ import android.widget.TextView;
  */
 public final class PlayListForExpandableListAdapter extends
 	BaseExpandableListAdapter {
-	
-	
-	//定数///////////////////////////////////////////////////////////
-	public final static int QUEUE = MusicListAdapter.QUEUE;
-	public final static int PLAYLIST = MusicListAdapter.PLAYLIST;
-	public final static int ALBUM = MusicListAdapter.ALBUM;
 	
 	//ヘッダーの数
 	public final static int HEADER_COUNT = 1;
@@ -88,6 +83,10 @@ public final class PlayListForExpandableListAdapter extends
 		return column;
 	}
 	
+	/**
+	 * プレイリストを取得する
+	 * @return
+	 */
 	public ArrayList<PlayList> getPlayLists(){
 		return this.playLists;
 	}
@@ -100,6 +99,9 @@ public final class PlayListForExpandableListAdapter extends
 		return playLists.get(groupPosition).getMusics()[childPosition];
 	}
 
+	/**
+	 * 子IDを取得する．
+	 */
 	@Override
 	public long getChildId(int groupPosition, int childPosition) {
 		return 1000 * (groupPosition + 1) + childPosition;
@@ -114,7 +116,7 @@ public final class PlayListForExpandableListAdapter extends
 		//1番目はQueueに追加，2番目はQueueにセット，最後はプレイリストの消去
 		
 		
-		if((column == PLAYLIST || column == ALBUM )&& childPosition == 0){
+		if((column == Column.PLAYLIST || column == Column.ALBUM )&& childPosition == 0){
 			final int viewHeight = mContext.getResources().getDimensionPixelSize(R.dimen.album_item_height);
 			
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, viewHeight, 1);
@@ -149,7 +151,7 @@ public final class PlayListForExpandableListAdapter extends
 			mLayout.addView(addView);
 			
 			//header3 Edit
-			if(column == PLAYLIST){
+			if(column == Column.PLAYLIST){
 				TextView editView = new TextView(mContext);
 				editView.setText(R.string.edit_to_playlist);
 				editView.setLayoutParams(params);
@@ -170,13 +172,13 @@ public final class PlayListForExpandableListAdapter extends
 				//Header or Footerのrecycleは破棄
 				convertView = null;
 			}
-			if(column == PLAYLIST || column == ALBUM){
+			if(column == Column.PLAYLIST || column == Column.ALBUM){
 				childPosition -= HEADER_COUNT;
 			}
 			//Viewの生成
 			Music item = playLists.get(groupPosition).getMusics()[childPosition];
 			android.util.Log.v("getChildView", "isExpand" + item.isExpandView());
-			View view = MusicListAdapter.getChildView(convertView, item, mContext, column, rootView,this, mpwpl);
+			View view = ItemViewFactory.getChildView(convertView, item, mContext, column, rootView,this, mpwpl);
 			
 			//上へのボタンを上書き
 			ImageButton upButton = (ImageButton)view.findViewById(R.id.imageButton_expand_up);
@@ -205,7 +207,7 @@ public final class PlayListForExpandableListAdapter extends
 	@Override
 	public int getChildrenCount(int groupPosition) {
 		Music[] pLists = playLists.get(groupPosition).getMusics();
-		if(column == PLAYLIST || column == ALBUM)
+		if(column == Column.PLAYLIST || column == Column.ALBUM)
 			return pLists == null ? 0 : pLists.length + HEADER_COUNT + FOOTER_COUNT;
 		else
 			return pLists == null ? 0 : pLists.length;
@@ -299,7 +301,6 @@ public final class PlayListForExpandableListAdapter extends
 			//not Expanded
 			holder.expandIndicator.setImageResource(R.drawable.button_open);
 		}
-		
 		
 		return convertView;
 	}

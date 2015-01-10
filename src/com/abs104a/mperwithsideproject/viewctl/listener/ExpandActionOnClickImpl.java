@@ -17,9 +17,16 @@ import android.widget.TextView;
  */
 public final class ExpandActionOnClickImpl implements OnClickListener, OnLongClickListener {
 
+	//ListViewのAdapter
 	private final Object adapter;
+	//対象となるMusicインスタンス
 	private final Music item;
 
+	/**
+	 * インスタンス生成
+	 * @param adapter
+	 * @param item
+	 */
 	public ExpandActionOnClickImpl(Object adapter,Music item) {
 		this.adapter = adapter;
 		this.item = item;
@@ -49,6 +56,9 @@ public final class ExpandActionOnClickImpl implements OnClickListener, OnLongCli
 		}
 	}
 
+	/**
+	 * 長押しされたとき
+	 */
 	@Override
 	public boolean onLongClick(View v) {
 		// TODO 自動生成されたメソッド・スタブ

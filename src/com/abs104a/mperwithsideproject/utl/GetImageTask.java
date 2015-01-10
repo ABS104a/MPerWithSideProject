@@ -26,7 +26,17 @@ public class GetImageTask extends AsyncTask<Uri, Void, Bitmap> {
 	//イメージ画像のサイズ
 	private final int size;
 	
+	/**
+	 * イメージを取得したときに呼ばれるコールバックInterface
+	 * imageが取得されなかったときは呼ばれない．
+	 * @author Kouki
+	 *
+	 */
 	public interface OnGetImageListener{
+		/**
+		 * 画像を取得したとき
+		 * @param image	取得した画像
+		 */
 		public void onGetImage(Bitmap image);
 	}
 
@@ -67,6 +77,7 @@ public class GetImageTask extends AsyncTask<Uri, Void, Bitmap> {
 	@Override
 	protected void onPostExecute(Bitmap result) {
 		if(listener != null){
+			//画像が取得できていればコールバックを呼ぶ
 			listener.onGetImage(result);
 		}
 		super.onPostExecute(result);

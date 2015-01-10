@@ -18,6 +18,11 @@ public final class ExitButtonOnClickListenerImpl implements OnClickListener {
 	//ミュージックcontrollerクラス
 	private final MusicPlayerWithQueue mpwpl;
 
+	/**
+	 * インスタンスの生成
+	 * @param mService
+	 * @param mpwpl
+	 */
 	public ExitButtonOnClickListenerImpl(Service mService,MusicPlayerWithQueue mpwpl) {
 		this.mService = mService;
 		this.mpwpl = mpwpl;

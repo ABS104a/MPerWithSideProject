@@ -30,6 +30,8 @@ public final class GetJacketImageTask extends AsyncTask<Void,Void,Bitmap>{
 	private final String confilmString;
 	private final ImageView jacketImage;
 	private final TextView titleText;
+	
+	//TODO Queue機構を導入する．
 
 	public GetJacketImageTask(Context context, TextView titleText,
 			ImageView jacketImage, Music item) {

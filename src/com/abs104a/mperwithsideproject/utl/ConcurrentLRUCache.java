@@ -5,6 +5,13 @@ import java.util.Map;
 
 import android.graphics.Bitmap;
 
+/**
+ * LRUキャッシュ
+ * @author Kouki
+ *
+ * @param <A>
+ * @param <B>
+ */
 public class ConcurrentLRUCache<A, B> extends LinkedHashMap<A, B> {
     /**
 	 * 
@@ -12,6 +19,10 @@ public class ConcurrentLRUCache<A, B> extends LinkedHashMap<A, B> {
 	private static final long serialVersionUID = -8773466021097489813L;
 	private final int maxEntries;
 
+	/**
+	 * インスタンスの生成
+	 * @param maxEntries	最大保存数．
+	 */
     public ConcurrentLRUCache(final int maxEntries) {
         super(maxEntries + 1, 1.0f, true);
         this.maxEntries = maxEntries;
@@ -41,6 +52,7 @@ public class ConcurrentLRUCache<A, B> extends LinkedHashMap<A, B> {
 	@Override
 	public B remove(Object key) {
 		try{
+			//消去時の動作，意図的に破棄する必要のあるリソースはここで破棄する．
 			B removeObject = super.remove(key);	
 			if(removeObject instanceof Bitmap){
 				((Bitmap) removeObject).recycle();

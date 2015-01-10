@@ -31,6 +31,7 @@ public class MusicSeekBarOnChangeImpl implements OnSeekBarChangeListener {
 			boolean fromUser) {
 		//操作がユーザーの時のみシークを変更する
 		if(fromUser){
+			//シーク位置の変更
 			mpwpl.setCurrentTime(progress);
 			currentTimeView.setText(DisplayUtils.long2TimeString(mpwpl.getCurrentTime()));
 		}

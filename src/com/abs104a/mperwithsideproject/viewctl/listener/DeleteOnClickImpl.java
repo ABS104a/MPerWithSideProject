@@ -1,7 +1,7 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
+import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
@@ -43,7 +43,7 @@ public final class DeleteOnClickImpl implements OnClickListener, OnLongClickList
 	 */
 	@Override
 	public void onClick(View v) {
-		if(column == MusicListAdapter.QUEUE){
+		if(column == Column.QUEUE){
 			//Queueへの消去を行う
 			mpwpl.removeMusic(item);
 		}

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.MainService;
 import com.abs104a.mperwithsideproject.Notifications;
 import com.abs104a.mperwithsideproject.R;
@@ -307,7 +308,7 @@ public final class MusicViewCtl {
 		if(_mpwpl.getNowPlayingMusic() != null)
 			reflectOfView(true);
 		
-		if(pageCount == PagerHolder.EQUALIZER){
+		if(pageCount == Column.EQUALIZER){
 			new Handler().post(new Runnable(){
 
 				@Override
@@ -630,7 +631,7 @@ public final class MusicViewCtl {
 				mpwpl);
 		//ViewPager の設定
 		ViewPager mViewPager = (ViewPager)playerView.findViewById(R.id.player_list_part);
-		if(mViewPager != null && mViewPager.getCurrentItem() == MusicViewPagerAdapter.EQUALIZER){
+		if(mViewPager != null && mViewPager.getCurrentItem() == Column.EQUALIZER){
 			ViewPagerForEqualizerViewCtl.createMusicVisualizer(mViewPager.getContext());
 		}
 		

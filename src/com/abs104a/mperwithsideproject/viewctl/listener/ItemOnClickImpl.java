@@ -13,7 +13,7 @@ import android.view.View.OnClickListener;
  * @author Kouki
  *
  */
-public final class MusicOnClickImpl implements OnClickListener {
+public final class ItemOnClickImpl implements OnClickListener {
 
 	//音楽リスト
 	private final Music music;
@@ -26,10 +26,15 @@ public final class MusicOnClickImpl implements OnClickListener {
 	 * @param mpwpl		ミュージックコントロールインスタンス
 	 * @param isAddQueue	タップされたときにキューに登録するかどうか
 	 */
-	public MusicOnClickImpl( Music item) {
+	public ItemOnClickImpl( Music item) {
 		this.music = item;
 	}
 
+	/**
+	 * クリックされた時
+	 * QueueにItemが追加されているときはその要素まで移動
+	 * そうでないときはQueueに追加してから再生する．
+	 */
 	@Override
 	public void onClick(View view) {
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(view.getContext());

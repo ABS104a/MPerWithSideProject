@@ -1,5 +1,6 @@
 package com.abs104a.mperwithsideproject.viewctl;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
 import android.graphics.PixelFormat;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -90,7 +90,7 @@ public final class MainViewCtl {
 	 * @param mService
 	 * @return　生成したViewGroup
 	 */
-	private final static View createView(Service mService){
+	@SuppressLint("InflateParams") private final static View createView(Service mService){
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する

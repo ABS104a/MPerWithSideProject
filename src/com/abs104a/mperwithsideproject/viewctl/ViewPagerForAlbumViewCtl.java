@@ -2,16 +2,14 @@ package com.abs104a.mperwithsideproject.viewctl;
 
 import java.util.ArrayList;
 
+import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
-import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.adapter.PlayListForExpandableListAdapter;
 import com.abs104a.mperwithsideproject.music.Album;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -33,9 +31,9 @@ public final class ViewPagerForAlbumViewCtl {
 			final Context mContext,
 			View rootView, final MusicPlayerWithQueue mpwpl)
 	{
-		//TODO　ルーチンの実装
+		//ListViewの生成
 		ExpandableListView mListView = new ExpandableListView(mContext);
-		//TODO ここでPlayListを読み込む
+		//Albumの読み込み
 		ArrayList<Album> list = MusicUtils.getMusicAlbumList(mContext);
 		ArrayList<PlayList> pList = new ArrayList<PlayList>();
 		for(Album album : list){
@@ -43,11 +41,9 @@ public final class ViewPagerForAlbumViewCtl {
 			mlist.setMusics(album.getMusics());
 			pList.add(mlist);
 		}
-		mListView.setAdapter(new PlayListForExpandableListAdapter(mContext, pList, rootView, mpwpl,MusicListAdapter.ALBUM));
-		SharedPreferences sp = mContext.getSharedPreferences(MusicViewPagerAdapter.TAG, Context.MODE_PRIVATE);
-		int firstVisible = sp.getInt("FIRST_VISIBLE", 0);
-		mListView.setSelectionFromTop(Math.min(firstVisible, pList.size() - 1), 0);
-		
+		//Adapterの設定
+		mListView.setAdapter(new PlayListForExpandableListAdapter(mContext, pList, rootView, mpwpl,Column.ALBUM));
+		//パラメーター調整
 		mListView.setDividerHeight(mContext.getResources().getDimensionPixelSize(R.dimen.listview_divider));
 		
 		return mListView;

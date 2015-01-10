@@ -2,6 +2,7 @@ package com.abs104a.mperwithsideproject.viewctl;
 
 import java.util.ArrayList;
 
+import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.adapter.PlayListForExpandableListAdapter;
@@ -39,7 +40,7 @@ public final class ViewPagerForPlayListViewCtl{
 		ArrayList<PlayList> pList = PlayList.getPlayList(mContext);
 		android.util.Log.v(TAG , "ListNum : " + (pList != null ? pList.size() : "null"));
 		//adapterのセット
-		mListView.setAdapter(new PlayListForExpandableListAdapter(mContext, pList, rootView, mpwpl,MusicListAdapter.PLAYLIST));
+		mListView.setAdapter(new PlayListForExpandableListAdapter(mContext, pList, rootView, mpwpl,Column.PLAYLIST));
 		
 		//EmptyViewのセット
 		ExpandableListView.LayoutParams params = new ExpandableListView.LayoutParams(

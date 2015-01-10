@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.FileUtils;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 

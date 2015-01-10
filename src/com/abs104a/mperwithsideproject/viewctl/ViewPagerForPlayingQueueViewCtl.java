@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ListView;
 
+import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
@@ -21,7 +22,7 @@ public class ViewPagerForPlayingQueueViewCtl {
 		//Viewの生成 Listview
 		final ListView mListView = new ListView(mContext);
 		ArrayList<Music> items = mpwpl.getQueue();
-		MusicListAdapter adapter = new MusicListAdapter(mContext,rootView,items, MusicListAdapter.QUEUE, mpwpl);
+		MusicListAdapter adapter = new MusicListAdapter(mContext,rootView,items, Column.QUEUE, mpwpl);
 		mListView.setAdapter(adapter);
 		mListView.setDividerHeight(
 				mContext

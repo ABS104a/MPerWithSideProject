@@ -53,6 +53,10 @@ public class DisplayUtils {
         return width;
 	}
 	
+	/**
+	 * 使用ヒープサイズをPrintするメソッド
+	 * 現在使用中のヒープサイズと最大ヒープサイズをトレースする．
+	 */
 	public static final void printHeapSize(){
 		// 全体ネイティブサイズ
 		long nativeHeap = Debug.getNativeHeapSize() / 1024;
@@ -101,6 +105,13 @@ public class DisplayUtils {
         return newImage;
     }
     
+    /**
+     * 画像をリサイズする
+     * リサイズ前のSOURCEは破棄する．
+     * @param src	アプリケーションのコンテキスト
+     * @param newSize	新しいサイズ
+     * @return	リサイズしたBitmap
+     */
     public synchronized static Bitmap resizeBitmap(Bitmap src,float newSize){
     	 int srcWidth = src.getWidth(); // 元画像のwidth
          int srcHeight = src.getHeight(); // 元画像のheight
@@ -110,6 +121,7 @@ public class DisplayUtils {
          float screenWidth = newSize;
          float screenHeight = newSize;
 
+         //新しいサイズを計算する．
          float widthScale = screenWidth / srcWidth;
          float heightScale = screenHeight / srcHeight;
          if (widthScale > heightScale) {
@@ -128,6 +140,13 @@ public class DisplayUtils {
          return result;
     }
     
+    /**
+     * 画像を指定したサイズでファイルから読み込む
+     * @param filePath	画像のファイルパス
+     * @param reqWidth	読み込む画像幅
+     * @param reqHeight	読み込む画像高さ
+     * @return	読み込んだ画像
+     */
     public static Bitmap decodeSampledBitmapFromFile(String filePath, int reqWidth, int reqHeight) {  
     	  
         // inJustDecodeBounds=true で画像のサイズをチェック  
@@ -143,7 +162,17 @@ public class DisplayUtils {
         return BitmapFactory.decodeFile(filePath, options);  
     }  
     
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {  
+    /**
+     * 画像を読み込む際に読み込む画像のスケールを取得する．
+     * {@link DisplayUtils#decodeSampledBitmapFromFile(String, int, int)}
+     * とセットで使用する．
+     * 
+     * @param options	BitmapOption
+     * @param reqWidth	要求幅
+     * @param reqHeight	要求高さ
+     * @return	スケール
+     */
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {  
     	  
         // 画像の元サイズ  
         final int height = options.outHeight;  

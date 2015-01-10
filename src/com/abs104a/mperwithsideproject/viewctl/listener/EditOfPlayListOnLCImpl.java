@@ -18,9 +18,11 @@ import android.view.View.OnLongClickListener;
 public final class EditOfPlayListOnLCImpl implements OnClickListener,
 		OnLongClickListener {
 	
+	//Tag
 	public final static String TAG = "EditOfPlayListOnLCImpl";
-	
+	//対象となるプレイリスト
 	private final ArrayList<PlayList> playList;
+	//プレイリストのポジション
 	private final int index;
 
 	public EditOfPlayListOnLCImpl(int index ,ArrayList<PlayList> playList){
@@ -36,6 +38,7 @@ public final class EditOfPlayListOnLCImpl implements OnClickListener,
 
 	@Override
 	public void onClick(View v) {
+		//プレイリストを編集するためのダイアログを生成する．
 		new DialogUtils().createDialogIfEditPlayList(v.getContext(), index, playList);
 		android.util.Log.v(TAG, "position : " + index);
 

@@ -80,7 +80,7 @@ public class ViewPagerForEqualizerViewCtl {
 					boolean isChecked) {
 				android.util.Log.v("Equalizer","isEnabled : " + isChecked);
 				mpwpl.setEqualizer(isChecked);
-				//TODO 反映する
+				//反映する
 				setEqualizerForView(mView);
 			}
 			
@@ -128,6 +128,11 @@ public class ViewPagerForEqualizerViewCtl {
 		return mView;
 	}
 	
+	/**
+	 * equalizerをViewに反映させるメソッド
+	 * @param mView	生成したequalizerView
+	 * @return	生成したequalizerインスタンス
+	 */
 	private final Equalizer setEqualizerForView(final View mView){
 		final LinearLayout layoutView = (LinearLayout)mView.findViewById(R.id.linearLayout_equalizer_child);
 		//Viewのクリア

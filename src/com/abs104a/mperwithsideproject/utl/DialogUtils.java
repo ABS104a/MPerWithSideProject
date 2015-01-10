@@ -2,8 +2,8 @@ package com.abs104a.mperwithsideproject.utl;
 
 import java.util.ArrayList;
 
+import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
@@ -153,7 +153,7 @@ public class DialogUtils {
 		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1);
 		
 		//Queueへの追加をするItemの追加
-		if(column != MusicListAdapter.QUEUE)
+		if(column != Column.QUEUE)
 			adapter.add(mContext.getString(R.string.add_queue));
 		//PlayListを作成するItemの追加
 		adapter.add(mContext.getString(R.string.create_playlist));
@@ -185,7 +185,7 @@ public class DialogUtils {
 				removeForWindowManager(mWindowManager,mView);
 				
 				//Queueへの追加Itemを追加しない場合はPositionを1つ増やす
-				if(column == MusicListAdapter.QUEUE )position += 1;
+				if(column == Column.QUEUE )position += 1;
 				
 				//MusicControllerInstanceを取得
 				final MusicPlayerWithQueue mpwpl 
@@ -202,7 +202,7 @@ public class DialogUtils {
 							Toast.LENGTH_SHORT)
 							.show();
 				}else if(position == 1){
-					//TODO PlayListの作成
+					//PlayListの作成
 					createPlayListDialog(view.getContext(),music, mPlayLists);
 				}else{
 					//既存のプレイリストへの追加

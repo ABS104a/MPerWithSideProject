@@ -29,6 +29,7 @@ import android.provider.MediaStore;
  */
 public class MusicUtils {
 
+	//MusicPlayerクラスを保持する．
 	private static MusicPlayerWithQueue musicController = null;
 	
 	/**
@@ -121,12 +122,12 @@ public class MusicUtils {
 		
 		ArrayList<Music> items = getMusicList(mService);
 		
-		long _albumId = -1;
+		String _album = "";
 		
 		ArrayList<Music> tmpMusic = new ArrayList<Music>();
 		Album mAlbum = null;
 		for(Music item : items){
-			if(item.getAlbumId() != _albumId){
+			if(!item.getAlbum().contains(_album)){
 				//IDが前のものと違う時
 				if(mAlbum != null){
 					mAlbum.setMusics(tmpMusic.toArray(new Music[tmpMusic.size()]));
@@ -137,7 +138,7 @@ public class MusicUtils {
 						item.getArtist(),
 						item.getAlbumId(), 
 						item.getAlbumUri());
-				_albumId = item.getAlbumId();
+				_album = item.getAlbum();
 			}
 			tmpMusic.add(item);
 		}

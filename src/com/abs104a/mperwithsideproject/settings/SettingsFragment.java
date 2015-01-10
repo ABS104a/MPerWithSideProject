@@ -8,6 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * 設定画面を表示するFragment
+ * @author Kouki
+ *
+ */
 public class SettingsFragment extends PreferenceFragment {
 
 	/* (非 Javadoc)
