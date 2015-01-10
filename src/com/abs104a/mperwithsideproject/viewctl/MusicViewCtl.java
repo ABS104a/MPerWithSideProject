@@ -730,20 +730,7 @@ public final class MusicViewCtl {
 	        tweetIntent.putExtra(Intent.EXTRA_STREAM,imageuri);
 	        tweetIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
 	        tweetIntent.setType("image/jpeg");
-	        PackageManager pm = con.getPackageManager();
-	        List<ResolveInfo> lract = pm.queryIntentActivities(tweetIntent, PackageManager.MATCH_DEFAULT_ONLY);
-	        boolean resolved = false;
-	        for (ResolveInfo ri : lract) {
-	            if (ri.activityInfo.name.contains("twitter")) {
-	                tweetIntent.setClassName(ri.activityInfo.packageName,
-	                        ri.activityInfo.name);
-	                resolved = true;
-	                break;
-	            }
-	        }
-	        con.startActivity(resolved ?
-	                tweetIntent :
-	                Intent.createChooser(tweetIntent, "Choose one"));
+	        con.startActivity(tweetIntent);
 	    } catch (final ActivityNotFoundException e) {
 	        Toast.makeText(con,"You don't seem to have twitter installed on this device", Toast.LENGTH_SHORT).show();
 	    }
@@ -829,7 +816,8 @@ public final class MusicViewCtl {
 	    values.put(Images.Media.MIME_TYPE, "image/jpeg");
 	    values.put(Images.Media.DATA, filePath);
 	    Uri uri = cr.insert(IMAGE_URI, values);
-	    sp.edit().putString(FILE_NAME, uri.toString()).commit();
+	    if(uri != null)
+	    	sp.edit().putString(FILE_NAME, uri.toString()).commit();
 	    return uri;
 	}
 	
