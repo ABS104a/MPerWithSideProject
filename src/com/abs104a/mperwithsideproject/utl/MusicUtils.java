@@ -127,7 +127,7 @@ public class MusicUtils {
 		ArrayList<Music> tmpMusic = new ArrayList<Music>();
 		Album mAlbum = null;
 		for(Music item : items){
-			if(!item.getAlbum().contains(_album)){
+			if(!item.getAlbum().equals(_album)){
 				//IDが前のものと違う時
 				if(mAlbum != null){
 					mAlbum.setMusics(tmpMusic.toArray(new Music[tmpMusic.size()]));

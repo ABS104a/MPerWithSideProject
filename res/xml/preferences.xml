@@ -20,5 +20,18 @@
  
     </PreferenceCategory>
     
+    <PreferenceCategory
+            android:title="@string/app_title">
+    
+    	<ListPreference
+                android:key="handle_width_key"
+                android:title="@string/handle_width"
+                android:summary="@string/handle_width_m"
+                android:entries="@array/handle_width_st"
+                android:entryValues="@array/handle_width"
+                android:defaultValue="@string/handle_width_defvalue"
+                android:dialogTitle="@string/handle_width" />
+    </PreferenceCategory>
+    
 
 </PreferenceScreen>

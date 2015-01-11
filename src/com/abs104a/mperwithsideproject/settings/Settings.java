@@ -31,4 +31,14 @@ public class Settings {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(con);
 		return preferences.getBoolean(con.getString(R.string.unconnected_headset_key), true);
 	}
+	
+	/**
+	 * ハンドルの幅設定を取得
+	 * @param con
+	 * @return
+	 */
+	public static final int getHandleWidth(Context con){
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(con);
+		return Integer.parseInt(preferences.getString(con.getString(R.string.handle_width_key), con.getString(R.string.handle_width_defvalue)));
+	}
 }

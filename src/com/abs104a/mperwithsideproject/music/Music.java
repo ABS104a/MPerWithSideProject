@@ -3,13 +3,15 @@ package com.abs104a.mperwithsideproject.music;
 import java.io.Serializable;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * 曲の情報を保持するクラス
  * @author Kouki
  *
  */
-public class Music implements Serializable,Comparable<Music>{
+public class Music implements Serializable,Comparable<Music>,Parcelable {
 
 	/**
 	 * 
@@ -35,7 +37,7 @@ public class Music implements Serializable,Comparable<Music>{
 	
 	private String albumUri;
 	
-	private boolean isExpandView = false;
+	private int isExpandView = 0;
 	
 	
 	/**
@@ -65,6 +67,54 @@ public class Music implements Serializable,Comparable<Music>{
 		this.duration = duration;
 		this.setPass(pass);
 	}
+	
+	public Music(Parcel in) {
+		readFromParcel(in);
+	}
+	
+	public void readFromParcel(Parcel in) {
+		this.id = in.readLong();
+		this.artist = in.readString();
+		this.title = in.readString();
+		this.album = in.readString();
+		this.truck = in.readInt();
+		this.duration = in.readLong();
+		this.setPass(in.readString());
+		this.albumId = in.readLong();
+		this.albumUri = in.readString();
+		this.isExpandView = in.readInt();
+	}
+	
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel out, int flags) {
+		out.writeLong(id);
+		out.writeString(artist);
+		out.writeString(title);
+		out.writeString(album);
+		out.writeInt(truck);
+		out.writeLong(duration);
+		out.writeString(pass);
+		out.writeLong(albumId);
+		out.writeString(albumUri);
+		out.writeInt(isExpandView);
+	}
+	
+	public static final Parcelable.Creator<Music> CREATOR  
+	= new Parcelable.Creator<Music>() {  
+		public Music createFromParcel(Parcel in) {  
+			return new Music(in);  
+		}  
+
+		public Music[] newArray(int size) {  
+			return new Music[size];  
+		}  
+	}; 
+	
 	
 	public final long getId() {
 		return id;
@@ -180,14 +230,14 @@ public class Music implements Serializable,Comparable<Music>{
 	 * @return isExpandView
 	 */
 	public boolean isExpandView() {
-		return isExpandView;
+		return isExpandView == 1 ? true : false;
 	}
 
 	/**
 	 * @param isExpandView セットする isExpandView
 	 */
 	public void setExpandView(boolean isExpandView) {
-		this.isExpandView = isExpandView;
+		this.isExpandView = isExpandView ? 1 : 0;
 	}
 
 

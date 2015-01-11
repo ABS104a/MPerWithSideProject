@@ -61,14 +61,6 @@ public class MusicSeekBarHandler extends Handler {
      */
     public void stopHandler(){
     	removeMessages(0);
+    	android.util.Log.v("handlar","stop");
     }
-
-	/* (非 Javadoc)
-	 * @see java.lang.Object#finalize()
-	 */
-	@Override
-	protected void finalize() throws Throwable {
-		android.util.Log.v("handlar","finalize");
-		super.finalize();
-	}
 }

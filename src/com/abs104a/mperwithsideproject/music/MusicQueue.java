@@ -8,6 +8,7 @@ public class MusicQueue implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1555613550875599291L;
+	//TODO Parcelable の実装
 	
 	private ArrayList<Music> queueMusics = new ArrayList<Music>();
 	private int mCursor = 0;

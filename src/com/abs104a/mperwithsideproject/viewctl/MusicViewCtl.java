@@ -37,8 +37,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.media.AudioManager;
@@ -57,6 +55,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -94,6 +93,19 @@ public final class MusicViewCtl {
 		return MainService.getService();
 	}
 	
+	//UIスレッドのHandler
+	private static MusicSeekBarHandler mHandler = null;
+	
+	private static View playerView = null;
+	
+	public static View getPlayerView(){
+		return playerView;
+	}
+	
+	public static void setPlayerView(View view){
+		playerView = view;
+	}
+	
 	//クラスの識別用タグ
 	public static final String TAG = "MusicViewCtl";
 	
@@ -105,7 +117,7 @@ public final class MusicViewCtl {
 	public static void removePlayerView(final View rootView){
 		//Viewの消去を行う
 		if(getPlayerView() != null && rootView != null){
-			final ImageButton handle = (ImageButton) rootView.findViewById(R.id.imageButton_handle);
+			final Button handle = (Button) rootView.findViewById(R.id.imageButton_handle);
 			handle.setVisibility(View.INVISIBLE);
 			Animation closeAnimation = 
 					AnimationUtils.loadAnimation(rootView.getContext(), R.anim.left_to_right_out);
@@ -115,6 +127,10 @@ public final class MusicViewCtl {
 				public void onAnimationEnd(Animation animation) {
 					//Visualizerの消去
 					//プレイリストの書き込みを行う
+					if(mHandler != null){
+						mHandler.stopHandler();
+						mHandler = null;
+					}
 					PlayList.writePlayList(getPlayerView().getContext());
 					PlayList.clearPlayList();
 					DisplayUtils.printHeapSize();	
@@ -167,7 +183,7 @@ public final class MusicViewCtl {
 	public static void createPlayerView(final Service mService,View rootView){
 		if(getPlayerView() == null){
 			final View mView = createView(mService,rootView);
-			final ImageButton handle = (ImageButton) rootView.findViewById(R.id.imageButton_handle);
+			final Button handle = (Button) rootView.findViewById(R.id.imageButton_handle);
 			handle.setVisibility(View.INVISIBLE);
 			
 			final Animation showAnimation = 
@@ -373,20 +389,6 @@ public final class MusicViewCtl {
 		volumeBar.setMax(musicMaxVolume);
 		volumeBar.setProgress(musicVolume);
 		//音量のシークバーが変更された時のリスナ
-	}
-	
-	
-	//UIスレッドのHandler
-	private static MusicSeekBarHandler mHandler = null;
-	
-	private static View playerView = null;
-	
-	public static View getPlayerView(){
-		return playerView;
-	}
-	
-	public static void setPlayerView(View view){
-		playerView = view;
 	}
 	
 

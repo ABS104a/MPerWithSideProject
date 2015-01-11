@@ -6,14 +6,13 @@
     android:gravity="center_vertical|right"
     android:orientation="horizontal" >
 
-    <ImageButton
+    <Button
         android:id="@+id/imageButton_handle"
-        android:layout_width="@dimen/main_view_handle_size"
+        android:layout_width="12dp"
         android:layout_height="@dimen/main_view_handle_size"
-        android:background="@color/transparent"
+        android:background="@drawable/handle_view"
         android:layout_gravity="center_vertical"
-        android:scaleType="fitCenter"
-        android:src="@drawable/handle" />
+        android:scaleType="fitCenter"/>
     
     <View
         android:id="@+id/imageButton_handle_view"

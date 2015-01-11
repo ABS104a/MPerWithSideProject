@@ -6,12 +6,13 @@ import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.MainViewCtl;
 import android.app.Service;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 
-import android.os.Binder;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;
 
 /**
@@ -51,17 +52,23 @@ public class MainService extends Service{
 	
 	// ブロードキャストリスナー  
 	private MyBroadCastReceiver broadcastReceiver;
-	
-	//TODO　プレイヤーのサービス
-	private PlayerService mPlayerService = null;
 
+	private IPlayerService mIPlayerService = null;
+	
 	//プロセス間通信用のバインダー
-	private final IBinder mBinder = new LocalBinder();
+	private IMainService.Stub mIMainServiceIf = new IMainService.Stub() {
+		
+		@Override
+		public boolean stopService() throws RemoteException {
+			// TODO 自動生成されたメソッド・スタブ
+			return false;
+		}
+	};
 	
 	@Override
 	public IBinder onBind(Intent intent) {
 		// バインドされた時
-		return mBinder;
+		return mIMainServiceIf;
 	}
 	
 	/**
@@ -98,7 +105,7 @@ public class MainService extends Service{
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(MyBroadCastReceiver.VOLUME_CHANGE)); 
 		
 		//TODO PlayerServiceをバインドする．
-		//mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
+		mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
 		
 		//開始ログ
 		Log.v("MainService","Service is Start!");
@@ -144,12 +151,6 @@ public class MainService extends Service{
 	
 	//バインダ-関係////////////////////////////////
 	
-	public class LocalBinder extends Binder {
-    	MainService getService() {
-            return (MainService) mService;
-        }
-    }
-	
 	//ServiceConnection
 	private MainServiceConnection mMainServiceConnection = new MainServiceConnection();
 	
@@ -162,14 +163,13 @@ public class MainService extends Service{
 
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
-			PlayerService.LocalBinder binder = (PlayerService.LocalBinder)service;
-			mPlayerService = binder.getService();
-			android.util.Log.v(TAG, "onServiceConnected " + mPlayerService.getPackageName());
+			mIPlayerService = IPlayerService.Stub.asInterface(service);
+			android.util.Log.v(TAG, "onServiceConnected MainService");
 		}
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			mPlayerService = null;
+			mIPlayerService = null;
 			android.util.Log.v(TAG, "onServiceDisconnected MainService");
 		}
 		

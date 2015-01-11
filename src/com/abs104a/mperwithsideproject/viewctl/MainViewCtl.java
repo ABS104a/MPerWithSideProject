@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
-import android.widget.ImageButton;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.settings.Settings;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.MainHandleOnTouchImpl;
 
@@ -111,13 +113,10 @@ public final class MainViewCtl {
 	 */
 	private final static void initButtonOfView(Service mService,View mView, MusicPlayerWithQueue mpwpl){
 		//Viewのボタンに動作をつける
-		ImageButton handleButton = (ImageButton)mView.findViewById(R.id.imageButton_handle);
+		Button handleButton = (Button)mView.findViewById(R.id.imageButton_handle);
+		handleButton.getLayoutParams().width = Settings.getHandleWidth(mService);
 		handleButton.setClickable(true);
 		handleButton.setOnTouchListener(new MainHandleOnTouchImpl(mService));
-		
-		View handleView = mView.findViewById(R.id.imageButton_handle_view);
-		handleView.setClickable(true);
-		handleView.setOnTouchListener(new MainHandleOnTouchImpl(mService));
 	}
 	
 	/**
@@ -131,11 +130,11 @@ public final class MainViewCtl {
 		//MainViewのアクションを設定する
 		//自動的に引っ張り出るようにする．
 		//MusicViewCtl.createPlayerView(mService, mView);
-		final ImageButton handle = (ImageButton) rootView.findViewById(R.id.imageButton_handle);
-		handle.setVisibility(View.GONE);
-		//handle.startAnimation(
-			//	AnimationUtils
-			//	.loadAnimation(rootView.getContext(), android.R.anim.fade_in));
+		final Button handle = (Button) rootView.findViewById(R.id.imageButton_handle);
+		handle.setVisibility(View.VISIBLE);
+		handle.startAnimation(
+				AnimationUtils
+				.loadAnimation(rootView.getContext(), android.R.anim.fade_in));
 	}
 	
 }

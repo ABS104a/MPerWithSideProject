@@ -43,7 +43,7 @@
 
     <ImageView
         android:id="@+id/imageView_album_add"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/album_button_size"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView_album_artist"
         android:layout_alignParentRight="true"

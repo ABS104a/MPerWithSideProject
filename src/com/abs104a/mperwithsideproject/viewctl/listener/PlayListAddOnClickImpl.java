@@ -55,14 +55,6 @@ public final class PlayListAddOnClickImpl implements OnClickListener, OnLongClic
 	 */
 	@Override
 	public void onClick(View v) {
-		new DialogUtils().createIfSelectPlayListDialog(mContext, item, column);
-	}
-
-	/**
-	 * 長押しされたとき
-	 */
-	@Override
-	public boolean onLongClick(View v) {
 		//プレイリストへの追加を行う
 		//Queueへの追加を行う
 		mpwpl.addMusic(item);
@@ -75,6 +67,15 @@ public final class PlayListAddOnClickImpl implements OnClickListener, OnLongClic
 		ViewPager viewPager = (ViewPager)rootView.findViewById(R.id.player_list_part);
 		if(viewPager != null)
 			((MusicViewPagerAdapter)viewPager.getAdapter()).notifitionDataSetChagedForQueueView();
+
+	}
+
+	/**
+	 * 長押しされたとき
+	 */
+	@Override
+	public boolean onLongClick(View v) {
+		new DialogUtils().createIfSelectPlayListDialog(mContext, item, column);
 		return true;
 	}
 
