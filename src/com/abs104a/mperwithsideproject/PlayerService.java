@@ -14,7 +14,8 @@ public class PlayerService extends Service {
     private final Service mService = this;
     private PlayerServiceConnection mPlayerServiceConnection = new PlayerServiceConnection();
  
-    private IMainService mIMainService = null;
+    @SuppressWarnings("unused")
+	private IMainService mIMainService = null;
     private IPlayerService.Stub mIPlayerService = new IPlayerService.Stub() {
 		
 		@Override

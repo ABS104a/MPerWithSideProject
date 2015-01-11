@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.adapter.PlayListForExpandableListAdapter;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
