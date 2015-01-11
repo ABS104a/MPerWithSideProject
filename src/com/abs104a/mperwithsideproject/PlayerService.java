@@ -19,7 +19,8 @@ public class PlayerService extends Service {
 		
 		@Override
 		public boolean stopService() throws RemoteException {
-			// TODO 自動生成されたメソッド・スタブ
+			mService.unbindService(mPlayerServiceConnection);
+			mService.stopSelf();
 			return false;
 		}
 	};
@@ -62,7 +63,6 @@ public class PlayerService extends Service {
 	 */
 	@Override
 	public void onDestroy() {
-		mService.unbindService(mPlayerServiceConnection);
 		super.onDestroy();
 	}
 	

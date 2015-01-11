@@ -39,13 +39,14 @@ public final class DeleteOnClickImpl implements OnClickListener, OnLongClickList
 
 	/**
 	 * ボタンがクリックされたとき
-	 * プレイリストへの追加を行う.
+	 * プレイリストへの消去を行う.
 	 */
 	@Override
 	public void onClick(View v) {
 		if(column == Column.QUEUE){
 			//Queueへの消去を行う
 			mpwpl.removeMusic(item);
+			item.setExpandView(false);
 		}
 		//ViewPager の設定
 		ViewPager mViewPager = (ViewPager)rootView.findViewById(R.id.player_list_part);

@@ -1,5 +1,6 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
+import com.abs104a.mperwithsideproject.MainService;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 
 import android.app.Service;
@@ -34,7 +35,7 @@ public final class ExitButtonOnClickListenerImpl implements OnClickListener {
 	@Override
 	public void onClick(View v) { 
 		mpwpl.playStop();
-		mService.stopSelf(); 
+		((MainService)mService).stopService();
 	}
 
 }

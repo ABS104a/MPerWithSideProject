@@ -150,6 +150,7 @@ public class ItemViewFactory {
 					@Override
 					public void onClick(View v) {
 						new DialogUtils().createIfSelectPlayListDialog(context, item, column);
+						item.setExpandView(false);
 					}
 					
 				});

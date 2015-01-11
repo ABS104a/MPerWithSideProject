@@ -60,7 +60,6 @@ public class MainService extends Service{
 		
 		@Override
 		public boolean stopService() throws RemoteException {
-			// TODO 自動生成されたメソッド・スタブ
 			return false;
 		}
 	};
@@ -69,6 +68,18 @@ public class MainService extends Service{
 	public IBinder onBind(Intent intent) {
 		// バインドされた時
 		return mIMainServiceIf;
+	}
+	
+	public final void stopService(){
+		if(mIPlayerService != null){
+			try {
+				mIPlayerService.stopService();
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		//バインドの解除
+		unbindService(mMainServiceConnection);
 	}
 	
 	/**
@@ -95,7 +106,7 @@ public class MainService extends Service{
 		
 		//通知の生成
 		Notifications.setService(mService);
-		Notifications.putNotification();
+		//Notifications.putNotification();
 		
 		//Intentfilterの登録
 		broadcastReceiver = new MyBroadCastReceiver(mService);
@@ -171,6 +182,7 @@ public class MainService extends Service{
 		public void onServiceDisconnected(ComponentName name) {
 			mIPlayerService = null;
 			android.util.Log.v(TAG, "onServiceDisconnected MainService");
+			mService.stopSelf();
 		}
 		
 	}
