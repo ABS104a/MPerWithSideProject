@@ -34,6 +34,8 @@ public class MusicPlayerReceiver extends BroadcastReceiver {
 			MusicViewCtl.playNextWithView();
 			android.util.Log.v("MusicPlayerReceiver", intent.toString());
 		}
+		
+		android.util.Log.v("MusicPlayerReceiver", intent.getAction());
 	}
 
 }

@@ -3,8 +3,10 @@ package com.abs104a.mperwithsideproject.viewctl.listener;
 import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
+import com.abs104a.mperwithsideproject.music.ExpandPosition;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.utl.MusicUtils;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
@@ -15,26 +17,28 @@ import android.view.View.OnLongClickListener;
 public final class DeleteOnClickImpl implements OnClickListener, OnLongClickListener  {
 
 	//rootView(MusicPlayerView)
-	private View rootView;
+	private final View rootView;
 	//music of item
-	private Music item;
+	private final Music item;
 	//music controller class
-	private MusicPlayerWithQueue mpwpl;
+	private final MusicPlayerWithQueue mpwpl;
 	//Itemのcolumn
-	private int column;
+	private final int column;
+	private final ExpandPosition expandposition;
 
 	/**
 	 * インスタンスの生成
 	 * @param mContext	アプリケーションのコンテキスト
-	 * @param mpwpl 
+	 * @param expandposition 
 	 * @param item 
 	 * @param rootView 
 	 */
-	public DeleteOnClickImpl(Context mContext, View rootView,int column, Music item, MusicPlayerWithQueue mpwpl) {
+	public DeleteOnClickImpl(Context mContext, View rootView,int column, Music item, ExpandPosition expandposition) {
 		this.rootView = rootView;
 		this.item = item;
-		this.mpwpl = mpwpl;
+		this.mpwpl = MusicUtils.getMusicController(mContext);;
 		this.column = column;
+		this.expandposition = expandposition;
 	}
 
 	/**
@@ -46,7 +50,7 @@ public final class DeleteOnClickImpl implements OnClickListener, OnLongClickList
 		if(column == Column.QUEUE){
 			//Queueへの消去を行う
 			mpwpl.removeMusic(item);
-			item.setExpandView(false);
+			expandposition.setExpandPosition(-1);
 		}
 		//ViewPager の設定
 		ViewPager mViewPager = (ViewPager)rootView.findViewById(R.id.player_list_part);

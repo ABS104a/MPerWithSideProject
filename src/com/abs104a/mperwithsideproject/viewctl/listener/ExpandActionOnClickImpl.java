@@ -3,6 +3,7 @@ package com.abs104a.mperwithsideproject.viewctl.listener;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.MusicListAdapter;
 import com.abs104a.mperwithsideproject.adapter.PlayListForExpandableListAdapter;
+import com.abs104a.mperwithsideproject.music.ExpandPosition;
 import com.abs104a.mperwithsideproject.music.Music;
 
 import android.view.View;
@@ -21,15 +22,18 @@ public final class ExpandActionOnClickImpl implements OnClickListener, OnLongCli
 	private final Object adapter;
 	//対象となるMusicインスタンス
 	private final Music item;
+	private final ExpandPosition expandPosition;
 
 	/**
 	 * インスタンス生成
 	 * @param adapter
 	 * @param item
+	 * @param expandPosition 
 	 */
-	public ExpandActionOnClickImpl(Object adapter,Music item) {
+	public ExpandActionOnClickImpl(Object adapter,Music item, ExpandPosition expandPosition) {
 		this.adapter = adapter;
 		this.item = item;
+		this.expandPosition = expandPosition;
 	}
 
 	/**
@@ -41,10 +45,10 @@ public final class ExpandActionOnClickImpl implements OnClickListener, OnLongCli
 		TextView textView = (TextView)((View)view.getParent()).findViewById(R.id.textView_album_title);
 		if(textView == null || !textView.getText().toString().equals(item.getTitle()))
 			return;
-		if(item.isExpandView()){
-			item.setExpandView(false);
+		if(expandPosition.equals(item.getId())){
+			expandPosition.setExpandPosition(-1);
 		}else{
-			item.setExpandView(true);
+			expandPosition.setExpandPosition(item.getId());
 		}
 		//adapterに変更を通知する．
 		if(adapter != null){

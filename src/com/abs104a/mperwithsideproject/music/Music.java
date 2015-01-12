@@ -37,8 +37,6 @@ public class Music implements Serializable,Comparable<Music>,Parcelable {
 	
 	private String albumUri;
 	
-	private int isExpandView = 0;
-	
 	
 	/**
 	 * 初期値代入のためのコンストラクタ
@@ -82,7 +80,6 @@ public class Music implements Serializable,Comparable<Music>,Parcelable {
 		this.setPass(in.readString());
 		this.albumId = in.readLong();
 		this.albumUri = in.readString();
-		this.isExpandView = in.readInt();
 	}
 	
 	@Override
@@ -101,7 +98,6 @@ public class Music implements Serializable,Comparable<Music>,Parcelable {
 		out.writeString(pass);
 		out.writeLong(albumId);
 		out.writeString(albumUri);
-		out.writeInt(isExpandView);
 	}
 	
 	public static final Parcelable.Creator<Music> CREATOR  
@@ -224,21 +220,5 @@ public class Music implements Serializable,Comparable<Music>,Parcelable {
 	public String toString() {
 		return getPass();
 	}
-
-	/**
-	 * Viewが展開されているかどうか
-	 * @return isExpandView
-	 */
-	public boolean isExpandView() {
-		return isExpandView == 1 ? true : false;
-	}
-
-	/**
-	 * @param isExpandView セットする isExpandView
-	 */
-	public void setExpandView(boolean isExpandView) {
-		this.isExpandView = isExpandView ? 1 : 0;
-	}
-
 
 }

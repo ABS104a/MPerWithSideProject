@@ -647,7 +647,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		mRemoteControlClient.editMetadata(true)
 		    .putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, item.getArtist())
 		    .putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, item.getAlbum())
-		    .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, item.getTitle())
+		    .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, item.getTitle() + " / " + item.getAlbum() + " / " + item.getArtist())
 		    .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, item.getDuration())
 		    .putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, image).apply();
 		

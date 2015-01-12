@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.music.ExpandPosition;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
@@ -27,6 +28,8 @@ import com.abs104a.mperwithsideproject.viewctl.listener.PlayListAddOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.UpDownButtonOnClickImpl;
 
 public class ItemViewFactory {
+	
+	public final static ExpandPosition expandPosition = new ExpandPosition();
 	
 	/**
 	 * ListViewのChild用View生成method
@@ -99,7 +102,7 @@ public class ItemViewFactory {
 			//ボタンを表示するかどうかの設定
 			if(column == Column.QUEUE || column == Column.PLAYLIST){
 				//Expandする．
-				ExpandActionOnClickImpl plimpl = new ExpandActionOnClickImpl(adapter, item);
+				ExpandActionOnClickImpl plimpl = new ExpandActionOnClickImpl(adapter, item,expandPosition);
 				holder.addButton.setOnClickListener(plimpl);
 				holder.addButton.setOnLongClickListener(plimpl);
 				holder.addButton.setImageResource(R.drawable.button_open);
@@ -114,9 +117,9 @@ public class ItemViewFactory {
 			convertView.setOnClickListener(new ItemOnClickImpl(item));
 			
 			//ExpandViewがすでに展開されている場合は消去する．
-			if(!item.isExpandView() && holder.framelayout.getChildCount() > 0){
+			if(!expandPosition.equals(item.getId()) && holder.framelayout.getChildCount() > 0){
 				holder.framelayout.removeAllViews();
-			}else if(item.isExpandView() && holder.framelayout.getChildCount() == 0){
+			}else if(expandPosition.equals(item.getId()) && holder.framelayout.getChildCount() == 0){
 				
 				//Indicatorの変更
 				holder.addButton.setImageResource(R.drawable.button_close);
@@ -133,7 +136,7 @@ public class ItemViewFactory {
 				
 				//消去ボタン
 				ImageButton deleteButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_delete);
-				deleteButton.setOnClickListener(new DeleteOnClickImpl(context, rootView,column, item, mpwpl));
+				deleteButton.setOnClickListener(new DeleteOnClickImpl(context, rootView,column, item, expandPosition));
 				
 				//上へのボタン
 				ImageButton upButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_up);
@@ -150,7 +153,7 @@ public class ItemViewFactory {
 					@Override
 					public void onClick(View v) {
 						new DialogUtils().createIfSelectPlayListDialog(context, item, column);
-						item.setExpandView(false);
+						expandPosition.setExpandPosition(-1);
 					}
 					
 				});

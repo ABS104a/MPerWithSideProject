@@ -177,7 +177,6 @@ public final class PlayListForExpandableListAdapter extends
 			}
 			//Viewの生成
 			Music item = playLists.get(groupPosition).getMusics()[childPosition];
-			android.util.Log.v("getChildView", "isExpand" + item.isExpandView());
 			View view = ItemViewFactory.getChildView(convertView, item, mContext, column, rootView,this, mpwpl);
 			
 			//上へのボタンを上書き

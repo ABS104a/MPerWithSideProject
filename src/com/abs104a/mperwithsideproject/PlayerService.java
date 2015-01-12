@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.widget.Toast;
 
 public class PlayerService extends Service {
 	
@@ -20,7 +21,6 @@ public class PlayerService extends Service {
 		
 		@Override
 		public boolean stopService() throws RemoteException {
-			mService.unbindService(mPlayerServiceConnection);
 			mService.stopSelf();
 			return false;
 		}
@@ -37,6 +37,8 @@ public class PlayerService extends Service {
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			mIMainService = IMainService.Stub.asInterface(service);
+			android.util.Log.v(TAG, "onServiceConnected PlayerService" );
+			Toast.makeText(mService, "Player", Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
@@ -54,9 +56,7 @@ public class PlayerService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		//MainServiceをバインドする．
-		mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
-		android.util.Log.v(TAG, "onServiceConnected PlayerService" );
-		
+		mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_IMPORTANT);
 	}
 
 	/* (非 Javadoc)

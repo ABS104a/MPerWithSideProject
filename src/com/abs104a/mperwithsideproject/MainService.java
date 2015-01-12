@@ -4,6 +4,8 @@ import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.MainViewCtl;
+import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
+
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -14,6 +16,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * メイン画面を表示するService
@@ -66,6 +69,7 @@ public class MainService extends Service{
 	
 	@Override
 	public IBinder onBind(Intent intent) {
+		mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_IMPORTANT);
 		// バインドされた時
 		return mIMainServiceIf;
 	}
@@ -79,7 +83,7 @@ public class MainService extends Service{
 			}
 		}
 		//バインドの解除
-		unbindService(mMainServiceConnection);
+		//unbindService(mMainServiceConnection);
 	}
 	
 	/**
@@ -116,7 +120,7 @@ public class MainService extends Service{
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(MyBroadCastReceiver.VOLUME_CHANGE)); 
 		
 		//TODO PlayerServiceをバインドする．
-		mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
+		mService.startService(new Intent(mService,PlayerService.class));
 		
 		//開始ログ
 		Log.v("MainService","Service is Start!");
@@ -135,7 +139,11 @@ public class MainService extends Service{
 			mpwpl.writeQueue();
 		}
 
-		MainViewCtl.removeRootView();
+		if(MusicViewCtl.getPlayerView() != null){
+			MusicViewCtl.removePlayerView(MainViewCtl.getRootView());
+		}else{
+			MainViewCtl.removeRootView();
+		}
 		
 		//BroadcastReceiverの消去
 		mService.unregisterReceiver(broadcastReceiver); 
@@ -146,16 +154,13 @@ public class MainService extends Service{
 		//通知の消去
 		Notifications.removeNotification(mService);
 		
-		//キャッシュのClear
-		try{
-			ImageCache.clearCache();
-		}catch(Exception e){
-			
-		}	
+		
+		//Serviseの消去
 		mService = null;
 		
 		//終了Log
 		Log.v("MainService","Service is Finished!");
+		
 		super.onDestroy();
 	}
 	
@@ -176,6 +181,7 @@ public class MainService extends Service{
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			mIPlayerService = IPlayerService.Stub.asInterface(service);
 			android.util.Log.v(TAG, "onServiceConnected MainService");
+			Toast.makeText(mService, "Main", Toast.LENGTH_SHORT).show();
 		}
 
 		@Override

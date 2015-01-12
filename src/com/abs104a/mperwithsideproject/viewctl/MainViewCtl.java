@@ -30,10 +30,19 @@ public final class MainViewCtl {
 	//メインビュー保持用
 	private static ViewGroup rootView = null;
 	
+	/**
+	 * RootViewを取得する．
+	 * RootViewが内場合はNullを返す．
+	 * @return	RootViewまたはNull
+	 */
 	public static View getRootView(){
 		return rootView;
 	}
 	
+	/**
+	 * MainViewを生成して画面に表示を行うメソッド
+	 * @param mService	アプリケーションのContext
+	 */
 	public final static void createAndShowMainView(Service mService){
 		//WindowManagerの取得
 		WindowManager mWindowManager = (WindowManager) mService.getSystemService(Context.WINDOW_SERVICE);
@@ -43,7 +52,7 @@ public final class MainViewCtl {
 				WindowManager.LayoutParams.WRAP_CONTENT,
 				WindowManager.LayoutParams.WRAP_CONTENT,
 				WindowManager.LayoutParams.TYPE_TOAST,
-				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | 
+				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
 				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED ,// | 
 				PixelFormat.TRANSLUCENT);
 
@@ -71,15 +80,20 @@ public final class MainViewCtl {
 		}
 	}
 	
+	/**
+	 * RootViewを消去する．
+	 */
 	public static final void removeRootView(){
 		try{
+			//RootViewの取得
 			View rootView = getRootView();
 			WindowManager mWindowManager = 
 					(WindowManager) rootView.getContext()
 					.getSystemService(Context.WINDOW_SERVICE);
 			
+			//Viewの中身を消去
 			MusicViewCtl.removePlayerView(rootView);
-			//MainViewを消去する．
+			//WindowManagerからMainViewを消去する．
 			mWindowManager.removeView(rootView);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -99,7 +113,9 @@ public final class MainViewCtl {
 		rootView = (ViewGroup) layoutInflater.inflate(R.layout.main_service_view, null);
 		//ミュージックcontrollerインスタンス
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mService);
+		//ボタンの動作設定
 		initButtonOfView(mService,rootView,mpwpl);
+		//その他Actionの設定
 		initActionOfView(mService,rootView,mpwpl);
 		return rootView;
 	}
@@ -132,6 +148,7 @@ public final class MainViewCtl {
 		//MusicViewCtl.createPlayerView(mService, mView);
 		final Button handle = (Button) rootView.findViewById(R.id.imageButton_handle);
 		handle.setVisibility(View.VISIBLE);
+		//Animation設定
 		handle.startAnimation(
 				AnimationUtils
 				.loadAnimation(rootView.getContext(), android.R.anim.fade_in));
