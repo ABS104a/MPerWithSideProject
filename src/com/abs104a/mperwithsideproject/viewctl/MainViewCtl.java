@@ -39,6 +39,10 @@ public final class MainViewCtl {
 		return rootView;
 	}
 	
+	private static void setRootView(ViewGroup mRootView){
+		rootView = mRootView;
+	}
+	
 	/**
 	 * MainViewを生成して画面に表示を行うメソッド
 	 * @param mService	アプリケーションのContext
@@ -95,6 +99,7 @@ public final class MainViewCtl {
 			MusicViewCtl.removePlayerView();
 			//WindowManagerからMainViewを消去する．
 			mWindowManager.removeView(rootView);
+			setRootView(null);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

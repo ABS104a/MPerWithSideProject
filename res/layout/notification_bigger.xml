@@ -7,7 +7,7 @@
 
     <ImageView
         android:id="@+id/imageView_notification_jacket"
-        android:layout_width="@dimen/notification_item_height"
+        android:layout_width="@dimen/notification_item_height_bigger"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:layout_marginRight="@dimen/notification_image_to_text_margin"
@@ -22,9 +22,6 @@
             android:id="@+id/textView_notification_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:singleLine="true"
             android:text="No title"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/Black_Rock"
@@ -37,9 +34,8 @@
             android:id="@+id/textView_notification_albumandartist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
             android:text="No album / No artist"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/eclipse"
             android:textSize="@dimen/notification_album_sp" />
 

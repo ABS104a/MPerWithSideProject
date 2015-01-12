@@ -50,7 +50,7 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 				// 画面ON時  
 				Log.d("MainService", "SCREEN_ON");  
 				
-				if(MusicViewCtl.getPlayerView() == null && screenFlag == false){
+				if(rootView == null && MusicViewCtl.getPlayerView() == null && screenFlag == false){
 					//MainViewを生成する．
 					MainViewCtl.createAndShowMainView(mService);
 					//MusicViewCtl.createPlayerView(mService, rootView);
@@ -61,7 +61,7 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 			else if (action.equals(Intent.ACTION_SCREEN_OFF)) {  
 				// 画面OFF時  
 				Log.d("MainService", "SCREEN_OFF");  
-				if(rootView != null && MusicViewCtl.getPlayerView() != null){
+				if(rootView != null ){
 					MainViewCtl.removeRootView();
 					screenFlag = false;
 				}

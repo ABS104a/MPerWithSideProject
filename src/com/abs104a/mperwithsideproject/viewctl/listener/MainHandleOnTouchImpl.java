@@ -42,7 +42,6 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		android.util.Log.v("onTouch", event.getAction() + " " + event.getRawX());
 		//タップ座標
 		final int rawX = (int) event.getRawX();
 		final View rootView = (View) v.getParent();

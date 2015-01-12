@@ -70,7 +70,7 @@ public final class Notifications {
 	    builder.setContentTitle(mService.getString(R.string.app_name));
 	    builder.setSmallIcon(android.R.drawable.ic_media_play);
 	    
-	    RemoteViews contentView = createRemoteViews();
+	    RemoteViews contentView = createRemoteViews(R.layout.notification);
 	   
 	    builder.setContent(contentView);
 	    builder.setWhen(0);
@@ -86,7 +86,7 @@ public final class Notifications {
 	    
 	    if(Build.VERSION.SDK_INT >= 16){
 	    	//APIレベル16以降の時の処理 デカいNotifitionを追加する．
-	    	notification.bigContentView = createRemoteViews();
+	    	notification.bigContentView = createRemoteViews(R.layout.notification_bigger);
 	    	setDataOfRemoteViews(notification, notification.bigContentView);
 	    }
 	    
@@ -96,9 +96,9 @@ public final class Notifications {
 	    mService.startForeground(R.drawable.ic_launcher,notification );
 	}
 	
-	private static RemoteViews createRemoteViews(){
+	private static RemoteViews createRemoteViews(int resourceId){
 		//RemoteViewの動作を設定
-	    RemoteViews contentView = new RemoteViews(mService.getPackageName(), R.layout.notification);;
+	    RemoteViews contentView = new RemoteViews(mService.getPackageName(), resourceId);
 	    
 	    //再生ボタンのアクションを設定
 	    Intent playIntent = new Intent(mService, MusicPlayerReceiver.class);
