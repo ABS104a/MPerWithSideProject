@@ -99,6 +99,7 @@ public final class MainViewCtl {
 			MusicViewCtl.removePlayerView();
 			//WindowManagerからMainViewを消去する．
 			mWindowManager.removeView(rootView);
+			MusicViewCtl.setPlayerView(null);
 			setRootView(null);
 		}catch(Exception e){
 			e.printStackTrace();
