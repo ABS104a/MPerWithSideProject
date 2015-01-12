@@ -11,7 +11,7 @@
         android:layout_width="@dimen/controll_button_size"
         android:layout_height="@dimen/controll_button_size"
         android:layout_marginRight="@dimen/controll_margin"
-        android:background="@drawable/button_circle"
+        android:background="@drawable/button_circle_xml"
         android:src="@android:drawable/ic_lock_power_off" />
 
     <ImageButton
@@ -39,7 +39,7 @@
         android:layout_height="@dimen/controll_button_size"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/button_action_exit"
-        android:background="@drawable/button_circle"
+        android:background="@drawable/button_circle_xml"
         android:src="@android:drawable/ic_menu_preferences" />
 
     <ImageView

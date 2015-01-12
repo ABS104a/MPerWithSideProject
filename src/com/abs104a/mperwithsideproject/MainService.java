@@ -1,7 +1,6 @@
 package com.abs104a.mperwithsideproject;
 
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
-import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.MainViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
@@ -55,6 +54,8 @@ public class MainService extends Service{
 	
 	// ブロードキャストリスナー  
 	private MyBroadCastReceiver broadcastReceiver;
+	
+	private boolean finishFlag = false;
 
 	private IPlayerService mIPlayerService = null;
 	
@@ -75,6 +76,7 @@ public class MainService extends Service{
 	}
 	
 	public final void stopService(){
+		finishFlag = true;
 		if(mIPlayerService != null){
 			try {
 				mIPlayerService.stopService();
@@ -140,7 +142,7 @@ public class MainService extends Service{
 		}
 
 		if(MusicViewCtl.getPlayerView() != null){
-			MusicViewCtl.removePlayerView(MainViewCtl.getRootView());
+			MusicViewCtl.removePlayerView();
 		}else{
 			MainViewCtl.removeRootView();
 		}
@@ -160,6 +162,9 @@ public class MainService extends Service{
 		
 		//終了Log
 		Log.v("MainService","Service is Finished!");
+		
+		if(!finishFlag)
+			mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
 		
 		super.onDestroy();
 	}
@@ -188,7 +193,11 @@ public class MainService extends Service{
 		public void onServiceDisconnected(ComponentName name) {
 			mIPlayerService = null;
 			android.util.Log.v(TAG, "onServiceDisconnected MainService");
-			mService.stopSelf();
+			if(finishFlag)
+				MusicViewCtl.removePlayerView( mService);
+			else
+				mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
+				
 		}
 		
 	}

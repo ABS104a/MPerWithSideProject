@@ -136,6 +136,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		if(loopState == NOT_LOOP || 
 				loopState == ALL_LOOP || loopState == ONE_LOOP){
 			mQueue.setRepeatState(loopState);
+			writeQueue();
 		}
 		return mQueue.getRepeatState();
 			
@@ -225,7 +226,10 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 			IOException
 			{
 		ArrayList<Music> mPlayList = mQueue.getQueueMusics();
-		mPlayList.addAll(playList);
+		for(Music music : playList){
+			if(mPlayList.indexOf(music) == -1)
+				mPlayList.add(music);
+		}
 		writeQueue();
 	}
 	
@@ -253,8 +257,10 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * @param music　追加する音楽要素
 	 */
 	public final void addMusic(final Music music){
-		mQueue.getQueueMusics().add(music);
-		writeQueue();
+		if(mQueue.getQueueMusics().indexOf(music) == -1){
+			mQueue.getQueueMusics().add(music);
+			writeQueue();
+		}
 	}
 	
 	
@@ -268,9 +274,17 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 	 * @param index	挿入箇所
 	 * @throws IndexOutOfBoundsException　プレイリスト外のIndex指定があった場合
 	 */
-	public final void addMusic(final Music music ,final int index) throws IndexOutOfBoundsException{
-		mQueue.getQueueMusics().add(index, music);
-		writeQueue();
+	public final void addMusic(final Music music ,int index) throws IndexOutOfBoundsException{
+		int oldindex = mQueue.getQueueMusics().indexOf(music);
+		if(oldindex == -1){
+			mQueue.getQueueMusics().add(index, music);
+			writeQueue();
+		}else if(mQueue.getQueueMusics().remove(music)){
+			if(index >= oldindex){
+				index = Math.max(0, --index);
+			}
+			mQueue.getQueueMusics().add(index, music);
+		}
 	}
 	
 	/**

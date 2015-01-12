@@ -64,7 +64,7 @@
         android:layout_width="@dimen/controll_button_size"
         android:layout_height="@dimen/controll_button_size"
         android:layout_gravity="bottom"
-        android:background="@drawable/button_circle"
+        android:background="@drawable/button_circle_xml"
         android:src="@drawable/twitter_logo_white" />
 
 </LinearLayout>

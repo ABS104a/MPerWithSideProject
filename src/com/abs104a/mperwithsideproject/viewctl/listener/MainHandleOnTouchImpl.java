@@ -62,10 +62,10 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 				if(downPos < musicPlayerWidth / 3)
 					MusicViewCtl.createPlayerView(mService, rootView);
 				else
-					MusicViewCtl.removePlayerView(rootView);
+					MusicViewCtl.removePlayerView();
 			}else if(rootView.getWidth() > (musicPlayerWidth / 3) * 2){
 				if(downPos > (musicPlayerWidth / 3) * 2)
-					MusicViewCtl.removePlayerView(rootView);
+					MusicViewCtl.removePlayerView();
 				else
 					MusicViewCtl.createPlayerView(mService, rootView);
 			}
@@ -90,7 +90,7 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 			if(rawX > screenWidth - WIDTH_TH)
 			{
 				//Viewの消去を行う
-				MusicViewCtl.removePlayerView(rootView);
+				MusicViewCtl.removePlayerView();
 			}else{
 				//Layout設定
 				final LayoutParams params = (LayoutParams) mPlayerView.getLayoutParams();

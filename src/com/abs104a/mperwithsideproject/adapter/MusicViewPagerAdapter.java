@@ -38,8 +38,6 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	
 	//View生成用の
 	private final PagerHolder pageHolder;
-	//ViewPagerのViewGroup
-	private ViewGroup container = null;
 	
 	/**
 	 * ViewのResourceを解放する．
@@ -51,7 +49,6 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 			SharedPreferences sp = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
 			sp.edit().putInt("FIRST_VISIBLE", firstVisiblePosition).commit();
 		}
-		container.removeAllViews();
 	}
 
 	
@@ -108,7 +105,6 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	 */
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
-		this.container  = container;
 		//ページごとのViewを生成する
 		View view = pageHolder.createView(mContext, position);;
 		container.addView(view);

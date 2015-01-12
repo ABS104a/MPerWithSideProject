@@ -92,7 +92,7 @@ public final class MainViewCtl {
 					.getSystemService(Context.WINDOW_SERVICE);
 			
 			//Viewの中身を消去
-			MusicViewCtl.removePlayerView(rootView);
+			MusicViewCtl.removePlayerView();
 			//WindowManagerからMainViewを消去する．
 			mWindowManager.removeView(rootView);
 		}catch(Exception e){

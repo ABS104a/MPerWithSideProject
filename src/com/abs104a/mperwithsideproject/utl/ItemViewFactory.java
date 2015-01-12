@@ -31,6 +31,8 @@ public class ItemViewFactory {
 	
 	public final static ExpandPosition expandPosition = new ExpandPosition();
 	
+	public static GetJacketImageTask getImageTask = null;
+	
 	/**
 	 * ListViewのChild用View生成method
 	 * @param convertView	母体となるView
@@ -95,7 +97,9 @@ public class ItemViewFactory {
 				//キャッシュにない場合は新たに取得
 				if(item.getAlbumUri() != null){
 					holder.jacketImage.setImageResource(android.R.drawable.ic_menu_search);
-					new GetJacketImageTask(context, holder.titleText, holder.jacketImage, item).execute();
+					if(getImageTask == null)
+						getImageTask = new GetJacketImageTask(context);
+					getImageTask.GetJacketImage(holder.titleText, holder.jacketImage, item);
 				}else
 					holder.jacketImage.setImageResource(android.R.drawable.ic_menu_search);
 			}

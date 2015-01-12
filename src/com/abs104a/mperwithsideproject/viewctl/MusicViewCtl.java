@@ -114,7 +114,12 @@ public final class MusicViewCtl {
 	 * PlayerViewを消去する．
 	 * @param PlayerView
 	 */
-	public static void removePlayerView(final View rootView){
+	public static void removePlayerView(){
+		removePlayerView(null);
+	}
+	
+	public static final void removePlayerView(final Service mService){
+		final View rootView = MainViewCtl.getRootView();
 		//Viewの消去を行う
 		if(getPlayerView() != null && rootView != null){
 			final Button handle = (Button) rootView.findViewById(R.id.imageButton_handle);
@@ -143,7 +148,7 @@ public final class MusicViewCtl {
 						
 					}
 					
-					DisplayUtils.cleanupView(getPlayerView());
+					//DisplayUtils.cleanupView(getPlayerView());
 					setPlayerView(null);
 					MainViewCtl.removeRootView();
 
@@ -156,7 +161,10 @@ public final class MusicViewCtl {
 
 						@Override
 						public void run() {
-							MainViewCtl.createAndShowMainView(MainService.getService());
+							if(mService == null)
+								MainViewCtl.createAndShowMainView(MainService.getService());
+							else
+								mService.stopSelf();
 						}
 						
 					},100);
@@ -731,6 +739,7 @@ public final class MusicViewCtl {
 	        tweetIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
 	        tweetIntent.setType("image/jpeg");
 	        con.startActivity(tweetIntent);
+	        removePlayerView();
 	    } catch (final ActivityNotFoundException e) {
 	        Toast.makeText(con,"You don't seem to have twitter installed on this device", Toast.LENGTH_SHORT).show();
 	    }

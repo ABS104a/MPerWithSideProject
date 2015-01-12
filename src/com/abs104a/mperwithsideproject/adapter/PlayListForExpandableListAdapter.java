@@ -58,6 +58,8 @@ public final class PlayListForExpandableListAdapter extends
 	private final View rootView;
 	//AdapterのColumn
 	private final int column;
+	//ジャケットイメージを取得するインスタンス
+	public final GetJacketImageTask getImageTask;
 	
 	/**
 	 * インスタンスの生成
@@ -73,6 +75,7 @@ public final class PlayListForExpandableListAdapter extends
 		this.mpwpl = mpwpl;
 		this.rootView = rootView;
 		this.column = column;
+		getImageTask = new GetJacketImageTask(mContext);
 	}
 	
 	/**
@@ -281,12 +284,10 @@ public final class PlayListForExpandableListAdapter extends
 				//キャッシュにない場合は新たに取得
 				if(group.getJacketUri() != null){
 					holder.jacketImage.setImageResource(android.R.drawable.ic_menu_search);
-					new GetJacketImageTask(
-							mContext, 
+					getImageTask.GetJacketImage(
 							holder.albumText,
 							holder.jacketImage, 
-							group)
-					.execute();
+							group);
 				}else
 					holder.jacketImage.setImageResource(android.R.drawable.ic_menu_search);
 			}

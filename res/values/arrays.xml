@@ -32,6 +32,16 @@
         <item>28px</item>
         <item>29px</item>
         <item>30px</item>
+        <item>31px</item>
+        <item>32px</item>
+        <item>33px</item>
+        <item>34px</item>
+        <item>35px</item>
+        <item>36px</item>
+        <item>37px</item>
+        <item>38px</item>
+        <item>39px</item>
+        <item>40px</item>
     </string-array>
     
     <string-array name="handle_width" >
@@ -66,6 +76,16 @@
         <item>28</item>
         <item>29</item>
         <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>40</item>
     </string-array>
         
 </resources>

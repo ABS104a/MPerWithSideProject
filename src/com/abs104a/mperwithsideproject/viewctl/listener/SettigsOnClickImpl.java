@@ -1,7 +1,6 @@
 package com.abs104a.mperwithsideproject.viewctl.listener;
 
 import com.abs104a.mperwithsideproject.settings.SettingsActivity;
-import com.abs104a.mperwithsideproject.viewctl.MainViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
 
 import android.content.Intent;
@@ -15,7 +14,7 @@ public class SettigsOnClickImpl implements OnClickListener {
 		Intent intent = new Intent(v.getContext(),SettingsActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
 		v.getContext().startActivity(intent);
-		MusicViewCtl.removePlayerView(MainViewCtl.getRootView());
+		MusicViewCtl.removePlayerView();
 	}
 
 }

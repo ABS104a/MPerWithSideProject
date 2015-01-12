@@ -2,6 +2,7 @@ package com.abs104a.mperwithsideproject.utl;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.LinkedList;
 
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.Music;
@@ -11,7 +12,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,67 +22,100 @@ import android.widget.TextView;
  * @author Kouki
  *
  */
-public final class GetJacketImageTask extends AsyncTask<Void,Void,Bitmap>{
-
-	private final Context context;
-	private final Uri uri;
-	private final String album;
-	private final String confilmString;
-	private final ImageView jacketImage;
-	private final TextView titleText;
+public final class GetJacketImageTask{
 	
-	//TODO Queue機構を導入する．
+	private final static LinkedList<GetJacketImageItem> itemQueue = new LinkedList<GetJacketImageItem>();
+	private static boolean taskFalg = false;
+	private final Context mContext;
+	
+	public GetJacketImageTask(Context mContext){
+		this.mContext = mContext;
+	}
 
-	public GetJacketImageTask(Context context, TextView titleText,
+	public final void GetJacketImage(TextView titleText,
 			ImageView jacketImage, Music item) {
-		this.context = context;
-		this.uri = item.getAlbumUri();
-		this.confilmString = item.getTitle();
-		this.jacketImage = jacketImage;
-		this.titleText = titleText;
-		this.album = item.getAlbum();
+		synchronized(itemQueue){
+			itemQueue.offer(new GetJacketImageItem( titleText, jacketImage, item));
+			if(!taskFalg){
+				new GetTask().execute();
+			}
+		}
 	}
     
-    public GetJacketImageTask(Context mContext, TextView albumText,
+    public final void GetJacketImage(TextView albumText,
 			ImageView jacketImage, PlayList group) {
-    	this.context = mContext;
-		this.uri = group.getJacketUri();
-		this.confilmString = group.getAlbum();
-		this.jacketImage = jacketImage;
-		this.titleText = albumText;
-		this.album = group.getAlbum();
-	}
-
-	@Override
-	protected Bitmap doInBackground(Void... params) {
-		try{
-		    ContentResolver cr = context.getContentResolver();
-		    InputStream is = cr.openInputStream(uri);
-		    return DisplayUtils.resizeBitmap(
-		    		BitmapFactory.decodeStream(is), 
-		    		context.getResources().getDimensionPixelSize(R.dimen.album_item_row_jacket));
-		}catch(FileNotFoundException err){
-
-		}
-		return null;
-	}
-
-	/* (非 Javadoc)
-	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-	 */
-	@Override
-	protected void onPostExecute(Bitmap result) {
-		try{
-			if(titleText.getText().equals(confilmString)){
-				if(result != null){
-					jacketImage.setImageBitmap(result);
-					ImageCache.setImage(album, result);
-				}else{
-					jacketImage.setImageResource(R.drawable.no_image);
-				}
+    	synchronized(itemQueue){
+			itemQueue.offer(new GetJacketImageItem( albumText, jacketImage, group));
+			if(!taskFalg){
+				new GetTask().execute();
 			}
-		}catch(NullPointerException e){ }
-		super.onPostExecute(result);
+		}
 	}
+
+    public final class GetTask extends AsyncTask<Void,Object,Void>{
+    	
+    	@Override
+    	protected Void doInBackground(Void... params) {
+    		
+    		do{
+    			GetJacketImageItem item;
+    			synchronized(itemQueue){
+    				item = itemQueue.poll();
+    			}
+    			Bitmap bitmap = null;
+    			try{
+    				ContentResolver cr = mContext.getContentResolver();
+    				InputStream is = cr.openInputStream(item.getUri());
+    				bitmap = DisplayUtils.resizeBitmap(
+    						BitmapFactory.decodeStream(is), 
+    						mContext.getResources().getDimensionPixelSize(R.dimen.album_item_row_jacket));
+    			}catch(FileNotFoundException err){
+
+    			}
+    			publishProgress(bitmap,item);
+    		}while(itemQueue.peek() != null);
+
+    		return null;
+    	}
+
+    	/* (非 Javadoc)
+    	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+    	 */
+    	@Override
+    	protected void onPostExecute(Void result) {
+    		super.onPostExecute(result);
+    		taskFalg = false;
+    	}
+
+    	/* (非 Javadoc)
+    	 * @see android.os.AsyncTask#onProgressUpdate(Progress[])
+    	 */
+    	@Override
+    	protected void onProgressUpdate(Object... values) {
+    		try{
+    			Bitmap image = (Bitmap) values[0];
+    			GetJacketImageItem item = (GetJacketImageItem) values[1];
+    			if(item == null)return;
+    			if(item.getTitleText().getText().equals(item.getConfilmString())){
+    				if(image != null){
+    					item.getJacketImage().setImageBitmap(image);
+    					ImageCache.setImage(item.getAlbum(), image);
+    				}else{
+    					item.getJacketImage().setImageResource(R.drawable.no_image);
+    				}
+    			}
+    		}catch(NullPointerException e){ }
+    		super.onProgressUpdate(values);
+    	}
+
+		/* (非 Javadoc)
+		 * @see android.os.AsyncTask#onPreExecute()
+		 */
+		@Override
+		protected void onPreExecute() {
+			taskFalg = true;
+			super.onPreExecute();
+		}
+    }
 
 }

@@ -14,6 +14,8 @@ public class PlayerService extends Service {
 	private final static String TAG = "PlayerService";
     private final Service mService = this;
     private PlayerServiceConnection mPlayerServiceConnection = new PlayerServiceConnection();
+    
+    private boolean finishFlag = false;
  
     @SuppressWarnings("unused")
 	private IMainService mIMainService = null;
@@ -22,7 +24,8 @@ public class PlayerService extends Service {
 		@Override
 		public boolean stopService() throws RemoteException {
 			mService.stopSelf();
-			return false;
+			finishFlag = true;
+			return finishFlag;
 		}
 	};
 
@@ -64,6 +67,10 @@ public class PlayerService extends Service {
 	 */
 	@Override
 	public void onDestroy() {
+		if(!finishFlag)
+			//MainServiceをバインドする．
+			mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
+		
 		super.onDestroy();
 	}
 	

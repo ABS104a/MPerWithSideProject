@@ -12,7 +12,7 @@
             android:duration="300"
             android:fromXDelta="0.0"
             android:fromYDelta="0.5"
-            android:toXDelta="200.0"
+            android:toXDelta="350.0"
             android:toYDelta="0.5" />
         
     </alpha>
