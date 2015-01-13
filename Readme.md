@@ -19,4 +19,4 @@
 - Subsonic対応
 - DLNA対応
 - LISTVIEWの解放
-- 画像取得のQueue化
+- Album取得の非同期化
