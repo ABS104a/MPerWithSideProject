@@ -2,7 +2,6 @@ package com.abs104a.mperwithsideproject.viewctl;
 
 import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.R;
-import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 
@@ -20,7 +19,7 @@ import android.widget.ListView;
 public class PagerHolder {
 	
 	//Tag
-	private static final String TAG = "PagerHolder";
+	public static final String TAG = "PagerHolder";
 	
 	//Viewを管理するための配列（Viewpagerの各Viewが入る．）
 	private final View[] rowView;
@@ -80,15 +79,13 @@ public class PagerHolder {
 	 * @param index
 	 */
 	public void removeView(int index){
-		if(index == Column.ALBUM){
-			ExpandableListView mAlbumView = (ExpandableListView) rowView[Column.ALBUM];
-			if(mAlbumView != null){
-				int firstVisiblePosition = mAlbumView.getFirstVisiblePosition();
-				SharedPreferences sp = mAlbumView.getContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
-				sp.edit().putInt("FIRST_VISIBLE", firstVisiblePosition).commit();
-			}
-			mAlbumView = null;
-		}else if(index == Column.EQUALIZER){
+		ExpandableListView mAlbumView = (ExpandableListView) rowView[Column.ALBUM];
+		if(mAlbumView != null){
+			int firstVisiblePosition = mAlbumView.getFirstVisiblePosition();
+			SharedPreferences sp = mAlbumView.getContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
+			sp.edit().putInt("FIRST_VISIBLE", firstVisiblePosition).commit();
+		}
+		if(index == Column.EQUALIZER){
 			ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
 		}
 		rowView[index] = null;
@@ -153,9 +150,9 @@ public class PagerHolder {
 		View mView = MusicViewCtl.getPlayerView();
 		
 		//前回のリストViewのスクロール位置を記憶する．
-		SharedPreferences sp = mContext.getSharedPreferences(MusicViewPagerAdapter.TAG, Context.MODE_PRIVATE);
+		SharedPreferences sp = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
 		int firstVisible = sp.getInt("FIRST_VISIBLE", 0);
-		ListView mListView = (ListView) new ViewPagerForAlbumViewCtl().createView(mContext, mView, mpwpl);
+		final ListView mListView = (ListView) new ViewPagerForAlbumViewCtl().createView(mContext, mView, mpwpl);
 		mListView.setSelectionFromTop(firstVisible, 0);
 		return mListView;
 	}

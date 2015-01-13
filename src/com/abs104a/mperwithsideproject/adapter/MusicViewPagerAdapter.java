@@ -46,7 +46,7 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 		ExpandableListView mAlbumView = (ExpandableListView) pageHolder.getIndexView(Column.ALBUM);
 		if(mAlbumView != null){
 			int firstVisiblePosition = mAlbumView.getFirstVisiblePosition();
-			SharedPreferences sp = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+			SharedPreferences sp = mContext.getSharedPreferences(PagerHolder.TAG, Context.MODE_PRIVATE);
 			sp.edit().putInt("FIRST_VISIBLE", firstVisiblePosition).commit();
 		}
 	}

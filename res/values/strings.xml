@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MPerWithSideProject</string>
+    <string name="app_name">NagaraListener(alpha)</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
@@ -70,6 +70,9 @@
     <string name="handle_width_m">ハンドルの幅をpxで指定します</string>
     <string name="handle_width_key">handle_width_key</string>
     <string name="handle_width_defvalue">23</string>
+    
+    <string name="version_title">バージョン情報</string>
+    <string name="version_title_key">version</string>
     
 
 </resources>
