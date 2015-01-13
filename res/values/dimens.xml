@@ -10,6 +10,7 @@
     <dimen name="player_view_padding">5dp</dimen>
     <dimen name="player_view_inside_padding">3dp</dimen>
     <dimen name="player_list_view_height">350dp</dimen>
+    <dimen name="main_view_between_width">2dp</dimen>
     
     <dimen name="dialog_view_width">280dp</dimen>
     <dimen name="dialog_view_margin">20dp</dimen>

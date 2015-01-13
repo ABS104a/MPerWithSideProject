@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.settings.Settings;
+import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.MainHandleOnTouchImpl;
 
@@ -48,6 +49,8 @@ public final class MainViewCtl {
 	 * @param mService	アプリケーションのContext
 	 */
 	public final static void createAndShowMainView(Service mService){
+		ImageCache.clearCache();
+		
 		//WindowManagerの取得
 		WindowManager mWindowManager = (WindowManager) mService.getSystemService(Context.WINDOW_SERVICE);
 

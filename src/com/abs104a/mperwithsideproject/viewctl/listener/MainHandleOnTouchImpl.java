@@ -5,6 +5,7 @@ import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
 
 import android.app.Service;
+import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -27,6 +28,9 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 	
 	//Viewを消去するためのX閾値
 	private static final int WIDTH_TH = 20;
+	private static final long DELEY_TIME = 200;
+	
+	private boolean useFlag = false;
 
 	/**
 	 * インスタンスの生成
@@ -35,6 +39,7 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 	public MainHandleOnTouchImpl(Service mService) {
 		this.mService = mService;
 		screenWidth = (int) DisplayUtils.getDisplayWidth(mService);
+		useFlag = false;
 	}
 
 	/**
@@ -42,6 +47,7 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
+		if(useFlag) return true;
 		//タップ座標
 		final int rawX = (int) event.getRawX();
 		final View rootView = (View) v.getParent();
@@ -51,7 +57,9 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 				.getResources()
 				.getDimensionPixelSize(R.dimen.player_view_width)
 				+
-				mService.getResources().getDimensionPixelSize(R.dimen.player_view_padding);
+				mService.getResources().getDimensionPixelSize(R.dimen.player_view_padding)
+				+
+				mService.getResources().getDimensionPixelSize(R.dimen.main_view_between_width);
 		
 		View mPlayerView = null;
 		//タップ動作によって動作を設定する．
@@ -76,6 +84,16 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 			if(((LinearLayout)rootView).findViewById(MusicViewCtl.PLAYER_VIEW_ID) == null){
 				//MusicPlayerViewの作成
 				MusicViewCtl.createPlayerView(mService, rootView);
+				useFlag = true;
+				new Handler().postDelayed(new Runnable(){
+
+					@Override
+					public void run() {
+						useFlag = false;
+						
+					}
+					
+				}, DELEY_TIME);
 			}else{
 				mPlayerView = 
 						((LinearLayout)rootView)

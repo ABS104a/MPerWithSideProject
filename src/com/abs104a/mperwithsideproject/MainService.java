@@ -1,6 +1,8 @@
 package com.abs104a.mperwithsideproject;
 
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.music.PlayList;
+import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.MainViewCtl;
 import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
@@ -145,6 +147,11 @@ public class MainService extends Service{
 			MusicViewCtl.removePlayerView();
 		}else{
 			MainViewCtl.removeRootView();
+			PlayList.writePlayList(mService);
+			PlayList.clearPlayList();
+			//キャッシュのClear
+			ImageCache.clearCache();
+			System.gc();
 		}
 		
 		//BroadcastReceiverの消去

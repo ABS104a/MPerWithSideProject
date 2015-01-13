@@ -3,6 +3,7 @@ package com.abs104a.mperwithsideproject.settings;
 import com.abs104a.mperwithsideproject.R;
 
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,10 @@ public class SettingsFragment extends PreferenceFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
+		
+		Preference pf = findPreference(getText(R.string.version_title_key));
+		pf.setSummary("Build : " + Settings.getVersionCode(getActivity()) + " , Version : " + Settings.getVersionName(getActivity()) + ", By ABS104a");
+		
 	}
 	
 	

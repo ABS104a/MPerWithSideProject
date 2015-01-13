@@ -31,6 +31,7 @@ import android.widget.SeekBar;
  *
  */
 public class DisplayUtils {
+
 	
 	//日付のフォーマット
 	@SuppressLint("SimpleDateFormat") 

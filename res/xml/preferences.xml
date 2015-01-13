@@ -1,37 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-        xmlns:android="http://schemas.android.com/apk/res/android">
-    
-    <PreferenceCategory
-            android:title="@string/headset_title">
- 
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/headset_title" >
         <SwitchPreference
-                android:key="@string/connected_headset_key"
-                android:title="@string/connected_headset"
-                android:defaultValue="true"
-                android:summary="@string/connected_headset_m" />
-        
-        
+            android:defaultValue="true"
+            android:key="@string/connected_headset_key"
+            android:summary="@string/connected_headset_m"
+            android:title="@string/connected_headset" />
         <SwitchPreference
-                android:key="@string/unconnected_headset_key"
-                android:title="@string/unconnected_headset"
-                android:defaultValue="true"
-                android:summary="@string/unconnected_headset_m" />
- 
+            android:defaultValue="true"
+            android:key="@string/unconnected_headset_key"
+            android:summary="@string/unconnected_headset_m"
+            android:title="@string/unconnected_headset" />
     </PreferenceCategory>
-    
-    <PreferenceCategory
-            android:title="@string/app_title">
-    
-    	<ListPreference
-                android:key="handle_width_key"
-                android:title="@string/handle_width"
-                android:summary="@string/handle_width_m"
-                android:entries="@array/handle_width_st"
-                android:entryValues="@array/handle_width"
-                android:defaultValue="@string/handle_width_defvalue"
-                android:dialogTitle="@string/handle_width" />
+    <PreferenceCategory android:title="@string/app_title" >
+        <ListPreference
+            android:defaultValue="@string/handle_width_defvalue"
+            android:dialogTitle="@string/handle_width"
+            android:entries="@array/handle_width_st"
+            android:entryValues="@array/handle_width"
+            android:key="handle_width_key"
+            android:summary="@string/handle_width_m"
+            android:title="@string/handle_width" />
     </PreferenceCategory>
-    
+    <PreferenceCategory android:title="@string/version_title" >
+        <Preference
+            android:key="@string/version_title_key"
+            android:title="@string/app_name" />
+    </PreferenceCategory>
 
 </PreferenceScreen>
