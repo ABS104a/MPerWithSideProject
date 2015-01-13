@@ -18,6 +18,7 @@
     <dimen name="play_button_left_padding">5dp</dimen>
     <dimen name="controll_button_size">40dp</dimen>
     <dimen name="controll_other_button_size">35dp</dimen>
+    <dimen name="controll_mute_button_size">23dp</dimen>
     <dimen name="controll_margin">3dp</dimen>
     <dimen name="volume_margin">3dp</dimen>
     <dimen name="album_item_height">40dp</dimen>
