@@ -43,13 +43,11 @@
 
     <ImageView
         android:id="@+id/imageView_album_add"
-        android:layout_width="@dimen/album_button_size"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/album_expand_button_size"
+        android:layout_height="@dimen/album_expand_button_size"
         android:layout_alignBottom="@+id/textView_album_artist"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/transparent"
-        android:scaleType="center"
-        android:src="@drawable/button_open" />
+        android:background="@drawable/button_circle_xml"
+        android:src="@drawable/add" />
 
 </RelativeLayout>

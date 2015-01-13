@@ -14,9 +14,9 @@
         android:layout_gravity="center_vertical"
         android:scaleType="fitCenter"/>
     
-    <View
+     <View
         android:id="@+id/imageButton_handle_view"
-        android:layout_width="2dp"
+        android:layout_width="@dimen/main_view_between_width"
         android:layout_height="600dp"
         android:background="@color/transparent" />
 

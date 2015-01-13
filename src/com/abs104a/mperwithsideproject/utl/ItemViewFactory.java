@@ -29,7 +29,11 @@ import com.abs104a.mperwithsideproject.viewctl.listener.UpDownButtonOnClickImpl;
 
 public class ItemViewFactory {
 	
-	public final static ExpandPosition expandPosition = new ExpandPosition();
+	private final static ExpandPosition expandPosition = new ExpandPosition();
+	
+	public final static void clearExpandPosition(){
+		expandPosition.setExpandPosition(-1);
+	}
 	
 	public static GetJacketImageTask getImageTask = null;
 	
@@ -109,14 +113,18 @@ public class ItemViewFactory {
 				ExpandActionOnClickImpl plimpl = new ExpandActionOnClickImpl(adapter, item,expandPosition);
 				holder.addButton.setOnClickListener(plimpl);
 				holder.addButton.setOnLongClickListener(plimpl);
-				holder.addButton.setImageResource(R.drawable.button_open);
+				holder.addButton.setImageResource(R.drawable.open);
+				holder.addButton.setPadding(0, context.getResources().getDimensionPixelSize(R.dimen.album_expand_button_top_padding), 0, 0);
+				holder.addButton.setBackgroundResource(R.drawable.button_circle_xml);
 			}
 			else{
 				//Expandしない．
 				PlayListAddOnClickImpl plimpl = new PlayListAddOnClickImpl(context,rootView, item, mpwpl,column);
 				holder.addButton.setOnClickListener(plimpl);
 				holder.addButton.setOnLongClickListener(plimpl);
-				holder.addButton.setImageResource(R.drawable.button_add);
+				holder.addButton.setImageResource(R.drawable.add);
+				holder.addButton.setPadding(0, 0, 0, 0);
+				holder.addButton.setBackgroundResource(R.drawable.button_circle_white_xml);
 			}
 			convertView.setOnClickListener(new ItemOnClickImpl(item));
 			
@@ -126,7 +134,8 @@ public class ItemViewFactory {
 			}else if(expandPosition.equals(item.getId()) && holder.framelayout.getChildCount() == 0){
 				
 				//Indicatorの変更
-				holder.addButton.setImageResource(R.drawable.button_close);
+				holder.addButton.setImageResource(R.drawable.close);
+				holder.addButton.setPadding(0, 0, 0, context.getResources().getDimensionPixelSize(R.dimen.album_expand_button_top_padding));
 				
 				//ExpandViewの生成
 				final LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -140,7 +149,7 @@ public class ItemViewFactory {
 				
 				//消去ボタン
 				ImageButton deleteButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_delete);
-				deleteButton.setOnClickListener(new DeleteOnClickImpl(context, rootView,column, item, expandPosition));
+				deleteButton.setOnClickListener(new DeleteOnClickImpl(context,column, item));
 				
 				//上へのボタン
 				ImageButton upButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_up);
@@ -157,7 +166,6 @@ public class ItemViewFactory {
 					@Override
 					public void onClick(View v) {
 						new DialogUtils().createIfSelectPlayListDialog(context, item, column);
-						expandPosition.setExpandPosition(-1);
 					}
 					
 				});

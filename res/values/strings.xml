@@ -41,6 +41,8 @@
     <string name="rename_playlist_text_hint">Enter the playlist name.</string>
     <string name="rename_playlist">Rename</string>
     <string name="delete_playlist">Delete Playlist</string>
+    <string name="delete_from_queue">Delete from Queue</string>
+    <string name="delete_from_playlist">Delete from Playlist</string>
     
     <string name="create_playlist_title">Create Playlist</string>
     <string name="create_playlist_text_hint">Enter the playlist name</string>

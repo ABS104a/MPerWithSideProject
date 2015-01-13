@@ -195,7 +195,7 @@ public final class PlayListForExpandableListAdapter extends
 			//消去ボタンを上書き
 			ImageButton deleteButton = (ImageButton)view.findViewById(R.id.imageButton_expand_delete);
 			if(deleteButton != null){//PlayList中の曲を消去するようにする．
-				deleteButton.setOnClickListener(new DeletePlayListOnClickImpl(mContext, rootView,playLists,groupPosition,childPosition));
+				deleteButton.setOnClickListener(new DeletePlayListOnClickImpl(mContext, playLists,groupPosition,childPosition));
 				deleteButton.setOnLongClickListener((OnLongClickListener)null);
 			}
 			
@@ -294,12 +294,15 @@ public final class PlayListForExpandableListAdapter extends
 		}
 		
 		//Viewが広がっているかどうか
+		int padding = mContext.getResources().getDimensionPixelSize(R.dimen.album_expand_button_padding);
 		if(isExpanded){
 			//Expanded
-			holder.expandIndicator.setImageResource(R.drawable.button_close);
+			holder.expandIndicator.setImageResource(R.drawable.close);
+			holder.expandIndicator.setPadding(padding, padding, padding,padding + mContext.getResources().getDimensionPixelSize(R.dimen.album_expand_button_top_padding));
 		}else{
 			//not Expanded
-			holder.expandIndicator.setImageResource(R.drawable.button_open);
+			holder.expandIndicator.setImageResource(R.drawable.open);
+			holder.expandIndicator.setPadding(padding, padding + mContext.getResources().getDimensionPixelSize(R.dimen.album_expand_button_top_padding), padding, padding);
 		}
 		
 		return convertView;

@@ -68,7 +68,7 @@ public final class Notifications {
 	    NotificationCompat.Builder builder = new NotificationCompat.Builder(mService);
 	    
 	    builder.setContentTitle(mService.getString(R.string.app_name));
-	    builder.setSmallIcon(android.R.drawable.ic_media_play);
+	    builder.setSmallIcon(R.drawable.play);
 	    
 	    RemoteViews contentView = createRemoteViews(R.layout.notification);
 	   

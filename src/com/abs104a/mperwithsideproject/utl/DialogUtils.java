@@ -112,6 +112,7 @@ public class DialogUtils {
 	 * @param mContext
 	 * @param music 対象とするMusicInstance
 	 * @param column  キューへ追加するItemを設定するかどうか
+	 * @param expandposition 
 	 */
 	public final void createIfSelectPlayListDialog(Context mContext,final Music music,final int column ){
 			
@@ -195,6 +196,7 @@ public class DialogUtils {
 				if(position == 0){
 					//Queueへの追加を行う
 					mpwpl.addMusic(music);
+					ItemViewFactory.clearExpandPosition();
 					Toast.makeText(
 							view.getContext(), 
 							music.getTitle() + " " + 
@@ -222,6 +224,7 @@ public class DialogUtils {
 						mPlayLists.get(index).setMusics(newMusics);
 						//データを保存する．
 						PlayList.writePlayList(view.getContext());
+						ItemViewFactory.clearExpandPosition();
 						Toast.makeText(
 								view.getContext(), 
 								music.getTitle() + " → " + 
@@ -241,6 +244,7 @@ public class DialogUtils {
 	
 	/**
 	 * プレイリストを新たに作成する時に表示するダイアログを設定する．
+	 * @param expandposition 
 	 */
 	public final void createPlayListDialog(
 			Context mContext,
@@ -299,6 +303,7 @@ public class DialogUtils {
 						mPlayLists.add(newPlayList);
 					}
 					//ViewPagerForPlayListViewCtl.writePlayList(view.getContext());
+					ItemViewFactory.clearExpandPosition();
 					Toast.makeText(
 							view.getContext(), 
 							"PlayList \"" + newPlayList.getAlbum() + "\" created!", 
@@ -535,6 +540,148 @@ public class DialogUtils {
 						"PlayList \"" + removePL.getAlbum() + "\" removed!", 
 						Toast.LENGTH_SHORT)
 						.show();
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
+				//Viewの消去
+				if(MusicViewCtl.getPlayerView() != null){
+					//ViewPagerの更新を行う
+					ViewPager v = (ViewPager) MusicViewCtl.getPlayerView().findViewById(R.id.player_list_part);
+					((MusicViewPagerAdapter)v.getAdapter()).notifitionDataSetChagedForQueueView();
+				}
+				
+			}
+		});
+		
+		//DialogのCancelボタンを押したときの動作
+		final Button negativeButton = (Button)mView.findViewById(R.id.button_dialog_negative);
+		negativeButton.setText(R.string.cancel);
+		negativeButton.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View view) {
+				// Dialogを閉じる．
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
+			}
+		});
+	}
+	
+	/**
+	 * プレイリストの曲を消去するダイアログを作成する．
+	 */
+	public final void deletePlayListItemDialog(
+			Context mContext,
+			final int index,
+			final PlayList mPlayList)
+	{
+		//MainViewの生成
+		LayoutInflater inflater = LayoutInflater.from( mContext );
+		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, (ViewGroup)MusicViewCtl.getPlayerView(),false);
+		
+		//WindowManager~の起動にする．
+		final WindowManager mWindowManager = setWindowManager(mContext, mView);
+		
+		//Titleの設定
+		final TextView titleView = (TextView)mView.findViewById(R.id.textView_dialog_title);
+		titleView.setText(R.string.delete_from_playlist);
+
+		final TextView subTitleView = new TextView(mContext);
+		subTitleView.setText("Music : " + mPlayList.getMusics()[index].getTitle() + " / " + mPlayList.getMusics()[index].getArtist());
+		
+		//Viewをセットする．
+		FrameLayout contentLayout = (FrameLayout)mView.findViewById(R.id.frameLayout_dialog);
+		contentLayout.addView(subTitleView);
+		
+		//DialogのOKボタンを押したときの設定
+		final Button positiveButton = (Button)mView.findViewById(R.id.button_dialog_positive);
+		positiveButton.setText(R.string.ok);
+		positiveButton.setOnClickListener(new OnClickListener(){
+			
+			/**
+			 * プレイリストの曲を消去する．
+			 */
+			@Override
+			public void onClick(View view) {
+				
+				Music removeMusic = mPlayList.removeMusic(index);
+				if(removeMusic != null){
+					Toast.makeText(
+							view.getContext(), 
+							"Music \"" + removeMusic.getTitle() + "\" removed!", 
+							Toast.LENGTH_SHORT)
+							.show();
+					ItemViewFactory.clearExpandPosition();
+				}
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
+				//Viewの消去
+				if(MusicViewCtl.getPlayerView() != null){
+					//ViewPagerの更新を行う
+					ViewPager v = (ViewPager) MusicViewCtl.getPlayerView().findViewById(R.id.player_list_part);
+					((MusicViewPagerAdapter)v.getAdapter()).notifitionDataSetChagedForQueueView();
+				}
+				
+			}
+		});
+		
+		//DialogのCancelボタンを押したときの動作
+		final Button negativeButton = (Button)mView.findViewById(R.id.button_dialog_negative);
+		negativeButton.setText(R.string.cancel);
+		negativeButton.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View view) {
+				// Dialogを閉じる．
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
+			}
+		});
+	}
+	
+	/**
+	 * Queueのアイテムを消去するダイアログを作成する．
+	 */
+	public final void deleteQueueDialog(Context mContext, final Music item)
+	{
+		final MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mContext);
+		//MainViewの生成
+		LayoutInflater inflater = LayoutInflater.from( mContext );
+		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, (ViewGroup)MusicViewCtl.getPlayerView(),false);
+		
+		//WindowManager~の起動にする．
+		final WindowManager mWindowManager = setWindowManager(mContext, mView);
+		
+		//Titleの設定
+		final TextView titleView = (TextView)mView.findViewById(R.id.textView_dialog_title);
+		titleView.setText(R.string.delete_from_queue);
+
+		final TextView subTitleView = new TextView(mContext);
+		subTitleView.setText("Music : " + item.getTitle() + " / " + item.getArtist());
+		
+		//Viewをセットする．
+		FrameLayout contentLayout = (FrameLayout)mView.findViewById(R.id.frameLayout_dialog);
+		contentLayout.addView(subTitleView);
+		
+		//DialogのOKボタンを押したときの設定
+		final Button positiveButton = (Button)mView.findViewById(R.id.button_dialog_positive);
+		positiveButton.setText(R.string.ok);
+		positiveButton.setOnClickListener(new OnClickListener(){
+			
+			/**
+			 * Queueから曲を消去する．
+			 */
+			@Override
+			public void onClick(View view) {
+				
+				boolean result = mpwpl.getQueue().remove(item);
+				if(result){
+					Toast.makeText(
+							view.getContext(), 
+							"Music \"" + item.getTitle() + "\" removed!", 
+							Toast.LENGTH_SHORT)
+							.show();
+					ItemViewFactory.clearExpandPosition();
+				}
 				//Viewの消去
 				removeForWindowManager(mWindowManager,mView);
 				//Viewの消去

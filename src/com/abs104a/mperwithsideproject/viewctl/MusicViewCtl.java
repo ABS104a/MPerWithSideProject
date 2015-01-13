@@ -603,10 +603,16 @@ public final class MusicViewCtl {
 		if(playButton != null){
 			if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
 				//Viewを一時停止ボタンに
-				playButton.setBackgroundResource(R.drawable.button_pause);
+				playButton.setImageResource(R.drawable.pause);
+				playButton.setPadding(0, 0, 0, 0);
 			}else{
 				//Viewを再生ボタンに
-				playButton.setBackgroundResource(R.drawable.button_play);
+				playButton.setImageResource(R.drawable.play);
+				playButton.setPadding(
+						playButton.getContext().getResources().getDimensionPixelSize(R.dimen.play_button_left_padding),
+						0,
+						0,
+						0);
 			}
 		}
 		ImageButton loopButton = (ImageButton)playerView.findViewById(R.id.button_repeat);
@@ -614,22 +620,25 @@ public final class MusicViewCtl {
 			switch(mpwpl.getLoopState()){
 			default:
 			case MusicPlayerWithQueue.NOT_LOOP:
-				loopButton.setBackgroundResource(R.drawable.button_loop_no);
+				loopButton.setImageResource(R.drawable.not_repeat);
+				loopButton.setBackgroundResource(R.drawable.button_circle_white_xml);
 				break;
 			case MusicPlayerWithQueue.ALL_LOOP:
-				loopButton.setBackgroundResource(R.drawable.button_loop_all);
+				loopButton.setImageResource(R.drawable.all_repeat);
+				loopButton.setBackgroundResource(R.drawable.button_circle_xml);
 				break;
 			case MusicPlayerWithQueue.ONE_LOOP:
-				loopButton.setBackgroundResource(R.drawable.button_loop_once);
+				loopButton.setImageResource(R.drawable.one_repeat);
+				loopButton.setBackgroundResource(R.drawable.button_circle_xml);
 			}
 		}
 		ImageButton shuffleButton = (ImageButton)playerView.findViewById(R.id.button_shuffle);
 		if(mpwpl.isShuffle()){
-			shuffleButton.setBackgroundResource(R.drawable.button_shuffle_on);
+			shuffleButton.setBackgroundResource(R.drawable.button_circle_xml);
 			//シャッフルがONの時
 		}else{
 			//シャッフルがOFFの時
-			shuffleButton.setBackgroundResource(R.drawable.button_shuffle_off);
+			shuffleButton.setBackgroundResource(R.drawable.button_circle_white_xml);
 		}
 		
 		setPartOfPlayerView(

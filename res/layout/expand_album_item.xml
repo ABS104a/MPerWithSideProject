@@ -3,33 +3,37 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
-
-    <ImageButton
-        android:id="@+id/imageButton_expand_add"
-        android:layout_width="@dimen/expand_item_size"
-        android:layout_height="@dimen/expand_item_size"
-        android:layout_marginRight="@dimen/expand_right_margin"
-        android:background="@drawable/button_add" />
     
     <ImageButton
         android:id="@+id/imageButton_expand_up"
         android:layout_width="@dimen/expand_item_size"
         android:layout_height="@dimen/expand_item_size"
         android:layout_marginRight="@dimen/expand_right_margin"
-        android:background="@drawable/button_up" />
+        android:background="@drawable/button_circle_xml"
+        android:src="@drawable/up" />
 
     <ImageButton
         android:id="@+id/imageButton_expand_down"
         android:layout_width="@dimen/expand_item_size"
         android:layout_height="@dimen/expand_item_size"
         android:layout_marginRight="@dimen/expand_right_margin"
-        android:background="@drawable/button_down" />
+        android:background="@drawable/button_circle_xml"
+        android:src="@drawable/down" />
+
+    <ImageButton
+        android:id="@+id/imageButton_expand_add"
+        android:layout_width="@dimen/expand_item_size"
+        android:layout_height="@dimen/expand_item_size"
+        android:layout_marginRight="@dimen/expand_right_margin"
+        android:background="@drawable/button_circle_white_xml"
+        android:src="@drawable/add" />
 
     <ImageButton
         android:id="@+id/imageButton_expand_delete"
         android:layout_width="@dimen/expand_item_size"
         android:layout_height="@dimen/expand_item_size"
         android:layout_marginRight="@dimen/expand_right_margin"
-        android:background="@drawable/button_delete" />
+        android:background="@drawable/button_circle_white_xml"
+        android:src="@drawable/delete" />
 
 </LinearLayout>

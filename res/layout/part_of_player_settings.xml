@@ -31,7 +31,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_margin="@dimen/volume_margin"
-        android:src="@drawable/volume_max" />
+        android:src="@drawable/volume" />
 
     <ImageButton
         android:id="@+id/button_action_show_settings"
@@ -44,13 +44,13 @@
 
     <ImageView
         android:id="@+id/imageView_volume_mute"
-        android:layout_width="@dimen/controll_button_size"
+        android:layout_width="@dimen/controll_other_button_size"
         android:layout_height="@dimen/controll_button_size"
         android:layout_alignBottom="@+id/button_action_show_settings"
         android:layout_alignParentTop="true"
         android:layout_margin="@dimen/volume_margin"
         android:layout_toRightOf="@+id/button_action_show_settings"
-        android:src="@drawable/volume_mute" />
+        android:src="@drawable/mute" />
 
     <SeekBar
         android:id="@+id/seekBar_volume"

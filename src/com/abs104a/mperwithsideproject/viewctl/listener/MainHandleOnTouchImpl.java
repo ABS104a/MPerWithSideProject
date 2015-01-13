@@ -51,7 +51,7 @@ public final class MainHandleOnTouchImpl implements OnTouchListener {
 				.getResources()
 				.getDimensionPixelSize(R.dimen.player_view_width)
 				+
-				mService.getResources().getDimensionPixelSize(R.dimen.player_view_padding);
+				2 * mService.getResources().getDimensionPixelSize(R.dimen.player_view_padding);
 		
 		View mPlayerView = null;
 		//タップ動作によって動作を設定する．
