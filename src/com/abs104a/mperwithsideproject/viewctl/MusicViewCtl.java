@@ -156,18 +156,17 @@ public final class MusicViewCtl {
 					ImageCache.clearCache();
 					System.gc();
 					
+
 					final Handler mHandler = new Handler();
 					mHandler.postDelayed(new Runnable(){
 
 						@Override
 						public void run() {
-							if(mService == null)
-								MainViewCtl.createAndShowMainView(MainService.getService());
-							else
-								mService.stopSelf();
+							MainViewCtl.createAndShowMainView(MainService.getService());
 						}
-						
+
 					},100);
+
 					
 				}
 

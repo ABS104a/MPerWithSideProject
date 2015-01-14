@@ -50,7 +50,8 @@ public final class MainViewCtl {
 	 */
 	public final static void createAndShowMainView(Service mService){
 		ImageCache.clearCache();
-		
+
+		if(mService == null)return;
 		//WindowManagerの取得
 		WindowManager mWindowManager = (WindowManager) mService.getSystemService(Context.WINDOW_SERVICE);
 

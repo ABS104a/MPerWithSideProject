@@ -23,7 +23,8 @@ public class PlayerService extends Service {
 		
 		@Override
 		public boolean stopService() throws RemoteException {
-			finishFlag = true;
+			finishFlag = true;			
+			mService.unbindService(mPlayerServiceConnection);
 			mService.stopSelf();
 			return finishFlag;
 		}
