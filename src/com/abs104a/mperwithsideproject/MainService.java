@@ -72,7 +72,6 @@ public class MainService extends Service{
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		//mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_IMPORTANT);
 		// バインドされた時
 		return mIMainServiceIf;
 	}
@@ -124,7 +123,6 @@ public class MainService extends Service{
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(MyBroadCastReceiver.VOLUME_CHANGE)); 
 		
 		//TODO PlayerServiceをバインドする．
-		//mService.startService(new Intent(mService,PlayerService.class));
 		mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
 		
 		//開始ログ
@@ -193,6 +191,11 @@ public class MainService extends Service{
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			mIPlayerService = IPlayerService.Stub.asInterface(service);
+			try {
+				mIPlayerService.bindService();
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
 			android.util.Log.v(TAG, "onServiceConnected MainService");
 			Toast.makeText(mService, "Main", Toast.LENGTH_SHORT).show();
 		}

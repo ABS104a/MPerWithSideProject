@@ -23,9 +23,18 @@ public class PlayerService extends Service {
 		
 		@Override
 		public boolean stopService() throws RemoteException {
-			mService.stopSelf();
 			finishFlag = true;
+			mService.stopSelf();
 			return finishFlag;
+		}
+
+		@Override
+		public boolean bindService() throws RemoteException {
+			//MainServiceをバインドする．
+			return mService.bindService(
+					new Intent(mService,MainService.class),
+					mPlayerServiceConnection , 
+					Context.BIND_IMPORTANT);
 		}
 	};
 
@@ -58,8 +67,6 @@ public class PlayerService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		//MainServiceをバインドする．
-		mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_IMPORTANT);
 	}
 
 	/* (非 Javadoc)

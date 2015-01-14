@@ -8,6 +8,8 @@ interface IPlayerService{
 
 	boolean stopService();
 	
+	boolean bindService();
+	
 	/*
 	int play();
 	
