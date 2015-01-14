@@ -72,7 +72,7 @@ public class MainService extends Service{
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_IMPORTANT);
+		//mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_IMPORTANT);
 		// バインドされた時
 		return mIMainServiceIf;
 	}
@@ -124,7 +124,8 @@ public class MainService extends Service{
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(MyBroadCastReceiver.VOLUME_CHANGE)); 
 		
 		//TODO PlayerServiceをバインドする．
-		mService.startService(new Intent(mService,PlayerService.class));
+		//mService.startService(new Intent(mService,PlayerService.class));
+		mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
 		
 		//開始ログ
 		Log.v("MainService","Service is Start!");

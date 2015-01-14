@@ -671,7 +671,7 @@ public final class MusicViewCtl {
 	private static final void setPartOfPlayerView(final Context context,final View mView,final Music music,final MusicPlayerWithQueue mpwpl){
 		
 		//ViewがNullの場合は何もしない．
-		if(mView == null) return;
+		if(mView == null || music == null) return;
 		//一定時間おきの動作設定
 		if(mHandler != null)
 			mHandler.stopHandler();

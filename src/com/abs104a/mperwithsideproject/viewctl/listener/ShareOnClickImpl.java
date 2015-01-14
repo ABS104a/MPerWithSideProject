@@ -25,7 +25,7 @@ public class ShareOnClickImpl implements OnClickListener {
 				
 				@Override
 				public void onGetImage(Bitmap image) {
-					final String musicStrings = "NowPlaying... " + music.getTitle() + " / " +  music.getArtist() + " #MusicProjects";
+					final String musicStrings = "NowPlaying... " + music.getTitle() + " / " +  music.getArtist() + " " + con.getText(R.string.share_hashtag);
 					MusicViewCtl
 					.sendShareTwit(
 							con, 

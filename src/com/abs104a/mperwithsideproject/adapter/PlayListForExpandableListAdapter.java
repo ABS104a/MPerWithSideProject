@@ -78,6 +78,11 @@ public final class PlayListForExpandableListAdapter extends
 		getImageTask = new GetJacketImageTask(mContext);
 	}
 	
+	public void addPlayLists(ArrayList<PlayList> lists){
+		playLists.addAll(lists);
+		this.notifyDataSetChanged();
+	}
+	
 	/**
 	 * AdapterのColumnを返す
 	 * @return

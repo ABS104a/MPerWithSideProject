@@ -148,12 +148,7 @@ public class PagerHolder {
 	public View createAlbumView(Context mContext){
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mContext);
 		View mView = MusicViewCtl.getPlayerView();
-		
-		//前回のリストViewのスクロール位置を記憶する．
-		SharedPreferences sp = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
-		int firstVisible = sp.getInt("FIRST_VISIBLE", 0);
-		final ListView mListView = (ListView) new ViewPagerForAlbumViewCtl().createView(mContext, mView, mpwpl);
-		mListView.setSelectionFromTop(firstVisible, 0);
+		ListView mListView = (ListView) new ViewPagerForAlbumViewCtl().createView(mContext, mView, mpwpl);
 		return mListView;
 	}
 	
