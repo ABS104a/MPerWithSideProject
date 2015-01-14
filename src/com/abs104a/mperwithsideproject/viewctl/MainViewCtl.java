@@ -59,7 +59,9 @@ public final class MainViewCtl {
 				WindowManager.LayoutParams.WRAP_CONTENT,
 				WindowManager.LayoutParams.WRAP_CONTENT,
 				WindowManager.LayoutParams.TYPE_TOAST,
-				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | 
+				WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
+				WindowManager.LayoutParams.FLAG_SPLIT_TOUCH |
 				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED ,// | 
 				PixelFormat.TRANSLUCENT);
 
