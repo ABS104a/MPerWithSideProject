@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
@@ -84,11 +83,10 @@ public final class Notifications {
 	    
 	    Notification notification = builder.build();
 	    
-	    if(Build.VERSION.SDK_INT >= 16){
-	    	//APIレベル16以降の時の処理 デカいNotifitionを追加する．
-	    	notification.bigContentView = createRemoteViews(R.layout.notification_bigger);
-	    	setDataOfRemoteViews(notification, notification.bigContentView);
-	    }
+	    // デカいNotifitionを追加する．
+	    notification.bigContentView = createRemoteViews(R.layout.notification_bigger);
+	    setDataOfRemoteViews(notification, notification.bigContentView);
+
 	    
 	    setDataOfRemoteViews(notification, notification.contentView);
 	    
