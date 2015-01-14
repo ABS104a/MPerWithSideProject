@@ -337,6 +337,96 @@ public class DialogUtils {
 	}
 	
 	/**
+	 * プレイリストを新たに作成する時に表示するダイアログを設定する．
+	 * @param expandposition 
+	 */
+	public final void createPlayListWithQueueDialog(
+			Context mContext)
+	{
+		//MainViewの生成
+		LayoutInflater inflater = LayoutInflater.from( mContext );
+		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, (ViewGroup)MusicViewCtl.getPlayerView(),false);
+		
+		//WindowManager~の起動にする．
+		final WindowManager mWindowManager = setWindowManager(mContext, mView);
+		
+		//Titleの設定
+		final TextView titleView = (TextView)mView.findViewById(R.id.textView_dialog_title);
+		titleView.setText(R.string.create_playlist_with_queue_title);
+
+		//プレイリスト名を入力するEditTextを生成
+		final EditText mEditText = new EditText(mContext);
+		mEditText.setHint(R.string.create_playlist_text_hint);
+		mEditText.requestFocus();
+		
+		DisplayUtils.showInputMethodEditor(mContext, mView);
+		
+		//Viewをセットする．
+		FrameLayout contentLayout = (FrameLayout)mView.findViewById(R.id.frameLayout_dialog);
+		contentLayout.addView(mEditText);
+		
+		//DialogのOKボタンを押したときの設定
+		final Button positiveButton = (Button)mView.findViewById(R.id.button_dialog_positive);
+		positiveButton.setText(R.string.ok);
+		positiveButton.setOnClickListener(new OnClickListener(){
+			
+			/**
+			 * 新しいプレイリストを作成する．
+			 */
+			@Override
+			public void onClick(View view) {
+				String title = mEditText.getText().toString();
+				//文字が入力されていた時
+				if(title != null && title.length() > 0){
+					// プレイリストを生成して曲を追加する．
+					final PlayList newPlayList = 
+							new PlayList(title, "PlayList", System.currentTimeMillis(), null);
+					ArrayList<PlayList> mPlayLists = PlayList.getPlayList(view.getContext());
+					try{
+						ArrayList<Music> musics = MusicUtils.getMusicController(view.getContext()).getQueue();
+						newPlayList.setMusics(musics.toArray(new Music[musics.size()]));
+						mPlayLists.add(newPlayList);
+					}catch(NullPointerException e){
+						final Music[] musics = new Music[0];
+						//Musicをセット
+						newPlayList.setMusics(musics);
+						mPlayLists.add(newPlayList);
+					}
+					PlayList.writePlayList(view.getContext());
+
+					Toast.makeText(
+							view.getContext(), 
+							"PlayList \"" + newPlayList.getAlbum() + "\" created!", 
+							Toast.LENGTH_SHORT)
+							.show();
+					//Viewの消去
+					if(MusicViewCtl.getPlayerView() != null){
+						//ViewPagerの更新を行う
+						ViewPager v = (ViewPager) MusicViewCtl.getPlayerView().findViewById(R.id.player_list_part);
+						((MusicViewPagerAdapter)v.getAdapter()).notifitionDataSetChagedForQueueView();
+					}
+					removeForWindowManager(mWindowManager,mView);
+					DisplayUtils.hideInputMethodEditor(view.getContext(), mView);
+				}
+			}
+		});
+		
+		//DialogのCancelボタンを押したときの動作
+		final Button negativeButton = (Button)mView.findViewById(R.id.button_dialog_negative);
+		negativeButton.setText(R.string.cancel);
+		negativeButton.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View view) {
+				// Dialogを閉じる．
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
+				DisplayUtils.hideInputMethodEditor(view.getContext(), mView);
+			}
+		});
+	}
+	
+	/**
 	 * プレイリストを編集する時に表示するダイアログを作成する．
 	 * @param mContext
 	 * @param music

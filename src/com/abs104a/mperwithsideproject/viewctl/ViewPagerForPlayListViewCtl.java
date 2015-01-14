@@ -56,6 +56,7 @@ public final class ViewPagerForPlayListViewCtl{
 		addView.setText(R.string.create_playlist);
 		addView.setLayoutParams(params);	
 		addView.setGravity(Gravity.CENTER);
+		addView.setBackgroundResource(R.drawable.button);
 		mListView.addFooterView(addView);
 		mListView.setDividerHeight(mContext.getResources().getDimensionPixelSize(R.dimen.listview_divider));
 	

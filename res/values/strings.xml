@@ -32,12 +32,13 @@
     <string name="shuffle_on">shuffle on</string>
     <string name="shuffle_off">shuffle off</string>
     <string name="row_empty">There is no Items.</string>
+    <string name="playlist_to_queue">Queue → New PlayList</string>
     <string name="search_box_hint">Enter a search term.</string>
     
     <string name="add_queue">Add Queue</string>
-    <string name="create_playlist">Create Playlist</string>
+    <string name="create_playlist">Create PlayList</string>
     
-    <string name="rename_playlist_title">Rename Playlist</string>
+    <string name="rename_playlist_title">Rename PlayList</string>
     <string name="rename_playlist_text_hint">Enter the playlist name.</string>
     <string name="rename_playlist">Rename</string>
     <string name="delete_playlist">Delete Playlist</string>
@@ -45,6 +46,7 @@
     <string name="delete_from_playlist">Delete from Playlist</string>
     
     <string name="create_playlist_title">Create Playlist</string>
+    <string name="create_playlist_with_queue_title">Create PlayList(Add)</string>
     <string name="create_playlist_text_hint">Enter the playlist name</string>
     
     <string name="now_loading">Now Loading...</string>
