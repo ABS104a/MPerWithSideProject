@@ -86,7 +86,7 @@ public class MainService extends Service{
 			}
 		}
 		//バインドの解除
-		//unbindService(mMainServiceConnection);
+		stopSelf();
 	}
 	
 	/**
