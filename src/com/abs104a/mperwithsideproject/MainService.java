@@ -87,7 +87,6 @@ public class MainService extends Service{
 		}
 		//バインドの解除
 		//unbindService(mMainServiceConnection);
-		mService.stopSelf();
 	}
 	
 	/**
@@ -104,8 +103,6 @@ public class MainService extends Service{
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
-		finishFlag = false;
 		
 		mService = this;
 		
@@ -207,9 +204,9 @@ public class MainService extends Service{
 		public void onServiceDisconnected(ComponentName name) {
 			mIPlayerService = null;
 			android.util.Log.v(TAG, "onServiceDisconnected MainService");
-			if(finishFlag){
+			if(finishFlag)
 				MusicViewCtl.removePlayerView( mService);
-			}else
+			else
 				mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
 				
 		}

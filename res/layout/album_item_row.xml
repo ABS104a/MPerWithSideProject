@@ -49,6 +49,24 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <!-- ここにExpandableViewを突っ込む -->
+    <FrameLayout
+        android:id="@+id/framelayout_album"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView_album_album" >
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textView_album_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/framelayout_album"
+        android:layout_alignRight="@+id/textView_album_artist"
+        android:singleLine="true"
+        android:text="time"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ImageButton
         android:id="@+id/imageButton_album_add"
@@ -59,24 +77,5 @@
         android:layout_margin="@dimen/album_item_row_margins"
         android:background="@drawable/button_circle_white_xml"
         android:src="@drawable/add" />
-
-    <FrameLayout
-        android:id="@+id/framelayout_album"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/imageView_album_jacket" >
-
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/textView_album_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/framelayout_album"
-        android:layout_toLeftOf="@+id/imageButton_album_add"
-        android:singleLine="true"
-        android:text="time"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
