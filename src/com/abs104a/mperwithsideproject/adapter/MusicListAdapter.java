@@ -117,6 +117,24 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 	}
 	
 	private View createFooterView(){
+		//Viewの高さを取得する．
+		final int viewHeight = 
+				getContext()
+				.getResources()
+				.getDimensionPixelSize(R.dimen.album_item_height);
+		
+		//ParentView用のLayoutParams
+		ListView.LayoutParams mParentParams = 
+				new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,ListView.LayoutParams.WRAP_CONTENT);
+
+		//ChildView用のLayoutParams
+		LinearLayout.LayoutParams mChildParams = 
+				new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, viewHeight);
+		mChildParams.gravity = Gravity.CENTER;
+
+		//生成するParentView（LinearLayout）
+		LinearLayout ll = new LinearLayout(getContext());
+		ll.setLayoutParams(mParentParams);
 		//Footerの設定
 		TextView footerView = new TextView(getContext());
 		footerView.setText(R.string.play_to_playlist);
@@ -133,7 +151,10 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			}
 			
 		});
-		return footerView;
+		//ParentViewにChildViewを追加
+		ll.addView(footerView);
+				
+		return ll;
 	}
 
 
