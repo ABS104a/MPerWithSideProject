@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
+import com.abs104a.mperwithsideproject.utl.DialogUtils;
 import com.abs104a.mperwithsideproject.utl.ItemViewFactory;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -56,7 +59,10 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 			return ItemViewFactory.getChildView(convertView, item, getContext(), column, rootView, adapter, mpwpl);
 		}catch(IndexOutOfBoundsException e){
 			//Itemが存在しないときはEmptyViewを表示する．
-			return createEmptyView();
+			if(position == 0)
+				return createEmptyView();
+			else
+				return createFooterView();
 		}
 	}
 	
@@ -69,7 +75,7 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 	@Override
 	public int getCount() {
 		//EmptyViewがあるため最低1つのItemは存在することにする．
-		return Math.max(1, super.getCount());
+		return Math.max(1, super.getCount() + 1);
 	}
 	
 	/**
@@ -108,6 +114,26 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 		ll.addView(emptyView);
 		
 		return ll;//ReturnParentView
+	}
+	
+	private View createFooterView(){
+		//Footerの設定
+		TextView footerView = new TextView(getContext());
+		footerView.setText(R.string.play_to_playlist);
+		footerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT));
+		footerView.setGravity(Gravity.CENTER);
+		footerView.setBackgroundResource(R.drawable.button);
+		footerView.setText(R.string.playlist_to_queue);
+		
+		footerView.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				new DialogUtils().createPlayListWithQueueDialog(getContext());
+			}
+			
+		});
+		return footerView;
 	}
 
 
