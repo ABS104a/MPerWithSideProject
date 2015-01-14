@@ -619,7 +619,7 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 			// Intent.ACTION_MEDIA_BUTTONのブロードキャストを受け取る
 			// BroadcastReceiverでComponentNameを生成
 			ComponentName mMediaButtonReceiverComponent =
-					new ComponentName(mContext.getPackageName(), MusicPlayerReceiver.class.getName()); // ※
+					new ComponentName(mContext.getPackageName(), MediaButtonReceiver.class.getName()); // ※
 			// AudioManagerにComponentNameを登録
 			mAudioManager.registerMediaButtonEventReceiver(mMediaButtonReceiverComponent);
 
@@ -667,9 +667,6 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 		    .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, item.getTitle() + " / " + item.getAlbum() + " / " + item.getArtist())
 		    .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, item.getDuration())
 		    .putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, image).apply();
-		
-		
-		android.util.Log.v(TAG, "initLockScreenNotifition");
 	}
 
 }
