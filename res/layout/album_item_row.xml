@@ -74,6 +74,7 @@
         android:layout_height="@dimen/album_expand_button_size"
         android:layout_alignBottom="@+id/imageView_album_jacket"
         android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/album_item_row_margins"
         android:background="@drawable/button_circle_white_xml"
         android:src="@drawable/add" />
 
