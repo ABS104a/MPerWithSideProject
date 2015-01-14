@@ -34,7 +34,8 @@ public class PlayerService extends Service {
 			return mService.bindService(
 					new Intent(mService,MainService.class),
 					mPlayerServiceConnection , 
-					Context.BIND_IMPORTANT);
+					Context.BIND_AUTO_CREATE);
+			
 		}
 	};
 

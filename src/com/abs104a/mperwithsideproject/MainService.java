@@ -121,15 +121,23 @@ public class MainService extends Service{
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF)); 
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG)); 
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(MyBroadCastReceiver.VOLUME_CHANGE)); 
-		
-		//TODO PlayerServiceをバインドする．
-		mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
-		
+			
 		//開始ログ
 		Log.v("MainService","Service is Start!");
 
 	}
 
+
+	/* (非 Javadoc)
+	 * @see android.app.Service#onStartCommand(android.content.Intent, int, int)
+	 */
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		//PlayerServiceをバインドする．
+		mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
+	
+		return super.onStartCommand(intent, flags, startId);
+	}
 
 	/**
 	 * Serviceが終了した時
