@@ -5,12 +5,8 @@
     <corners 
         android:topLeftRadius="5dp"
         android:bottomLeftRadius="5dp" />  
-    <gradient
-        android:angle="0"
-        android:startColor="@color/white_smoke"
-        android:endColor="@color/white_smoke"
-        android:type="linear" />
+    <solid android:color="@color/Denim"/>
     <stroke
-        android:width="2dp"
+        android:width="4dp"
         android:color="@color/Denim" />
 </shape>

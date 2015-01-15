@@ -14,6 +14,7 @@ import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
+import com.abs104a.mperwithsideproject.settings.Settings;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.GetImageTask;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
@@ -52,6 +53,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -124,6 +126,8 @@ public final class MusicViewCtl {
 		if(getPlayerView() != null && rootView != null){
 			final Button handle = (Button) rootView.findViewById(R.id.imageButton_handle);
 			handle.setVisibility(View.INVISIBLE);
+			LayoutParams params = handle.getLayoutParams();
+			params.width = Settings.getHandleWidth(getContext());
 			Animation closeAnimation = 
 					AnimationUtils.loadAnimation(rootView.getContext(), R.anim.left_to_right_out);
 			closeAnimation.setAnimationListener(new AnimationListener(){
@@ -190,6 +194,9 @@ public final class MusicViewCtl {
 			final View mView = createView(mService,rootView);
 			final Button handle = (Button) rootView.findViewById(R.id.imageButton_handle);
 			handle.setVisibility(View.INVISIBLE);
+			LayoutParams params = handle.getLayoutParams();
+			params.width = params.width * 2;
+			handle.setLayoutParams(params);
 			
 			final Animation showAnimation = 
 					AnimationUtils.loadAnimation(mService, R.anim.right_to_left_in);
@@ -197,6 +204,7 @@ public final class MusicViewCtl {
 
 				@Override
 				public void onAnimationEnd(Animation animation) {
+
 					handle.setVisibility(View.VISIBLE);
 					handle.startAnimation(AnimationUtils.loadAnimation(mService, android.R.anim.fade_in));
 				}
