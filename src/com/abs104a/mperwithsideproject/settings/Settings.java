@@ -8,6 +8,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.preference.PreferenceManager;
 
 import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 /**
  * 設定を取得するクラス
  * @author Kouki
@@ -42,7 +43,17 @@ public class Settings {
 	 */
 	public static final int getHandleWidth(Context con){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(con);
-		return Integer.parseInt(preferences.getString(con.getString(R.string.handle_width_key), con.getString(R.string.handle_width_defvalue)));
+		return DisplayUtils.dp2px(con, Integer.parseInt(preferences.getString(con.getString(R.string.handle_width_key), con.getString(R.string.handle_width_defvalue))));
+	}
+	
+	/**
+	 * ハンドルの高さ設定を取得
+	 * @param con
+	 * @return
+	 */
+	public static final int getHandleHeight(Context con){
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(con);
+		return DisplayUtils.dp2px(con, Integer.parseInt(preferences.getString(con.getString(R.string.handle_height_key), con.getString(R.string.handle_height_defvalue))));
 	}
 	
 	/**

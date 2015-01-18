@@ -62,7 +62,7 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 				// 画面OFF時  
 				Log.d("MainService", "SCREEN_OFF");  
 				if(rootView != null ){
-					MainViewCtl.removeRootView();
+					MainViewCtl.removeRootView(true);
 					screenFlag = false;
 				}
 			} 

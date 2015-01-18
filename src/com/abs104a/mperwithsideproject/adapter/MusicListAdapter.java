@@ -147,7 +147,8 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 
 			@Override
 			public void onClick(View v) {
-				new DialogUtils().createPlayListWithQueueDialog(getContext());
+				ArrayList<Music> queue = mpwpl.getQueue();
+				new DialogUtils().createIfSelectPlayListDialog(getContext(),queue.toArray(new Music[queue.size()]),column);
 			}
 			
 		});

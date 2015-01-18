@@ -16,6 +16,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.PorterDuff.Mode;
 import android.os.Debug;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,30 @@ public class DisplayUtils {
 	@SuppressLint("SimpleDateFormat") 
 	private final static SimpleDateFormat DFYS = new SimpleDateFormat("m:ss");
 
+	public static int px2dp(Context con,float px){
+		// WindowManager から取得する (要 Activity)
+		DisplayMetrics metrics = new DisplayMetrics();  
+		WindowManager mWindowManager = (WindowManager) con.getSystemService(Context.WINDOW_SERVICE);
+		mWindowManager.getDefaultDisplay().getMetrics(metrics);  
+		 
+		float density = con.getResources().getDisplayMetrics().density;
+		//  px を dp に変換する ( pixel ÷ density + 0.5f（四捨五入) )
+		int dp = (int) (px / density + 0.5f);
+		return dp;
+	}
+	
+	public static int dp2px(Context con,int dp){
+		// WindowManager から取得する (要 Activity)
+		DisplayMetrics metrics = new DisplayMetrics();  
+		WindowManager mWindowManager = (WindowManager) con.getSystemService(Context.WINDOW_SERVICE);
+		mWindowManager.getDefaultDisplay().getMetrics(metrics);  
+
+		float density = con.getResources().getDisplayMetrics().density;
+		
+		int px = (int) ((float)dp * density + 0.5f);
+		return px;
+	}
+	
 	/**
 	 * 画面の幅を取得するクラス
 	 * @param mContext アプリケーションのコンテキスト
@@ -250,6 +275,21 @@ public class DisplayUtils {
 			} 
 		}
 		System.gc();
+	}
+	
+	public static final void cleanupImageView(View view) { 
+		if(view instanceof ImageView) { 
+			ImageView iv = (ImageView)view; 
+			iv.setImageDrawable(null); 
+			iv.setVisibility(View.GONE);
+		} 
+		if(view instanceof ViewGroup) { 
+			ViewGroup vg = (ViewGroup)view; 
+			int size = vg.getChildCount(); 
+			for(int i = 0; i < size; i++) { 
+				cleanupView(vg.getChildAt(i)); 
+			} 
+		}
 	}
 	
 

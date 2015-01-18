@@ -44,10 +44,17 @@ public final class MusicViewPagerAdapter extends PagerAdapter {
 	 */
 	public void cleanUp(){
 		ExpandableListView mAlbumView = (ExpandableListView) pageHolder.getIndexView(Column.ALBUM);
+		ListView QueueView = (ListView) pageHolder.getIndexView(Column.QUEUE);
 		if(mAlbumView != null){
 			int firstVisiblePosition = mAlbumView.getFirstVisiblePosition();
 			SharedPreferences sp = mContext.getSharedPreferences(PagerHolder.TAG, Context.MODE_PRIVATE);
 			sp.edit().putInt("FIRST_VISIBLE", firstVisiblePosition).commit();
+			mAlbumView.setVisibility(View.GONE);
+			//DisplayUtils.cleanupImageView(mAlbumView);
+		}
+		if(QueueView != null){
+			QueueView.setVisibility(View.GONE);
+			//DisplayUtils.cleanupImageView(QueueView);
 		}
 	}
 

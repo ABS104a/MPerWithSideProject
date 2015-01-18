@@ -32,11 +32,11 @@
     <string name="shuffle_on">shuffle on</string>
     <string name="shuffle_off">shuffle off</string>
     <string name="row_empty">There is no Items.</string>
-    <string name="playlist_to_queue">Queue → New PlayList</string>
+    <string name="playlist_to_queue">Queue → PlayList</string>
     <string name="search_box_hint">Enter a search term.</string>
     
     <string name="add_queue">Add Queue</string>
-    <string name="create_playlist">Create PlayList</string>
+    <string name="create_playlist">New PlayList</string>
     
     <string name="rename_playlist_title">Rename PlayList</string>
     <string name="rename_playlist_text_hint">Enter the playlist name.</string>
@@ -45,16 +45,16 @@
     <string name="delete_from_queue">Delete from Queue</string>
     <string name="delete_from_playlist">Delete from Playlist</string>
     
-    <string name="create_playlist_title">Create Playlist</string>
-    <string name="create_playlist_with_queue_title">Create PlayList(Add)</string>
+    <string name="create_playlist_title">New Playlist</string>
+    <string name="create_playlist_with_queue_title">New PlayList(Add)</string>
     <string name="create_playlist_text_hint">Enter the playlist name</string>
     
-    <string name="now_loading">Now Loading...</string>
+    <string name="now_loading">Now Loading\.\.\.</string>
     
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     
-    <string name="share_hashtag">#utamemo</string>
+    <string name="share_hashtag">#うためも</string>
     
     
     <!-- Settings -->
@@ -73,9 +73,14 @@
     <string name="app_title">アプリ画面の設定</string>
     
     <string name="handle_width">ハンドルの幅</string>
-    <string name="handle_width_m">ハンドルの幅をpxで指定します</string>
+    <string name="handle_width_m">ハンドルの幅を変更します</string>
     <string name="handle_width_key">handle_width_key</string>
-    <string name="handle_width_defvalue">23</string>
+    <string name="handle_width_defvalue">15</string>
+    
+    <string name="handle_height">ハンドルの高さ</string>
+    <string name="handle_height_m">ハンドルの高さを変更します</string>
+    <string name="handle_height_key">handle_height_key</string>
+    <string name="handle_height_defvalue">45</string>
     
     <string name="version_title">バージョン情報</string>
     <string name="version_title_key">version</string>

@@ -115,6 +115,24 @@ public class DialogUtils {
 	 * @param expandposition 
 	 */
 	public final void createIfSelectPlayListDialog(Context mContext,final Music music,final int column ){
+		Music[] musics = null;
+		if(music != null){
+			musics = new Music[1];
+			musics[0] = music;
+		}
+		createIfSelectPlayListDialog( mContext,  musics,  column );
+	}
+	
+	/**
+	 * PlayListを選択するDialogを表示する．
+	 * (最初の項目はQueue，3番目～がPlayList)
+	 * （2番目の項目はPlayListを作成する．）
+	 * @param mContext
+	 * @param music 対象とするMusicInstance
+	 * @param column  キューへ追加するItemを設定するかどうか
+	 * @param expandposition 
+	 */
+	public final void createIfSelectPlayListDialog(Context mContext,final Music music[],final int column ){
 			
 		//MainViewの生成
 		LayoutInflater inflater = LayoutInflater.from( mContext );
@@ -195,14 +213,21 @@ public class DialogUtils {
 				//Itemが選択された時の動作
 				if(position == 0){
 					//Queueへの追加を行う
-					mpwpl.addMusic(music);
-					ItemViewFactory.clearExpandPosition();
-					Toast.makeText(
-							view.getContext(), 
-							music.getTitle() + " " + 
-							view.getContext().getString(R.string.add_to_queue),
-							Toast.LENGTH_SHORT)
-							.show();
+					ArrayList<Music> musicList = new ArrayList<Music>();
+					for(Music mu : music) musicList.add(mu);
+					try {
+						mpwpl.addPlayList(musicList);
+						ItemViewFactory.clearExpandPosition();
+						Toast.makeText(
+								view.getContext(), 
+								musicList.get(0).getTitle() + "... " + 
+								view.getContext().getString(R.string.add_to_queue),
+								Toast.LENGTH_SHORT)
+								.show();
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
+
 				}else if(position == 1){
 					//PlayListの作成
 					createPlayListDialog(view.getContext(),music, mPlayLists);
@@ -214,12 +239,15 @@ public class DialogUtils {
 						//現在のプレイリスト曲を読み込む
 						Music[] musics = mPlayLists.get(index).getMusics();
 						//新しいプレイリスト曲の配列を生成する．
-						Music[] newMusics = new Music[musics.length + 1];
+						Music[] newMusics = new Music[musics.length + music.length];
 						for(int i = 0;i < musics.length;i++){
 							newMusics[i] = musics[i];
 						}
 						//最後の要素に追加する．
-						newMusics[newMusics.length - 1] = music;
+						for(int i = newMusics.length;i < musics.length + music.length;i++){
+							newMusics[i] = music[i - newMusics.length];
+						}
+						
 						//新しい配列をセットする．
 						mPlayLists.get(index).setMusics(newMusics);
 						//データを保存する．
@@ -227,7 +255,7 @@ public class DialogUtils {
 						ItemViewFactory.clearExpandPosition();
 						Toast.makeText(
 								view.getContext(), 
-								music.getTitle() + " → " + 
+								music[0].getTitle() + " → " + 
 								mPlayLists.get(index).getAlbum(),
 								Toast.LENGTH_SHORT)
 								.show();
@@ -248,7 +276,7 @@ public class DialogUtils {
 	 */
 	public final void createPlayListDialog(
 			Context mContext,
-			final Music music,
+			final Music music[],
 			final ArrayList<PlayList> mPlayLists)
 	{
 		//MainViewの生成
@@ -296,8 +324,7 @@ public class DialogUtils {
 						newPlayList.setMusics(musics);
 						mPlayLists.add(newPlayList);
 					}else{
-						final Music[] musics = new Music[1];
-						musics[0] = music;
+						final Music[] musics = music;
 						//Musicをセット
 						newPlayList.setMusics(musics);
 						mPlayLists.add(newPlayList);
@@ -340,6 +367,7 @@ public class DialogUtils {
 	 * プレイリストを新たに作成する時に表示するダイアログを設定する．
 	 * @param expandposition 
 	 */
+	/*
 	public final void createPlayListWithQueueDialog(
 			Context mContext)
 	{
@@ -370,9 +398,9 @@ public class DialogUtils {
 		positiveButton.setText(R.string.ok);
 		positiveButton.setOnClickListener(new OnClickListener(){
 			
-			/**
-			 * 新しいプレイリストを作成する．
-			 */
+			//**
+			//* 新しいプレイリストを作成する．
+			//*
 			@Override
 			public void onClick(View view) {
 				String title = mEditText.getText().toString();
@@ -425,6 +453,7 @@ public class DialogUtils {
 			}
 		});
 	}
+	*/
 	
 	/**
 	 * プレイリストを編集する時に表示するダイアログを作成する．

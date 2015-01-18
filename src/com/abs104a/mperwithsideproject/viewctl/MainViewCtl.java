@@ -92,7 +92,7 @@ public final class MainViewCtl {
 	/**
 	 * RootViewを消去する．
 	 */
-	public static final void removeRootView(){
+	public static final void removeRootView(boolean isRemovePlayerView){
 		try{
 			//RootViewの取得
 			View rootView = getRootView();
@@ -101,10 +101,13 @@ public final class MainViewCtl {
 					.getSystemService(Context.WINDOW_SERVICE);
 			
 			//Viewの中身を消去
-			MusicViewCtl.removePlayerView();
+			if(isRemovePlayerView){
+				MusicViewCtl.removePlayerView();
+				MusicViewCtl.setPlayerView(null);
+			}
 			//WindowManagerからMainViewを消去する．
 			mWindowManager.removeView(rootView);
-			MusicViewCtl.setPlayerView(null);
+			
 			setRootView(null);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -142,6 +145,7 @@ public final class MainViewCtl {
 		//Viewのボタンに動作をつける
 		Button handleButton = (Button)mView.findViewById(R.id.imageButton_handle);
 		handleButton.getLayoutParams().width = Settings.getHandleWidth(mService);
+		handleButton.getLayoutParams().height = Settings.getHandleHeight(mService);
 		handleButton.setClickable(true);
 		handleButton.setOnTouchListener(new MainHandleOnTouchImpl(mService));
 	}

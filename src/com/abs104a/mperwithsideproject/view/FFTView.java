@@ -1,6 +1,7 @@
 package com.abs104a.mperwithsideproject.view;
 
 import com.abs104a.mperwithsideproject.R;
+import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -114,7 +115,7 @@ public class FFTView extends View {
 		fftDataPaint_.setAntiAlias(true);
 		
 		waveLinePaint_ = new Paint();
-		waveLinePaint_.setStrokeWidth(3f);
+		waveLinePaint_.setStrokeWidth(DisplayUtils.dp2px(getContext(), 2));
 		waveLinePaint_.setAntiAlias(true);
 		waveLinePaint_.setColor(getResources().getColor(LOG_GRID_COLOR_ID));
 		waveLinePaint_.setStyle(Paint.Style.STROKE);

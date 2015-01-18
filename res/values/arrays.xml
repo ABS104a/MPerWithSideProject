@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="handle_width_st">
-        <item>0px</item>
-        <item>1px</item>
-        <item>2px</item>
-        <item>3px</item>
-        <item>4px</item>
-        <item>5px</item>
-        <item>6px</item>
-        <item>7px</item>
-        <item>8px</item>
-        <item>9px</item>
-        <item>10px</item>
-        <item>11px</item>
-        <item>12px</item>
-        <item>13px</item>
-        <item>14px</item>
-        <item>15px</item>
-        <item>16px</item>
-        <item>17px</item>
-        <item>18px</item>
-        <item>19px</item>
-        <item>20px</item>
-        <item>21px</item>
-        <item>22px</item>
-        <item>23px</item>
-        <item>24px</item>
-        <item>25px</item>
-        <item>26px</item>
-        <item>27px</item>
-        <item>28px</item>
-        <item>29px</item>
-        <item>30px</item>
-        <item>31px</item>
-        <item>32px</item>
-        <item>33px</item>
-        <item>34px</item>
-        <item>35px</item>
-        <item>36px</item>
-        <item>37px</item>
-        <item>38px</item>
-        <item>39px</item>
-        <item>40px</item>
+        <item>0dp</item>
+        <item>1dp</item>
+        <item>2dp</item>
+        <item>3dp</item>
+        <item>4dp</item>
+        <item>5dp</item>
+        <item>6dp</item>
+        <item>7dp</item>
+        <item>8dp</item>
+        <item>9dp</item>
+        <item>10dp</item>
+        <item>11dp</item>
+        <item>12dp</item>
+        <item>13dp</item>
+        <item>14dp</item>
+        <item>15dp</item>
+        <item>16dp</item>
+        <item>17dp</item>
+        <item>18dp</item>
+        <item>19dp</item>
+        <item>20dp</item>
+        <item>21dp</item>
+        <item>22dp</item>
+        <item>23dp</item>
+        <item>24dp</item>
+        <item>25dp</item>
+        <item>26dp</item>
+        <item>27dp</item>
+        <item>28dp</item>
+        <item>29dp</item>
+        <item>30dp</item>
+        <item>31dp</item>
+        <item>32dp</item>
+        <item>33dp</item>
+        <item>34dp</item>
+        <item>35dp</item>
+        <item>36dp</item>
+        <item>37dp</item>
+        <item>38dp</item>
+        <item>39dp</item>
+        <item>40dp</item>
     </string-array>
     
     <string-array name="handle_width" >
@@ -86,6 +86,60 @@
         <item>38</item>
         <item>39</item>
         <item>40</item>
+    </string-array>
+    
+    <string-array name="handle_height_st">
+        <item>5dp</item>
+        <item>10dp</item>
+        <item>15dp</item>
+        <item>20dp</item>
+        <item>25dp</item>
+        <item>30dp</item>
+        <item>35dp</item>
+        <item>40dp</item>
+        <item>45dp</item>
+        <item>50dp</item>
+        <item>55dp</item>
+        <item>60dp</item>
+        <item>65dp</item>
+        <item>70dp</item>
+        <item>75dp</item>
+        <item>80dp</item>
+        <item>85dp</item>
+        <item>90dp</item>
+        <item>95dp</item>
+        <item>100dp</item>
+        <item>105dp</item>
+        <item>110dp</item>
+        <item>115dp</item>
+        <item>120dp</item>
+    </string-array>
+    
+    <string-array name="handle_height" >
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>35</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+        <item>55</item>
+        <item>60</item>
+        <item>65</item>
+        <item>70</item>
+        <item>75</item>
+        <item>80</item>
+        <item>85</item>
+        <item>90</item>
+        <item>95</item>
+        <item>100</item>
+        <item>105</item>
+        <item>110</item>
+        <item>115</item>
+        <item>120</item>
     </string-array>
         
 </resources>

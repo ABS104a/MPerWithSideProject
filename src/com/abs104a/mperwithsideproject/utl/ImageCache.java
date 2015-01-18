@@ -13,7 +13,7 @@ import android.graphics.Bitmap;
 public class ImageCache {
 
 	//キャッシュするイメージ数
-	private static final int IMAGESIZE = 10;
+	private static final int IMAGESIZE = 15;
 	//LRUキャッシュ
 	private static ConcurrentLRUCache<String, Bitmap> cache = new ConcurrentLRUCache<String,Bitmap>(IMAGESIZE);
 	
@@ -50,7 +50,8 @@ public class ImageCache {
 	public static final void clearCache(){
 		Set<Entry<String, Bitmap>> data = cache.entrySet();
 		for(Entry<String, Bitmap> d : data){
-			d.getValue().recycle();
+			if(!d.getValue().isRecycled())
+				d.getValue().recycle();
 			d.setValue(null);
 		}
 		cache.clear();

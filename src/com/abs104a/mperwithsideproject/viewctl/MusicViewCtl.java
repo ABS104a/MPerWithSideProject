@@ -17,7 +17,6 @@ import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.settings.Settings;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.GetImageTask;
-import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.BackButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ExitButtonOnClickListenerImpl;
@@ -124,10 +123,15 @@ public final class MusicViewCtl {
 		final View rootView = MainViewCtl.getRootView();
 		//Viewの消去を行う
 		if(getPlayerView() != null && rootView != null){
-			final Button handle = (Button) rootView.findViewById(R.id.imageButton_handle);
-			handle.setVisibility(View.INVISIBLE);
-			LayoutParams params = handle.getLayoutParams();
-			params.width = Settings.getHandleWidth(getContext());
+			
+			//Viewのクリーンアップ
+			try{
+				ViewPager mViewPager = (ViewPager)getPlayerView().findViewById(R.id.player_list_part);
+				((MusicViewPagerAdapter)mViewPager.getAdapter()).cleanUp();
+			}catch(NullPointerException e){
+				
+			}
+			
 			Animation closeAnimation = 
 					AnimationUtils.loadAnimation(rootView.getContext(), R.anim.left_to_right_out);
 			closeAnimation.setAnimationListener(new AnimationListener(){
@@ -144,20 +148,12 @@ public final class MusicViewCtl {
 					PlayList.clearPlayList();
 					DisplayUtils.printHeapSize();	
 					ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
-					
-					try{
-						ViewPager mViewPager = (ViewPager)getPlayerView().findViewById(R.id.player_list_part);
-						((MusicViewPagerAdapter)mViewPager.getAdapter()).cleanUp();
-					}catch(NullPointerException e){
-						
-					}
-					
+							
 					//DisplayUtils.cleanupView(getPlayerView());
 					setPlayerView(null);
-					MainViewCtl.removeRootView();
+					MainViewCtl.removeRootView(false);
 
 					//キャッシュのClear
-					ImageCache.clearCache();
 					System.gc();
 					
 					final Handler mHandler = new Handler();
@@ -176,7 +172,13 @@ public final class MusicViewCtl {
 				public void onAnimationRepeat(Animation animation) {}
 
 				@Override
-				public void onAnimationStart(Animation animation) {}
+				public void onAnimationStart(Animation animation) {
+					final Button handle = (Button) rootView.findViewById(R.id.imageButton_handle);
+					handle.setVisibility(View.INVISIBLE);
+					LayoutParams params = handle.getLayoutParams();
+					params.width = Settings.getHandleWidth(getContext());
+					params.height = Settings.getHandleHeight(getContext());
+				}
 				
 			});
 			getPlayerView().startAnimation(closeAnimation);

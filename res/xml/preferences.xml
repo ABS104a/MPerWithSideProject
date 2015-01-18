@@ -22,6 +22,14 @@
             android:key="handle_width_key"
             android:summary="@string/handle_width_m"
             android:title="@string/handle_width" />
+        <ListPreference
+            android:defaultValue="@string/handle_height_defvalue"
+            android:dialogTitle="@string/handle_height"
+            android:entries="@array/handle_height_st"
+            android:entryValues="@array/handle_height"
+            android:key="handle_height_key"
+            android:summary="@string/handle_height_m"
+            android:title="@string/handle_height" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/version_title" >
         <Preference

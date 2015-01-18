@@ -153,7 +153,7 @@ public class MainService extends Service{
 		if(MusicViewCtl.getPlayerView() != null){
 			MusicViewCtl.removePlayerView();
 		}else{
-			MainViewCtl.removeRootView();
+			MainViewCtl.removeRootView(true);
 			PlayList.writePlayList(mService);
 			PlayList.clearPlayList();
 			//キャッシュのClear

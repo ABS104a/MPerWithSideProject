@@ -55,7 +55,8 @@ public class ConcurrentLRUCache<A, B> extends LinkedHashMap<A, B> {
 			//消去時の動作，意図的に破棄する必要のあるリソースはここで破棄する．
 			B removeObject = super.remove(key);	
 			if(removeObject instanceof Bitmap){
-				((Bitmap) removeObject).recycle();
+				if(!((Bitmap) removeObject).isRecycled())
+					((Bitmap) removeObject).recycle();
 				removeObject = null;
 			}
 			return removeObject;
