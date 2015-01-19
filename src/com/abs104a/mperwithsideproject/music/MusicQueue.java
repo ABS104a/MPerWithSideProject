@@ -123,7 +123,12 @@ public class MusicQueue implements Serializable {
 	 * @return
 	 */
 	public Music getIndexMusic(int index){
-		return this.queueMusics.get(index);
+		try{
+			return this.queueMusics.get(index);
+		}catch(IndexOutOfBoundsException e){
+			mCursor = 0;
+			return null;
+		}
 	}
 	
 	/**
@@ -131,7 +136,12 @@ public class MusicQueue implements Serializable {
 	 * @return
 	 */
 	public Music getCursorMusic(){
-		return this.queueMusics.get(mCursor);
+		try{
+			return this.queueMusics.get(mCursor);
+		}catch(IndexOutOfBoundsException e){
+			mCursor = 0;
+			return null;
+		}
 	}
 	
 }

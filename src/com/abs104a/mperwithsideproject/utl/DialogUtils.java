@@ -827,4 +827,76 @@ public class DialogUtils {
 		});
 	}
 	
+	/**
+	 * Queueのアイテムを全て消去するDialog
+	 */
+	public final void clearQueueDialog(Context mContext)
+	{
+		final MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mContext);
+		//MainViewの生成
+		LayoutInflater inflater = LayoutInflater.from( mContext );
+		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, (ViewGroup)MusicViewCtl.getPlayerView(),false);
+		
+		//WindowManager~の起動にする．
+		final WindowManager mWindowManager = setWindowManager(mContext, mView);
+		
+		//Titleの設定
+		final TextView titleView = (TextView)mView.findViewById(R.id.textView_dialog_title);
+		titleView.setText(R.string.delete_from_queue);
+
+		final TextView subTitleView = new TextView(mContext);
+		subTitleView.setText("Queue All Items");
+		
+		//Viewをセットする．
+		FrameLayout contentLayout = (FrameLayout)mView.findViewById(R.id.frameLayout_dialog);
+		contentLayout.addView(subTitleView);
+		
+		//DialogのOKボタンを押したときの設定
+		final Button positiveButton = (Button)mView.findViewById(R.id.button_dialog_positive);
+		positiveButton.setText(R.string.ok);
+		positiveButton.setOnClickListener(new OnClickListener(){
+			
+			/**
+			 * Queueから曲を消去する．
+			 */
+			@Override
+			public void onClick(View view) {
+				
+				mpwpl.setCursor(0);
+				mpwpl.getQueue().clear();
+				
+				mpwpl.writeQueue();
+				Toast.makeText(
+						view.getContext(), 
+						"Queue removed!", 
+						Toast.LENGTH_SHORT)
+						.show();
+				ItemViewFactory.clearExpandPosition();
+
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
+				//Viewの消去
+				if(MusicViewCtl.getPlayerView() != null){
+					//ViewPagerの更新を行う
+					ViewPager v = (ViewPager) MusicViewCtl.getPlayerView().findViewById(R.id.player_list_part);
+					((MusicViewPagerAdapter)v.getAdapter()).notifitionDataSetChagedForQueueView();
+				}
+				
+			}
+		});
+		
+		//DialogのCancelボタンを押したときの動作
+		final Button negativeButton = (Button)mView.findViewById(R.id.button_dialog_negative);
+		negativeButton.setText(R.string.cancel);
+		negativeButton.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View view) {
+				// Dialogを閉じる．
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
+			}
+		});
+	}
+	
 }
