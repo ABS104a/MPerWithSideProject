@@ -205,7 +205,7 @@ public class MainService extends Service{
 				e.printStackTrace();
 			}
 			android.util.Log.v(TAG, "onServiceConnected MainService");
-			Toast.makeText(mService, "Main", Toast.LENGTH_SHORT).show();
+			Toast.makeText(mService, "Started", Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
