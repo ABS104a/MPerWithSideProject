@@ -135,10 +135,9 @@ public final class PlayListForExpandableListAdapter extends
 			mLayout.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, viewHeight));
 			
 			//header1 play
-			TextView playView = new TextView(mContext);
-			playView.setText(R.string.play_to_playlist);
+			ImageButton playView = new ImageButton(mContext);
+			playView.setImageResource(R.drawable.play);
 			playView.setLayoutParams(params);
-			playView.setGravity(Gravity.CENTER);
 			playView.setBackgroundResource(R.drawable.button);
 			//OnClickListenerの実装
 			PlayOfPlayListOnLCImpl impl = new PlayOfPlayListOnLCImpl(playLists.get(groupPosition));
@@ -146,11 +145,10 @@ public final class PlayListForExpandableListAdapter extends
 			playView.setOnLongClickListener(impl);
 			mLayout.addView(playView);
 			
-			//header1 play
-			TextView addView = new TextView(mContext);
-			addView.setText(R.string.addqueue_to_playlist);
+			//header2 add
+			ImageButton addView = new ImageButton(mContext);
+			addView.setImageResource(R.drawable.add);
 			addView.setLayoutParams(params);
-			addView.setGravity(Gravity.CENTER);
 			//OnClickListenerの実装
 			AddOfPlayListOnLCImpl implp = new AddOfPlayListOnLCImpl(playLists.get(groupPosition));
 			addView.setOnClickListener(implp);
@@ -160,10 +158,9 @@ public final class PlayListForExpandableListAdapter extends
 			
 			//header3 Edit
 			if(column == Column.PLAYLIST){
-				TextView editView = new TextView(mContext);
-				editView.setText(R.string.edit_to_playlist);
+				ImageButton editView = new ImageButton(mContext);
+				editView.setImageResource(android.R.drawable.ic_menu_preferences);
 				editView.setLayoutParams(params);
-				editView.setGravity(Gravity.CENTER);
 
 				//OnClickListenerの実装　（名前の変更，消去）
 				EditOfPlayListOnLCImpl eimpl = new EditOfPlayListOnLCImpl(groupPosition, playLists);

@@ -23,10 +23,6 @@
     <string name="add_to_queue"> → queue</string>
     <string name="add_to_playlist">Add to PlayList</string>
     
-    <string name="play_to_playlist">Play</string>
-    <string name="addqueue_to_playlist">Add</string>
-    <string name="edit_to_playlist">Edit</string>
-    
     <string name="enable_equalizer">Enable Equalizer</string>
     
     <string name="shuffle_on">shuffle on</string>
@@ -37,6 +33,7 @@
     
     <string name="add_queue">Add Queue</string>
     <string name="create_playlist">New PlayList</string>
+    <string name="edit_to_playlist">Edit PlayList</string>
     
     <string name="rename_playlist_title">Rename PlayList</string>
     <string name="rename_playlist_text_hint">Enter the playlist name.</string>

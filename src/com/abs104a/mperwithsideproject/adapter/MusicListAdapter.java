@@ -104,7 +104,6 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 
 		//生成するChildView（TextView）
 		TextView emptyView = new TextView(getContext());
-		emptyView.setText(R.string.play_to_playlist);
 		emptyView.setLayoutParams(mChildParams);
 		emptyView.setGravity(Gravity.CENTER);
 		emptyView.setBackgroundResource(R.drawable.button);
@@ -137,7 +136,6 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 		ll.setLayoutParams(mParentParams);
 		//Footerの設定
 		TextView footerView = new TextView(getContext());
-		footerView.setText(R.string.play_to_playlist);
 		footerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT));
 		footerView.setGravity(Gravity.CENTER);
 		footerView.setBackgroundResource(R.drawable.button);
