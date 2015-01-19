@@ -14,9 +14,7 @@
 という目標を元に開発なう
 
 ##TODO
-- ロック画面の通知
 - 再生時にToastを表示する．
 - Subsonic対応
 - DLNA対応
 - LISTVIEWの解放
-- Album取得の非同期化
