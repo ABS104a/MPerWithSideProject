@@ -2,10 +2,13 @@ package com.abs104a.mperwithsideproject.viewctl.listener;
 
 import java.util.ArrayList;
 
+import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
+import com.abs104a.mperwithsideproject.utl.DialogUtils;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -29,18 +32,24 @@ public class AddOfPlayListOnLCImpl implements OnClickListener,
 
 	@Override
 	public boolean onLongClick(View view) {
-		//TODO
-		return true;
-	}
-
-	@Override
-	public void onClick(View view) {
-		// タップした時，Queueに追加する．
+		//長押しした時　Queueに追加する．
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(view.getContext());
 		try {
 			ArrayList<Music> list = mPlayList.getMusicList();
 			mpwpl.addPlayList(list);	
 			Toast.makeText(view.getContext(), mPlayList.getAlbum() + " → Queue", Toast.LENGTH_SHORT).show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	@Override
+	public void onClick(View view) {
+		// タップした時，Queueに追加するDialogを表示する．
+		try {
+			ArrayList<Music> list = mPlayList.getMusicList();
+			new DialogUtils().createIfSelectPlayListDialog(view.getContext(), list.toArray(new Music[list.size()]), Column.ALBUM);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

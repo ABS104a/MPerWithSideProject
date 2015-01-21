@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.abs104a.mperwithsideproject.music.Music;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
+import com.abs104a.mperwithsideproject.utl.DialogUtils;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
 
@@ -31,12 +32,6 @@ public class PlayOfPlayListOnLCImpl implements OnClickListener,
 
 	@Override
 	public boolean onLongClick(View view) {
-		//TODO
-		return true;
-	}
-
-	@Override
-	public void onClick(View view) {
 		//PlayListをセットする
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(view.getContext());
 		try {
@@ -50,6 +45,12 @@ public class PlayOfPlayListOnLCImpl implements OnClickListener,
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return true;
+	}
+
+	@Override
+	public void onClick(View view) {
+		new DialogUtils().playAndAddQueueDialog(view.getContext(), mPlayList);
 	}
 
 }

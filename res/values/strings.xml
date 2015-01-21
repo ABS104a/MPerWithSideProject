@@ -31,6 +31,7 @@
     <string name="search_box_hint">Enter a search term.</string>
     
     <string name="add_queue">Add Queue</string>
+    <string name="set_queue">Play Musics</string>
     <string name="create_playlist">New PlayList</string>
     <string name="edit_to_playlist">Edit PlayList</string>
     

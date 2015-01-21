@@ -901,4 +901,69 @@ public class DialogUtils {
 		});
 	}
 	
+	/**
+	 * Queueをアルバムに差し替えるダイアログ
+	 */
+	public final void playAndAddQueueDialog(Context mContext,final PlayList mPlayList)
+	{
+		//MainViewの生成
+		LayoutInflater inflater = LayoutInflater.from( mContext );
+		final ViewGroup mView = (ViewGroup) inflater.inflate(R.layout.dialog, (ViewGroup)MusicViewCtl.getPlayerView(),false);
+		
+		//WindowManager~の起動にする．
+		final WindowManager mWindowManager = setWindowManager(mContext, mView);
+		
+		//Titleの設定
+		final TextView titleView = (TextView)mView.findViewById(R.id.textView_dialog_title);
+		titleView.setText(R.string.set_queue);
+
+		final TextView subTitleView = new TextView(mContext);
+		subTitleView.setText("Play Musics (with set queue)");
+		
+		//Viewをセットする．
+		FrameLayout contentLayout = (FrameLayout)mView.findViewById(R.id.frameLayout_dialog);
+		contentLayout.addView(subTitleView);
+		
+		//DialogのOKボタンを押したときの設定
+		final Button positiveButton = (Button)mView.findViewById(R.id.button_dialog_positive);
+		positiveButton.setText(R.string.ok);
+		positiveButton.setOnClickListener(new OnClickListener(){
+			
+			/**
+			 * Queueに曲をセットする．
+			 */
+			@Override
+			public void onClick(View view) {
+				//PlayListをセットする
+				MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(view.getContext());
+				try {
+					ArrayList<Music> list = mPlayList.getMusicList();
+					mpwpl.setPlayList(list);
+					mpwpl.setCursor(0);
+					if(list.size() > 0){
+						MusicViewCtl.playOrPauseWithView();
+					}
+					Toast.makeText(view.getContext(), mPlayList.getAlbum() + " → Queue And Play.", Toast.LENGTH_SHORT).show();
+					//Viewの消去
+					removeForWindowManager(mWindowManager,mView);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		//DialogのCancelボタンを押したときの動作
+		final Button negativeButton = (Button)mView.findViewById(R.id.button_dialog_negative);
+		negativeButton.setText(R.string.cancel);
+		negativeButton.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View view) {
+				// Dialogを閉じる．
+				//Viewの消去
+				removeForWindowManager(mWindowManager,mView);
+			}
+		});
+	}
+	
 }
