@@ -5,8 +5,6 @@ import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.MainViewCtl;
-import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
-
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -76,6 +74,18 @@ public class MainService extends Service{
 		return mIMainServiceIf;
 	}
 	
+	/* (非 Javadoc)
+	 * @see android.app.Service#onUnbind(android.content.Intent)
+	 */
+	@Override
+	public boolean onUnbind(Intent intent) {
+		if(finishFlag)
+			stopSelf();
+		else
+			mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);	
+		return super.onUnbind(intent);
+	}
+
 	public final void stopService(){
 		finishFlag = true;
 		if(mIPlayerService != null){
@@ -86,7 +96,7 @@ public class MainService extends Service{
 			}
 		}
 		//バインドの解除
-		stopSelf();
+		unbindService(mMainServiceConnection);
 	}
 	
 	/**
@@ -150,22 +160,16 @@ public class MainService extends Service{
 			mpwpl.writeQueue();
 		}
 
-		if(MusicViewCtl.getPlayerView() != null){
-			MusicViewCtl.removePlayerView();
-		}else{
-			MainViewCtl.removeRootView(true);
-			PlayList.writePlayList(mService);
-			PlayList.clearPlayList();
-			//キャッシュのClear
-			ImageCache.clearCache();
-			System.gc();
-		}
+		MainViewCtl.removeRootView(true);
+		PlayList.writePlayList(mService);
+		PlayList.clearPlayList();
+		//キャッシュのClear
+		ImageCache.clearCache();
+		System.gc();
+		
 		
 		//BroadcastReceiverの消去
 		mService.unregisterReceiver(broadcastReceiver); 
-		
-		//バインドの解除
-		unbindService(mMainServiceConnection);
 		
 		//通知の消去
 		Notifications.removeNotification(mService);
@@ -179,6 +183,8 @@ public class MainService extends Service{
 		
 		if(!finishFlag)
 			mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
+		
+		finishFlag = false;
 		
 		super.onDestroy();
 	}
@@ -205,18 +211,15 @@ public class MainService extends Service{
 				e.printStackTrace();
 			}
 			android.util.Log.v(TAG, "onServiceConnected MainService");
-			//Toast.makeText(mService, "Started", Toast.LENGTH_SHORT).show();
+			Toast.makeText(mService, "Service Start", Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
 			mIPlayerService = null;
 			android.util.Log.v(TAG, "onServiceDisconnected MainService");
-			if(finishFlag)
-				MusicViewCtl.removePlayerView( mService);
-			else
-				mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
-				
+			if(!finishFlag)
+				mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);		
 		}
 		
 	}

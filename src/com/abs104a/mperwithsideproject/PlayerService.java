@@ -23,7 +23,6 @@ public class PlayerService extends Service {
 		@Override
 		public boolean stopService() throws RemoteException {
 			finishFlag = true;
-			mService.stopSelf();
 			return finishFlag;
 		}
 
@@ -43,6 +42,23 @@ public class PlayerService extends Service {
 		// バインドされた時
 		return mIPlayerService;
 	}
+	
+	/* (非 Javadoc)
+	 * @see android.app.Service#onUnbind(android.content.Intent)
+	 */
+	@Override
+	public boolean onUnbind(Intent intent) {
+		// アンバインドされた時
+		if(!finishFlag){
+			//MainServiceをバインドする．
+			mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
+		}else{
+			mService.unbindService(mPlayerServiceConnection);
+		}
+		
+		return super.onUnbind(intent);
+		
+	}
 
 	public class PlayerServiceConnection implements ServiceConnection{
 
@@ -57,6 +73,8 @@ public class PlayerService extends Service {
 		public void onServiceDisconnected(ComponentName name) {
 			android.util.Log.v(TAG, "onServiceDisconnected PlayerService");
 			mIMainService = null;
+			if(finishFlag)
+				mService.stopSelf();
 		}
 		
 	}
@@ -74,14 +92,12 @@ public class PlayerService extends Service {
 	 */
 	@Override
 	public void onDestroy() {
-		if(!finishFlag)
+		if(!finishFlag){
 			//MainServiceをバインドする．
 			mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
+		}
 		
 		super.onDestroy();
 	}
-	
-	
-	
 	
 }

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -52,10 +53,9 @@ public final class ViewPagerForPlayListViewCtl{
 		textView.setGravity(Gravity.CENTER);
 		mListView.setEmptyView(textView);
 		
-		TextView addView = new TextView(mContext);
-		addView.setText(R.string.create_playlist);
+		ImageView addView = new ImageView(mContext);
+		addView.setImageResource(R.drawable.add);
 		addView.setLayoutParams(params);	
-		addView.setGravity(Gravity.CENTER);
 		addView.setBackgroundResource(R.drawable.button);
 		mListView.addFooterView(addView);
 		mListView.setDividerHeight(mContext.getResources().getDimensionPixelSize(R.dimen.listview_divider));

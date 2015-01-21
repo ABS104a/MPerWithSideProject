@@ -85,6 +85,7 @@ public class MusicPlayerReceiver extends BroadcastReceiver {
 						mpwpl.playBack();
 						break;
 					}
+					Notifications.putNotification();
 				}catch(Exception e){
 					e.printStackTrace();
 				}

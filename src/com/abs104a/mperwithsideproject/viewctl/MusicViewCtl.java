@@ -132,6 +132,12 @@ public final class MusicViewCtl {
 				
 			}
 			
+			final Button handle = (Button) rootView.findViewById(R.id.imageButton_handle);
+			handle.setVisibility(View.INVISIBLE);
+			LayoutParams params = handle.getLayoutParams();
+			params.width = Settings.getHandleWidth(getContext());
+			params.height = Settings.getHandleHeight(getContext());
+			
 			Animation closeAnimation = 
 					AnimationUtils.loadAnimation(rootView.getContext(), R.anim.left_to_right_out);
 			closeAnimation.setAnimationListener(new AnimationListener(){
@@ -173,11 +179,6 @@ public final class MusicViewCtl {
 
 				@Override
 				public void onAnimationStart(Animation animation) {
-					final Button handle = (Button) rootView.findViewById(R.id.imageButton_handle);
-					handle.setVisibility(View.INVISIBLE);
-					LayoutParams params = handle.getLayoutParams();
-					params.width = Settings.getHandleWidth(getContext());
-					params.height = Settings.getHandleHeight(getContext());
 				}
 				
 			});

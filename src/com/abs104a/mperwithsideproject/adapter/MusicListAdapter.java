@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -123,28 +124,30 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 				.getDimensionPixelSize(R.dimen.album_item_height);
 		
 		//ParentView用のLayoutParams
-		ListView.LayoutParams mParentParams = 
-				new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,ListView.LayoutParams.WRAP_CONTENT);
+		AbsListView.LayoutParams mParentParams = 
+				new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,AbsListView.LayoutParams.WRAP_CONTENT);
 
 		//ChildView用のLayoutParams
 		LinearLayout.LayoutParams mChildParams = 
-				new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, viewHeight);
+				new LinearLayout.LayoutParams(0, viewHeight,1);
 		mChildParams.gravity = Gravity.CENTER;
 
 		//生成するParentView（LinearLayout）
 		LinearLayout ll = new LinearLayout(getContext());
 		ll.setLayoutParams(mParentParams);
+		ll.setOrientation(LinearLayout.HORIZONTAL);
+		
 		//Footerの設定
-		TextView footerView = new TextView(getContext());
-		footerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT));
-		footerView.setGravity(Gravity.CENTER);
+		ImageButton footerView = new ImageButton(getContext());
+		footerView.setLayoutParams(mChildParams);
 		footerView.setBackgroundResource(R.drawable.button);
-		footerView.setText(R.string.playlist_to_queue);
+		footerView.setImageResource(R.drawable.add);
 		
 		footerView.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
+				//Queueの内容をプレイリストに追加する．
 				ArrayList<Music> queue = mpwpl.getQueue();
 				new DialogUtils().createIfSelectPlayListDialog(getContext(),queue.toArray(new Music[queue.size()]),column);
 			}
@@ -152,6 +155,24 @@ public final class MusicListAdapter extends ArrayAdapter<Music> {
 		});
 		//ParentViewにChildViewを追加
 		ll.addView(footerView);
+		
+		//Footerの設定
+		ImageButton clearView = new ImageButton(getContext());
+		clearView.setLayoutParams(mChildParams);
+		clearView.setBackgroundResource(R.drawable.button);
+		clearView.setImageResource(R.drawable.delete);
+		
+		clearView.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				//QueueをClearする
+				new DialogUtils().clearQueueDialog(getContext());
+			}
+			
+		});
+		//ParentViewにChildViewを追加
+		ll.addView(clearView);
 				
 		return ll;
 	}
