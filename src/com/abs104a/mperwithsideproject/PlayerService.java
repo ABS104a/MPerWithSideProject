@@ -15,6 +15,8 @@ public class PlayerService extends Service {
     private PlayerServiceConnection mPlayerServiceConnection = new PlayerServiceConnection();
     
     private boolean finishFlag = false;
+    //バインドしているかどうか．
+    private boolean isBind = false;
  
     @SuppressWarnings("unused")
 	private IMainService mIMainService = null;
@@ -29,10 +31,12 @@ public class PlayerService extends Service {
 		@Override
 		public boolean bindService() throws RemoteException {
 			//MainServiceをバインドする．
-			return mService.bindService(
-					new Intent(mService,MainService.class),
-					mPlayerServiceConnection , 
-					Context.BIND_AUTO_CREATE);
+			if(!isBind){
+				return mService.bindService(
+						new Intent(mService,MainService.class),
+						mPlayerServiceConnection , 
+						Context.BIND_AUTO_CREATE);
+			}else return true;
 			
 		}
 	};
@@ -51,9 +55,9 @@ public class PlayerService extends Service {
 		// アンバインドされた時
 		if(!finishFlag){
 			//MainServiceをバインドする．
-			mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
+			if(!isBind)mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
 		}else{
-			mService.unbindService(mPlayerServiceConnection);
+			if(isBind)mService.unbindService(mPlayerServiceConnection);
 		}
 		
 		return super.onUnbind(intent);
@@ -65,6 +69,7 @@ public class PlayerService extends Service {
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			mIMainService = IMainService.Stub.asInterface(service);
+			isBind = true;
 			android.util.Log.v(TAG, "onServiceConnected PlayerService" );
 			//Toast.makeText(mService, "Player", Toast.LENGTH_SHORT).show();
 		}
@@ -72,6 +77,7 @@ public class PlayerService extends Service {
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
 			android.util.Log.v(TAG, "onServiceDisconnected PlayerService");
+			isBind = false;
 			mIMainService = null;
 			if(finishFlag)
 				mService.stopSelf();
@@ -94,7 +100,7 @@ public class PlayerService extends Service {
 	public void onDestroy() {
 		if(!finishFlag){
 			//MainServiceをバインドする．
-			mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
+			if(!isBind)mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
 		}
 		
 		super.onDestroy();

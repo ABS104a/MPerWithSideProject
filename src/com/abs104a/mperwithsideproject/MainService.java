@@ -56,6 +56,9 @@ public class MainService extends Service{
 	private MyBroadCastReceiver broadcastReceiver;
 	
 	private boolean finishFlag = false;
+	
+	//バインドしているかどうか．
+	private boolean isBind = false;
 
 	private IPlayerService mIPlayerService = null;
 	
@@ -81,7 +84,7 @@ public class MainService extends Service{
 	public boolean onUnbind(Intent intent) {
 		if(finishFlag)
 			stopSelf();
-		else
+		else if(isBind == false)
 			mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);	
 		return super.onUnbind(intent);
 	}
@@ -144,7 +147,8 @@ public class MainService extends Service{
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		//PlayerServiceをバインドする．
-		mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
+		if(!isBind)
+			mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
 	
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -181,7 +185,7 @@ public class MainService extends Service{
 		//終了Log
 		Log.v("MainService","Service is Finished!");
 		
-		if(!finishFlag)
+		if(!finishFlag && isBind == false)
 			mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
 		
 		finishFlag = false;
@@ -204,6 +208,7 @@ public class MainService extends Service{
 
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
+			isBind = true;
 			mIPlayerService = IPlayerService.Stub.asInterface(service);
 			try {
 				mIPlayerService.bindService();
@@ -216,6 +221,7 @@ public class MainService extends Service{
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
+			isBind = false;
 			mIPlayerService = null;
 			android.util.Log.v(TAG, "onServiceDisconnected MainService");
 			if(!finishFlag)
