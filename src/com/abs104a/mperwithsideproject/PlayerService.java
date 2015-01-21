@@ -31,12 +31,7 @@ public class PlayerService extends Service {
 		@Override
 		public boolean bindService() throws RemoteException {
 			//MainServiceをバインドする．
-			if(!isBind){
-				return mService.bindService(
-						new Intent(mService,MainService.class),
-						mPlayerServiceConnection , 
-						Context.BIND_IMPORTANT);
-			}else return true;
+			return isBind;
 			
 		}
 	};
@@ -44,6 +39,12 @@ public class PlayerService extends Service {
 	@Override
 	public IBinder onBind(Intent intent) {
 		// バインドされた時
+		if(!isBind){
+			mService.bindService(
+					new Intent(mService,MainService.class),
+					mPlayerServiceConnection , 
+					Context.BIND_IMPORTANT);
+		}
 		return mIPlayerService;
 	}
 	
