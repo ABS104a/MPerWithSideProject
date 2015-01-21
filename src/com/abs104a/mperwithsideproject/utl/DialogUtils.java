@@ -214,7 +214,9 @@ public class DialogUtils {
 				if(position == 0){
 					//Queueへの追加を行う
 					ArrayList<Music> musicList = new ArrayList<Music>();
-					for(Music mu : music) musicList.add(mu);
+					for(Music mu : music){
+						musicList.add(mu);
+					}
 					try {
 						mpwpl.addPlayList(musicList);
 						ItemViewFactory.clearExpandPosition();
@@ -244,8 +246,8 @@ public class DialogUtils {
 							newMusics[i] = musics[i];
 						}
 						//最後の要素に追加する．
-						for(int i = newMusics.length;i < musics.length + music.length;i++){
-							newMusics[i] = music[i - newMusics.length];
+						for(int i = musics.length;i < musics.length + music.length;i++){
+							newMusics[i] = music[i - musics.length];
 						}
 						
 						//新しい配列をセットする．
