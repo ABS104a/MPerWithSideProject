@@ -16,7 +16,7 @@ public class PlayerService extends Service {
     
     private boolean finishFlag = false;
     //バインドしているかどうか．
-    private boolean isBind = false;
+    private boolean isBind;
  
     @SuppressWarnings("unused")
 	private IMainService mIMainService = null;
@@ -90,6 +90,7 @@ public class PlayerService extends Service {
 	 */
 	@Override
 	public void onCreate() {
+		isBind = false;
 		super.onCreate();
 	}
 
@@ -102,7 +103,7 @@ public class PlayerService extends Service {
 			//MainServiceをバインドする．
 			if(!isBind)mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
 		}
-		
+		isBind = false;
 		super.onDestroy();
 	}
 	
