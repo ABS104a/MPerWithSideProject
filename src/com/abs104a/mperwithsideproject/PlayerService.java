@@ -41,10 +41,11 @@ public class PlayerService extends Service {
 	public IBinder onBind(Intent intent) {
 		// バインドされた時
 		if(!isBind){
+			mService.startService(mMainServiceIntent);
 			mService.bindService(
 					mMainServiceIntent,
 					mPlayerServiceConnection , 
-					Context.BIND_IMPORTANT);
+					Context.BIND_AUTO_CREATE);
 		}
 		return mIPlayerService;
 	}

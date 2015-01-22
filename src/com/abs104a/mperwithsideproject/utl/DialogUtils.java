@@ -246,17 +246,21 @@ public class DialogUtils {
 						//現在のプレイリスト曲を読み込む
 						Music[] musics = mPlayLists.get(index).getMusics();
 						//新しいプレイリスト曲の配列を生成する．
-						Music[] newMusics = new Music[musics.length + music.length];
-						for(int i = 0;i < musics.length;i++){
-							newMusics[i] = musics[i];
-						}
+						ArrayList<Music> newMusics = new ArrayList<Music>();
+						for(Music mu : musics)newMusics.add(mu);
+
 						//最後の要素に追加する．
-						for(int i = musics.length;i < musics.length + music.length;i++){
-							newMusics[i] = music[i - musics.length];
+						for(Music mu :music){
+							if(newMusics.indexOf(mu) == -1){
+								newMusics.add(mu);
+							}else{
+								newMusics.remove(mu);
+								newMusics.add(mu);
+							}
 						}
 						
 						//新しい配列をセットする．
-						mPlayLists.get(index).setMusics(newMusics);
+						mPlayLists.get(index).setMusics(newMusics.toArray(new Music[newMusics.size()]));
 						//データを保存する．
 						PlayList.writePlayList(view.getContext());
 						ItemViewFactory.clearExpandPosition();
