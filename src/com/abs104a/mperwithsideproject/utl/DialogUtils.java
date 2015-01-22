@@ -226,6 +226,11 @@ public class DialogUtils {
 								view.getContext().getString(R.string.add_to_queue),
 								Toast.LENGTH_SHORT)
 								.show();
+						if(MusicViewCtl.getPlayerView() != null){
+							//ViewPagerの更新を行う
+							ViewPager v = (ViewPager) MusicViewCtl.getPlayerView().findViewById(R.id.player_list_part);
+							((MusicViewPagerAdapter)v.getAdapter()).notifitionDataSetChagedForQueueView();
+						}
 					}catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -261,6 +266,11 @@ public class DialogUtils {
 								mPlayLists.get(index).getAlbum(),
 								Toast.LENGTH_SHORT)
 								.show();
+						if(MusicViewCtl.getPlayerView() != null){
+							//ViewPagerの更新を行う
+							ViewPager v = (ViewPager) MusicViewCtl.getPlayerView().findViewById(R.id.player_list_part);
+							((MusicViewPagerAdapter)v.getAdapter()).notifitionDataSetChagedForQueueView();
+						}
 					}catch(NullPointerException e){
 						android.util.Log.e(TAG,"NotFoundPlayLists");
 						android.util.Log.e(TAG,e.getMessage());
