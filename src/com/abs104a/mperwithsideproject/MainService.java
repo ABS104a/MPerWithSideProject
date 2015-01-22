@@ -76,18 +76,6 @@ public class MainService extends Service{
 		// バインドされた時
 		return mIMainServiceIf;
 	}
-	
-	/* (非 Javadoc)
-	 * @see android.app.Service#onUnbind(android.content.Intent)
-	 */
-	@Override
-	public boolean onUnbind(Intent intent) {
-		if(finishFlag)
-			stopSelf();
-		else if(isBind == false)
-			mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);	
-		return super.onUnbind(intent);
-	}
 
 	public final void stopService(){
 		finishFlag = true;
@@ -135,22 +123,14 @@ public class MainService extends Service{
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG)); 
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(MyBroadCastReceiver.VOLUME_CHANGE)); 
 			
-		//開始ログ
-		Log.v("MainService","Service is Start!");
-
-	}
-
-
-	/* (非 Javadoc)
-	 * @see android.app.Service#onStartCommand(android.content.Intent, int, int)
-	 */
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
+		
 		//PlayerServiceをバインドする．
 		if(!isBind)
 			mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
-	
-		return super.onStartCommand(intent, flags, startId);
+		
+		//開始ログ
+		Log.v("MainService","Service is Start!");
+
 	}
 
 	/**

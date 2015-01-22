@@ -5,18 +5,22 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 
 public class PlayerService extends Service {
 	
 	private final static String TAG = "PlayerService";
+
+	private static final long DELAY = 1000;
+	
     private final Service mService = this;
     private PlayerServiceConnection mPlayerServiceConnection = new PlayerServiceConnection();
     
     private boolean finishFlag = false;
     //バインドしているかどうか．
-    private boolean isBind;
+    private boolean isBind = false;
  
     @SuppressWarnings("unused")
 	private IMainService mIMainService = null;
@@ -35,34 +39,10 @@ public class PlayerService extends Service {
 			
 		}
 	};
-
+	
 	@Override
 	public IBinder onBind(Intent intent) {
-		// バインドされた時
-		if(!isBind){
-			mService.bindService(
-					new Intent(mService,MainService.class),
-					mPlayerServiceConnection , 
-					Context.BIND_IMPORTANT);
-		}
 		return mIPlayerService;
-	}
-	
-	/* (非 Javadoc)
-	 * @see android.app.Service#onUnbind(android.content.Intent)
-	 */
-	@Override
-	public boolean onUnbind(Intent intent) {
-		// アンバインドされた時
-		if(!finishFlag){
-			//MainServiceをバインドする．
-			if(!isBind)mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
-		}else{
-			if(isBind)mService.unbindService(mPlayerServiceConnection);
-		}
-		
-		return super.onUnbind(intent);
-		
 	}
 
 	public class PlayerServiceConnection implements ServiceConnection{
@@ -72,7 +52,6 @@ public class PlayerService extends Service {
 			mIMainService = IMainService.Stub.asInterface(service);
 			isBind = true;
 			android.util.Log.v(TAG, "onServiceConnected PlayerService" );
-			//Toast.makeText(mService, "Player", Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
@@ -82,6 +61,20 @@ public class PlayerService extends Service {
 			mIMainService = null;
 			if(finishFlag)
 				mService.stopSelf();
+			else if(!isBind){
+				new Handler().postDelayed(new Runnable(){
+
+					@Override
+					public void run() {
+						if(!isBind)
+							mService.bindService(new Intent(mService,MainService.class), 
+									mPlayerServiceConnection ,
+									Context.BIND_AUTO_CREATE);
+					}
+					
+				}, DELAY);
+						
+			}
 		}
 		
 	}
@@ -91,7 +84,12 @@ public class PlayerService extends Service {
 	 */
 	@Override
 	public void onCreate() {
-		isBind = false;
+		//MainServiceをバインドする．
+		if(!isBind)
+			mService.bindService(
+					new Intent(mService,MainService.class), 
+					mPlayerServiceConnection ,
+					Context.BIND_AUTO_CREATE);
 		super.onCreate();
 	}
 
@@ -100,11 +98,6 @@ public class PlayerService extends Service {
 	 */
 	@Override
 	public void onDestroy() {
-		if(!finishFlag){
-			//MainServiceをバインドする．
-			if(!isBind)mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
-		}
-		isBind = false;
 		super.onDestroy();
 	}
 	
