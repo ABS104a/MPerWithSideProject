@@ -43,15 +43,7 @@ public class MusicPlayerReceiver extends BroadcastReceiver {
 		}else if(intent.getAction().equals("android.intent.action.MEDIA_BUTTON")){
 			if(buttonFlag)return;;
 			buttonFlag = true;
-			new Handler().postDelayed(new Runnable(){
-
-				@Override
-				public void run() {
-					buttonFlag  = false;
-				}
-				
-			}, DELAY_TIME);
-			
+		
 			//MedioButtonの動作
 			KeyEvent event = (KeyEvent)intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
 			MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(context);
@@ -90,6 +82,14 @@ public class MusicPlayerReceiver extends BroadcastReceiver {
 					e.printStackTrace();
 				}
 			}
+			new Handler().postDelayed(new Runnable(){
+
+				@Override
+				public void run() {
+					buttonFlag  = false;
+				}
+				
+			}, DELAY_TIME);
 		}
 	}
 

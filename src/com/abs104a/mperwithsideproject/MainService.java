@@ -62,6 +62,8 @@ public class MainService extends Service{
 
 	private IPlayerService mIPlayerService = null;
 	
+	private Intent mPlayerServiceIntent = null;
+	
 	//プロセス間通信用のバインダー
 	private IMainService.Stub mIMainServiceIf = new IMainService.Stub() {
 		
@@ -85,7 +87,7 @@ public class MainService extends Service{
 		if(finishFlag)
 			stopSelf();
 		else if(isBind == false)
-			mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);	
+			mService.bindService(mPlayerServiceIntent, mMainServiceConnection , Context.BIND_AUTO_CREATE);	
 		return super.onUnbind(intent);
 	}
 
@@ -100,6 +102,7 @@ public class MainService extends Service{
 		}
 		//バインドの解除
 		unbindService(mMainServiceConnection);
+		stopService(mPlayerServiceIntent);
 	}
 	
 	/**
@@ -118,6 +121,8 @@ public class MainService extends Service{
 		super.onCreate();
 		
 		mService = this;
+		
+		mPlayerServiceIntent = new Intent(mService,PlayerService.class);
 		
 		//テーマの適応
 		mService.setTheme(R.style.AppTheme);
@@ -148,7 +153,7 @@ public class MainService extends Service{
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		//PlayerServiceをバインドする．
 		if(!isBind)
-			mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
+			mService.bindService(mPlayerServiceIntent, mMainServiceConnection , Context.BIND_AUTO_CREATE);
 	
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -186,9 +191,10 @@ public class MainService extends Service{
 		Log.v("MainService","Service is Finished!");
 		
 		if(!finishFlag && isBind == false)
-			mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
+			mService.bindService(mPlayerServiceIntent, mMainServiceConnection , Context.BIND_AUTO_CREATE);
 		
 		finishFlag = false;
+		mPlayerServiceIntent = null;
 		
 		super.onDestroy();
 	}
@@ -225,7 +231,7 @@ public class MainService extends Service{
 			mIPlayerService = null;
 			android.util.Log.v(TAG, "onServiceDisconnected MainService");
 			if(!finishFlag)
-				mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);		
+				mService.bindService(mPlayerServiceIntent, mMainServiceConnection , Context.BIND_AUTO_CREATE);		
 		}
 		
 	}

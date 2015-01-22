@@ -13,6 +13,7 @@ public class PlayerService extends Service {
 	private final static String TAG = "PlayerService";
     private final Service mService = this;
     private PlayerServiceConnection mPlayerServiceConnection = new PlayerServiceConnection();
+    private Intent mMainServiceIntent = null;
     
     private boolean finishFlag = false;
     //バインドしているかどうか．
@@ -41,7 +42,7 @@ public class PlayerService extends Service {
 		// バインドされた時
 		if(!isBind){
 			mService.bindService(
-					new Intent(mService,MainService.class),
+					mMainServiceIntent,
 					mPlayerServiceConnection , 
 					Context.BIND_IMPORTANT);
 		}
@@ -54,11 +55,11 @@ public class PlayerService extends Service {
 	@Override
 	public boolean onUnbind(Intent intent) {
 		// アンバインドされた時
-		if(!finishFlag){
+		if(!finishFlag && !isBind){
 			//MainServiceをバインドする．
-			if(!isBind)mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
-		}else{
-			if(isBind)mService.unbindService(mPlayerServiceConnection);
+			mService.bindService(mMainServiceIntent, mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
+		}else if(finishFlag && isBind){
+			mService.unbindService(mPlayerServiceConnection);
 		}
 		
 		return super.onUnbind(intent);
@@ -92,6 +93,7 @@ public class PlayerService extends Service {
 	@Override
 	public void onCreate() {
 		isBind = false;
+		mMainServiceIntent = new Intent(mService,MainService.class);
 		super.onCreate();
 	}
 
@@ -102,9 +104,10 @@ public class PlayerService extends Service {
 	public void onDestroy() {
 		if(!finishFlag){
 			//MainServiceをバインドする．
-			if(!isBind)mService.bindService(new Intent(mService,MainService.class), mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
+			if(!isBind)mService.bindService(mMainServiceIntent, mPlayerServiceConnection , Context.BIND_AUTO_CREATE);
 		}
 		isBind = false;
+		mMainServiceIntent = null;
 		super.onDestroy();
 	}
 	
