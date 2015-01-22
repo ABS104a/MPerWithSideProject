@@ -23,10 +23,12 @@
     <dimen name="volume_margin">3dp</dimen>
     <dimen name="album_item_height">40dp</dimen>
     <dimen name="album_button_size">30dp</dimen>
-    <dimen name="album_expand_button_size">35dp</dimen>
+    <dimen name="album_expand_button_size">40dp</dimen>
     <dimen name="album_expand_button_padding">6dp</dimen>
     <dimen name="album_expand_button_top_padding">3dp</dimen>
     <dimen name="album_item_row_margins">3dp</dimen>
+    <dimen name="album_item_time_left_of_padding">5dp</dimen>
+    <dimen name="album_item_time_updown_of_padding">20dp</dimen>
     <dimen name="album_item_row_jacket">58dp</dimen>
     <dimen name="album_item_row_jacket_bigger">58dp</dimen>
     

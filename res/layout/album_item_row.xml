@@ -2,80 +2,87 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/album_item_row_margins"
-    android:orientation="vertical" >
+    android:layout_margin="@dimen/album_item_row_margins" >
 
-    <ImageView
-        android:id="@+id/imageView_album_jacket"
-        android:layout_width="@dimen/album_item_row_jacket"
-        android:layout_height="@dimen/album_item_row_jacket"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="@dimen/album_item_row_margins"
-        android:scaleType="fitCenter"
-        android:layout_marginRight="@dimen/album_item_row_margins"
-        android:src="@drawable/ic_launcher" />
+    <RelativeLayout
+        android:id="@+id/relativelayout_item_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/textView_album_artist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView_album_title"
-        android:layout_toLeftOf="@+id/imageButton_album_add"
-        android:layout_toRightOf="@+id/imageView_album_jacket"
-        android:text="artist"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        <ImageView
+            android:id="@+id/imageView_album_jacket"
+            android:layout_width="@dimen/album_item_row_jacket"
+            android:layout_height="@dimen/album_item_row_jacket"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/album_item_row_margins"
+            android:layout_marginRight="@dimen/album_item_row_margins"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_launcher" />
 
-    <TextView
-        android:id="@+id/textView_album_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/textView_album_artist"
-        android:layout_toRightOf="@+id/imageView_album_jacket"
-        android:singleLine="true"
-        android:text="Title"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/textView_album_artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_album_title"
+            android:layout_toLeftOf="@+id/imageButton_album_add"
+            android:layout_toRightOf="@+id/imageView_album_jacket"
+            android:text="artist"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <TextView
-        android:id="@+id/textView_album_album"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView_album_artist"
-        android:layout_below="@+id/textView_album_artist"
-        android:layout_toLeftOf="@+id/textView_album_time"
-        android:singleLine="true"
-        android:text="album"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:id="@+id/textView_album_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/textView_album_artist"
+            android:layout_toRightOf="@+id/imageView_album_jacket"
+            android:singleLine="true"
+            android:text="Title"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textView_album_album"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView_album_artist"
+            android:layout_below="@+id/textView_album_artist"
+            android:layout_toLeftOf="@+id/textView_album_time"
+            android:singleLine="true"
+            android:text="album"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/textView_album_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="@dimen/album_item_time_left_of_padding"
+            android:layout_toLeftOf="@+id/imageButton_album_add"
+            android:singleLine="true"
+            android:text="time"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ImageButton
+            android:id="@+id/imageButton_album_add"
+            android:layout_width="@dimen/album_expand_button_size"
+            android:layout_height="@dimen/album_expand_button_size"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/album_item_row_margins"
+            android:background="@drawable/button_circle_white_xml"
+            android:src="@drawable/add" />
+
+    </RelativeLayout>
 
     <!-- ここにExpandableViewを突っ込む -->
+
     <FrameLayout
         android:id="@+id/framelayout_album"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/imageView_album_jacket" >
-
+        android:layout_below="@+id/relativelayout_item_parent" >
     </FrameLayout>
-
-    <TextView
-        android:id="@+id/textView_album_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/framelayout_album"
-        android:layout_alignRight="@+id/textView_album_artist"
-        android:singleLine="true"
-        android:text="time"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <ImageButton
-        android:id="@+id/imageButton_album_add"
-        android:layout_width="@dimen/album_expand_button_size"
-        android:layout_height="@dimen/album_expand_button_size"
-        android:layout_alignBottom="@+id/imageView_album_jacket"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/album_item_row_margins"
-        android:background="@drawable/button_circle_white_xml"
-        android:src="@drawable/add" />
 
 </RelativeLayout>

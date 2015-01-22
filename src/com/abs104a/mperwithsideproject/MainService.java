@@ -88,9 +88,7 @@ public class MainService extends Service{
 				e.printStackTrace();
 			}
 		}
-		//バインドの解除
-		unbindService(mMainServiceConnection);
-		stopService(mPlayerServiceIntent);
+		stopSelf();
 	}
 	
 	/**
@@ -156,6 +154,9 @@ public class MainService extends Service{
 		ImageCache.clearCache();
 		System.gc();
 		
+		//バインドの解除
+		unbindService(mMainServiceConnection);
+		
 		
 		//BroadcastReceiverの消去
 		mService.unregisterReceiver(broadcastReceiver); 
@@ -169,9 +170,6 @@ public class MainService extends Service{
 		
 		//終了Log
 		Log.v("MainService","Service is Finished!");
-		
-		if(!finishFlag && isBind == false)
-			mService.bindService(mPlayerServiceIntent, mMainServiceConnection , Context.BIND_AUTO_CREATE);
 		
 		finishFlag = false;
 		mPlayerServiceIntent = null;
@@ -211,7 +209,7 @@ public class MainService extends Service{
 			mIPlayerService = null;
 			android.util.Log.v(TAG, "onServiceDisconnected MainService");
 			if(!finishFlag)
-				mService.bindService(mPlayerServiceIntent, mMainServiceConnection , Context.BIND_AUTO_CREATE);		
+				mService.bindService(mPlayerServiceIntent, mMainServiceConnection , Context.BIND_AUTO_CREATE);	
 		}
 		
 	}

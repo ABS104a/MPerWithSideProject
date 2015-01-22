@@ -30,6 +30,7 @@ public class PlayerService extends Service {
 		@Override
 		public boolean stopService() throws RemoteException {
 			finishFlag = true;
+			if(isBind)mService.unbindService(mPlayerServiceConnection);
 			return finishFlag;
 		}
 
