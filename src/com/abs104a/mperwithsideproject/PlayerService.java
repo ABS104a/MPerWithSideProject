@@ -17,6 +17,7 @@ public class PlayerService extends Service {
 	
     private final Service mService = this;
     private PlayerServiceConnection mPlayerServiceConnection = new PlayerServiceConnection();
+    private Intent mMainServiceIntent = null;
     
     private boolean finishFlag = false;
     //バインドしているかどうか．
@@ -85,9 +86,11 @@ public class PlayerService extends Service {
 	@Override
 	public void onCreate() {
 		//MainServiceをバインドする．
+		isBind = false;
+		mMainServiceIntent = new Intent(mService,MainService.class);
 		if(!isBind)
 			mService.bindService(
-					new Intent(mService,MainService.class), 
+					mMainServiceIntent, 
 					mPlayerServiceConnection ,
 					Context.BIND_AUTO_CREATE);
 		super.onCreate();
@@ -98,6 +101,8 @@ public class PlayerService extends Service {
 	 */
 	@Override
 	public void onDestroy() {
+		isBind = false;
+		mMainServiceIntent = null;
 		super.onDestroy();
 	}
 	

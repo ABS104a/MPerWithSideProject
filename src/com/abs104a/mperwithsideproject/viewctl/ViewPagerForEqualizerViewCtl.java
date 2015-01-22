@@ -193,7 +193,6 @@ public class ViewPagerForEqualizerViewCtl {
 					if(fromUser){
 						currentText.setText((progress * 100 + minEQLevel) / 100 + "");
 						short newLevel = (short) ((progress * 100 + minEQLevel) / 100);
-						//android.util.Log.v("Equalizer","NewLevel : " + newLevel);
 						Equalizer eqr = mpwpl.getEqualizerInstance();
 						eqr.setBandLevel((short)index,(short) (newLevel * 100));
 						items[index].setLevel((short) (newLevel * 100));
