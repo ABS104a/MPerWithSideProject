@@ -107,6 +107,12 @@ public class ItemViewFactory {
 				}else
 					holder.jacketImage.setImageResource(android.R.drawable.ic_menu_search);
 			}
+			
+			//ExpandViewがすでに展開されている場合は消去する．
+			if(!expandPosition.equals(item.getId()) && holder.framelayout.getChildCount() > 0){
+				holder.framelayout.removeAllViews();
+			}
+			
 			//ボタンを表示するかどうかの設定
 			if(column == Column.QUEUE || column == Column.PLAYLIST){
 				//Expandする．
@@ -116,6 +122,48 @@ public class ItemViewFactory {
 				holder.addButton.setImageResource(R.drawable.open);
 				holder.addButton.setPadding(0, context.getResources().getDimensionPixelSize(R.dimen.album_expand_button_top_padding), 0, 0);
 				holder.addButton.setBackgroundResource(R.drawable.button_circle_xml);
+				
+				if(expandPosition.equals(item.getId()) && holder.framelayout.getChildCount() == 0){
+					
+					//Indicatorの変更
+					holder.addButton.setImageResource(R.drawable.close);
+					holder.addButton.setPadding(0, 0, 0, context.getResources().getDimensionPixelSize(R.dimen.album_expand_button_top_padding));
+					
+					//ExpandViewの生成
+					final LayoutInflater layoutInflater = LayoutInflater.from(context);
+					final ViewGroup expandView = (ViewGroup)layoutInflater.inflate(R.layout.expand_album_item, (ViewGroup) MusicViewCtl.getPlayerView(),false);
+
+					//Viewを追加する．
+					Animation showAnimation = 
+							AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+					holder.framelayout.addView(expandView);
+					holder.framelayout.startAnimation(showAnimation);
+					
+					//消去ボタン
+					ImageButton deleteButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_delete);
+					deleteButton.setOnClickListener(new DeleteOnClickImpl(context,column, item));
+					
+					//上へのボタン
+					ImageButton upButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_up);
+					upButton.setOnClickListener(new UpDownButtonOnClickImpl(context, item, true, false, adapter));
+					
+					//下へのボタン 
+					ImageButton downButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_down);
+					downButton.setOnClickListener(new UpDownButtonOnClickImpl(context, item, false, true, adapter));
+					
+					//追加ボタン
+					ImageButton addButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_add);
+					addButton.setOnClickListener(new OnClickListener(){
+
+						@Override
+						public void onClick(View v) {
+							new DialogUtils().createIfSelectPlayListDialog(context, item, column);
+						}
+						
+					});
+					
+				}
+				
 			}
 			else{
 				//Expandしない．
@@ -127,50 +175,6 @@ public class ItemViewFactory {
 				holder.addButton.setBackgroundResource(R.drawable.button_circle_white_xml);
 			}
 			convertView.setOnClickListener(new ItemOnClickImpl(item));
-			
-			//ExpandViewがすでに展開されている場合は消去する．
-			if(!expandPosition.equals(item.getId()) && holder.framelayout.getChildCount() > 0){
-				holder.framelayout.removeAllViews();
-			}else if(expandPosition.equals(item.getId()) && holder.framelayout.getChildCount() == 0){
-				
-				//Indicatorの変更
-				holder.addButton.setImageResource(R.drawable.close);
-				holder.addButton.setPadding(0, 0, 0, context.getResources().getDimensionPixelSize(R.dimen.album_expand_button_top_padding));
-				
-				//ExpandViewの生成
-				final LayoutInflater layoutInflater = LayoutInflater.from(context);
-				final ViewGroup expandView = (ViewGroup)layoutInflater.inflate(R.layout.expand_album_item, (ViewGroup) MusicViewCtl.getPlayerView(),false);
-
-				//Viewを追加する．
-				Animation showAnimation = 
-						AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
-				holder.framelayout.addView(expandView);
-				holder.framelayout.startAnimation(showAnimation);
-				
-				//消去ボタン
-				ImageButton deleteButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_delete);
-				deleteButton.setOnClickListener(new DeleteOnClickImpl(context,column, item));
-				
-				//上へのボタン
-				ImageButton upButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_up);
-				upButton.setOnClickListener(new UpDownButtonOnClickImpl(context, item, true, false, adapter));
-				
-				//下へのボタン 
-				ImageButton downButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_down);
-				downButton.setOnClickListener(new UpDownButtonOnClickImpl(context, item, false, true, adapter));
-				
-				//追加ボタン
-				ImageButton addButton = (ImageButton)holder.framelayout.findViewById(R.id.imageButton_expand_add);
-				addButton.setOnClickListener(new OnClickListener(){
-
-					@Override
-					public void onClick(View v) {
-						new DialogUtils().createIfSelectPlayListDialog(context, item, column);
-					}
-					
-				});
-				
-			}
 			
 			Music currentMusic = mpwpl.getNowPlayingMusic();
 			if(currentMusic != null && item.equals(currentMusic)){
