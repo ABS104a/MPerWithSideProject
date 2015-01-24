@@ -93,7 +93,7 @@ public class PlayerService extends Service {
 			mService.bindService(
 					mMainServiceIntent, 
 					mPlayerServiceConnection ,
-					Context.BIND_AUTO_CREATE);
+					Context.BIND_IMPORTANT);
 		super.onCreate();
 	}
 

@@ -28,9 +28,6 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 	
 	//ボリュームが変更されたときに呼ばれるBroadcast名
 	public final static String VOLUME_CHANGE = "android.media.VOLUME_CHANGED_ACTION";
-	
-	//画面がOFFになって
-	private boolean screenFlag = true;
 
 	public MyBroadCastReceiver(Service mService){
 		this.mService = mService;
@@ -50,11 +47,9 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 				// 画面ON時  
 				Log.d("MainService", "SCREEN_ON");  
 				
-				if(rootView == null && MusicViewCtl.getPlayerView() == null && screenFlag == false){
+				if(rootView == null && MusicViewCtl.getPlayerView() == null){
 					//MainViewを生成する．
-					MainViewCtl.createAndShowMainView(mService);
-					//MusicViewCtl.createPlayerView(mService, rootView);
-					screenFlag = true;
+					rootView = MainViewCtl.createAndShowMainView(mService);
 				}
 			} 
 			//画面がOFFの時の動作
@@ -63,7 +58,9 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 				Log.d("MainService", "SCREEN_OFF");  
 				if(rootView != null ){
 					MainViewCtl.removeRootView(true);
-					screenFlag = false;
+					if(MusicViewCtl.getPlayerView() != null){
+						MusicViewCtl.removePlayerView();
+					}
 				}
 			} 
 			

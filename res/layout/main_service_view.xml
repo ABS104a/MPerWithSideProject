@@ -15,11 +15,9 @@
         android:scaleType="fitCenter"/>
     
      <View
-        android:id="@+id/imageButton_handle_view"
+        android:id="@+id/view_handle_view"
         android:layout_width="@dimen/main_view_between_width"
-        android:layout_height="600dp"
+        android:layout_height="match_parent"
         android:background="@color/transparent" />
-
-    <!-- ここにMusicViewを突っ込む -->
 
 </LinearLayout>

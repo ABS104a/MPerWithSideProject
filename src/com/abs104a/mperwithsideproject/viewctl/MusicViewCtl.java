@@ -17,6 +17,7 @@ import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.settings.Settings;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.GetImageTask;
+import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.BackButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ExitButtonOnClickListenerImpl;
@@ -38,6 +39,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.PixelFormat;
 import android.graphics.Bitmap.CompressFormat;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -48,18 +50,18 @@ import android.provider.MediaStore.Images;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -116,10 +118,6 @@ public final class MusicViewCtl {
 	 * @param PlayerView
 	 */
 	public static void removePlayerView(){
-		removePlayerView(null);
-	}
-	
-	public static final void removePlayerView(final Service mService){
 		final View rootView = MainViewCtl.getRootView();
 		//Viewの消去を行う
 		if(getPlayerView() != null && rootView != null){
@@ -133,56 +131,31 @@ public final class MusicViewCtl {
 			}
 			
 			final Button handle = (Button) rootView.findViewById(R.id.imageButton_handle);
-			handle.setVisibility(View.INVISIBLE);
 			LayoutParams params = handle.getLayoutParams();
 			params.width = Settings.getHandleWidth(getContext());
 			params.height = Settings.getHandleHeight(getContext());
 			
-			Animation closeAnimation = 
-					AnimationUtils.loadAnimation(rootView.getContext(), R.anim.left_to_right_out);
-			closeAnimation.setAnimationListener(new AnimationListener(){
-
-				@Override
-				public void onAnimationEnd(Animation animation) {
-					//Visualizerの消去
-					//プレイリストの書き込みを行う
-					if(mHandler != null){
-						mHandler.stopHandler();
-						mHandler = null;
-					}
-					PlayList.writePlayList(getPlayerView().getContext());
-					PlayList.clearPlayList();
-					DisplayUtils.printHeapSize();	
-					ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
-							
-					//DisplayUtils.cleanupView(getPlayerView());
-					setPlayerView(null);
-					MainViewCtl.removeRootView(false);
-
-					//キャッシュのClear
-					System.gc();
+			final View emptyView = rootView.findViewById(R.id.view_handle_view);
+			LayoutParams viewpParams = emptyView.getLayoutParams();
+			viewpParams.width = 0;
+			emptyView.setLayoutParams(viewpParams);
+			
+			
+			//プレイリストの書き込みを行う
+			if(mHandler != null){
+				mHandler.stopHandler();
+				mHandler = null;
+			}
+			PlayList.writePlayList(getPlayerView().getContext());
+			PlayList.clearPlayList();
+			DisplayUtils.printHeapSize();	
+			ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
 					
-					final Handler mHandler = new Handler();
-					mHandler.postDelayed(new Runnable(){
+			//WindowManagerの取得
+			WindowManager mWindowManager = (WindowManager) MainService.getService().getSystemService(Context.WINDOW_SERVICE);
+			mWindowManager.removeView(getPlayerView());
 
-						@Override
-						public void run() {
-							MainViewCtl.createAndShowMainView(MainService.getService());
-						}
-						
-					},100);
-					
-				}
-
-				@Override
-				public void onAnimationRepeat(Animation animation) {}
-
-				@Override
-				public void onAnimationStart(Animation animation) {
-				}
-				
-			});
-			getPlayerView().startAnimation(closeAnimation);
+			setPlayerView(null);
 			
 		}
 	}
@@ -194,54 +167,77 @@ public final class MusicViewCtl {
 	 */
 	public static void createPlayerView(final Service mService,View rootView){
 		if(getPlayerView() == null){
-			final View mView = createView(mService,rootView);
+			final View mView = createView(mService);
+			
+			final View emptyView = rootView.findViewById(R.id.view_handle_view);
+			LayoutParams viewpParams = emptyView.getLayoutParams();
+			viewpParams.width = (int) (emptyView.getContext().getResources().getDimensionPixelSize(R.dimen.player_view_width) + 
+					1.5f * emptyView.getContext().getResources().getDimensionPixelSize(R.dimen.player_view_padding));
+			emptyView.setLayoutParams(viewpParams);
+			
 			final Button handle = (Button) rootView.findViewById(R.id.imageButton_handle);
-			handle.setVisibility(View.INVISIBLE);
+			//handle.setVisibility(View.INVISIBLE);
 			LayoutParams params = handle.getLayoutParams();
 			params.width = params.width * 2;
 			handle.setLayoutParams(params);
 			
 			final Animation showAnimation = 
 					AnimationUtils.loadAnimation(mService, R.anim.right_to_left_in);
-			showAnimation.setAnimationListener(new AnimationListener(){
-
-				@Override
-				public void onAnimationEnd(Animation animation) {
-
-					handle.setVisibility(View.VISIBLE);
-					handle.startAnimation(AnimationUtils.loadAnimation(mService, android.R.anim.fade_in));
-				}
-
-				@Override
-				public void onAnimationRepeat(Animation animation) {}
-
-				@Override
-				public void onAnimationStart(Animation animation) {}
-				
-			});
 			//Animationの設定
 			mView.startAnimation(showAnimation);
 		}	
 	}
 	
 	/**
-	 * PlayerのViewを生成するメソッド
-	 * サービスのコンテキストを受けとりViewを生成する．
-	 * @param mService
-	 * @return　生成したViewGroup
+	 * MainViewを生成して画面に表示を行うメソッド
+	 * @param mService	アプリケーションのContext
+	 * @return 
 	 */
-	private static View createView(Service mService,View rootView){
+	private final static View createView(Service mService){
+		ImageCache.clearCache();
+		if(mService == null)return null;
+		//WindowManagerの取得
+		WindowManager mWindowManager = (WindowManager) mService.getSystemService(Context.WINDOW_SERVICE);
+
+		// 重ね合わせするViewの設定を行う
+		WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+				WindowManager.LayoutParams.WRAP_CONTENT,
+				WindowManager.LayoutParams.WRAP_CONTENT,
+				WindowManager.LayoutParams.TYPE_TOAST,
+				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | 
+				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED ,// | 
+				PixelFormat.TRANSLUCENT);
+
+		params.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
+		params.x = 0;
+		params.y = 0;
+		
 		// Viewからインフレータを作成する
 		LayoutInflater layoutInflater = LayoutInflater.from(mService);
 		// レイアウトファイルから重ね合わせするViewを作成する
 		setPlayerView(layoutInflater.inflate(R.layout.player_view, (ViewGroup)getPlayerView(),false));
 		getPlayerView().setId(PLAYER_VIEW_ID);
-		((LinearLayout)rootView).addView(getPlayerView());
 		//Action Settings 
-		init(mService, getPlayerView(),rootView);
+		init(mService, getPlayerView(),getPlayerView());
 		DisplayUtils.printHeapSize();
+		
+		//プレイヤーのViewはハンドル部をタップした時に生成する．
+		//ハンドル部が引き出される動作と同時に大きさを変更させ，
+		//完全にハンドルが収納されたらViewを破棄する．
+		
+		//WindowManagerにViewとLayoutParamsを登録し，表示する
+		try{
+			mWindowManager.addView(getPlayerView(), params);
+			//こっちは↓更新用
+			//mWindowManager.updateViewLayout(mMainView, params);
+		}catch(NullPointerException mNullPointerException){
+			mNullPointerException.printStackTrace();
+			//自分のサービスを終了させる．
+			mService.stopSelf();
+		}
 		return getPlayerView();
 	}
+	
 	
 	/**
 	 * 初期化を行う

@@ -36,6 +36,7 @@ public final class MainViewCtl {
 	 * RootViewが内場合はNullを返す．
 	 * @return	RootViewまたはNull
 	 */
+	
 	public static View getRootView(){
 		return rootView;
 	}
@@ -48,9 +49,9 @@ public final class MainViewCtl {
 	 * MainViewを生成して画面に表示を行うメソッド
 	 * @param mService	アプリケーションのContext
 	 */
-	public final static void createAndShowMainView(Service mService){
+	public final static View createAndShowMainView(Service mService){
 		ImageCache.clearCache();
-		if(mService == null)return;
+		if(mService == null)return null;
 		//WindowManagerの取得
 		WindowManager mWindowManager = (WindowManager) mService.getSystemService(Context.WINDOW_SERVICE);
 
@@ -72,6 +73,7 @@ public final class MainViewCtl {
 
 		//重畳表示するViewを取得する．
 		LinearLayout rootView = (LinearLayout)MainViewCtl.createView(mService);
+		setRootView(rootView);
 		
 		//プレイヤーのViewはハンドル部をタップした時に生成する．
 		//ハンドル部が引き出される動作と同時に大きさを変更させ，
@@ -87,6 +89,7 @@ public final class MainViewCtl {
 			//自分のサービスを終了させる．
 			mService.stopSelf();
 		}
+		return rootView;
 	}
 	
 	/**
