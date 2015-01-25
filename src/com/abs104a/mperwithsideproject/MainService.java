@@ -48,9 +48,10 @@ public class MainService extends Service{
 	
 	//アプリケーションのTAG
 	private final static String TAG = "MainService";
-	
+
 	private static final int HEIGHT_TH = 3;
 	private static final int WIDTH_TH = 12;
+
 	
 	//変数////////////////////////////
 	
@@ -128,7 +129,6 @@ public class MainService extends Service{
 				Settings.getHandleWidth(mService) < DisplayUtils.px2dp(mService, WIDTH_TH)){
 			Notifications.putNotification();
 		}
-		
 		//Intentfilterの登録
 		broadcastReceiver = new MyBroadCastReceiver(mService);
 		mService.registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_SCREEN_ON));  
