@@ -79,32 +79,52 @@ public final class MusicViewCtl {
 	//PlayerViewのID
 	public final static int PLAYER_VIEW_ID = 12;
 	
-	public final static int ANIMATE_OPEN = 35;
+	private final static int ANIMATE_OPEN = 35;
 
 	//ViewPagerのページを記憶する用
 	private static int pageCount = 0;
-	
+
+    /**
+     * ページ数を記憶させる用
+     */
 	public static int setPageCount(int page){
 		return pageCount = page;
 	}
-	
+
+    /**
+     * ページ数を取得する用
+     * @return  ページ数
+     */
 	public static int getPageCount(){
 		return pageCount;
 	}
-	
-	public static Context getContext(){
+
+    /**
+     * コンテキストの取得
+     * @return
+     */
+	private static Context getContext(){
 		return MainService.getService();
 	}
 	
 	//UIスレッドのHandler
 	private static MusicSeekBarHandler mHandler = null;
-	
+
+    //PlayerView
 	private static View playerView = null;
-	
+
+    /**
+     * プレイヤービューの取得をするメソッド
+     * @return　playerView
+     */
 	public static View getPlayerView(){
 		return playerView;
 	}
-	
+
+    /**
+     * プレイヤービューをセットするメソッド
+     * @param view  PlayerView
+     */
 	public static void setPlayerView(View view){
 		playerView = view;
 	}
@@ -121,7 +141,7 @@ public final class MusicViewCtl {
 		final View rootView = MainViewCtl.getRootView();
 		//Viewの消去を行う
 		if(getPlayerView() != null && rootView != null){
-			
+
 			//Viewのクリーンアップ
 			try{
 				ViewPager mViewPager = (ViewPager)getPlayerView().findViewById(R.id.player_list_part);
