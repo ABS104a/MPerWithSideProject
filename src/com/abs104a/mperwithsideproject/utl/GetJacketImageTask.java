@@ -71,6 +71,8 @@ public final class GetJacketImageTask{
     						mContext.getResources().getDimensionPixelSize(R.dimen.album_item_row_jacket));
     			}catch(FileNotFoundException err){
 
+    			}catch(NullPointerException e){
+    				
     			}
     			publishProgress(bitmap,item);
     		}while(itemQueue.peek() != null);
