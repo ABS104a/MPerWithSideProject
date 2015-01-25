@@ -69,7 +69,9 @@ public class MainService extends Service{
 	
 	private Intent mPlayerServiceIntent = null;
 	
-	//プロセス間通信用のバインダー
+	/**
+	 * プロセス通信用のバインダー
+	 */
 	private IMainService.Stub mIMainServiceIf = new IMainService.Stub() {
 		
 		@Override
