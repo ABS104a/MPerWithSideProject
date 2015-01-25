@@ -2,8 +2,6 @@ package com.abs104a.mperwithsideproject;
 
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
-import com.abs104a.mperwithsideproject.settings.Settings;
-import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.MainViewCtl;
@@ -48,9 +46,6 @@ public class MainService extends Service{
 	
 	//アプリケーションのTAG
 	private final static String TAG = "MainService";
-
-	private static final int HEIGHT_TH = 3;
-	private static final int WIDTH_TH = 12;
 	
 	//変数////////////////////////////
 	
@@ -124,10 +119,7 @@ public class MainService extends Service{
 		
 		//通知の生成
 		Notifications.setService(mService);
-		if(Settings.getHandleHeight(mService) < DisplayUtils.px2dp(mService, HEIGHT_TH) || 
-				Settings.getHandleWidth(mService) < DisplayUtils.px2dp(mService, WIDTH_TH)){
-			Notifications.putNotification();
-		}
+		//Notifications.putNotification();
 		
 		//Intentfilterの登録
 		broadcastReceiver = new MyBroadCastReceiver(mService);
