@@ -9,7 +9,7 @@
         android:toAlpha="1.0" >
         
         <translate
-            android:duration="100"
+            android:duration="200"
             android:fromXDelta="450.0"
             android:fromYDelta="0.0"
             android:toXDelta="0.0"
