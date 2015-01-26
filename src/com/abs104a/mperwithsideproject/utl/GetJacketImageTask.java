@@ -99,14 +99,14 @@ public final class GetJacketImageTask{
     			GetJacketImageItem item = (GetJacketImageItem) values[1];
     			if(item == null)return;
     			if(item.getTitleText().getText().equals(item.getConfilmString())){
-    				if(image != null){
+    				if(image != null && !image.isRecycled()){
     					item.getJacketImage().setImageBitmap(image);
     					ImageCache.setImage(item.getAlbum(), image);
     				}else{
     					item.getJacketImage().setImageResource(R.drawable.no_image);
     				}
     			}
-    		}catch(NullPointerException e){ }
+    		}catch(Exception e){ }
     		super.onProgressUpdate(values);
     	}
 

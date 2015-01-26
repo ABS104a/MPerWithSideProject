@@ -58,8 +58,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -146,16 +148,33 @@ public final class MusicViewCtl {
 				mHandler.stopHandler();
 				mHandler = null;
 			}
+			
 			PlayList.writePlayList(getPlayerView().getContext());
 			PlayList.clearPlayList();
 			DisplayUtils.printHeapSize();	
 			ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
-					
-			//WindowManagerの取得
-			WindowManager mWindowManager = (WindowManager) MainService.getService().getSystemService(Context.WINDOW_SERVICE);
-			mWindowManager.removeView(getPlayerView());
+			
+			final Animation closeAnimation = 
+					AnimationUtils.loadAnimation(rootView.getContext(), R.anim.left_to_right_out);
+			closeAnimation.setAnimationListener(new AnimationListener(){
 
-			setPlayerView(null);
+				@Override
+				public void onAnimationStart(Animation animation) {}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					//WindowManagerの取得
+					WindowManager mWindowManager = (WindowManager) MainService.getService().getSystemService(Context.WINDOW_SERVICE);
+					mWindowManager.removeView((View)getPlayerView().getParent());
+					setPlayerView(null);
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {}
+				
+			});
+			
+			getPlayerView().startAnimation(closeAnimation);
 			
 		}
 	}
@@ -225,9 +244,12 @@ public final class MusicViewCtl {
 		//ハンドル部が引き出される動作と同時に大きさを変更させ，
 		//完全にハンドルが収納されたらViewを破棄する．
 		
+		FrameLayout parentLayout = new FrameLayout(mService);
+		parentLayout.addView(getPlayerView());
+		
 		//WindowManagerにViewとLayoutParamsを登録し，表示する
 		try{
-			mWindowManager.addView(getPlayerView(), params);
+			mWindowManager.addView(parentLayout, params);
 			//こっちは↓更新用
 			//mWindowManager.updateViewLayout(mMainView, params);
 		}catch(NullPointerException mNullPointerException){
