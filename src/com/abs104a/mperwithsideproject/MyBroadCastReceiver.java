@@ -57,7 +57,8 @@ public final class MyBroadCastReceiver extends BroadcastReceiver {
 				// 画面OFF時  
 				Log.d("MainService", "SCREEN_OFF");  
 				if(rootView != null ){
-					MainViewCtl.removeRootView(true);
+					MusicViewCtl.removePlayerView();
+					MainViewCtl.removeRootView(false);
 					if(MusicViewCtl.getPlayerView() != null){
 						MusicViewCtl.removePlayerView();
 					}

@@ -105,8 +105,7 @@ public final class MainViewCtl {
 			
 			//Viewの中身を消去
 			if(isRemovePlayerView){
-				MusicViewCtl.removePlayerView();
-				MusicViewCtl.setPlayerView(null);
+				MusicViewCtl.removeAndStopView();
 			}
 			//WindowManagerからMainViewを消去する．
 			mWindowManager.removeView(rootView);

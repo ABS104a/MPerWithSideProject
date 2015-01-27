@@ -88,6 +88,11 @@ public class MainService extends Service{
 	}
 
 	public final void stopService(){
+		MainViewCtl.removeRootView(true);
+	}
+	
+	public final void stop(){
+
 		finishFlag = true;
 		if(mIPlayerService != null){
 			try {
@@ -157,7 +162,6 @@ public class MainService extends Service{
 			mpwpl.writeQueue();
 		}
 
-		MainViewCtl.removeRootView(true);
 		PlayList.writePlayList(mService);
 		PlayList.clearPlayList();
 		//キャッシュのClear

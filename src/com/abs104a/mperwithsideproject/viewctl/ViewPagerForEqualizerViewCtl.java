@@ -259,6 +259,7 @@ public class ViewPagerForEqualizerViewCtl {
 	 * @return Visualizer
 	 */
 	public final static Visualizer createMusicVisualizer(final Context context){
+		
 		removeMusicVisualizer();
 		
 		View playerView = MusicViewCtl.getPlayerView();
@@ -326,10 +327,24 @@ public class ViewPagerForEqualizerViewCtl {
 	 * Visualizerを解放する
 	 */
 	public static void removeMusicVisualizer(){
-		if(mVisualizer != null){
-			mVisualizer.release();
-			mVisualizer = null;
-			System.gc();
+		try{
+			if(mVisualizer != null){
+				mVisualizer.release();
+				mVisualizer = null;
+				System.gc();
+			}
+		}catch(Exception e){
+
+		}
+	}
+	
+	public static void setIsVisualizer(boolean isEnabled){
+		try{
+			if(mVisualizer != null){
+				mVisualizer.setEnabled(isEnabled);
+			}
+		}catch(Exception e){
+
 		}
 	}
 

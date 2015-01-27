@@ -178,14 +178,14 @@ public class FFTView extends View {
 		waveData_ = null;
 		invalidate();
 	}
-	
+
 	// 更新
-		public void updateWave(byte[] bytes) {
-			waveData_ = bytes;
-			fftData_ = null;
-			invalidate();
-		}
- 
+	public void updateWave(byte[] bytes) {
+		waveData_ = bytes;
+		fftData_ = null;
+		invalidate();
+	}
+
 	// 描画
 	@Override
 	protected void onDraw(Canvas canvas) {

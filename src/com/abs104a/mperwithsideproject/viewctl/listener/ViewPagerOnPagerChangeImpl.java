@@ -45,6 +45,8 @@ public final class ViewPagerOnPagerChangeImpl implements OnPageChangeListener {
 		if(index == Column.EQUALIZER){
 			//EQUALIZERViewのとき
 			ViewPagerForEqualizerViewCtl.createMusicVisualizer(mViewPager.getContext());
+		}else{
+			ViewPagerForEqualizerViewCtl.setIsVisualizer(false);
 		}
 		System.gc();
 	}

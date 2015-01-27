@@ -120,9 +120,28 @@ public final class MusicViewCtl {
 	 * @param PlayerView
 	 */
 	public static void removePlayerView(){
+		removePlayerView(false);
+	}
+	
+	/**
+	 * PlayerViewを消去する．
+	 * @param PlayerView
+	 */
+	public static void removeAndStopView(){
+		removePlayerView(true);
+	}
+	
+	/**
+	 * PlayerViewを消去する．
+	 * @param PlayerView
+	 */
+	private static void removePlayerView(final boolean isStop){
 		final View rootView = MainViewCtl.getRootView();
 		//Viewの消去を行う
 		if(getPlayerView() != null && rootView != null){
+			
+			//Visualizerの無効化
+			ViewPagerForEqualizerViewCtl.setIsVisualizer(false);
 			
 			//Viewのクリーンアップ
 			try{
@@ -152,7 +171,7 @@ public final class MusicViewCtl {
 			PlayList.writePlayList(getPlayerView().getContext());
 			PlayList.clearPlayList();
 			DisplayUtils.printHeapSize();	
-			ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
+
 			
 			final Animation closeAnimation = 
 					AnimationUtils.loadAnimation(rootView.getContext(), R.anim.left_to_right_out);
@@ -163,10 +182,18 @@ public final class MusicViewCtl {
 
 				@Override
 				public void onAnimationEnd(Animation animation) {
-					//WindowManagerの取得
-					WindowManager mWindowManager = (WindowManager) MainService.getService().getSystemService(Context.WINDOW_SERVICE);
-					mWindowManager.removeView((View)getPlayerView().getParent());
-					setPlayerView(null);
+					try{
+						ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
+						//WindowManagerの取得
+						WindowManager mWindowManager = (WindowManager)getPlayerView().getContext().getSystemService(Context.WINDOW_SERVICE);
+						mWindowManager.removeView((View)getPlayerView().getParent());
+						setPlayerView(null);
+						if(isStop){
+							((MainService)MainService.getService()).stop();
+						}
+					}catch(NullPointerException e){
+						e.printStackTrace();
+					}
 				}
 
 				@Override
