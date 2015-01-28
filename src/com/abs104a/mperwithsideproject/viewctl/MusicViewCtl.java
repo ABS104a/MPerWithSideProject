@@ -113,6 +113,8 @@ public final class MusicViewCtl {
 	
 	//クラスの識別用タグ
 	public static final String TAG = "MusicViewCtl";
+
+	private static final long DELAYTIME = 100;
 	
 	
 	/**
@@ -703,7 +705,25 @@ public final class MusicViewCtl {
 		ViewPager mViewPager = (ViewPager)playerView.findViewById(R.id.player_list_part);
 		if(mViewPager != null && mViewPager.getCurrentItem() == Column.EQUALIZER){
 			ViewPagerForEqualizerViewCtl.createMusicVisualizer(mViewPager.getContext());
+			ViewPagerForEqualizerViewCtl.setIsVisualizer(true);
+		}else{
+			ViewPagerForEqualizerViewCtl.setIsVisualizer(false);
 		}
+		
+		if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
+			ViewPagerForEqualizerViewCtl.setIsVisualizer(true);
+		}else{
+			ViewPagerForEqualizerViewCtl.setIsVisualizer(false);
+			new Handler().postDelayed(new Runnable(){
+
+				@Override
+				public void run() {
+					ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
+				}
+				
+			},DELAYTIME);
+		}
+
 		
 		//ViewPagerに通知する必要があるかどうか選択する場合
 		if(isNotifitionViewPager){

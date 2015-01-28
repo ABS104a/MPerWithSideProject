@@ -191,6 +191,7 @@ public class FFTView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		// Viewのサイズ変更があった場合，再計算
+		
 		if(currentWidth_ != getWidth() || currentHeight_ != getHeight()){
 			calculateViewSizeDependedData();
 		}
