@@ -46,8 +46,10 @@ public final class ViewPagerForAlbumViewCtl {
 		loadingView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
 		ArrayList<PlayList> pList = new ArrayList<PlayList>();
 		final PlayListForExpandableListAdapter adapter = new PlayListForExpandableListAdapter(mContext, pList, rootView, mpwpl,Column.ALBUM);
+		
+		mListView.addHeaderView(loadingView);
+		
 		mListView.setAdapter(adapter);
-		mListView.addFooterView(loadingView);
 		
 		new AsyncTask<Void,Void,ArrayList<PlayList>>(){
 
@@ -71,7 +73,8 @@ public final class ViewPagerForAlbumViewCtl {
 			@Override
 			protected void onPostExecute(ArrayList<PlayList> result) {
 				//Footerの消去
-				mListView.removeFooterView(loadingView);
+				mListView.removeHeaderView(loadingView);
+				
 				//adapterの設定
 				adapter.addPlayLists(result);
 				//前回のリストViewのスクロール位置を記憶する．
