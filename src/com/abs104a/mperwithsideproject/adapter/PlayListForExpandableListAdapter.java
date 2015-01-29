@@ -22,10 +22,12 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,21 +62,25 @@ public final class PlayListForExpandableListAdapter extends
 	private final int column;
 	//ジャケットイメージを取得するインスタンス
 	public final GetJacketImageTask getImageTask;
+	//親ListView
+	private final ExpandableListView mListView;
 	
 	/**
 	 * インスタンスの生成
+	 * @param mListView 
 	 * @param mContext　アプリケーションのコンテキスト
 	 * @param playLists	プレイリスト
 	 * @param rootView アプリケーションのView
 	 * @param mpwpl アプリケーションの音楽コントロールインスタンス
 	 */
-	public PlayListForExpandableListAdapter(Context mContext,ArrayList<PlayList> playLists
+	public PlayListForExpandableListAdapter(Context mContext,ExpandableListView mListView, ArrayList<PlayList> playLists
 			,View rootView,MusicPlayerWithQueue mpwpl,int column){
 		this.mContext = mContext;
 		this.playLists = playLists;
 		this.mpwpl = mpwpl;
 		this.rootView = rootView;
 		this.column = column;
+		this.mListView = mListView;
 		getImageTask = new GetJacketImageTask(mContext);
 	}
 	
@@ -245,7 +251,7 @@ public final class PlayListForExpandableListAdapter extends
 	 * GroupViewの取得
 	 */
 	@Override
-	public View getGroupView(int groupPosition, boolean isExpanded,
+	public View getGroupView(final int groupPosition, final boolean isExpanded,
 			View convertView, ViewGroup parent) {
 		PlayList group = playLists.get(groupPosition);
 		GroupHolder holder;
@@ -293,6 +299,23 @@ public final class PlayListForExpandableListAdapter extends
 				}else
 					holder.jacketImage.setImageResource(android.R.drawable.ic_menu_search);
 			}
+			
+			convertView.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					try{
+						if(isExpanded){
+							mListView.collapseGroup(groupPosition);
+						}else{
+							mListView.expandGroup(groupPosition);
+						}
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+				
+			});
 		}
 		
 		//Viewが広がっているかどうか

@@ -144,7 +144,7 @@ public final class Notifications {
 						R.id.imageView_notification_jacket,
 						image);
 				// Serviceを継承したクラス内
-			    mService.startForeground(R.drawable.ic_launcher,notification );
+			    mService.startForeground(R.drawable.no_image,notification );
 			}
 		}).execute(currentMusic.getAlbumUri());
 			

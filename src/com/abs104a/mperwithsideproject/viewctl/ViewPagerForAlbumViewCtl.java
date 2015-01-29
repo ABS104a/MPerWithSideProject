@@ -45,9 +45,7 @@ public final class ViewPagerForAlbumViewCtl {
 		final View loadingView = layoutInflater.inflate(R.layout.loading_row, (ViewGroup)rootView ,false);
 		loadingView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
 		ArrayList<PlayList> pList = new ArrayList<PlayList>();
-		final PlayListForExpandableListAdapter adapter = new PlayListForExpandableListAdapter(mContext, pList, rootView, mpwpl,Column.ALBUM);
-		
-		mListView.addHeaderView(loadingView);
+		final PlayListForExpandableListAdapter adapter = new PlayListForExpandableListAdapter(mContext,mListView, pList, rootView, mpwpl,Column.ALBUM);
 		
 		mListView.setAdapter(adapter);
 		

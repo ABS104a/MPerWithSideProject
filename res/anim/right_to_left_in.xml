@@ -12,6 +12,7 @@
             android:duration="200"
             android:fromXDelta="450.0"
             android:fromYDelta="0.0"
+            android:fillAfter="true"
             android:toXDelta="0.0"
             android:toYDelta="0.0" />
         
