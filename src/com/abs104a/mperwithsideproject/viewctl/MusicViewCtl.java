@@ -251,7 +251,7 @@ public final class MusicViewCtl {
 		WindowManager.LayoutParams params = new WindowManager.LayoutParams(
 				WindowManager.LayoutParams.WRAP_CONTENT,
 				WindowManager.LayoutParams.WRAP_CONTENT,
-				WindowManager.LayoutParams.TYPE_TOAST,
+				WindowManager.LayoutParams.TYPE_PHONE,
 				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | 
 				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED ,// | 
 				PixelFormat.TRANSLUCENT);

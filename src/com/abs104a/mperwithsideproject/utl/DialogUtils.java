@@ -56,7 +56,7 @@ public class DialogUtils {
 		LayoutParams params = new WindowManager.LayoutParams(
 				mContext.getResources().getDimensionPixelSize(R.dimen.dialog_view_width),
 				WindowManager.LayoutParams.WRAP_CONTENT,
-				WindowManager.LayoutParams.TYPE_TOAST,
+				WindowManager.LayoutParams.TYPE_PHONE,
 				//WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | 
 				WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
 				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED ,
