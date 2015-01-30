@@ -82,6 +82,8 @@ public final class MusicViewCtl {
 	public final static int PLAYER_VIEW_ID = 12;
 	
 	public final static int ANIMATE_OPEN = 35;
+	
+	private static final long DELAYTIME = 100;
 
 	//ViewPagerのページを記憶する用
 	private static int pageCount = 0;
@@ -113,11 +115,6 @@ public final class MusicViewCtl {
 	
 	//クラスの識別用タグ
 	public static final String TAG = "MusicViewCtl";
-
-	private static final long DELAYTIME = 100;
-
-	private static final long DELAY_ANIMATION = 10;
-	
 	
 	/**
 	 * PlayerViewを消去する．
@@ -253,17 +250,9 @@ public final class MusicViewCtl {
 				public void onAnimationRepeat(Animation animation) {}
 				
 			});
-			new Handler().postDelayed(new Runnable(){
-
-				@Override
-				public void run() {
-					//Animationの設定
-					mView.startAnimation(showAnimation);
-				}
-				
-			}, DELAY_ANIMATION);
 			
-
+			//Animationの設定
+			mView.startAnimation(showAnimation);
 
 		}	
 	}
