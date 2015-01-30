@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:layout_marginRight="@dimen/notification_image_to_text_margin"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/no_image" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -90,7 +90,8 @@ public final class Notifications {
 	    setDataOfRemoteViews(notification, notification.contentView);
 	    
 	    // Serviceを継承したクラス内
-	    mService.startForeground(R.drawable.ic_launcher,notification );
+	    if(MusicUtils.getMusicController(mService).getNowPlayingMusic() == null)
+	    	mService.startForeground(R.drawable.ic_launcher,notification );
 	}
 	
 	private static RemoteViews createRemoteViews(int resourceId){
@@ -139,9 +140,13 @@ public final class Notifications {
 			
 			@Override
 			public void onGetImage(Bitmap image) {
-				contentView.setImageViewBitmap(
+				if(image != null)
+					contentView.setImageViewBitmap(
+							R.id.imageView_notification_jacket,
+							image);
+				else contentView.setImageViewResource(
 						R.id.imageView_notification_jacket,
-						image);
+						R.drawable.no_image);
 				// Serviceを継承したクラス内
 			    mService.startForeground(R.drawable.no_image,notification );
 			}
