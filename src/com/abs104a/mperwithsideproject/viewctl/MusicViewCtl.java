@@ -115,6 +115,8 @@ public final class MusicViewCtl {
 	public static final String TAG = "MusicViewCtl";
 
 	private static final long DELAYTIME = 100;
+
+	private static final long DELAY_ANIMATION = 10;
 	
 	
 	/**
@@ -157,12 +159,14 @@ public final class MusicViewCtl {
 			LayoutParams params = handle.getLayoutParams();
 			params.width = Settings.getHandleWidth(getContext());
 			params.height = Settings.getHandleHeight(getContext());
+			handle.setLayoutParams(params);
 			
+			/*
 			final View emptyView = rootView.findViewById(R.id.view_handle_view);
 			LayoutParams viewpParams = emptyView.getLayoutParams();
 			viewpParams.width = 0;
 			emptyView.setLayoutParams(viewpParams);
-			
+			*/
 			
 			//プレイリストの書き込みを行う
 			if(mHandler != null){
@@ -217,22 +221,50 @@ public final class MusicViewCtl {
 		if(getPlayerView() == null){
 			final View mView = createView(mService);
 			
+			/*
 			final View emptyView = rootView.findViewById(R.id.view_handle_view);
 			LayoutParams viewpParams = emptyView.getLayoutParams();
 			viewpParams.width = (int) (emptyView.getContext().getResources().getDimensionPixelSize(R.dimen.player_view_width) + 
 					1.5f * emptyView.getContext().getResources().getDimensionPixelSize(R.dimen.player_view_padding));
 			emptyView.setLayoutParams(viewpParams);
+			*/
 			
 			final Button handle = (Button) rootView.findViewById(R.id.imageButton_handle);
 			//handle.setVisibility(View.INVISIBLE);
 			LayoutParams params = handle.getLayoutParams();
-			params.width = params.width * 2;
+			params.width = params.width * 2 + (int) (handle.getContext().getResources().getDimensionPixelSize(R.dimen.player_view_width) + 
+					1.5f * handle.getContext().getResources().getDimensionPixelSize(R.dimen.player_view_padding));
 			handle.setLayoutParams(params);
 			
 			final Animation showAnimation = 
 					AnimationUtils.loadAnimation(mService, R.anim.right_to_left_in);
-			//Animationの設定
-			mView.startAnimation(showAnimation);
+			
+			showAnimation.setAnimationListener(new AnimationListener(){
+
+				@Override
+				public void onAnimationStart(Animation animation) {}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					mView.setVisibility(View.VISIBLE);
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {}
+				
+			});
+			new Handler().postDelayed(new Runnable(){
+
+				@Override
+				public void run() {
+					//Animationの設定
+					mView.startAnimation(showAnimation);
+				}
+				
+			}, DELAY_ANIMATION);
+			
+
+
 		}	
 	}
 	

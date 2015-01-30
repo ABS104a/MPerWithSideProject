@@ -305,7 +305,7 @@ public final class PlayListForExpandableListAdapter extends
 				@Override
 				public void onClick(View v) {
 					try{
-						if(isExpanded){
+						if(mListView.isGroupExpanded(groupPosition)){
 							mListView.collapseGroup(groupPosition);
 						}else{
 							mListView.expandGroup(groupPosition);
