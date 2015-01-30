@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.abs104a.mperwithsideproject"
 
-    android:versionCode="197"
-    android:versionName="0.5.6" >
+    android:versionCode="212"
+    android:versionName="0.5.7" >
 
     <uses-sdk
         android:minSdkVersion="14"
