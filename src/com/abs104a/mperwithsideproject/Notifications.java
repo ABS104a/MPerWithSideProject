@@ -87,7 +87,6 @@ public final class Notifications {
 	    notification.bigContentView = createRemoteViews(R.layout.notification_bigger);
 	    setDataOfRemoteViews(notification, notification.bigContentView);
 
-	    
 	    setDataOfRemoteViews(notification, notification.contentView);
 	    
 	    // Serviceを継承したクラス内

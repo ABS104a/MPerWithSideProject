@@ -158,18 +158,22 @@ public final class MusicPlayerWithQueue extends MusicPlayer {
 			IllegalStateException, 
 			IOException 
 	{
-		int result = super.playStartAndPause();
 		if(getStatus() != PLAYING && getStatus() != PAUSEING){
 			setSource(mQueue.getCursorMusic().getPass());
 		}
+		
+		int result = super.playStartAndPause();
+		
 		initEqualizer(mMediaPlayer);
 		initLockScreenNotifition(mMediaPlayer);
+		
 		if(mRemoteControlClient != null){
 			if(getStatus() == PLAYING)
 				mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
 			else if (getStatus() == PAUSEING || getStatus() == STOPPING)
 				mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
 		}
+		
 		writeQueue();
 		return result;
 	}	
