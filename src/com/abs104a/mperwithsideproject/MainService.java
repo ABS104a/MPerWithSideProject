@@ -158,11 +158,13 @@ public class MainService extends Service{
         );*/
 
         // This will start the UPnP service if it wasn't already started
+		/*
         getApplicationContext().bindService(
             new Intent(this, AndroidUpnpServiceImpl.class),
             serviceConnection,
             Context.BIND_AUTO_CREATE
         );
+        //*/
 		
 		//開始ログ
 		Log.v("MainService","Service is Start!");
