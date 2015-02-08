@@ -2,12 +2,12 @@ package com.abs104a.mperwithsideproject;
 
 import org.fourthline.cling.android.AndroidUpnpService;
 import org.fourthline.cling.android.AndroidUpnpServiceImpl;
-import org.fourthline.cling.android.FixedAndroidLogHandler;
 import org.fourthline.cling.model.meta.Device;
 
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.settings.Settings;
+import com.abs104a.mperwithsideproject.upnp.BrowseRegistryListener;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
@@ -152,9 +152,10 @@ public class MainService extends Service{
 			mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
 		
 		 // Fix the logging integration between java.util.logging and Android internal logging
+		/*
         org.seamless.util.logging.LoggingUtil.resetRootHandler(
             new FixedAndroidLogHandler()
-        );
+        );*/
 
         // This will start the UPnP service if it wasn't already started
         getApplicationContext().bindService(
@@ -251,7 +252,7 @@ public class MainService extends Service{
 		
 	}
 	
-	private BrowseRegistryListener registryListener = new BrowseRegistryListener(this);
+	private BrowseRegistryListener registryListener = new BrowseRegistryListener();
 
     private AndroidUpnpService upnpService;
 
