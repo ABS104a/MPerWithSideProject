@@ -19,8 +19,9 @@
         android:layout_width="@dimen/controll_button_size"
         android:layout_height="@dimen/controll_button_size"
         android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/button_circle_xml"
         android:layout_below="@+id/seekBar_volume"
-        android:visibility="gone"
         android:src="@android:drawable/ic_menu_sort_by_size" />
 
     <ImageView
@@ -28,7 +29,7 @@
         android:layout_width="@dimen/controll_button_size"
         android:layout_height="@dimen/controll_button_size"
         android:layout_alignBottom="@+id/button_action_show_settings"
-        android:layout_alignParentRight="true"
+		android:layout_toLeftOf="@+id/button_action_show_list"
         android:layout_alignParentTop="true"
         android:layout_margin="@dimen/volume_margin"
         android:src="@drawable/volume" />

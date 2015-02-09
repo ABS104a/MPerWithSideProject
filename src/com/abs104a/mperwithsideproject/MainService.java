@@ -1,13 +1,8 @@
 package com.abs104a.mperwithsideproject;
 
-import org.fourthline.cling.android.AndroidUpnpService;
-import org.fourthline.cling.android.AndroidUpnpServiceImpl;
-import org.fourthline.cling.model.meta.Device;
-
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.music.PlayList;
 import com.abs104a.mperwithsideproject.settings.Settings;
-import com.abs104a.mperwithsideproject.upnp.BrowseRegistryListener;
 import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
@@ -151,19 +146,6 @@ public class MainService extends Service{
 		if(!isBind)
 			mService.bindService(new Intent(mService,PlayerService.class), mMainServiceConnection , Context.BIND_AUTO_CREATE);
 		
-		 // Fix the logging integration between java.util.logging and Android internal logging
-		/*
-        org.seamless.util.logging.LoggingUtil.resetRootHandler(
-            new FixedAndroidLogHandler()
-        );*/
-
-        // This will start the UPnP service if it wasn't already started
-        getApplicationContext().bindService(
-            new Intent(this, AndroidUpnpServiceImpl.class),
-            serviceConnection,
-            Context.BIND_AUTO_CREATE
-        );
-		
 		//開始ログ
 		Log.v("MainService","Service is Start!");
 
@@ -188,14 +170,7 @@ public class MainService extends Service{
 		
 		//バインドの解除
 		unbindService(mMainServiceConnection);
-		
-		if (upnpService != null) {
-            upnpService.getRegistry().removeListener(registryListener);
-        }
-        // This will stop the UPnP service if nobody else is bound to it
-        getApplicationContext().unbindService(serviceConnection);
-		
-		
+
 		//BroadcastReceiverの消去
 		mService.unregisterReceiver(broadcastReceiver); 
 		
@@ -251,31 +226,5 @@ public class MainService extends Service{
 		}
 		
 	}
-	
-	private BrowseRegistryListener registryListener = new BrowseRegistryListener();
-
-    private AndroidUpnpService upnpService;
-
-    private ServiceConnection serviceConnection = new ServiceConnection() {
-
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            upnpService = (AndroidUpnpService) service;
-
-            // Get ready for future device advertisements
-            upnpService.getRegistry().addListener(registryListener);
-
-            // Now add all devices to the list we already know about
-            for (Device device : upnpService.getRegistry().getDevices()) {
-                registryListener.deviceAdded(device);
-            }
-
-            // Search asynchronously for all devices, they will respond soon
-            upnpService.getControlPoint().search();
-        }
-
-        public void onServiceDisconnected(ComponentName className) {
-            upnpService = null;
-        }
-    };
 	
 }

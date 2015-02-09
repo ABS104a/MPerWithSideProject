@@ -21,6 +21,7 @@ import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.BackButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ExitButtonOnClickListenerImpl;
+import com.abs104a.mperwithsideproject.viewctl.listener.ListButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.MusicSeekBarOnChangeImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.NextButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.OnPlayCompletedImpl;
@@ -361,15 +362,7 @@ public final class MusicViewCtl {
 		
 		//リスト表示ボタン
 		ImageButton showListButton = (ImageButton)mView.findViewById(R.id.button_action_show_list);
-		showListButton.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				//TODO リスト表示ボタンの設定を登録する
-				
-			}
-			
-		});
+		showListButton.setOnClickListener(new ListButtonOnClickImpl());
 		
 		//ShareButtonの動作
 		ImageButton shareButton = (ImageButton)mView.findViewById(R.id.imageButton_share);
