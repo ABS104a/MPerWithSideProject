@@ -5,7 +5,19 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="libs/jetty-server-9.2.0.RC0.jar"/>
 	<classpathentry kind="lib" path="libs/cling-core-2.0.1.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/android.projects"/>
+	<classpathentry kind="lib" path="libs/javax.servlet-api-3.1.0.jar"/>
+	<classpathentry kind="lib" path="libs/jetty-client-9.2.0.RC0.jar"/>
+	<classpathentry kind="lib" path="libs/jetty-http-9.2.0.RC0.jar"/>
+	<classpathentry kind="lib" path="libs/jetty-io-9.2.0.RC0.jar"/>
+	<classpathentry kind="lib" path="libs/jetty-security-9.2.0.RC0.jar"/>
+	<classpathentry kind="lib" path="libs/jetty-servlet-9.2.0.RC0.jar"/>
+	<classpathentry kind="lib" path="libs/seamless-http-1.1.0.jar"/>
+	<classpathentry kind="lib" path="libs/seamless-util-1.1.0.jar"/>
+	<classpathentry kind="lib" path="libs/seamless-xml-1.1.0.jar"/>
+	<classpathentry kind="lib" path="libs/slf4j-api-1.6.0.jar"/>
+	<classpathentry kind="lib" path="libs/slf4j-jdk14-1.6.0.jar"/>
+	<classpathentry kind="lib" path="libs/teleal-common-1.0.14.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
