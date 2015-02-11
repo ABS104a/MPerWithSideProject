@@ -4,9 +4,11 @@ import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
+import com.abs104a.mperwithsideproject.utl.VisualizerUtil;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.audiofx.Visualizer;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
@@ -24,6 +26,9 @@ public class PagerHolder {
 	//Viewを管理するための配列（Viewpagerの各Viewが入る．）
 	private final View[] rowView;
 	
+	
+	private final VisualizerUtil visualizerUtil;
+	
 	/**
 	 * インスタンス生成
 	 * @param viewCount　ViewPagerのページ数
@@ -33,6 +38,7 @@ public class PagerHolder {
 		this.rowView = new View[viewCount];
 		for(int i = 0;i < rowView.length;i++)
 			rowView[i] = null;
+		visualizerUtil = new VisualizerUtil();
 	}
 	
 	/**
@@ -86,7 +92,7 @@ public class PagerHolder {
 			sp.edit().putInt("FIRST_VISIBLE", firstVisiblePosition).commit();
 		}
 		if(index == Column.EQUALIZER){
-			ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
+			visualizerUtil.removeMusicVisualizer();
 		}
 		rowView[index] = null;
 	}
@@ -159,6 +165,6 @@ public class PagerHolder {
 	 */
 	public View createEqualizerView(Context mContext){
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mContext);
-		return new ViewPagerForEqualizerViewCtl().createView(mContext, mpwpl);
+		return new ViewPagerForEqualizerViewCtl().createView(mContext, mpwpl,visualizerUtil);
 	}
 }

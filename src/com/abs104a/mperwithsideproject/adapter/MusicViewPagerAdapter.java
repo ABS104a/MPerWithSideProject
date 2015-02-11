@@ -10,6 +10,7 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import com.abs104a.mperwithsideproject.Column;
+import com.abs104a.mperwithsideproject.utl.VisualizerUtil;
 import com.abs104a.mperwithsideproject.viewctl.PagerHolder;
 /**
  * MusicPlayerクラスでのViewPagerのView設定を行うクラス

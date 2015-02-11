@@ -1,22 +1,18 @@
 package com.abs104a.mperwithsideproject.viewctl;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.media.audiofx.Equalizer;
 import android.media.audiofx.Visualizer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -28,8 +24,8 @@ import android.widget.TextView;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.EqualizerItem;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
-import com.abs104a.mperwithsideproject.utl.GetImageTask;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
+import com.abs104a.mperwithsideproject.utl.VisualizerUtil;
 import com.abs104a.mperwithsideproject.view.FFTView;
 import com.abs104a.mperwithsideproject.viewctl.listener.MyOnDataCaptureImpl;
 
@@ -40,9 +36,14 @@ import com.abs104a.mperwithsideproject.viewctl.listener.MyOnDataCaptureImpl;
  */
 public class ViewPagerForEqualizerViewCtl {
 	
-	private static Visualizer mVisualizer = null;
-	private static boolean isFFT = false;
-	private static boolean isWave = true;
+	//private static Visualizer mVisualizer = null;
+	//private static boolean isFFT = false;
+	//private static boolean isWave = true;
+	private static VisualizerUtil vutl = null;
+	
+	public static VisualizerUtil getVisualizerUtil(){
+		return vutl;
+	}
 	
 	//Tag
 	public static final String TAG = "ViewPagerForEqualizerViewCtl";
@@ -55,19 +56,21 @@ public class ViewPagerForEqualizerViewCtl {
 	 */
 	public final View createView(
 			final Context mContext,
-			final MusicPlayerWithQueue mpwpl) 
+			final MusicPlayerWithQueue mpwpl,
+			final VisualizerUtil vutl) 
 	{
 		
 		//TODO Visualizerの設定
+		ViewPagerForEqualizerViewCtl.vutl = vutl;
 		
 		//Layoutの生成
 		LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 		final ScrollView mView = (ScrollView)layoutInflater.inflate(R.layout.equalizer, (ViewGroup)MusicViewCtl.getPlayerView(),false);
 		
-		createMusicVisualizer(mContext);
+		vutl.createMusicVisualizer(mContext);
 		
 		//EqualizerのView反映
-		final Equalizer eq = setEqualizerForView(mView);
+		final Equalizer eq = setEqualizerForView(mView,vutl);
 		
 		
 		//>-----チェックボックスの設定-----------------------------------------<//
@@ -81,7 +84,7 @@ public class ViewPagerForEqualizerViewCtl {
 				android.util.Log.v("Equalizer","isEnabled : " + isChecked);
 				mpwpl.setEqualizer(isChecked);
 				//反映する
-				setEqualizerForView(mView);
+				setEqualizerForView(mView,vutl);
 			}
 			
 		});
@@ -117,7 +120,7 @@ public class ViewPagerForEqualizerViewCtl {
 					mpwpl.getEqualizerInstance().usePreset((short)position);
 				mpwpl.setEqualizerCursor((short)position);
 				//バーの反映する
-				setEqualizerForView(mView);
+				setEqualizerForView(mView,vutl);
 			}
 
 			@Override
@@ -133,7 +136,7 @@ public class ViewPagerForEqualizerViewCtl {
 	 * @param mView	生成したequalizerView
 	 * @return	生成したequalizerインスタンス
 	 */
-	private final Equalizer setEqualizerForView(final View mView){
+	private final Equalizer setEqualizerForView(final View mView,final VisualizerUtil vutl){
 		final LinearLayout layoutView = (LinearLayout)mView.findViewById(R.id.linearLayout_equalizer_child);
 		//Viewのクリア
 		layoutView.removeAllViews();
@@ -230,17 +233,17 @@ public class ViewPagerForEqualizerViewCtl {
 				View mView = v.getRootView();
 				//Visualizerの生成
 				FFTView fftView = (FFTView)mView.findViewById(R.id.fftview_equalizer);
-				if(mVisualizer != null && fftView != null){
-					mVisualizer.setEnabled(false);
+				if(vutl.getVisualizer() != null && fftView != null){
+					vutl.getVisualizer().setEnabled(false);
 					//各結果を反転させる．
-					isWave = !isWave;
-					isFFT = !isFFT;
-					mVisualizer.setDataCaptureListener(
+					vutl.setWave(!vutl.isWave());
+					vutl.setFFT(!vutl.isFFT());
+					vutl.getVisualizer().setDataCaptureListener(
 							new MyOnDataCaptureImpl(fftView),
 							Visualizer.getMaxCaptureRate(),
-							isWave, 
-							isFFT);
-					mVisualizer.setEnabled(true);
+							vutl.isWave(), 
+							vutl.isFFT());
+					vutl.getVisualizer().setEnabled(true);
 				}
 			}
 
@@ -251,7 +254,7 @@ public class ViewPagerForEqualizerViewCtl {
 	}
 	
 	//前に取得したジャケットの画像のアルバム名
-	private static String oldAlbumName = null;
+	//private static String oldAlbumName = null;
 	
 	/**
 	 * Visualizerを作成する．
@@ -259,79 +262,17 @@ public class ViewPagerForEqualizerViewCtl {
 	 * @return Visualizer
 	 */
 	public final static Visualizer createMusicVisualizer(final Context context){
-		
-		removeMusicVisualizer();
-		
-		View playerView = MusicViewCtl.getPlayerView();
-		if(playerView == null) return null;
-		FFTView fftView = (FFTView)playerView.findViewById(R.id.fftview_equalizer);
-		if(fftView == null) return null;
-		final int captureRate = Visualizer.getMaxCaptureRate();
-		
-		final MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(context);
-		//再生している曲がない場合はViewを作成しない
-		if(mpwpl.getMediaPlayerSessionId() == -1)return null;
-		final Visualizer mVisualizer = new Visualizer(mpwpl.getMediaPlayerSessionId());
-		mVisualizer.setEnabled(false);
-		
-		mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
-		
-		//キャプチャしたデータを定期的に取得するリスナーを設定
-        mVisualizer.setDataCaptureListener(new MyOnDataCaptureImpl(fftView),
-        captureRate, //キャプチャーデータの取得レート（ミリヘルツ）
-        isWave,//waveFrom
-        isFFT);//fftFlag
-        
-        (fftView).setSamplingRate(captureRate);
-        if(mpwpl.getNowPlayingMusic() != null){
-        	
-        	final ImageView imageView = (ImageView)((ViewGroup)fftView.getParent()).findViewById(R.id.imageview_equalizer);
-        	if(imageView != null && imageView.getDrawable() == null)
-        		oldAlbumName = new String();
-        	
-        	if(oldAlbumName == null)
-        		oldAlbumName = new String();
-        	
-        	if(!oldAlbumName.equals(mpwpl.getNowPlayingMusic().getAlbum())){
-        		oldAlbumName = mpwpl.getNowPlayingMusic().getAlbum();
-        		new GetImageTask(
-        				context, 
-        				context.getResources().getDimensionPixelSize(R.dimen.visualizer_view_height), 
-        				new GetImageTask.OnGetImageListener() {
-
-        			@Override
-        			public void onGetImage(Bitmap image) {
-        				try{
-        					if(imageView != null){
-        						//ジャケット画像を表示する．
-        						Animation anim = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
-        						imageView.setImageBitmap(image);
-        						imageView.startAnimation(anim);
-        					}else{
-        						image.recycle();
-        						image = null;
-        					}
-        				}catch(NullPointerException e){
-        					android.util.Log.e(TAG,e.getMessage());
-        				}
-        			}
-        		}).execute(mpwpl.getNowPlayingMusic().getAlbumUri());
-        	}
-        }
-        mVisualizer.setEnabled(true);
-        ViewPagerForEqualizerViewCtl.mVisualizer = mVisualizer;
-		return mVisualizer;
+		return vutl.getVisualizer();
 	}
 	
 	/**
 	 * Visualizerを解放する
 	 */
+	
 	public static void removeMusicVisualizer(){
 		try{
-			if(mVisualizer != null){
-				mVisualizer.release();
-				mVisualizer = null;
-				System.gc();
+			if(vutl != null){
+				vutl.removeMusicVisualizer();
 			}
 		}catch(Exception e){
 
@@ -340,8 +281,8 @@ public class ViewPagerForEqualizerViewCtl {
 	
 	public static void setIsVisualizer(boolean isEnabled){
 		try{
-			if(mVisualizer != null){
-				mVisualizer.setEnabled(isEnabled);
+			if(vutl != null){
+				vutl.setIsVisualizer(isEnabled);
 			}
 		}catch(Exception e){
 
