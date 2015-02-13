@@ -5,7 +5,7 @@ import org.fourthline.cling.android.AndroidUpnpServiceImpl;
 import org.fourthline.cling.android.FixedAndroidLogHandler;
 import org.fourthline.cling.model.meta.Device;
 
-import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
+import com.abs104a.mperwithsideproject.adapter.MusicViewPagerForActivityAdapter;
 import com.abs104a.mperwithsideproject.upnp.BrowseRegistryListener;
 import com.abs104a.mperwithsideproject.viewctl.listener.ViewPagerOnPagerChangeImpl;
 
@@ -40,7 +40,7 @@ public class MusicListActivity extends Activity {
 		//ViewPager の設定
 		ViewPager mViewPager = (ViewPager)root.findViewById(R.id.pager);
 		//Adapterの設定
-		mViewPager.setAdapter(new MusicViewPagerAdapter(mActivity));
+		mViewPager.setAdapter(new MusicViewPagerForActivityAdapter(mActivity));
 		//ページの設定
 		ViewPagerOnPagerChangeImpl pageChangeListener = new ViewPagerOnPagerChangeImpl(mViewPager);
 		mViewPager.setOnPageChangeListener(pageChangeListener);

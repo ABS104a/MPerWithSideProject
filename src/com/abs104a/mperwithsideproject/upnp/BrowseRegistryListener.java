@@ -1,5 +1,7 @@
 package com.abs104a.mperwithsideproject.upnp;
 
+import java.util.ArrayList;
+
 import org.fourthline.cling.model.meta.Device;
 import org.fourthline.cling.model.meta.LocalDevice;
 import org.fourthline.cling.model.meta.RemoteDevice;
@@ -11,6 +13,12 @@ import android.util.Log;
 public class BrowseRegistryListener extends DefaultRegistryListener {
 
 	private final static String TAG = "BROWSE_REGISTRY_LISTENER";
+	
+	private final ArrayList<Device> deviceList = new ArrayList<Device>();
+	
+	public final ArrayList<Device> getDeviceList(){
+		return deviceList;
+	}
 
 	public BrowseRegistryListener() {
 		Log.v(TAG,"BrowseRegistryListener CONSTRUCTOR" );
@@ -64,11 +72,13 @@ public class BrowseRegistryListener extends DefaultRegistryListener {
     	//デバイスを追加する時（List等）
     	Log.v(TAG,"deviceAdded");
     	Log.v(TAG,device.getDisplayString());
+    	deviceList.add(device);
     }
 
     public void deviceRemoved(final Device device) {
     	//デバイスを消去する時（List等）
     	Log.v(TAG,"deviceRemoved");
     	Log.v(TAG,device.getDisplayString());
+    	deviceList.remove(device);
     }
 }
