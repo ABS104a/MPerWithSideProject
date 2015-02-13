@@ -390,7 +390,7 @@ public final class MusicViewCtl {
 		//Adapterの設定
 		mViewPager.setAdapter(new MusicViewPagerAdapter(mService));
 		//ページの設定
-		ViewPagerOnPagerChangeImpl pageChangeListener = new ViewPagerOnPagerChangeImpl(mViewPager,ViewPagerForEqualizerViewCtl.getVisualizerUtil());
+		ViewPagerOnPagerChangeImpl pageChangeListener = new ViewPagerOnPagerChangeImpl(mViewPager);
 		mViewPager.setOnPageChangeListener(pageChangeListener);
 		mViewPager.setCurrentItem(pageCount);
 		

@@ -2,8 +2,9 @@ package com.abs104a.mperwithsideproject.viewctl.listener;
 
 import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerAdapter;
-import com.abs104a.mperwithsideproject.utl.VisualizerUtil;
 import com.abs104a.mperwithsideproject.viewctl.MusicViewCtl;
+import com.abs104a.mperwithsideproject.viewctl.ViewPagerForEqualizerViewCtl;
+
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 
@@ -15,11 +16,9 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 public final class ViewPagerOnPagerChangeImpl implements OnPageChangeListener {
 
 	private final ViewPager mViewPager;
-	private final VisualizerUtil util;
 
-	public ViewPagerOnPagerChangeImpl(ViewPager mViewPager,VisualizerUtil util) {
+	public ViewPagerOnPagerChangeImpl(ViewPager mViewPager) {
 		this.mViewPager = mViewPager;
-		this.util = util;
 	}
 
 	@Override
@@ -45,9 +44,9 @@ public final class ViewPagerOnPagerChangeImpl implements OnPageChangeListener {
 		MusicViewCtl.setPageCount(index);
 		if(index == Column.EQUALIZER){
 			//EQUALIZERViewのとき
-			util.createMusicVisualizer(mViewPager.getContext());
+			ViewPagerForEqualizerViewCtl.createMusicVisualizer(mViewPager.getContext());
 		}else{
-			util.setIsVisualizer(false);
+			ViewPagerForEqualizerViewCtl.setIsVisualizer(false);
 		}
 		System.gc();
 	}
