@@ -7,6 +7,7 @@ import org.fourthline.cling.model.meta.Device;
 
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerForActivityAdapter;
 import com.abs104a.mperwithsideproject.upnp.BrowseRegistryListener;
+import com.abs104a.mperwithsideproject.viewctl.listener.ViewPagerOnPagerChangeForActivityImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ViewPagerOnPagerChangeImpl;
 
 import android.app.Activity;
@@ -48,7 +49,7 @@ public class MusicListActivity extends Activity {
 		//Adapterの設定
 		mViewPager.setAdapter(new MusicViewPagerForActivityAdapter(mActivity));
 		//ページの設定
-		ViewPagerOnPagerChangeImpl pageChangeListener = new ViewPagerOnPagerChangeImpl(mViewPager);
+		ViewPagerOnPagerChangeForActivityImpl pageChangeListener = new ViewPagerOnPagerChangeForActivityImpl(mViewPager);
 		mViewPager.setOnPageChangeListener(pageChangeListener);
 
 		// Fix the logging integration between java.util.logging and Android internal logging

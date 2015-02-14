@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.viewctl.PagerHolder;
+import com.abs104a.mperwithsideproject.viewctl.PagerHolderForActivity;
 /**
  * MusicPlayerクラスでのViewPagerのView設定を行うクラス
  * 主に提供する機能として
@@ -27,9 +28,9 @@ public final class MusicViewPagerForActivityAdapter extends PagerAdapter {
 	//定数/////////////////////////////////////////////
 	
 	//Classのタグ
-	public final static String TAG = "MusicViewPagerAdapter";
+	public final static String TAG = "MusicViewPagerForActivityAdapter";
 	//ViewPagerのページ数
-	public final static int PAGE_SIZE = 4;
+	public final static int PAGE_SIZE = 5;
 	
 	//変数/////////////////////////////////////////////
 	
@@ -37,7 +38,7 @@ public final class MusicViewPagerForActivityAdapter extends PagerAdapter {
 	private final Context mContext;
 	
 	//View生成用の
-	private final PagerHolder pageHolder;
+	private final PagerHolderForActivity pageHolder;
 	
 	/**
 	 * ViewのResourceを解放する．
@@ -88,7 +89,7 @@ public final class MusicViewPagerForActivityAdapter extends PagerAdapter {
 	 */
 	public MusicViewPagerForActivityAdapter(Context mContext) {
 		this.mContext = mContext;
-		this.pageHolder  = new PagerHolder(getCount());
+		this.pageHolder  = new PagerHolderForActivity(getCount());
 	}
 
 	/**

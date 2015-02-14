@@ -2,7 +2,7 @@ package com.abs104a.mperwithsideproject.upnp;
 
 import org.fourthline.cling.model.meta.Device;
 
-public class DeviceDisplay {
+public class DeviceDisplay{
 
     private Device device;
 

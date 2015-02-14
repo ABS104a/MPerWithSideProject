@@ -64,7 +64,7 @@ public class ViewPagerForEqualizerViewCtl {
 		LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 		final ScrollView mView = (ScrollView)layoutInflater.inflate(R.layout.equalizer, (ViewGroup)MusicViewCtl.getPlayerView(),false);
 		
-		createMusicVisualizer(mContext);
+		//createMusicVisualizer(mContext);
 		
 		//EqualizerのView反映
 		final Equalizer eq = setEqualizerForView(mView);

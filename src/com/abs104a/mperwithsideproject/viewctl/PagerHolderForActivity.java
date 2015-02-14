@@ -16,7 +16,7 @@ import android.widget.ListView;
  * @author Kouki
  *
  */
-public class PagerHolder {
+public class PagerHolderForActivity {
 	
 	//Tag
 	public static final String TAG = "PagerHolder";
@@ -28,7 +28,7 @@ public class PagerHolder {
 	 * インスタンス生成
 	 * @param viewCount　ViewPagerのページ数
 	 */
-	public PagerHolder(int viewCount){
+	public PagerHolderForActivity(int viewCount){
 		//データの初期化
 		this.rowView = new View[viewCount];
 		for(int i = 0;i < rowView.length;i++)
@@ -70,6 +70,8 @@ public class PagerHolder {
 			return mContext.getText(R.string.viewpager_page_album); //アルバム
 		case Column.EQUALIZER:
 			return mContext.getText(R.string.viewpager_page_equalizer); //イコライザ・ビジュアライザ-
+		case Column.DLNA:
+			return mContext.getText(R.string.viewpager_page_dlna);//dlna
 		}
 		return new String();
 	}
@@ -112,6 +114,8 @@ public class PagerHolder {
 			break;
 		case Column.EQUALIZER:	//Page4
 			view = createEqualizerView(mContext);
+		case Column.DLNA:	//Page5
+			view = createDLNAView(mContext);
 			break;
 		}
 		rowView[index] = view;
@@ -159,8 +163,11 @@ public class PagerHolder {
 	 */
 	public View createEqualizerView(Context mContext){
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mContext);
-		View mView = new ViewPagerForEqualizerViewCtl().createView(mContext, mpwpl);
-		ViewPagerForEqualizerViewCtl.createMusicVisualizer(mContext);
-		return mView;
+		return new ViewPagerForEqualizerViewCtl().createView(mContext, mpwpl);
+	}
+	
+	public View createDLNAView(Context mContext){
+		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mContext);
+		return new ViewPagerForDLNACtl().createView(mContext, mpwpl);	
 	}
 }
