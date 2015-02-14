@@ -18,3 +18,4 @@
 - Subsonic対応
 - DLNA対応
 - LISTVIEWの解放
+- Licenceの記述の追加

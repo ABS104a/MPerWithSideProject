@@ -20,6 +20,8 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 
 public class MusicListActivity extends Activity {
 
@@ -33,12 +35,16 @@ public class MusicListActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_music_list);
+		setContentView(R.layout.part_of_player_list);
 
 		View root = (View)getWindow().getDecorView().findViewById(android.R.id.content);
 
 		//ViewPager の設定
-		ViewPager mViewPager = (ViewPager)root.findViewById(R.id.pager);
+		ViewPager mViewPager = (ViewPager)root.findViewById(R.id.music_pager);
+		LayoutParams params = mViewPager.getLayoutParams();
+		params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+		mViewPager.setLayoutParams(params);
+		
 		//Adapterの設定
 		mViewPager.setAdapter(new MusicViewPagerForActivityAdapter(mActivity));
 		//ページの設定
