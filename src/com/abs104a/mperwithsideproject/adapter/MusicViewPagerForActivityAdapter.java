@@ -67,7 +67,7 @@ public final class MusicViewPagerForActivityAdapter extends PagerAdapter {
 		ListView mQueueListView = (ListView) pageHolder.getIndexView(Column.QUEUE);
 		ExpandableListView mPlayListsListView = (ExpandableListView) pageHolder.getIndexView(Column.PLAYLIST);
 		ExpandableListView mAlbumView = (ExpandableListView) pageHolder.getIndexView(Column.ALBUM);
-		
+		//Visualizerを非Static化する．
 		//columnに応じた処理を行う．
 		if(mQueueListView != null)
 			((MusicListAdapter)mQueueListView.getAdapter()).notifyDataSetChanged();

@@ -70,9 +70,12 @@ public class BrowseRegistryListener extends DefaultRegistryListener {
 
     public void deviceAdded(final Device device) {
     	//デバイスを追加する時（List等）
-    	Log.v(TAG,"deviceAdded");
-    	Log.v(TAG,device.getDisplayString());
-    	deviceList.add(device);
+    	if (device.getType().getType().equals("MediaServer")) {  
+    		Log.v(TAG,"deviceAdded");
+        	Log.v(TAG,device.getDisplayString());
+        	deviceList.add(device);
+    	}
+    	
     }
 
     public void deviceRemoved(final Device device) {
