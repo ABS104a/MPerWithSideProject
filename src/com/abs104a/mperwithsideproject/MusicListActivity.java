@@ -8,8 +8,6 @@ import org.fourthline.cling.model.meta.Device;
 import com.abs104a.mperwithsideproject.adapter.MusicViewPagerForActivityAdapter;
 import com.abs104a.mperwithsideproject.upnp.BrowseRegistryListener;
 import com.abs104a.mperwithsideproject.viewctl.listener.ViewPagerOnPagerChangeForActivityImpl;
-import com.abs104a.mperwithsideproject.viewctl.listener.ViewPagerOnPagerChangeImpl;
-
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -24,6 +22,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
+/**
+ * オーバーレイViewのViewPagerをActivityで表示するActivity
+ * DLNAの動作もこのActivityで行う．
+ * @author ABS104a
+ *
+ */
 public class MusicListActivity extends Activity {
 
 
