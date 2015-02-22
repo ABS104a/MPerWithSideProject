@@ -21,6 +21,7 @@ public class AudioContentBrowser extends Browse {
 	public void received(ActionInvocation actionInvocation, DIDLContent didlContent) {
 		// TODO 自動生成されたメソッド・スタブ
 		List<Item> items = didlContent.getItems();
+		//TODO LISTVIEWを取ってきてContentを表示する．
 
 	}
 

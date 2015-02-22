@@ -4,6 +4,7 @@ import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
+import com.abs104a.mperwithsideproject.utl.VisualizerUtils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -88,7 +89,9 @@ public class PagerHolderForActivity {
 			sp.edit().putInt("FIRST_VISIBLE", firstVisiblePosition).commit();
 		}
 		if(index == Column.EQUALIZER){
-			ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
+			if(rowView[index] != null && rowView[index].getTag() != null)
+				((VisualizerUtils)rowView[index].getTag()).removeMusicVisualizer();
+			//ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
 		}
 		rowView[index] = null;
 	}
@@ -163,9 +166,22 @@ public class PagerHolderForActivity {
 	 */
 	public View createEqualizerView(Context mContext){
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mContext);
-		return new ViewPagerForEqualizerViewCtl().createView(mContext, mpwpl);
+		View mView = new ViewPagerForEqualizerViewCtl().createView(mContext, mpwpl);
+		
+		VisualizerUtils mVisualizerUtils = new VisualizerUtils();
+		mVisualizerUtils.createMusicVisualizer(mContext);
+		
+		mView.setTag(mVisualizerUtils);
+		
+		//ViewPagerForEqualizerViewCtl.createMusicVisualizer(mContext);
+		return mView;
 	}
 	
+	/**
+	 * DLNAViewを作成する．
+	 * @param mContext
+	 * @return
+	 */
 	public View createDLNAView(Context mContext){
 		MusicPlayerWithQueue mpwpl = MusicUtils.getMusicController(mContext);
 		return new ViewPagerForDLNACtl().createView(mContext, mpwpl);	

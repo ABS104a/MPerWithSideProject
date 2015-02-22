@@ -1,7 +1,5 @@
 package com.abs104a.mperwithsideproject.upnp;
 
-import java.util.ArrayList;
-
 import org.fourthline.cling.model.meta.Device;
 import org.fourthline.cling.model.meta.LocalDevice;
 import org.fourthline.cling.model.meta.RemoteDevice;
@@ -10,18 +8,16 @@ import org.fourthline.cling.registry.Registry;
 
 import android.util.Log;
 
+import com.abs104a.mperwithsideproject.viewctl.ViewPagerForDLNACtl;
+
 public class BrowseRegistryListener extends DefaultRegistryListener {
 
 	private final static String TAG = "BROWSE_REGISTRY_LISTENER";
 	
-	private final ArrayList<Device> deviceList = new ArrayList<Device>();
-	
-	public final ArrayList<Device> getDeviceList(){
-		return deviceList;
-	}
 
 	public BrowseRegistryListener() {
 		Log.v(TAG,"BrowseRegistryListener CONSTRUCTOR" );
+		ViewPagerForDLNACtl.clearList();
 	}
 
 	/* Discovery performance optimization for very slow Android devices! */
@@ -68,20 +64,33 @@ public class BrowseRegistryListener extends DefaultRegistryListener {
         Log.v(TAG,device.getDisplayString());
     }
 
-    public void deviceAdded(final Device device) {
+    @SuppressWarnings("rawtypes")
+	public void deviceAdded(final Device device) {
     	//デバイスを追加する時（List等）
     	if (device.getType().getType().equals("MediaServer")) {  
     		Log.v(TAG,"deviceAdded");
         	Log.v(TAG,device.getDisplayString());
-        	deviceList.add(device);
+        	
+        	ViewPagerForDLNACtl.addList(
+        			new DisplayItem(
+        			device.getDisplayString(), 
+        			device.getType().getType(), 
+        			device.getIcons()[0].getUri().toString(), 
+        			device, Device.class));
     	}
     	
     }
 
-    public void deviceRemoved(final Device device) {
+    @SuppressWarnings("rawtypes")
+	public void deviceRemoved(final Device device) {
     	//デバイスを消去する時（List等）
     	Log.v(TAG,"deviceRemoved");
     	Log.v(TAG,device.getDisplayString());
-    	deviceList.remove(device);
+    	ViewPagerForDLNACtl.removeList(
+    			new DisplayItem(
+    			device.getDisplayString(), 
+    			device.getType().getType(), 
+    			device.getIcons()[0].getUri().toString(), 
+    			device, Device.class));
     }
 }

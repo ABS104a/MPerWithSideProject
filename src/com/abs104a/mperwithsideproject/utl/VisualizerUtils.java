@@ -25,8 +25,8 @@ public class VisualizerUtils {
 
 	
 	private Visualizer mVisualizer = null;
-	private boolean isFFT = false;
-	private boolean isWave = true;
+	private static boolean isFFT = false;
+	private static boolean isWave = true;
 	
 	//Tag
 	public static final String TAG = "VisualizerUtils";
@@ -123,8 +123,10 @@ public class VisualizerUtils {
 	 * 動作モードの変更
 	 */
 	public void changeActionMode(Context mContext){
-		this.isWave = !this.isWave;
-		this.isFFT = !this.isFFT;
+		isWave = !isWave;
+		isFFT = !isFFT;
+		if(mVisualizer != null)
+			mVisualizer.setEnabled(false);
 		this.createMusicVisualizer(mContext);
 	}
 	

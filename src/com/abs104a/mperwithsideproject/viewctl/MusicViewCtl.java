@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
 import com.abs104a.mperwithsideproject.Column;
 import com.abs104a.mperwithsideproject.MainService;
 import com.abs104a.mperwithsideproject.Notifications;
@@ -19,6 +20,7 @@ import com.abs104a.mperwithsideproject.utl.DisplayUtils;
 import com.abs104a.mperwithsideproject.utl.GetImageTask;
 import com.abs104a.mperwithsideproject.utl.ImageCache;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
+import com.abs104a.mperwithsideproject.utl.VisualizerUtils;
 import com.abs104a.mperwithsideproject.viewctl.listener.BackButtonOnClickImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ExitButtonOnClickListenerImpl;
 import com.abs104a.mperwithsideproject.viewctl.listener.ListButtonOnClickImpl;
@@ -55,7 +57,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
@@ -142,12 +143,17 @@ public final class MusicViewCtl {
 		//Viewの消去を行う
 		if(getPlayerView() != null && rootView != null){
 			
-			//Visualizerの無効化
-			ViewPagerForEqualizerViewCtl.setIsVisualizer(false);
-			
 			//Viewのクリーンアップ
 			try{
 				ViewPager mViewPager = (ViewPager)getPlayerView().findViewById(R.id.player_list_part);
+				
+				//Visualizerの無効化
+				View equalizerView = mViewPager.getChildAt(Column.EQUALIZER);
+				if(equalizerView != null && equalizerView.getTag() != null){
+					((VisualizerUtils)equalizerView.getTag()).setIsVisualizer(false);
+					((VisualizerUtils)equalizerView.getTag()).removeMusicVisualizer();
+				}
+				
 				((MusicViewPagerAdapter)mViewPager.getAdapter()).cleanUp();
 			}catch(NullPointerException e){
 				
@@ -187,7 +193,7 @@ public final class MusicViewCtl {
 				@Override
 				public void onAnimationEnd(Animation animation) {
 					try{
-						ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
+	
 						//WindowManagerの取得
 						WindowManager mWindowManager = (WindowManager)getPlayerView().getContext().getSystemService(Context.WINDOW_SERVICE);
 						mWindowManager.removeView((View)getPlayerView().getParent());
@@ -245,6 +251,8 @@ public final class MusicViewCtl {
 				@Override
 				public void onAnimationEnd(Animation animation) {
 					mView.setVisibility(View.VISIBLE);
+					mView.setTag(new VisualizerUtils());
+					((VisualizerUtils)mView.getTag()).createMusicVisualizer(mService);
 				}
 
 				@Override
@@ -717,25 +725,34 @@ public final class MusicViewCtl {
 				mpwpl);
 		//ViewPager の設定
 		ViewPager mViewPager = (ViewPager)playerView.findViewById(R.id.player_list_part);
-		if(mViewPager != null && mViewPager.getCurrentItem() == Column.EQUALIZER){
-			ViewPagerForEqualizerViewCtl.createMusicVisualizer(mViewPager.getContext());
-			ViewPagerForEqualizerViewCtl.setIsVisualizer(true);
-		}else{
-			ViewPagerForEqualizerViewCtl.setIsVisualizer(false);
-		}
-		
-		if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
-			ViewPagerForEqualizerViewCtl.setIsVisualizer(true);
-		}else{
-			ViewPagerForEqualizerViewCtl.setIsVisualizer(false);
-			new Handler().postDelayed(new Runnable(){
+		View equalizerView = mViewPager == null ? null : mViewPager.getChildAt(Column.EQUALIZER);
+		if(equalizerView != null){
+			final VisualizerUtils vutils;
+			if(equalizerView.getTag() != null) vutils = (VisualizerUtils) equalizerView.getTag();
+			else {
+				vutils = new VisualizerUtils();
+				equalizerView.setTag(vutils);
+			}
+			if(mViewPager != null && mViewPager.getCurrentItem() == Column.EQUALIZER){
+				vutils.createMusicVisualizer(mViewPager.getContext());
+				vutils.setIsVisualizer(true);
+			}else{
+				vutils.setIsVisualizer(false);
+			}
 
-				@Override
-				public void run() {
-					ViewPagerForEqualizerViewCtl.removeMusicVisualizer();
-				}
-				
-			},DELAYTIME);
+			if(mpwpl.getStatus() == MusicPlayerWithQueue.PLAYING){
+				vutils.setIsVisualizer(true);
+			}else{
+				vutils.setIsVisualizer(false);
+				new Handler().postDelayed(new Runnable(){
+
+					@Override
+					public void run() {
+						vutils.removeMusicVisualizer();
+					}
+
+				},DELAYTIME);
+			}
 		}
 
 		

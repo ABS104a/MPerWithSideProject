@@ -30,6 +30,7 @@ import com.abs104a.mperwithsideproject.music.EqualizerItem;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.utl.GetImageTask;
 import com.abs104a.mperwithsideproject.utl.MusicUtils;
+import com.abs104a.mperwithsideproject.utl.VisualizerUtils;
 import com.abs104a.mperwithsideproject.view.FFTView;
 import com.abs104a.mperwithsideproject.viewctl.listener.MyOnDataCaptureImpl;
 
@@ -40,9 +41,9 @@ import com.abs104a.mperwithsideproject.viewctl.listener.MyOnDataCaptureImpl;
  */
 public class ViewPagerForEqualizerViewCtl {
 	
-	private static Visualizer mVisualizer = null;
-	private static boolean isFFT = false;
-	private static boolean isWave = true;
+	//private static Visualizer mVisualizer = null;
+	//private static boolean isFFT = false;
+	//private static boolean isWave = true;
 	
 	//Tag
 	public static final String TAG = "ViewPagerForEqualizerViewCtl";
@@ -227,20 +228,17 @@ public class ViewPagerForEqualizerViewCtl {
 
 			@Override
 			public void onClick(View v) {
-				View mView = v.getRootView();
-				//Visualizerの生成
-				FFTView fftView = (FFTView)mView.findViewById(R.id.fftview_equalizer);
-				if(mVisualizer != null && fftView != null){
-					mVisualizer.setEnabled(false);
-					//各結果を反転させる．
-					isWave = !isWave;
-					isFFT = !isFFT;
-					mVisualizer.setDataCaptureListener(
-							new MyOnDataCaptureImpl(fftView),
-							Visualizer.getMaxCaptureRate(),
-							isWave, 
-							isFFT);
-					mVisualizer.setEnabled(true);
+				if(mView != null){
+					//Visualizerの生成
+					FFTView fftView = (FFTView)mView.findViewById(R.id.fftview_equalizer);
+					if(fftView != null){
+						if(mView.getTag() == null){
+							mView.setTag(new VisualizerUtils());
+						}
+						VisualizerUtils utils = (VisualizerUtils) mView.getTag();
+						utils.changeActionMode(v.getContext());
+						
+					}
 				}
 			}
 
@@ -251,13 +249,13 @@ public class ViewPagerForEqualizerViewCtl {
 	}
 	
 	//前に取得したジャケットの画像のアルバム名
-	private static String oldAlbumName = null;
+	//private static String oldAlbumName = null;
 	
 	/**
 	 * Visualizerを作成する．
 	 * @param context
 	 * @return Visualizer
-	 */
+	 *//*
 	public final static Visualizer createMusicVisualizer(final Context context){
 		
 		removeMusicVisualizer();
@@ -321,11 +319,11 @@ public class ViewPagerForEqualizerViewCtl {
         mVisualizer.setEnabled(true);
         ViewPagerForEqualizerViewCtl.mVisualizer = mVisualizer;
 		return mVisualizer;
-	}
+	}//*/
 	
 	/**
 	 * Visualizerを解放する
-	 */
+	 *//*
 	public static void removeMusicVisualizer(){
 		try{
 			if(mVisualizer != null){
@@ -346,6 +344,6 @@ public class ViewPagerForEqualizerViewCtl {
 		}catch(Exception e){
 
 		}
-	}
+	}*/
 
 }
