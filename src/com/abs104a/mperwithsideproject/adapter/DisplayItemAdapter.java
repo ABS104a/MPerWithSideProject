@@ -71,7 +71,7 @@ public class DisplayItemAdapter extends ArrayAdapter<DisplayItem> {
 		return convertView;
 	}
 	
-	
+	//ViewHolder
 	public static class ViewHolder{
 		public TextView title = null;
 		public TextView subTitle = null;
