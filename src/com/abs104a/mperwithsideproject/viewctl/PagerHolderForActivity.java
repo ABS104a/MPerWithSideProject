@@ -117,6 +117,7 @@ public class PagerHolderForActivity {
 			break;
 		case Column.EQUALIZER:	//Page4
 			view = createEqualizerView(mContext);
+			break;
 		case Column.DLNA:	//Page5
 			view = createDLNAView(mContext);
 			break;

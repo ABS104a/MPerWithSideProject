@@ -6,6 +6,8 @@ import org.fourthline.cling.model.meta.Device;
 
 import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.upnp.DisplayItem;
+import com.abs104a.mperwithsideproject.upnp.GetHTTPImageTask;
+import com.abs104a.mperwithsideproject.upnp.GetHTTPImageTask.OnGetImageListener;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -35,7 +37,7 @@ public class DisplayItemAdapter extends ArrayAdapter<DisplayItem> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO 自動生成されたメソッド・スタブ
-		ViewHolder holder;
+		final ViewHolder holder;
 		if(convertView == null){
 			holder = new ViewHolder();
 			convertView = layoutInflater.inflate(resource, null);
@@ -47,7 +49,7 @@ public class DisplayItemAdapter extends ArrayAdapter<DisplayItem> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		DisplayItem item = this.getItem(position);
+		final DisplayItem item = this.getItem(position);
 		
 		if(item != null){
 			holder.title.setText(item.getTitle());
@@ -56,12 +58,19 @@ public class DisplayItemAdapter extends ArrayAdapter<DisplayItem> {
 			Class<?> type = item.getObjType();
 			if(type == Device.class){
 				try{
-					@SuppressWarnings("rawtypes")
-					Device device = (Device) item.getContent();
-					byte[] bytes = device.getIcons()[0].getData();
-					Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-					holder.icon.setImageBitmap(bmp);
+					new GetHTTPImageTask(getContext(), new OnGetImageListener(){
+
+						@Override
+						public void onGetImage(Bitmap image) {
+							if(holder.title.getText().equals(item.getTitle()))
+								holder.icon.setImageBitmap(image);
+						}
+						
+					}).execute(item.getIcon());
+					//HTTPから取得に変える．
 				}catch(NullPointerException e){
+					e.printStackTrace();
+				}catch(IndexOutOfBoundsException e){
 					e.printStackTrace();
 				}
 			}

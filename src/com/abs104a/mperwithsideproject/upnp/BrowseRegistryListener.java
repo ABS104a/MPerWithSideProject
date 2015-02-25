@@ -3,6 +3,7 @@ package com.abs104a.mperwithsideproject.upnp;
 import org.fourthline.cling.model.meta.Device;
 import org.fourthline.cling.model.meta.LocalDevice;
 import org.fourthline.cling.model.meta.RemoteDevice;
+import org.fourthline.cling.model.meta.RemoteDeviceIdentity;
 import org.fourthline.cling.registry.DefaultRegistryListener;
 import org.fourthline.cling.registry.Registry;
 
@@ -71,11 +72,18 @@ public class BrowseRegistryListener extends DefaultRegistryListener {
     		Log.v(TAG,"deviceAdded");
         	Log.v(TAG,device.getDisplayString());
         	
+        	String iconUrl = null;
+        	if(device.getIcons().length > 0){
+        		iconUrl = ((RemoteDeviceIdentity)device.getIdentity()).getDescriptorURL().getProtocol() + "://" +
+        				((RemoteDeviceIdentity)device.getIdentity()).getDescriptorURL().getAuthority() + 
+        				device.getIcons()[0].getUri().getPath();
+        	}
+        	
         	ViewPagerForDLNACtl.addList(
         			new DisplayItem(
-        			device.getDisplayString(), 
+        			device.getDetails().getFriendlyName(), 
         			device.getType().getType(), 
-        			device.getIcons()[0].getUri().toString(), 
+        			iconUrl, 
         			device, Device.class));
     	}
     	
@@ -86,11 +94,18 @@ public class BrowseRegistryListener extends DefaultRegistryListener {
     	//デバイスを消去する時（List等）
     	Log.v(TAG,"deviceRemoved");
     	Log.v(TAG,device.getDisplayString());
+    	String iconUrl = null;
+    	if(device.getIcons().length > 0){
+    		iconUrl = ((RemoteDeviceIdentity)device.getIdentity()).getDescriptorURL().getProtocol() + "://" +
+    				((RemoteDeviceIdentity)device.getIdentity()).getDescriptorURL().getAuthority() + 
+    				device.getIcons()[0].getUri().getPath();
+    	}
+    	
     	ViewPagerForDLNACtl.removeList(
     			new DisplayItem(
-    			device.getDisplayString(), 
+    			device.getDetails().getFriendlyName(), 
     			device.getType().getType(), 
-    			device.getIcons()[0].getUri().toString(), 
+    			iconUrl, 
     			device, Device.class));
     }
 }
