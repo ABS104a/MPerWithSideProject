@@ -21,9 +21,11 @@ public class ViewPagerForDLNACtl {
 	}
 	
 	public final static void addList(DisplayItem item){
-		deviceList.add(item);
-		if(mListView != null && ((DisplayItemAdapter)mListView.getAdapter()) != null)
-			((DisplayItemAdapter)mListView.getAdapter()).notifyDataSetChanged();
+		if(deviceList.indexOf(item) == -1){
+			deviceList.add(item);
+			if(mListView != null && ((DisplayItemAdapter)mListView.getAdapter()) != null)
+				((DisplayItemAdapter)mListView.getAdapter()).notifyDataSetChanged();
+		}
 	}
 	
 	public final static void removeList(DisplayItem item){
