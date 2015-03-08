@@ -6,6 +6,7 @@ import com.abs104a.mperwithsideproject.R;
 import com.abs104a.mperwithsideproject.adapter.DisplayItemAdapter;
 import com.abs104a.mperwithsideproject.music.MusicPlayerWithQueue;
 import com.abs104a.mperwithsideproject.upnp.DisplayItem;
+import com.abs104a.mperwithsideproject.viewctl.listener.DLNAOnItemClickListener;
 
 import android.content.Context;
 import android.view.View;
@@ -37,6 +38,7 @@ public class ViewPagerForDLNACtl {
 		
 		mListView  = new ListView(mContext);
 		mListView.setAdapter(new DisplayItemAdapter(mContext,R.layout.display_item , deviceList));
+		mListView.setOnItemClickListener(new DLNAOnItemClickListener(mListView));
 		return mListView;
 	}
 	

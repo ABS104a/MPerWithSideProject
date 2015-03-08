@@ -71,6 +71,7 @@ public class BrowseRegistryListener extends DefaultRegistryListener {
     		Log.v(TAG,"deviceAdded");
         	Log.v(TAG,device.getDisplayString());
         	
+        	
         	ViewPagerForDLNACtl.addList(
         			new DisplayItem(
         			device.getDisplayString(), 
